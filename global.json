@@ -1,0 +1,12 @@
+{
+  "sdk": {
+    "allowPrerelease": false
+  },
+  "msbuild-sdks": {
+    "Uno.Sdk": "6.7.0-dev.64",
+    "MSTest.Sdk": "4.2.3"
+  },
+  "test": {
+    "runner": "Microsoft.Testing.Platform"
+  }
+}

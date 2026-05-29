@@ -1,0 +1,29 @@
+name: Validate Manifest Version
+
+# Guards that Package.appxmanifest's Identity Version stays "0.0.0.0" so
+# Nerdbank.GitVersioning can stamp the real version at build time. The version
+# itself is governed by version.json + branch (see docs/versioning.md).
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - release/**
+
+jobs:
+  check_version:
+    name: Check Package.appxmanifest Version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Identity Version is 0.0.0.0
+        run: |
+          MANIFEST="src/GcToolkit/Package.appxmanifest"
+          if ! grep -q 'Version="0.0.0.0"' "$MANIFEST"; then
+            echo "::error file=$MANIFEST::Identity Version must be \"0.0.0.0\" so Nerdbank.GitVersioning can set it at build time."
+            exit 1
+          fi

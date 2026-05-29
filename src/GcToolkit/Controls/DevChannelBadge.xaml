@@ -1,0 +1,21 @@
+﻿<UserControl
+    x:Class="GcToolkit.Controls.DevChannelBadge"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:infra="using:GcToolkit.Infrastructure"
+    Margin="0,8,8,0"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top"
+    IsHitTestVisible="False"
+    Visibility="{x:Bind infra:AppEnvironment.IsDevChannel, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+    <Border
+        Padding="6,2"
+        Background="{ThemeResource SystemFillColorCautionBrush}"
+        CornerRadius="4">
+        <TextBlock
+            FontSize="10"
+            FontWeight="SemiBold"
+            Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+            Text="{x:Bind infra:AppEnvironment.ChannelLabel, Mode=OneTime}" />
+    </Border>
+</UserControl>

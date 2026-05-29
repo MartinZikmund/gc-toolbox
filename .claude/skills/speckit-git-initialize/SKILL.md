@@ -40,7 +40,7 @@ Replace the script to add project-specific Git initialization steps:
 ## Output
 
 On success:
-- `[OK] Git repository initialized`
+- `✓ Git repository initialized`
 
 ## Graceful Degradation
 

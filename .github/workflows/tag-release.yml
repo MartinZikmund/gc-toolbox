@@ -1,0 +1,64 @@
+name: Tag Release
+
+# Pushes an annotated `v{NBGV-version}` tag at the commit that just built a successful Prod release.
+# Runs only on release/v* pushes, only after all three packaging workflows succeed.
+
+on:
+  workflow_run:
+    workflows:
+      - "Build Windows Packages"
+      - "Build Android Packages"
+      - "Build iOS Packages"
+    types: [completed]
+    branches:
+      - "release/v**"
+
+jobs:
+  tag:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.repository.private == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout the built commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install nbgv
+        run: dotnet tool install -g nbgv
+
+      - name: Check all three packaging workflows succeeded on this commit
+        id: gate
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for wf in "Build Windows Packages" "Build Android Packages" "Build iOS Packages"; do
+            # Filter by branch as well as commit: a workflow_dispatch run of the same
+            # workflow on another branch sharing this SHA must not satisfy the gate.
+            ok=$(gh run list --workflow "$wf" --commit "$HEAD_SHA" --branch "$HEAD_BRANCH" --json conclusion --jq '.[0].conclusion // "none"')
+            if [[ "$ok" != "success" ]]; then
+              echo "Workflow '$wf' on $HEAD_SHA is '$ok' — not all three are green yet; skipping tag."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Tag
+        if: steps.gate.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          nbgv tag
+          git push origin --tags

@@ -1,0 +1,34 @@
+<Project>
+    <PropertyGroup>
+        <Copyright>Martin Zikmund 2026</Copyright>
+		<Author>Martin Zikmund</Author>
+
+        <LangVersion>preview</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <WarningsAsErrors>True</WarningsAsErrors>
+
+        <UnoFeatures>
+            SkiaRenderer;
+            Hosting;
+            Logging;
+            Mvvm;
+            Configuration;
+            HttpRefit;
+            Serialization;
+            Localization;
+        </UnoFeatures>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" />
+    </ItemGroup>
+
+    <!-- AppChannel: Dev (default, local + main) or Prod (release/v* CI builds).
+         Drives per-platform identity, display name, icon, and the in-app DEV banner.
+         See docs/versioning.md for the full model. -->
+    <PropertyGroup>
+        <AppChannel Condition="'$(AppChannel)' == ''">Dev</AppChannel>
+        <DefineConstants Condition="'$(AppChannel)' == 'Dev'">$(DefineConstants);APP_CHANNEL_DEV</DefineConstants>
+    </PropertyGroup>
+</Project>

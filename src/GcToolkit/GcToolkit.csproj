@@ -1,0 +1,64 @@
+﻿<Project Sdk="Uno.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>
+            net10.0-android;
+            net10.0-ios;
+            net10.0-windows10.0.26100;
+            net10.0-desktop;
+            net10.0-browserwasm;
+        </TargetFrameworks>
+
+        <OutputType>Exe</OutputType>
+        <UnoSingleProject>true</UnoSingleProject>
+
+        <!-- Application metadata -->
+        <ApplicationPublisher>Martin Zikmund</ApplicationPublisher>
+        <Description>GcToolkit by Martin Zikmund</Description>
+    </PropertyGroup>
+
+    <!-- Channel-specific identity. See docs/versioning.md. -->
+    <PropertyGroup Condition="'$(AppChannel)' == 'Prod'">
+        <ApplicationTitle>GC Toolkit</ApplicationTitle>
+        <ApplicationId>dev.mzikmund.gctoolkit</ApplicationId>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(AppChannel)' == 'Dev'">
+        <ApplicationTitle>GC Toolkit Dev</ApplicationTitle>
+        <ApplicationId>dev.mzikmund.gctoolkit.dev</ApplicationId>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- Application icon & splash screen adjustments-->
+        <!-- Background is shared across channels. The app-icon resource name is derived
+             from the background file (Uno maps UnoIcon.Include = UnoIconBackgroundFile),
+             so the background must stay constant or Android's @mipmap/icon breaks. -->
+        <UnoIconBackgroundFile>Assets/Icons/icon_transparent.svg</UnoIconBackgroundFile>
+        <UnoIconBackgroundFile Condition="'$(IsIOS)' == 'true' or '$(IsAndroid)' == 'true'">Assets/Icons/icon.svg</UnoIconBackgroundFile>
+
+        <!-- Dev channel: override only the foreground (the logo). This keeps the
+             generated icon resource name stable while giving Dev a distinct look. -->
+        <UnoIconForegroundFile Condition="'$(AppChannel)' == 'Dev'">Assets/Icons/icon_foreground_dev.svg</UnoIconForegroundFile>
+
+        <UnoIconForegroundScale>1</UnoIconForegroundScale>
+        <UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.6</UnoIconForegroundScale>
+        <UnoSplashScreenScale>0.85</UnoSplashScreenScale>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MZikmund.Toolkit.WinUI" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
+        <PackageReference Include="CommunityToolkit.WinUI.Converters" />
+        <PackageReference Include="sqlite-net-e" />
+        <PackageReference Include="SourceGear.sqlite3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\GcToolkit.Core\GcToolkit.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Resources\DataTemplates.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+</Project>
