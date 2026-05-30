@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest an idea or improvement for the app
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got an idea to make the app better? We'd love to hear it. Tell us what you'd like to see and why it matters to you.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like the app to do?
+      description: Describe the feature or change you'd like to see.
+      placeholder: |
+        It would be great if the app could ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why would this be useful?
+      description: What problem does it solve, or how would it improve your experience?
+      placeholder: |
+        Right now I have to ... and it would be much easier if ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Which platforms is this for? (optional)
+      description: Pick "All platforms" if it applies everywhere, or select the specific ones.
+      multiple: true
+      options:
+        - All platforms
+        - Windows
+        - macOS
+        - Linux
+        - Android (phone or tablet)
+        - iOS (iPhone or iPad)
+        - Web browser
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Mockups, examples, or anything else
+      description: Sketches, screenshots from other apps, or any extra context that helps explain the idea.

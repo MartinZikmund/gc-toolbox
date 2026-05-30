@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "GcToolkit",
+  "display": "standalone",
+  "name": "GcToolkit",
+  "short_name": "GcToolkit",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

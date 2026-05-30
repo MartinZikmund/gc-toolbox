@@ -1,0 +1,119 @@
+name: Build Android Packages
+
+on:
+  # Push to main: Dev-channel AAB (Dev applicationId, sideload-safe; no Play upload).
+  # Push to release/v*: Prod-channel AAB uploaded to Google Play Production track.
+  # See docs/versioning.md for the full model.
+  push:
+    branches:
+      - "main"
+      - "release/v**"
+  workflow_dispatch:
+
+env:
+  # App Configuration
+  APP_NAME: GcToolkit
+  DOTNET_VERSION: 10.0.x
+  SOLUTION_FILE: src/GcToolkit.slnx
+  PROJECT_PATH: src/GcToolkit
+  PROJECT_FILE: src/GcToolkit/GcToolkit.csproj
+  ANDROID_TARGET_FRAMEWORK: net10.0-android
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_android:
+    if: github.event.repository.private == false || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    env:
+      STEP_TIMEOUT_MINUTES: 60
+
+      # .NET niceties
+      DOTNET_NOLOGO: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      ContinuousIntegrationBuild: true
+
+    steps:
+      - name: Compute app channel
+        id: channel
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/heads/release/v* ]]; then
+            echo "value=Prod" >> "$GITHUB_OUTPUT"
+            echo "package_name=dev.mzikmund.gctoolkit" >> "$GITHUB_OUTPUT"
+            echo "play_track=production" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=Dev" >> "$GITHUB_OUTPUT"
+            echo "package_name=dev.mzikmund.gctoolkit.dev" >> "$GITHUB_OUTPUT"
+            echo "play_track=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Cache NuGet to speed up restores
+      - name: NuGet cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.DOTNET_VERSION }}
+
+      - name: Install .NET workloads
+        run:
+          dotnet workload restore "${{ env.SOLUTION_FILE }}"
+
+      - name: Restore solution
+        run: dotnet restore "${{ env.SOLUTION_FILE }}"
+
+      # --- Signing setup (requires your keystore + secrets) ---
+      # Create upload keystore file from a base64 secret
+      - name: Decode Android upload keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$GITHUB_WORKSPACE/android-upload.keystore"
+
+      # --- Build Google Play bundle (AAB) ---
+      - name: Publish AAB (signed with Upload Key)
+        run: |
+          dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.ANDROID_TARGET_FRAMEWORK }} \
+            -p:AppChannel=${{ steps.channel.outputs.value }} \
+            -p:AndroidKeyStore=true \
+            -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \
+            -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' \
+            -p:AndroidSigningKeyPass='${{ secrets.ANDROID_KEY_PASSWORD }}' \
+            -p:AndroidSigningStorePass='${{ secrets.ANDROID_STORE_PASSWORD }}' \
+            -p:AndroidPackageFormat=aab -p:PackageFormat=aab
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android_AAB
+          path: |
+            ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*.aab
+
+      - name: Upload to Google Play Console
+        if: steps.channel.outputs.value == 'Prod'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ steps.channel.outputs.package_name }}
+          releaseFiles: ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*-Signed.aab
+          track: ${{ steps.channel.outputs.play_track }}
+          status: completed
+
+      # Clean up keystore
+      - name: Remove keystore
+        if: ${{ always() }}
+        run: rm -f "$GITHUB_WORKSPACE/android-upload.keystore"

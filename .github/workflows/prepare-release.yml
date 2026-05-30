@@ -1,0 +1,63 @@
+name: Prepare Release
+
+# Cuts a new release branch using `nbgv prepare-release` and opens a PR for main's version.json bump.
+# Manual trigger only — there's no auto-cadence here.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install nbgv
+        run: dotnet tool install -g nbgv
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Capture current version
+        id: version
+        run: |
+          current=$(nbgv get-version -v Version | cut -d. -f1,2)
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "release_branch=release/v$current" >> "$GITHUB_OUTPUT"
+
+      - name: Run nbgv prepare-release
+        run: nbgv prepare-release
+
+      - name: Push the new release branch
+        run: git push origin "${{ steps.version.outputs.release_branch }}"
+
+      - name: Push the main bump as a PR-source branch
+        run: |
+          bump_branch="chore/bump-version-after-${{ steps.version.outputs.current }}"
+          git checkout -b "$bump_branch" main
+          git push origin "$bump_branch"
+          echo "BUMP_BRANCH=$bump_branch" >> "$GITHUB_ENV"
+
+      - name: Open PR for main's version.json bump
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base main \
+            --head "$BUMP_BRANCH" \
+            --title "chore: bump version after cutting ${{ steps.version.outputs.release_branch }}" \
+            --body "Cut by \`Prepare Release\` workflow. \`${{ steps.version.outputs.release_branch }}\` is now the source of stable builds for the previous minor; main moves to the next planned version."
