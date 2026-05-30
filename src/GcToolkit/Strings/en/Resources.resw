@@ -171,4 +171,111 @@
   <data name="RateAppMessage" xml:space="preserve">
     <value>If you enjoy using this app, would you mind taking a moment to rate it? Your feedback helps us improve!</value>
   </data>
+  <!-- Shell &amp; navigation -->
+  <data name="Catalog" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <!-- Categories -->
+  <data name="Category_Coordinates" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="Category_Ciphers" xml:space="preserve">
+    <value>Ciphers</value>
+  </data>
+  <data name="Category_Numbers" xml:space="preserve">
+    <value>Numbers</value>
+  </data>
+  <data name="Category_Field" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <!-- Placeholder tools -->
+  <data name="Tool_CoordinateConversion" xml:space="preserve">
+    <value>Coordinate conversion</value>
+  </data>
+  <data name="Tool_CoordinateDistance" xml:space="preserve">
+    <value>Distance &amp; bearing</value>
+  </data>
+  <data name="Tool_CoordinateProjection" xml:space="preserve">
+    <value>Waypoint projection</value>
+  </data>
+  <data name="Tool_CaesarCipher" xml:space="preserve">
+    <value>Caesar cipher</value>
+  </data>
+  <data name="Tool_MorseCode" xml:space="preserve">
+    <value>Morse code</value>
+  </data>
+  <data name="Tool_VigenereCipher" xml:space="preserve">
+    <value>Vigenère cipher</value>
+  </data>
+  <data name="Tool_BaseConverter" xml:space="preserve">
+    <value>Base converter</value>
+  </data>
+  <data name="Tool_Checksum" xml:space="preserve">
+    <value>Checksum</value>
+  </data>
+  <data name="Tool_Flashlight" xml:space="preserve">
+    <value>Flashlight</value>
+  </data>
+  <data name="Tool_Compass" xml:space="preserve">
+    <value>Compass</value>
+  </data>
+  <!-- Home: favorite tools &amp; recents -->
+  <data name="FavoriteTools" xml:space="preserve">
+    <value>Favorite tools</value>
+  </data>
+  <data name="RecentlyUsed" xml:space="preserve">
+    <value>Recently used</value>
+  </data>
+  <data name="FavoriteToolsEmpty" xml:space="preserve">
+    <value>No favorite tools yet. Select the star on a tool to pin it here.</value>
+  </data>
+  <data name="RecentsEmpty" xml:space="preserve">
+    <value>Tools you open will appear here.</value>
+  </data>
+  <!-- Search -->
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Search tools</value>
+  </data>
+  <data name="SearchNoResults" xml:space="preserve">
+    <value>No tools match your search.</value>
+  </data>
+  <data name="CatalogEmpty" xml:space="preserve">
+    <value>No tools are available yet.</value>
+  </data>
+  <!-- Tool host -->
+  <data name="PlaceholderToolNotice" xml:space="preserve">
+    <value>This is a placeholder. The tool's functionality is coming in a future update.</value>
+  </data>
+  <data name="OpenTool" xml:space="preserve">
+    <value>Open tool</value>
+  </data>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>Add to favorites</value>
+  </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>Remove from favorites</value>
+  </data>
+  <!-- Settings: language -->
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Language_Czech" xml:space="preserve">
+    <value>Čeština</value>
+  </data>
+  <data name="LanguageRestartNotice" xml:space="preserve">
+    <value>Restart the app to finish switching languages.</value>
+  </data>
+  <!-- Settings: recents -->
+  <data name="ClearRecents" xml:space="preserve">
+    <value>Clear recent tools</value>
+  </data>
+  <data name="ClearRecentsConfirmTitle" xml:space="preserve">
+    <value>Clear recent tools?</value>
+  </data>
+  <data name="ClearRecentsConfirmMessage" xml:space="preserve">
+    <value>This removes the list of recently opened tools. This can't be undone.</value>
+  </data>
 </root>

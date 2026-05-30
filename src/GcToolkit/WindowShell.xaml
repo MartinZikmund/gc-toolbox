@@ -1,11 +1,16 @@
-﻿<Page
+<Page
     x:Class="GcToolkit.WindowShell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:GcToolkit.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:markup="using:GcToolkit.Markup"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:not_win="http://uno.ui/not_win"
     xmlns:toolkit="using:Uno.UI.Toolkit"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d not_win">
 
     <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
         <Grid.RowDefinitions>
@@ -13,34 +18,24 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!--  Custom title bar (Windows)  -->
-        <Grid
-            x:Name="TitleBarGrid"
-            Height="48"
-            Background="#11000000"
-            ColumnSpacing="16"
-            Visibility="{x:Bind HasCustomTitleBar}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-        </Grid>
-
-        <!--  App icon in title bar  -->
-        <Grid
-            Width="44"
-            Height="48"
-            Padding="0,8,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Visibility="{x:Bind HasCustomTitleBar}">
-            <Image
-                Width="20"
-                Height="20"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Source="ms-appx:///Assets/Icons/icon_foreground.png" />
-        </Grid>
+        <!--  Windows: WinUI TitleBar control hosting catalog search (FR-018). Replaces the hand-rolled title bar.  -->
+        <win:TitleBar
+            x:Name="AppTitleBar"
+            Grid.Row="0"
+            Title="{markup:Localize Key=ApplicationName}">
+            <win:TitleBar.IconSource>
+                <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/Icons/icon_foreground.png" />
+            </win:TitleBar.IconSource>
+            <win:TitleBar.Content>
+                <AutoSuggestBox
+                    MaxWidth="520"
+                    HorizontalAlignment="Stretch"
+                    AutomationProperties.Name="{markup:Localize Key=SearchPlaceholder}"
+                    PlaceholderText="{markup:Localize Key=SearchPlaceholder}"
+                    QueryIcon="Find"
+                    Text="{x:Bind Search.Query, Mode=TwoWay}" />
+            </win:TitleBar.Content>
+        </win:TitleBar>
 
         <!--  NavigationView  -->
         <NavigationView
@@ -58,13 +53,30 @@
             PaneDisplayMode="Auto"
             SelectionChanged="NavView_SelectionChanged">
 
+            <!--  Non-Windows heads host search in the NavigationView (FR-018). On Windows it lives in the TitleBar above.  -->
+            <not_win:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                    AutomationProperties.Name="{markup:Localize Key=SearchPlaceholder}"
+                    PlaceholderText="{markup:Localize Key=SearchPlaceholder}"
+                    QueryIcon="Find"
+                    Text="{x:Bind Search.Query, Mode=TwoWay}" />
+            </not_win:NavigationView.AutoSuggestBox>
+
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    x:Name="MainNavItem"
+                    x:Name="HomeNavItem"
                     Content="{markup:Localize Key=Home}"
-                    Tag="Main">
+                    Tag="Home">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Name="CatalogNavItem"
+                    Content="{markup:Localize Key=Catalog}"
+                    Tag="Catalog">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE71D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

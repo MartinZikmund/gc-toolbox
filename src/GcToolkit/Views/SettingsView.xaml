@@ -42,6 +42,29 @@
                     </ComboBox>
                 </toolkit:SettingsCard>
 
+                <toolkit:SettingsCard Header="{markup:Localize Key=Language}">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE774;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        DisplayMemberPath="DisplayName"
+                        ItemsSource="{x:Bind ViewModel.Languages}"
+                        SelectedItem="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}" />
+                </toolkit:SettingsCard>
+
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.ShowLanguageRestartNotice, Mode=OneWay}"
+                    Message="{markup:Localize Key=LanguageRestartNotice}"
+                    Severity="Informational" />
+
+                <toolkit:SettingsCard Header="{markup:Localize Key=ClearRecents}">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE81C;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <Button Command="{x:Bind ViewModel.ClearRecentsCommand}" Content="{markup:Localize Key=Clear}" />
+                </toolkit:SettingsCard>
+
                 <!--  About section  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{markup:Localize Key=About}" />
 

@@ -1,0 +1,48 @@
+<local:ToolHostViewBase
+    x:Class="GcToolkit.Views.ToolHostView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource TitleLargeTextBlockStyle}"
+                    Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Placeholder notice  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.IsPlaceholder, Mode=OneWay}"
+                Message="{markup:Localize Key=PlaceholderToolNotice}"
+                Severity="Informational" />
+
+        </StackPanel>
+    </ScrollViewer>
+</local:ToolHostViewBase>

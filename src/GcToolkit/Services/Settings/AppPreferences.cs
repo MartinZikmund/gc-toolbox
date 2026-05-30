@@ -1,3 +1,5 @@
+using MZikmund.Toolkit.WinUI.Services;
+
 namespace GcToolkit.Services.Settings;
 
 public sealed class AppPreferences : IAppPreferences

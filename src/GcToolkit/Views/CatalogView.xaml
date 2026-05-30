@@ -1,0 +1,56 @@
+<local:CatalogViewBase
+    x:Class="GcToolkit.Views.CatalogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:vm="using:GcToolkit.ViewModels"
+    NavigationCacheMode="Required"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <!--  Categorized, search-filtered tool grid  -->
+        <ScrollViewer x:Name="CatalogScroller" Padding="24">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CatalogGroup">
+                        <StackPanel Margin="0,0,0,24" Spacing="8">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Name}" />
+                            <ItemsRepeater ItemTemplate="{StaticResource ToolCardTemplate}" ItemsSource="{x:Bind Tools}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        ItemsStretch="Fill"
+                                        MinColumnSpacing="8"
+                                        MinItemWidth="240"
+                                        MinRowSpacing="8" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!--  Empty catalog  -->
+        <TextBlock
+            Margin="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            HorizontalTextAlignment="Center"
+            Style="{ThemeResource BodyTextBlockStyle}"
+            Text="{markup:Localize Key=CatalogEmpty}"
+            TextWrapping="Wrap"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <!--  No search results  -->
+        <TextBlock
+            Margin="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            HorizontalTextAlignment="Center"
+            Style="{ThemeResource BodyTextBlockStyle}"
+            Text="{markup:Localize Key=SearchNoResults}"
+            TextWrapping="Wrap"
+            Visibility="{x:Bind ViewModel.HasNoResults, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+    </Grid>
+</local:CatalogViewBase>

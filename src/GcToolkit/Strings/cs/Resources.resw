@@ -171,4 +171,111 @@
   <data name="RateAppMessage" xml:space="preserve">
     <value>Pokud r&#225;di pou&#382;&#237;v&#225;te tuto aplikaci, nev&#225;hejte ji ohodnotit. Va&#353;e zp&#283;tn&#225; vazba n&#225;m pom&#225;h&#225;!</value>
   </data>
+  <!-- Shell &amp; navigation -->
+  <data name="Catalog" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <!-- Categories -->
+  <data name="Category_Coordinates" xml:space="preserve">
+    <value>Souřadnice</value>
+  </data>
+  <data name="Category_Ciphers" xml:space="preserve">
+    <value>Šifry</value>
+  </data>
+  <data name="Category_Numbers" xml:space="preserve">
+    <value>Čísla</value>
+  </data>
+  <data name="Category_Field" xml:space="preserve">
+    <value>V terénu</value>
+  </data>
+  <!-- Placeholder tools -->
+  <data name="Tool_CoordinateConversion" xml:space="preserve">
+    <value>Převod souřadnic</value>
+  </data>
+  <data name="Tool_CoordinateDistance" xml:space="preserve">
+    <value>Vzdálenost a azimut</value>
+  </data>
+  <data name="Tool_CoordinateProjection" xml:space="preserve">
+    <value>Projekce bodu</value>
+  </data>
+  <data name="Tool_CaesarCipher" xml:space="preserve">
+    <value>Caesarova šifra</value>
+  </data>
+  <data name="Tool_MorseCode" xml:space="preserve">
+    <value>Morseova abeceda</value>
+  </data>
+  <data name="Tool_VigenereCipher" xml:space="preserve">
+    <value>Vigenèrova šifra</value>
+  </data>
+  <data name="Tool_BaseConverter" xml:space="preserve">
+    <value>Převodník soustav</value>
+  </data>
+  <data name="Tool_Checksum" xml:space="preserve">
+    <value>Kontrolní součet</value>
+  </data>
+  <data name="Tool_Flashlight" xml:space="preserve">
+    <value>Svítilna</value>
+  </data>
+  <data name="Tool_Compass" xml:space="preserve">
+    <value>Kompas</value>
+  </data>
+  <!-- Home: favorite tools &amp; recents -->
+  <data name="FavoriteTools" xml:space="preserve">
+    <value>Oblíbené nástroje</value>
+  </data>
+  <data name="RecentlyUsed" xml:space="preserve">
+    <value>Naposledy použité</value>
+  </data>
+  <data name="FavoriteToolsEmpty" xml:space="preserve">
+    <value>Zatím žádné oblíbené nástroje. Přidejte nástroj klepnutím na hvězdičku.</value>
+  </data>
+  <data name="RecentsEmpty" xml:space="preserve">
+    <value>Zde se zobrazí nástroje, které otevřete.</value>
+  </data>
+  <!-- Search -->
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Hledat nástroje</value>
+  </data>
+  <data name="SearchNoResults" xml:space="preserve">
+    <value>Vašemu hledání neodpovídají žádné nástroje.</value>
+  </data>
+  <data name="CatalogEmpty" xml:space="preserve">
+    <value>Zatím nejsou k dispozici žádné nástroje.</value>
+  </data>
+  <!-- Tool host -->
+  <data name="PlaceholderToolNotice" xml:space="preserve">
+    <value>Toto je zástupný nástroj. Jeho funkce přijde v budoucí aktualizaci.</value>
+  </data>
+  <data name="OpenTool" xml:space="preserve">
+    <value>Otevřít nástroj</value>
+  </data>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>Přidat do oblíbených</value>
+  </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>Odebrat z oblíbených</value>
+  </data>
+  <!-- Settings: language -->
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Language_Czech" xml:space="preserve">
+    <value>Čeština</value>
+  </data>
+  <data name="LanguageRestartNotice" xml:space="preserve">
+    <value>Pro dokončení změny jazyka restartujte aplikaci.</value>
+  </data>
+  <!-- Settings: recents -->
+  <data name="ClearRecents" xml:space="preserve">
+    <value>Smazat naposledy použité</value>
+  </data>
+  <data name="ClearRecentsConfirmTitle" xml:space="preserve">
+    <value>Smazat naposledy použité nástroje?</value>
+  </data>
+  <data name="ClearRecentsConfirmMessage" xml:space="preserve">
+    <value>Tím se odstraní seznam naposledy otevřených nástrojů. Tuto akci nelze vrátit zpět.</value>
+  </data>
 </root>

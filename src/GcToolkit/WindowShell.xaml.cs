@@ -41,6 +41,8 @@ public sealed partial class WindowShell : Page, IWindowShell
         ViewModel = ServiceProvider.GetRequiredService<WindowShellViewModel>();
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
+        Search = ServiceProvider.GetRequiredService<SearchViewModel>();
+
         InnerFrame.Navigated += InnerFrame_Navigated;
         Loading += WindowShell_Loading;
 
@@ -50,6 +52,8 @@ public sealed partial class WindowShell : Page, IWindowShell
     public IServiceProvider ServiceProvider => _windowScope.ServiceProvider;
 
     public WindowShellViewModel ViewModel { get; }
+
+    public SearchViewModel Search { get; }
 
     public Frame RootFrame => InnerFrame;
 
@@ -134,10 +138,14 @@ public sealed partial class WindowShell : Page, IWindowShell
 
     public void SetTitleBar(UIElement? titleBar)
     {
+#if !HAS_UNO
+        // The WinUI TitleBar control (AppTitleBar) is the Windows custom title bar; other heads use
+        // the system title bar, so SetTitleBar is a no-op there.
         if (!_isWindowClosed)
         {
-            _associatedWindow.SetTitleBar(titleBar ?? TitleBarGrid);
+            _associatedWindow.SetTitleBar(titleBar ?? AppTitleBar);
         }
+#endif
     }
 
     private void CustomizeWindow()
@@ -147,7 +155,7 @@ public sealed partial class WindowShell : Page, IWindowShell
         {
             _associatedWindow.ExtendsContentIntoTitleBar = true;
             _associatedWindow.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-            _associatedWindow.SetTitleBar(TitleBarGrid);
+            _associatedWindow.SetTitleBar(AppTitleBar);
             HasCustomTitleBar = true;
         }
 #endif
@@ -162,7 +170,7 @@ public sealed partial class WindowShell : Page, IWindowShell
     #region Navigation
 
     private void NavView_Loaded(object sender, RoutedEventArgs e)
-        => NavigateToSection(NavigationSection.Main);
+        => NavigateToSection(NavigationSection.Home);
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
@@ -188,8 +196,11 @@ public sealed partial class WindowShell : Page, IWindowShell
         var nav = ServiceProvider.GetRequiredService<INavigationService>();
         switch (section)
         {
-            case NavigationSection.Main:
-                nav.Navigate<MainViewModel>();
+            case NavigationSection.Home:
+                nav.Navigate<HomeViewModel>();
+                break;
+            case NavigationSection.Catalog:
+                nav.Navigate<CatalogViewModel>();
                 break;
             case NavigationSection.Settings:
                 nav.Navigate<SettingsViewModel>();
@@ -213,8 +224,10 @@ public sealed partial class WindowShell : Page, IWindowShell
         var section = ServiceProvider.GetRequiredService<INavigationService>().CurrentSection;
         NavView.SelectedItem = section switch
         {
-            NavigationSection.Main => MainNavItem,
+            NavigationSection.Home => HomeNavItem,
+            NavigationSection.Catalog => CatalogNavItem,
             NavigationSection.Settings => NavView.SettingsItem,
+            // Tool host has no menu item — keep the current selection.
             _ => NavView.SelectedItem,
         };
     }
