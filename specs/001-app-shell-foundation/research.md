@@ -20,12 +20,12 @@ All decisions are grounded in the existing `uno-app-template` capabilities (see 
 - **Rationale**: `IgnoreNonSpace` makes matching diacritic-insensitive in both directions (e.g., a query "reseni" matches "řešení" and vice versa), satisfying FR-003 for Czech without manual normalization code. Pure function → trivially unit-testable.
 - **Alternatives considered**: Manual Unicode `FormD` decomposition + stripping combining marks — works but is more code and easy to get wrong for edge scripts. Naive `ToLowerInvariant().Contains()` — rejected; fails diacritics.
 
-## R4 — Runtime language switching without restart
+## R4 — Language switching (restart-based)
 
-- **Decision**: Add an `ILanguageService` that, on change, sets `ApplicationLanguages.PrimaryLanguageOverride` + `CultureInfo.CurrentUICulture/CurrentCulture`, persists the choice via `IAppPreferences`, and raises a `LanguageChanged` event. **Extend the template's `LocalizeExtension`** so each localized target subscribes to `LanguageChanged` and re-reads its string, updating live. On first run, default to the system language when it is `en` or `cs`, otherwise `en` (FR-009).
-- **Rationale**: Meets FR-008 (immediate, no restart) and SC-005 (≤ 1 s). Centralizing in one service + a dynamic markup extension avoids per-page refresh hacks.
-- **Risk / follow-up**: The stock `LocalizeExtension` likely resolves strings once at load. Making it dynamic (hold a weak reference to the target + property, update on event) is the key implementation task; if a control type can't be updated in place, fall back to re-navigating the current page. Verify behavior on WebAssembly.
-- **Alternatives considered**: Restart-to-apply — rejected (contradicts FR-008). Rebuilding the whole visual tree on change — rejected (heavy, loses state).
+- **Decision**: Add an `ILanguageService` that persists the chosen culture (`en`/`cs`) and, **at startup**, applies it via `ApplicationLanguages.PrimaryLanguageOverride` + `CultureInfo.CurrentUICulture/CurrentCulture` so the selection takes effect on the next launch. A language change **may require an app restart** (user-accepted, 2026-05-30), so the stock one-shot `LocalizeExtension` is reused unchanged and the Settings UI shows a "restart to apply" notice. On first run, default to the system language when it is `en` or `cs`, otherwise `en` (FR-009).
+- **Rationale**: Meets FR-008 (persisted + applied) with far less complexity; allowing a restart avoids fragile live-refresh of an already-rendered visual tree. Centralizing culture resolution + persistence in one service keeps it unit-testable.
+- **Follow-up**: A future enhancement could make switching instant (dynamic `LocalizeExtension` or re-navigation), but it is out of scope now that a restart is acceptable.
+- **Alternatives considered**: Live refresh via a dynamic markup extension — deferred (added complexity not needed once a restart is acceptable). Rebuilding the whole visual tree on change — rejected (heavy, loses state).
 
 ## R5 — Platform-adaptive title bar & search (FR-018)
 

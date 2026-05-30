@@ -46,7 +46,7 @@ Core logic with unit tests in SP-1: tool search matching (case/accent-insensitiv
 2. Open the **Catalog**, see placeholder tools grouped by category, open one, navigate back (US1).
 3. Search a placeholder by name and by an un-accented Czech query; verify it matches and that a no-match query shows the empty state (US2, SC-002).
 4. Favorite/unfavorite a tool; open a few tools and confirm recents (dedup, max 10, clearable) (US3).
-5. In **Settings**, switch theme and language; confirm the whole UI updates within ~1 s without restart (US4, SC-005).
+5. In **Settings**, switch the theme and confirm the UI updates within ~1 s without restart; switch the language, restart the app, and confirm the UI is in the new language (US4, SC-005).
 6. Restart the app; favorites, recents, theme, and language persist (SC-004).
 7. Resize from ~320 px to a wide desktop window; navigation adapts, nothing truncates (SC-007).
 8. On the **Windows** head, search is in the WinUI `TitleBar`; on other heads it's in the `NavigationView` search field (FR-018).

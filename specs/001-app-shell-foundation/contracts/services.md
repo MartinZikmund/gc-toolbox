@@ -82,7 +82,7 @@ public interface IRecentsService
 
 Rules (see data-model): deduplicated by `toolId`, capped at 10, most-recent-first, clearable.
 
-## ILanguageService (runtime switching — FR-008/FR-009)
+## ILanguageService (language selection — FR-008/FR-009)
 
 ```csharp
 namespace GCToolkit.Core.Localization;
@@ -93,12 +93,12 @@ public interface ILanguageService
 {
     AppLanguage Current { get; }
     IReadOnlyList<AppLanguage> Available { get; }     // { en, cs }
-    Task SetAsync(string code);                       // persists + applies immediately
-    event EventHandler LanguageChanged;               // LocalizeExtension subscribes
+    Task SetAsync(string code);                       // persists; applied on next launch (restart)
+    event EventHandler LanguageChanged;               // optional; drives a restart-to-apply prompt
 }
 ```
 
-The `LocalizeExtension` is extended to subscribe to `LanguageChanged` and re-resolve its bound string live (no restart).
+A language change is persisted and applied at startup; applying it **may require an app restart** (user-accepted, 2026-05-30). The `LocalizeExtension` is reused unchanged (one-shot); `LanguageChanged` is optional and, if used, drives a "restart to apply" notice rather than live text refresh.
 
 ## Reused template contracts (no change to their shape)
 

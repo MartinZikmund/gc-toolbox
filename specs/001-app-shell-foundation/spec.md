@@ -26,6 +26,11 @@ This feature establishes the application shell and the cross-cutting foundations
 - Q: How should the Recents list behave? → A: Deduplicated (one entry per tool, bumped to the top on re-open), capped at the 10 most recent, and user-clearable.
 - Q: What accessibility conformance bar should the shell target? → A: WCAG 2.2 Level AA.
 
+### Session 2026-05-30
+
+- Decision (user-provided): Applying an interface-language change MAY require an app restart; the selection is persisted and takes effect on the next launch. Theme changes still apply instantly.
+- Decision (user-provided): The Windows/WinUI target uses the WinUI `TitleBar` control (confirmed). The landing screen is implemented as a dedicated `HomeView`.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Browse and open tools from a categorized catalog (Priority: P1)
@@ -83,17 +88,17 @@ A geocacher marks the tools they use most as favorites and, separately, sees the
 
 ### User Story 4 - Personalize appearance and language (Priority: P2)
 
-A geocacher opens settings and chooses a theme (light, dark, or follow the system) and an interface language (English or Czech). The change applies immediately to the whole app.
+A geocacher opens settings and chooses a theme (light, dark, or follow the system) and an interface language (English or Czech). The theme change applies immediately to the whole app; a language change is applied after an app restart.
 
 **Why this priority**: Important for comfort and for the Czech audience, and it exercises the localization and theming foundations every later phase relies on — but the catalog is usable at default settings first.
 
-**Independent Test**: Change the theme and confirm the whole UI updates immediately; switch the language and confirm all visible text changes; set theme to "system" and confirm it follows the OS appearance.
+**Independent Test**: Change the theme and confirm the whole UI updates immediately; switch the language, restart, and confirm all visible text changes; set theme to "system" and confirm it follows the OS appearance.
 
 **Acceptance Scenarios**:
 
 1. **Given** the settings screen, **When** the user selects a different theme, **Then** the entire app reflects the new theme immediately without a restart.
 2. **Given** theme is set to "system", **When** the OS appearance changes, **Then** the app follows it.
-3. **Given** the settings screen, **When** the user switches the language between English and Czech, **Then** all visible text updates immediately to the chosen language.
+3. **Given** the settings screen, **When** the user switches the language between English and Czech, **Then** the choice is saved and all visible text is in the chosen language after the app is restarted.
 4. **Given** the device's system language is neither English nor Czech, **When** the app is first launched, **Then** it defaults to English.
 
 ---
@@ -137,7 +142,7 @@ A geocacher uses the app on a phone in the field and on a larger tablet or deskt
 - **FR-005**: Users MUST be able to mark and unmark any tool as a favorite, and favorited tools MUST be presented in a dedicated favorites area.
 - **FR-006**: The system MUST record recently opened tools deduplicated (one entry per tool, moved to the top when re-opened), present them most-recent-first, limit the list to the 10 most recent tools, and allow the user to clear the recents list.
 - **FR-007**: Users MUST be able to choose a theme of light, dark, or follow-system, and the choice MUST apply to the entire app immediately without a restart; follow-system MUST track runtime OS appearance changes.
-- **FR-008**: Users MUST be able to choose the interface language between English and Czech, and the choice MUST apply to all visible text immediately without a restart.
+- **FR-008**: Users MUST be able to choose the interface language between English and Czech; the choice MUST be persisted and applied to all visible text. Applying the new language MAY require an app restart (the selection takes effect on the next launch).
 - **FR-009**: On first launch, the system MUST default the language to the device's system language when it is English or Czech, otherwise to English; and the theme to follow-system.
 - **FR-010**: The system MUST persist favorites, recents, theme, and language locally on the device and restore them on subsequent launches, with no account or sign-in required.
 - **FR-011**: The system MUST function fully without any network connection.
@@ -166,7 +171,7 @@ A geocacher uses the app on a phone in the field and on a larger tablet or deskt
 - **SC-002**: When searching, the catalog narrows and surfaces a known matching tool within 2 seconds of typing on a typical mid-range device, updating as the user types.
 - **SC-003**: In usability testing, at least 90% of users locate a specific named tool (via browse or search) on their first attempt.
 - **SC-004**: Favorites, recents, theme, and language persist across 100% of normal app restarts.
-- **SC-005**: Changing theme or language updates the entire visible interface within 1 second, without an app restart.
+- **SC-005**: Changing the theme updates the entire visible interface within 1 second without a restart. Changing the language is applied on the next launch (a restart is acceptable).
 - **SC-006**: All shell functions (browse, search, favorites, recents, settings) work with no network connection.
 - **SC-007**: The interface renders without truncation or overlap across screen widths from a small phone (≈320 px wide) to a large desktop window.
 - **SC-008**: With either language selected, 100% of visible text appears in that language, with no missing or placeholder strings.

@@ -69,7 +69,7 @@ Immutable metadata describing a catalog entry. Provided by tool contributors via
 
 **State transitions**:
 - **Theme**: `System ⇄ Light ⇄ Dark`; applied immediately; persisted.
-- **Language**: `en ⇄ cs`; applied immediately (raises `LanguageChanged`); persisted.
+- **Language**: `en ⇄ cs`; persisted; applied on next launch (restart acceptable, per 2026-05-30 decision).
 - **Favorite**: absent ⇄ present (toggle).
 - **Recent**: opened → inserted/bumped to top → evicted when it falls past index 10 → cleared (all removed).
 
