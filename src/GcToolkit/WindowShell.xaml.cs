@@ -128,6 +128,10 @@ public sealed partial class WindowShell : Page, IWindowShell
             _currentPageViewModel.PropertyChanged -= PageViewModel_PropertyChanged;
             _currentPageViewModel = null;
         }
+
+        // Dispose the window-scoped container so scoped services (e.g. ThemeManager,
+        // which subscribes to UISettings.ColorValuesChanged) release their handlers/resources.
+        _windowScope.Dispose();
     }
 
     private void WindowShell_Loading(FrameworkElement sender, object args)

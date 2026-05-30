@@ -1,9 +1,8 @@
-using CommunityToolkit.WinUI.Converters;
 using Microsoft.UI.Xaml.Data;
 
 namespace GcToolkit.Converters;
 
-public sealed class NullToVisibilityConverter
+public sealed class NullToVisibilityConverter : IValueConverter
 {
     public bool Invert { get; set; }
 

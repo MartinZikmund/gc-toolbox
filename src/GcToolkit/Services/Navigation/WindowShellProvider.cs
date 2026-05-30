@@ -10,6 +10,7 @@ internal sealed class WindowShellProvider : IWindowShellProvider, IXamlRootProvi
     private WindowShell? _shell;
     private Window? _window;
     private DispatcherQueue? _dispatcherQueue;
+    private XamlRoot? _xamlRoot;
 
     public void SetShell(WindowShell shell, Window window)
     {
@@ -30,13 +31,10 @@ internal sealed class WindowShellProvider : IWindowShellProvider, IXamlRootProvi
 
     public IServiceProvider ServiceProvider { get { EnsureInitialized(); return _shell.ServiceProvider; } }
 
-    public XamlRoot XamlRoot
-    {
-        get { EnsureInitialized(); return _shell.XamlRoot!; }
-        internal set { } // Set by WindowShell during Loading event
-    }
+    public XamlRoot XamlRoot => _xamlRoot
+        ?? throw new InvalidOperationException("XamlRoot is not available yet. It is set during WindowShell's Loading event.");
 
-    internal void SetXamlRoot(XamlRoot xamlRoot) => XamlRoot = xamlRoot;
+    internal void SetXamlRoot(XamlRoot xamlRoot) => _xamlRoot = xamlRoot ?? throw new ArgumentNullException(nameof(xamlRoot));
 
     [MemberNotNull(nameof(_shell))]
     [MemberNotNull(nameof(_window))]
