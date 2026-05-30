@@ -2,6 +2,8 @@ namespace GcToolkit.Core.Navigation;
 
 public enum NavigationSection
 {
-    Main,
+    Home,
+    Catalog,
+    Tool,
     Settings,
 }
