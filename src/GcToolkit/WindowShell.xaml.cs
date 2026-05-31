@@ -1,9 +1,11 @@
 using GcToolkit.Core.Navigation;
 using GcToolkit.Core.Services;
-using GcToolkit.Core.ViewModels;
 using GcToolkit.Core.Services.Settings;
 using GcToolkit.Core.Services.Theming;
+using GcToolkit.Core.ViewModels;
+using GcToolkit.Helpers;
 using GcToolkit.Infrastructure;
+using GcToolkit.Services.Localization;
 using GcToolkit.Services.Navigation;
 using GcToolkit.ViewModels;
 using Microsoft.UI.Windowing;
@@ -17,6 +19,7 @@ public sealed partial class WindowShell : Page, IWindowShell
     private readonly Window _associatedWindow;
     private bool _isWindowClosed;
     private ViewModelBase? _currentPageViewModel;
+    private bool _suppressSelectionChanged;
 
     public WindowShell(IServiceProvider serviceProvider, Window associatedWindow)
     {
@@ -46,6 +49,7 @@ public sealed partial class WindowShell : Page, IWindowShell
         InnerFrame.Navigated += InnerFrame_Navigated;
         Loading += WindowShell_Loading;
 
+        BuildToolNavigation();
         UpdateWindowTitle();
     }
 
@@ -178,9 +182,24 @@ public sealed partial class WindowShell : Page, IWindowShell
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if (args.SelectedItemContainer is not NavigationViewItem item)
+        // Ignore programmatic selection sync (UpdateNavigationViewSelection) so it cannot re-trigger a
+        // navigation that would override a category-scoped catalog.
+        if (_suppressSelectionChanged || args.SelectedItemContainer is not NavigationViewItem item)
         {
             return;
+        }
+
+        var nav = ServiceProvider.GetRequiredService<INavigationService>();
+        switch (item.Tag)
+        {
+            // A discovered tool node carries its ViewModel type; open it through the shared host.
+            case Type toolViewModelType:
+                nav.Navigate(toolViewModelType);
+                return;
+            // A category node opens its scoped Catalog (chevron-expand is handled separately by NavigationView).
+            case CategoryNavTag category:
+                nav.Navigate<CatalogViewModel>(category.CategoryId);
+                return;
         }
 
         var tag = item.Tag?.ToString();
@@ -194,6 +213,56 @@ public sealed partial class WindowShell : Page, IWindowShell
             NavigateToSection(section);
         }
     }
+
+    /// <summary>
+    /// Renders the generated <see cref="GeneratedToolCatalog.NavigationTree"/> into the pane: groups as
+    /// non-selectable headers, categories as expandable-and-clickable items holding their tools, and
+    /// tools as selectable leaves. Empty categories/groups are already omitted by the tree builder.
+    /// </summary>
+    private void BuildToolNavigation()
+    {
+        foreach (var group in GeneratedToolCatalog.NavigationTree.Roots)
+        {
+            if (group.GroupId is not null && group.NameKey is not null)
+            {
+                NavView.MenuItems.Add(new NavigationViewItemHeader { Content = Localizer.Instance.GetString(group.NameKey) });
+            }
+
+            foreach (var category in group.Categories)
+            {
+                NavView.MenuItems.Add(BuildCategoryItem(category));
+            }
+        }
+    }
+
+    private static NavigationViewItem BuildCategoryItem(NavCategoryNode category)
+    {
+        var item = new NavigationViewItem
+        {
+            Content = Localizer.Instance.GetString(category.NameKey),
+            Tag = new CategoryNavTag(category.CategoryId),
+            // Clicking the body navigates; the chevron expand/collapse is independent (research R11).
+            SelectsOnInvoked = true,
+            Icon = new ImageIcon { Source = ToolIcons.For(category.IconKey, ToolIconKind.Category) },
+        };
+
+        foreach (var tool in category.Tools)
+        {
+            var toolItem = new NavigationViewItem
+            {
+                Content = Localizer.Instance.GetString(tool.NameKey),
+                Tag = tool.ViewModelType,
+                Icon = new ImageIcon { Source = ToolIcons.For(tool.IconKey, ToolIconKind.Tool) },
+            };
+
+            ToolTipService.SetToolTip(toolItem, Localizer.Instance.GetString(tool.TooltipKey));
+            item.MenuItems.Add(toolItem);
+        }
+
+        return item;
+    }
+
+    private sealed record CategoryNavTag(string CategoryId);
 
     private void NavigateToSection(NavigationSection section)
     {
@@ -226,14 +295,29 @@ public sealed partial class WindowShell : Page, IWindowShell
     private void UpdateNavigationViewSelection()
     {
         var section = ServiceProvider.GetRequiredService<INavigationService>().CurrentSection;
-        NavView.SelectedItem = section switch
+
+        // Assigning SelectedItem re-raises SelectionChanged; suppress it so this programmatic sync does
+        // not start another navigation.
+        _suppressSelectionChanged = true;
+        try
         {
-            NavigationSection.Home => HomeNavItem,
-            NavigationSection.Catalog => CatalogNavItem,
-            NavigationSection.Settings => NavView.SettingsItem,
-            // Tool host has no menu item — keep the current selection.
-            _ => NavView.SelectedItem,
-        };
+            NavView.SelectedItem = section switch
+            {
+                NavigationSection.Home => HomeNavItem,
+                // Keep a clicked category node highlighted for its scoped catalog; otherwise select the
+                // top-level Catalog item for the unscoped catalog.
+                NavigationSection.Catalog => NavView.SelectedItem is NavigationViewItem { Tag: CategoryNavTag }
+                    ? NavView.SelectedItem
+                    : CatalogNavItem,
+                NavigationSection.Settings => NavView.SettingsItem,
+                // Tool host has no menu item — keep the current selection.
+                _ => NavView.SelectedItem,
+            };
+        }
+        finally
+        {
+            _suppressSelectionChanged = false;
+        }
     }
 
     #endregion
