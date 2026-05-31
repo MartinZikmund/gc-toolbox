@@ -188,36 +188,70 @@
   <data name="Category_Field" xml:space="preserve">
     <value>Field</value>
   </data>
-  <!-- Placeholder tools -->
-  <data name="Tool_CoordinateConversion" xml:space="preserve">
+  <!-- Groups -->
+  <data name="Group_Conversion" xml:space="preserve">
+    <value>Conversion</value>
+  </data>
+  <!-- Tools: display name (&lt;Id&gt;_Name) + tooltip (&lt;Id&gt;_Tooltip) -->
+  <data name="CoordinateConversion_Name" xml:space="preserve">
     <value>Coordinate conversion</value>
   </data>
-  <data name="Tool_CoordinateDistance" xml:space="preserve">
+  <data name="CoordinateConversion_Tooltip" xml:space="preserve">
+    <value>Convert coordinates between formats (WGS84, UTM, …).</value>
+  </data>
+  <data name="CoordinateDistance_Name" xml:space="preserve">
     <value>Distance &amp; bearing</value>
   </data>
-  <data name="Tool_CoordinateProjection" xml:space="preserve">
+  <data name="CoordinateDistance_Tooltip" xml:space="preserve">
+    <value>Measure the distance and bearing between two points.</value>
+  </data>
+  <data name="CoordinateProjection_Name" xml:space="preserve">
     <value>Waypoint projection</value>
   </data>
-  <data name="Tool_CaesarCipher" xml:space="preserve">
+  <data name="CoordinateProjection_Tooltip" xml:space="preserve">
+    <value>Project a waypoint from a point, bearing and distance.</value>
+  </data>
+  <data name="CaesarCipher_Name" xml:space="preserve">
     <value>Caesar cipher</value>
   </data>
-  <data name="Tool_MorseCode" xml:space="preserve">
+  <data name="CaesarCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode text with a Caesar shift.</value>
+  </data>
+  <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
-  <data name="Tool_VigenereCipher" xml:space="preserve">
+  <data name="MorseCode_Tooltip" xml:space="preserve">
+    <value>Translate text to and from Morse code.</value>
+  </data>
+  <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
-  <data name="Tool_BaseConverter" xml:space="preserve">
+  <data name="VigenereCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode text with a Vigenère key.</value>
+  </data>
+  <data name="BaseConverter_Name" xml:space="preserve">
     <value>Base converter</value>
   </data>
-  <data name="Tool_Checksum" xml:space="preserve">
+  <data name="BaseConverter_Tooltip" xml:space="preserve">
+    <value>Convert numbers between bases (binary, hex, …).</value>
+  </data>
+  <data name="Checksum_Name" xml:space="preserve">
     <value>Checksum</value>
   </data>
-  <data name="Tool_Flashlight" xml:space="preserve">
+  <data name="Checksum_Tooltip" xml:space="preserve">
+    <value>Compute checksums and hashes for text.</value>
+  </data>
+  <data name="Flashlight_Name" xml:space="preserve">
     <value>Flashlight</value>
   </data>
-  <data name="Tool_Compass" xml:space="preserve">
+  <data name="Flashlight_Tooltip" xml:space="preserve">
+    <value>Turn the screen into a flashlight.</value>
+  </data>
+  <data name="Compass_Name" xml:space="preserve">
     <value>Compass</value>
+  </data>
+  <data name="Compass_Tooltip" xml:space="preserve">
+    <value>Show your heading with a live compass.</value>
   </data>
   <!-- Home: favorite tools &amp; recents -->
   <data name="FavoriteTools" xml:space="preserve">
@@ -231,6 +265,16 @@
   </data>
   <data name="RecentsEmpty" xml:space="preserve">
     <value>Tools you open will appear here.</value>
+  </data>
+  <!-- Home: New &amp; Updated -->
+  <data name="NewAndUpdated" xml:space="preserve">
+    <value>New &amp; updated</value>
+  </data>
+  <data name="Badge_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Badge_Updated" xml:space="preserve">
+    <value>Updated</value>
   </data>
   <!-- Search -->
   <data name="SearchPlaceholder" xml:space="preserve">
