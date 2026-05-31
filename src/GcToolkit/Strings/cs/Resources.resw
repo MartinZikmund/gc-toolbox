@@ -188,6 +188,9 @@
   <data name="Category_Field" xml:space="preserve">
     <value>V terénu</value>
   </data>
+  <data name="Category_Alphabets" xml:space="preserve">
+    <value>Abecedy</value>
+  </data>
   <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Převody</value>
@@ -222,6 +225,54 @@
   </data>
   <data name="MorseCode_Tooltip" xml:space="preserve">
     <value>Převádějte text do Morseovy abecedy a zpět.</value>
+  </data>
+  <data name="MorseTextToCode" xml:space="preserve">
+    <value>Text → Morse</value>
+  </data>
+  <data name="MorseCodeToText" xml:space="preserve">
+    <value>Morse → Text</value>
+  </data>
+  <data name="MorseInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="MorseInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text nebo Morseovu abecedu (. a -)…</value>
+  </data>
+  <data name="MorseOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="MorseClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="MorseCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="MorseShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="MorseUnknownNotice" xml:space="preserve">
+    <value>Některé znaky nemají ekvivalent v Morseově abecedě a zobrazují se jako #.</value>
+  </data>
+  <data name="MorsePlayback" xml:space="preserve">
+    <value>Přehrávání</value>
+  </data>
+  <data name="MorseFlashLabel" xml:space="preserve">
+    <value>Morseovo světlo</value>
+  </data>
+  <data name="MorseSpeed" xml:space="preserve">
+    <value>Rychlost (WPM)</value>
+  </data>
+  <data name="MorsePlaySound" xml:space="preserve">
+    <value>Přehrávat zvuk</value>
+  </data>
+  <data name="MorsePlay" xml:space="preserve">
+    <value>Přehrát</value>
+  </data>
+  <data name="MorseStop" xml:space="preserve">
+    <value>Zastavit</value>
+  </data>
+  <data name="MorsePhotosensitivityNote" xml:space="preserve">
+    <value>Přehrávání bliká obrazovkou, což může ovlivnit osoby s fotosenzitivní epilepsií. Kdykoli použijte Zastavit.</value>
   </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
