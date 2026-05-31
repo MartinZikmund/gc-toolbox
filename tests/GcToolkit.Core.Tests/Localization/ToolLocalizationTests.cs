@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.FavoriteTools;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Search;
-using GcToolkit.Core.ViewModels;
 using GcToolkit.Core.Tests.Fakes;
+using GcToolkit.Core.ViewModels;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
 
 namespace GcToolkit.Core.Tests.Localization;
 
