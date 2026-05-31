@@ -124,6 +124,8 @@ public partial class App : Application, IApplication
         services.AddScoped<IConfirmationDialogService, ConfirmationDialogService>();
         services.AddScoped<ILauncherService, LauncherService>();
         services.AddScoped<IShareService, ShareService>();
+        services.AddScoped<IClipboardService, ClipboardService>();
+        services.AddScoped<IMorseAudioService, MorseAudioService>();
         services.AddScoped<INavigationService>(sp =>
         {
             var service = new NavigationService(sp.GetRequiredService<IWindowShellProvider>());
