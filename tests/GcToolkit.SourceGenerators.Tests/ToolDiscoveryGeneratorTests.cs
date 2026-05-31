@@ -65,6 +65,42 @@ public class ToolDiscoveryGeneratorTests
     }
 
     [TestMethod]
+    public void Generator_ToolWithDedicatedView_RoutesToViewAndMarksNotPlaceholder()
+    {
+        // The app head supplies a real view for one of the two tools, using the same base+sealed pair
+        // shape the app actually authors (e.g. CatalogViewBase + CatalogView).
+        const string appHead = """
+            namespace GcToolkit.Views
+            {
+                public abstract class ViewBase<TViewModel> { }
+                public sealed class ToolHostView { }
+                public class SampleConversionViewBase : ViewBase<GcToolkit.Core.ViewModels.Tools.SampleConversionViewModel> { }
+                public sealed class SampleConversionView : SampleConversionViewBase { }
+            }
+            """;
+
+        var result = GeneratorTestHarness.Run(TwoTools, appHead, ValidResources());
+
+        Assert.IsFalse(
+            result.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error),
+            "Expected no error diagnostics. Got: " + string.Join(", ", result.Diagnostics));
+
+        var views = result.GeneratedText("ViewRegistrations");
+        // The view-backed tool routes to its dedicated view...
+        StringAssert.Contains(views, "typeof(global::GcToolkit.Views.SampleConversionView), typeof(global::GcToolkit.Core.ViewModels.Tools.SampleConversionViewModel)");
+        // ...and is NOT also registered against the shared host (which would overwrite the dedicated view).
+        StringAssert.DoesNotMatch(
+            views,
+            new System.Text.RegularExpressions.Regex(@"ToolHostView\), typeof\(global::GcToolkit\.Core\.ViewModels\.Tools\.SampleConversionViewModel\)"));
+        // The tool without a dedicated view still falls back to the shared host.
+        StringAssert.Contains(views, "typeof(global::GcToolkit.Views.ToolHostView), typeof(global::GcToolkit.Core.ViewModels.Tools.SampleCipherViewModel)");
+
+        // A view-backed tool emits a non-placeholder descriptor.
+        var catalog = result.GeneratedText("GeneratedToolCatalog");
+        StringAssert.Contains(catalog, "false,");
+    }
+
+    [TestMethod]
     public void Generator_OrdersToolsByCategoryThenId()
     {
         var result = GeneratorTestHarness.Run(TwoTools, additionalFiles: ValidResources());
