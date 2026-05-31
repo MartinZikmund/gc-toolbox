@@ -8,7 +8,7 @@ namespace GcToolkit.Core.Tests.Catalog;
 public class CatalogServiceTests
 {
     private static ToolDescriptor ToolFor(string id, string categoryId, string? nameKey = null)
-        => new(id, nameKey ?? $"Name_{id}", categoryId, [], null, typeof(object));
+        => new(id, nameKey ?? $"Name_{id}", categoryId, [], "", typeof(object));
 
     private static CatalogService Create(
         IEnumerable<Category> categories,
