@@ -1,6 +1,6 @@
-using GcToolkit.Services.Localization;
+using Microsoft.Extensions.Localization;
 
-namespace GcToolkit.ViewModels;
+namespace GcToolkit.Core.ViewModels;
 
 /// <summary>
 /// View-facing representation of a catalog tool shown in lists (Home, Catalog). Carries its
@@ -8,17 +8,23 @@ namespace GcToolkit.ViewModels;
 /// </summary>
 public partial class ToolListItem : ObservableObject
 {
+    private readonly IStringLocalizer _localizer;
+
     public ToolListItem(
         string toolId,
         string name,
+        string? tooltip,
         string? iconKey,
         bool isFavorite,
+        IStringLocalizer localizer,
         Action<string> open,
         Action<string> toggleFavorite)
     {
         ToolId = toolId;
         Name = name;
+        Tooltip = tooltip;
         IconKey = iconKey;
+        _localizer = localizer;
         IsFavorite = isFavorite;
         OpenCommand = new RelayCommand(() => open(toolId));
         ToggleFavoriteCommand = new RelayCommand(() => toggleFavorite(toolId));
@@ -28,9 +34,18 @@ public partial class ToolListItem : ObservableObject
 
     public string Name { get; }
 
+    public string? Tooltip { get; }
+
     public string? IconKey { get; }
 
     public bool HasIcon => !string.IsNullOrEmpty(IconKey);
+
+    /// <summary>Badge text ("New"/"Updated"/empty) derived from the tool's recency (US4).</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasBadge))]
+    public partial string BadgeString { get; set; } = string.Empty;
+
+    public bool HasBadge => !string.IsNullOrEmpty(BadgeString);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(StarGlyph))]
@@ -41,8 +56,7 @@ public partial class ToolListItem : ObservableObject
     public string StarGlyph => IsFavorite ? "" : "";
 
     /// <summary>Accessible name for the favorite toggle, reflecting the action it performs.</summary>
-    public string FavoriteToggleLabel => Localizer.Instance.GetString(
-        IsFavorite ? "RemoveFromFavorites" : "AddToFavorites");
+    public string FavoriteToggleLabel => _localizer[IsFavorite ? "RemoveFromFavorites" : "AddToFavorites"].Value;
 
     public IRelayCommand OpenCommand { get; }
 
