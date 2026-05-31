@@ -39,18 +39,25 @@ public sealed class NavigationService : INavigationService
     public void RegisterView(Type viewType, Type viewModelType)
         => _viewModelToViewMap[viewModelType] = viewType;
 
-    public void Navigate<TViewModel>() => Navigate<TViewModel>(null);
+    public void Navigate<TViewModel>() => NavigateCore(typeof(TViewModel), null);
 
-    public void Navigate<TViewModel>(object? parameter)
+    public void Navigate<TViewModel>(object? parameter) => NavigateCore(typeof(TViewModel), parameter);
+
+    public void Navigate(Type viewModelType, object? parameter = null)
+        // The shared tool host needs the concrete ViewModel type to resolve; pass it as the frame
+        // parameter when no explicit one is supplied (research R10).
+        => NavigateCore(viewModelType, parameter ?? viewModelType);
+
+    private void NavigateCore(Type viewModelType, object? frameParameter)
     {
         if (!_initialized)
         {
             throw new InvalidOperationException("NavigationService not initialized. Call Initialize() first.");
         }
 
-        if (!_viewModelToViewMap.TryGetValue(typeof(TViewModel), out var viewType))
+        if (!_viewModelToViewMap.TryGetValue(viewModelType, out var viewType))
         {
-            throw new InvalidOperationException($"No view registered for ViewModel {typeof(TViewModel).Name}.");
+            throw new InvalidOperationException($"No view registered for ViewModel {viewModelType.Name}.");
         }
 
         var navInfo = GetNavigationInfo(viewType);
@@ -60,7 +67,7 @@ public sealed class NavigationService : INavigationService
         }
 
         var transitionInfo = GetTransitionInfo(navInfo?.Transition ?? NavigationTransition.Default, isForward: true);
-        Frame.Navigate(viewType, parameter, transitionInfo);
+        Frame.Navigate(viewType, frameParameter, transitionInfo);
 
 #if HAS_UNO
 		UpdateBackRequestedSubscription();

@@ -127,19 +127,17 @@ public partial class App : Application, IApplication
         services.AddScoped<INavigationService>(sp =>
         {
             var service = new NavigationService(sp.GetRequiredService<IWindowShellProvider>());
-            service.RegisterView(typeof(Views.HomeView), typeof(HomeViewModel));
-            service.RegisterView(typeof(Views.CatalogView), typeof(CatalogViewModel));
-            service.RegisterView(typeof(Views.ToolHostView), typeof(ToolHostViewModel));
-            service.RegisterView(typeof(Views.SettingsView), typeof(SettingsViewModel));
+            // Generated (ViewRegistrations.g.cs): every view↔ViewModel pair plus each discovered
+            // tool ViewModel → the shared ToolHostView. Replaces the hand-written RegisterView block.
+            service.RegisterDiscoveredViews();
             return service;
         });
 
-        // Catalog domain (FR-015): contributors feed the catalog; the placeholder set targets
-        // the stub tool host. The matcher is a pure singleton; the catalog is per-window.
+        // Catalog domain (FR-010/FR-015): the matcher is a pure singleton; the catalog is per-window.
         services.AddSingleton<IToolMatcher, ToolMatcher>();
-        services.AddSingleton(_ => new PlaceholderToolContributor(typeof(ToolHostViewModel)));
-        services.AddSingleton<IToolContributor>(sp => sp.GetRequiredService<PlaceholderToolContributor>());
-        services.AddSingleton<ICategoryContributor>(sp => sp.GetRequiredService<PlaceholderToolContributor>());
+        // Generated (ToolDiscoveryServiceCollectionExtensions.g.cs): registers the discovered tool
+        // contributor (IToolContributor + ICategoryContributor) and each tool ViewModel (transient).
+        services.AddDiscoveredTools();
         services.AddScoped<ICatalogService, CatalogService>();
 
         // Favorite tools, recents, and language selection.
@@ -153,10 +151,10 @@ public partial class App : Application, IApplication
         services.AddScoped<WindowShellViewModel>();
         services.AddScoped<SearchViewModel>();
 
-        // Transient ViewModels (new instance per navigation)
+        // Transient ViewModels (new instance per navigation). Discovered tool ViewModels are
+        // registered by AddDiscoveredTools() above.
         services.AddTransient<HomeViewModel>();
         services.AddTransient<CatalogViewModel>();
-        services.AddTransient<ToolHostViewModel>();
         services.AddTransient<SettingsViewModel>();
     }
 
