@@ -54,6 +54,17 @@
 
     <ItemGroup>
         <ProjectReference Include="..\GcToolkit.Core\GcToolkit.Core.csproj" />
+
+        <!-- Tool auto-discovery source generator: referenced as an analyzer, not as a library. -->
+        <ProjectReference Include="..\GcToolkit.SourceGenerators\GcToolkit.SourceGenerators.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Surface the localization resources to the generator so it can validate
+             <Id>_Name / <Id>_Tooltip keys at build time (diagnostic GCTOOL004). -->
+        <AdditionalFiles Include="Strings\**\Resources.resw" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(IsWinAppSdk)' == 'true'">
