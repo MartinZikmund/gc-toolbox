@@ -274,6 +274,52 @@
   <data name="MorsePhotosensitivityNote" xml:space="preserve">
     <value>Playback flashes the screen, which may affect people with photosensitive epilepsy. Use Stop at any time.</value>
   </data>
+  <!-- Roman numerals -->
+  <data name="RomanNumerals_Name" xml:space="preserve">
+    <value>Roman numerals</value>
+  </data>
+  <data name="RomanNumerals_Tooltip" xml:space="preserve">
+    <value>Convert between Roman numerals and numbers, both ways.</value>
+  </data>
+  <data name="RomanNumberToRoman" xml:space="preserve">
+    <value>Number → Roman</value>
+  </data>
+  <data name="RomanRomanToNumber" xml:space="preserve">
+    <value>Roman → Number</value>
+  </data>
+  <data name="RomanInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="RomanInputPlaceholder" xml:space="preserve">
+    <value>Type a number or Roman numeral (space-separate several)…</value>
+  </data>
+  <data name="RomanOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="RomanClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="RomanCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="RomanShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="RomanNonStandardNotice" xml:space="preserve">
+    <value>Non-standard form — interpreted by value.</value>
+  </data>
+  <data name="RomanInvalidNotice" xml:space="preserve">
+    <value>Some input couldn't be converted and is shown as ?.</value>
+  </data>
+  <data name="RomanBreakdownLabel" xml:space="preserve">
+    <value>Breakdown</value>
+  </data>
+  <data name="RomanReferenceLabel" xml:space="preserve">
+    <value>Symbols</value>
+  </data>
+  <data name="RomanVinculumNote" xml:space="preserve">
+    <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

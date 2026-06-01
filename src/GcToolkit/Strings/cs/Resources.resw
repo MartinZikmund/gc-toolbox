@@ -274,6 +274,52 @@
   <data name="MorsePhotosensitivityNote" xml:space="preserve">
     <value>Přehrávání bliká obrazovkou, což může ovlivnit osoby s fotosenzitivní epilepsií. Kdykoli použijte Zastavit.</value>
   </data>
+  <!-- Roman numerals -->
+  <data name="RomanNumerals_Name" xml:space="preserve">
+    <value>Římské číslice</value>
+  </data>
+  <data name="RomanNumerals_Tooltip" xml:space="preserve">
+    <value>Převod mezi římskými číslicemi a čísly v obou směrech.</value>
+  </data>
+  <data name="RomanNumberToRoman" xml:space="preserve">
+    <value>Číslo → Římské</value>
+  </data>
+  <data name="RomanRomanToNumber" xml:space="preserve">
+    <value>Římské → Číslo</value>
+  </data>
+  <data name="RomanInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="RomanInputPlaceholder" xml:space="preserve">
+    <value>Zadejte číslo nebo římskou číslici (více oddělte mezerou)…</value>
+  </data>
+  <data name="RomanOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="RomanClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="RomanCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="RomanShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="RomanNonStandardNotice" xml:space="preserve">
+    <value>Nestandardní zápis — interpretováno podle hodnoty.</value>
+  </data>
+  <data name="RomanInvalidNotice" xml:space="preserve">
+    <value>Některý vstup nelze převést a je zobrazen jako ?.</value>
+  </data>
+  <data name="RomanBreakdownLabel" xml:space="preserve">
+    <value>Rozklad</value>
+  </data>
+  <data name="RomanReferenceLabel" xml:space="preserve">
+    <value>Symboly</value>
+  </data>
+  <data name="RomanVinculumNote" xml:space="preserve">
+    <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
