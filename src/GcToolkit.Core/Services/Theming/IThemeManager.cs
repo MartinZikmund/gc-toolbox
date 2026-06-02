@@ -1,4 +1,4 @@
-namespace GcToolkit.Services.Theming;
+namespace GcToolkit.Core.Services.Theming;
 
 public interface IThemeManager : IDisposable
 {

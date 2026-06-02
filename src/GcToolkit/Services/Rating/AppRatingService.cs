@@ -1,6 +1,6 @@
-using GcToolkit.Services.Dialogs;
+using GcToolkit.Core.Services.Dialogs;
+using GcToolkit.Core.Services.Settings;
 using GcToolkit.Services.Localization;
-using GcToolkit.Services.Settings;
 
 namespace GcToolkit.Services.Rating;
 

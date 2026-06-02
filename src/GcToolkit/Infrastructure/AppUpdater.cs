@@ -1,5 +1,5 @@
 using GcToolkit.Core.Infrastructure;
-using GcToolkit.Services.Settings;
+using GcToolkit.Core.Services.Settings;
 
 namespace GcToolkit.Infrastructure;
 

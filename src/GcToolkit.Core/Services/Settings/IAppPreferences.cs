@@ -1,4 +1,4 @@
-namespace GcToolkit.Services.Settings;
+namespace GcToolkit.Core.Services.Settings;
 
 public interface IAppPreferences
 {
@@ -11,4 +11,7 @@ public interface IAppPreferences
     bool OfferUserRating { get; set; }
 
     ElementTheme Theme { get; set; }
+
+    /// <summary>Clears all persisted preference values (used by the "reset settings" action).</summary>
+    void Clear();
 }

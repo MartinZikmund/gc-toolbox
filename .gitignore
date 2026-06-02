@@ -500,3 +500,6 @@ solution-config.props
 !**/Properties/PublishProfiles/*.pubxml
 .claude/scheduled_tasks.lock
 .claude/worktrees
+
+# winapp ui screenshot captures (see .claude/skills/run-winui-app)
+.screenshots/

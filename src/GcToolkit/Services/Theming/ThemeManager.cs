@@ -1,3 +1,4 @@
+using GcToolkit.Core.Services.Theming;
 using GcToolkit.Services.Navigation;
 using Microsoft.UI;
 using Windows.UI;

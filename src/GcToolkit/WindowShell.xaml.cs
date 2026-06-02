@@ -1,10 +1,10 @@
 using GcToolkit.Core.Navigation;
 using GcToolkit.Core.Services;
 using GcToolkit.Core.ViewModels;
+using GcToolkit.Core.Services.Settings;
+using GcToolkit.Core.Services.Theming;
 using GcToolkit.Infrastructure;
 using GcToolkit.Services.Navigation;
-using GcToolkit.Services.Settings;
-using GcToolkit.Services.Theming;
 using GcToolkit.ViewModels;
 using Microsoft.UI.Windowing;
 using Windows.Foundation.Metadata;

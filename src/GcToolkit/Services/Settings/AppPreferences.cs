@@ -1,3 +1,4 @@
+using GcToolkit.Core.Services.Settings;
 using MZikmund.Toolkit.WinUI.Services;
 
 namespace GcToolkit.Services.Settings;
@@ -45,4 +46,6 @@ public sealed class AppPreferences : IAppPreferences
         get => _preferences.GetComplex(ThemeKey, ElementTheme.Default);
         set => _preferences.SetComplex(ThemeKey, value);
     }
+
+    public void Clear() => Windows.Storage.ApplicationData.Current.LocalSettings.Values.Clear();
 }

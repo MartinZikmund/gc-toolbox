@@ -1,11 +1,11 @@
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Localization;
 using GcToolkit.Core.Recents;
-using GcToolkit.Core.ViewModels;
-using GcToolkit.Services.Dialogs;
-using GcToolkit.Services.Settings;
-using GcToolkit.Services.Theming;
+using GcToolkit.Core.Services.Dialogs;
+using GcToolkit.Core.Services.Settings;
+using GcToolkit.Core.Services.Theming;
 
-namespace GcToolkit.ViewModels;
+namespace GcToolkit.Core.ViewModels;
 
 /// <summary>A selectable language with its localized native display name.</summary>
 public sealed record LanguageOption(string Code, string DisplayName);
@@ -18,6 +18,7 @@ public partial class SettingsViewModel : ViewModelBase
     private readonly ILanguageService _languageService;
     private readonly IRecentsService _recentsService;
     private readonly IConfirmationDialogService _confirmationDialog;
+    private readonly IApplication _application;
     private bool _isInitializing;
 
     public SettingsViewModel(
@@ -26,7 +27,8 @@ public partial class SettingsViewModel : ViewModelBase
         IThemeManager themeManager,
         ILanguageService languageService,
         IRecentsService recentsService,
-        IConfirmationDialogService confirmationDialog)
+        IConfirmationDialogService confirmationDialog,
+        IApplication application)
     {
         _localizer = localizer;
         _appPreferences = appPreferences;
@@ -34,6 +36,7 @@ public partial class SettingsViewModel : ViewModelBase
         _languageService = languageService;
         _recentsService = recentsService;
         _confirmationDialog = confirmationDialog;
+        _application = application;
         PageTitle = _localizer["Settings"];
 
         Languages = _languageService.Available
@@ -93,14 +96,7 @@ public partial class SettingsViewModel : ViewModelBase
         ShowLanguageRestartNotice = true;
     }
 
-    public string AppVersion
-    {
-        get
-        {
-            var version = Windows.ApplicationModel.Package.Current.Id.Version;
-            return $"{version.Major}.{version.Minor}.{version.Build}";
-        }
-    }
+    public string AppVersion => _application.AppVersion;
 
     public bool IsDebug =>
 #if DEBUG
@@ -125,6 +121,6 @@ public partial class SettingsViewModel : ViewModelBase
     [RelayCommand]
     private void ClearPreferences()
     {
-        Windows.Storage.ApplicationData.Current.LocalSettings.Values.Clear();
+        _appPreferences.Clear();
     }
 }
