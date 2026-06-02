@@ -218,7 +218,64 @@
     <value>Caesar cipher</value>
   </data>
   <data name="CaesarCipher_Tooltip" xml:space="preserve">
-    <value>Encode and decode text with a Caesar shift.</value>
+    <value>Encode and decode Caesar shifts (including ROT13) — or show all shifts at once.</value>
+  </data>
+  <data name="CaesarMode" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="CaesarModeLetters" xml:space="preserve">
+    <value>Letters · ROT13</value>
+  </data>
+  <data name="CaesarModeDigits" xml:space="preserve">
+    <value>Digits · ROT5</value>
+  </data>
+  <data name="CaesarModeAscii" xml:space="preserve">
+    <value>ASCII · ROT47</value>
+  </data>
+  <data name="CaesarEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="CaesarDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="CaesarShiftLabel" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="CaesarInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="CaesarInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="CaesarClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CaesarShowAllShifts" xml:space="preserve">
+    <value>Show all shifts</value>
+  </data>
+  <data name="CaesarOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="CaesarSelfInverseNote" xml:space="preserve">
+    <value>This shift is its own inverse — the same setting both encodes and decodes.</value>
+  </data>
+  <data name="CaesarAllShiftsLabel" xml:space="preserve">
+    <value>All shifts</value>
+  </data>
+  <data name="CaesarCopyShift" xml:space="preserve">
+    <value>Copy this shift</value>
+  </data>
+  <data name="CaesarCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CaesarShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="CaesarKeyLabel" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="CaesarKeyNote" xml:space="preserve">
+    <value>Each symbol in the top row maps to the one beneath it.</value>
   </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
