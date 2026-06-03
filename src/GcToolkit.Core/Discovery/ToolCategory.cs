@@ -18,4 +18,5 @@ public enum ToolCategory
     Ciphers,
     Numbers,
     Field,
+    Alphabets,
 }

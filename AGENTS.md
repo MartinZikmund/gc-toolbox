@@ -1,6 +1,7 @@
 # AGENTS.md
 
-Guidance for AI coding agents working in this repository.
+Guidance for AI coding agents working in this repository. Start here for general conventions
+and workflow; to **add a tool** to the gallery, jump to **[Building tools for GC Toolbox](#building-tools-for-gc-toolbox)** below.
 
 ## Conventions
 
@@ -81,7 +82,9 @@ dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj
 ```
 
 Logic worth testing lives in **`GcToolkit.Core`** (view models, services, navigation) and belongs
-under **`GcToolkit.Core.Tests`** — keep testable code there so it stays head-independent.
+under **`GcToolkit.Core.Tests`** — keep testable code there so it stays head-independent. Tests run
+on the **Microsoft Testing Platform**, so **do not pass `--nologo` to `dotnet test`** (MTP rejects it
+and runs zero tests).
 
 ## Working style
 
@@ -97,3 +100,19 @@ under **`GcToolkit.Core.Tests`** — keep testable code there so it stays head-i
   something that's buggy or behaves differently on an Uno target (e.g. `net10.0-desktop`) than on
   WinUI, point it out and offer to file an issue at [`unoplatform/uno`](https://github.com/unoplatform/uno)
   (with a minimal repro and the affected target). Don't open it silently — confirm with the user first.
+
+---
+
+# Building tools for GC Toolbox
+
+**Adding a tool to the gallery?** The full step-by-step workflow lives in the **`building-gc-tools`
+skill** — read [`.claude/skills/building-gc-tools/SKILL.md`](.claude/skills/building-gc-tools/SKILL.md)
+before you start (agents auto-load it on any "add a tool" request).
+
+The 30-second version: tools are discovered at **compile time** by `GcToolkit.SourceGenerators`, so
+adding one needs **no edit to any shared/central file** (no DI line, no `App.xaml.cs`, no nav table).
+You add a `[Tool]`-decorated ViewModel in `GcToolkit.Core`, its `<Id>_Name`/`<Id>_Tooltip` strings
+(EN **and** CS), an icon, and — for real UI — a `ViewBase<TVm>` View pair in the app head, then
+rebuild. Omit the View to ship a placeholder stub. The skill covers the Core/head split, crossing the
+boundary with services, icons, feature parity, new categories, and building/verifying every head; the
+discovery system itself is specified in [`specs/002-tool-discovery/plan.md`](specs/002-tool-discovery/plan.md).

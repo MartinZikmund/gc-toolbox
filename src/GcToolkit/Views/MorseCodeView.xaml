@@ -1,0 +1,191 @@
+<local:MorseCodeViewBase
+    x:Class="GcToolkit.Views.MorseCodeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="760"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Direction  -->
+            <RadioButtons
+                MaxColumns="2"
+                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=MorseTextToCode}" />
+                <RadioButton Content="{markup:Localize Key=MorseCodeToText}" />
+            </RadioButtons>
+
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=MorseInputLabel}"
+                PlaceholderText="{markup:Localize Key=MorseInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <Button
+                HorizontalAlignment="Left"
+                Command="{x:Bind ViewModel.ClearCommand}"
+                Content="{markup:Localize Key=MorseClear}" />
+
+            <!--  Result  -->
+            <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=MorseOutputLabel}" />
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                FontFamily="Consolas"
+                IsReadOnly="True"
+                IsSpellCheckEnabled="False"
+                Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                TextWrapping="Wrap" />
+
+            <!--  Unknown-character notice  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasUnknown, Mode=OneWay}"
+                Message="{markup:Localize Key=MorseUnknownNotice}"
+                Severity="Warning" />
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=MorseCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=MorseShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  Playback  -->
+            <Border
+                Margin="0,8,0,0"
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=MorsePlayback}" />
+
+                    <!--  Photosensitivity warning (the flash can blink rapidly at higher speeds)  -->
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="{markup:Localize Key=MorsePhotosensitivityNote}"
+                        Severity="Warning" />
+
+                    <!--  Visual flash surface  -->
+                    <Grid
+                        Height="72"
+                        AutomationProperties.Name="{markup:Localize Key=MorseFlashLabel}"
+                        Background="#FF1A1A1A"
+                        CornerRadius="6">
+                        <!--  The lamp toggles rapidly; hide it from assistive tech so it isn't announced on every blink.  -->
+                        <Border
+                            Width="40"
+                            Height="40"
+                            AutomationProperties.AccessibilityView="Raw"
+                            Background="#FFFFE08A"
+                            CornerRadius="20"
+                            Visibility="{x:Bind ViewModel.IsFlashOn, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+
+                    <!--  Speed  -->
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Slider
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Header="{markup:Localize Key=MorseSpeed}"
+                            Maximum="{x:Bind ViewModel.MaxWordsPerMinute}"
+                            Minimum="{x:Bind ViewModel.MinWordsPerMinute}"
+                            StepFrequency="1"
+                            Value="{x:Bind ViewModel.WordsPerMinute, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Bottom"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="{x:Bind ViewModel.WordsPerMinute, Mode=OneWay}" />
+                    </Grid>
+
+                    <!--  Sound (heads that support audio)  -->
+                    <ToggleSwitch
+                        Header="{markup:Localize Key=MorsePlaySound}"
+                        IsOn="{x:Bind ViewModel.PlayAudio, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.IsAudioSupported, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <!--  Transport  -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button
+                            MinWidth="100"
+                            Command="{x:Bind ViewModel.PlayCommand}"
+                            Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE768;" />
+                                <TextBlock Text="{markup:Localize Key=MorsePlay}" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            MinWidth="100"
+                            Command="{x:Bind ViewModel.StopCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE71A;" />
+                                <TextBlock Text="{markup:Localize Key=MorseStop}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</local:MorseCodeViewBase>

@@ -188,6 +188,9 @@
   <data name="Category_Field" xml:space="preserve">
     <value>Field</value>
   </data>
+  <data name="Category_Alphabets" xml:space="preserve">
+    <value>Alphabets</value>
+  </data>
   <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Conversion</value>
@@ -222,6 +225,54 @@
   </data>
   <data name="MorseCode_Tooltip" xml:space="preserve">
     <value>Translate text to and from Morse code.</value>
+  </data>
+  <data name="MorseTextToCode" xml:space="preserve">
+    <value>Text → Morse</value>
+  </data>
+  <data name="MorseCodeToText" xml:space="preserve">
+    <value>Morse → Text</value>
+  </data>
+  <data name="MorseInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="MorseInputPlaceholder" xml:space="preserve">
+    <value>Type text or Morse code (. and -)…</value>
+  </data>
+  <data name="MorseOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="MorseClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="MorseCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="MorseShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="MorseUnknownNotice" xml:space="preserve">
+    <value>Some characters have no Morse equivalent and appear as #.</value>
+  </data>
+  <data name="MorsePlayback" xml:space="preserve">
+    <value>Playback</value>
+  </data>
+  <data name="MorseFlashLabel" xml:space="preserve">
+    <value>Morse light</value>
+  </data>
+  <data name="MorseSpeed" xml:space="preserve">
+    <value>Speed (WPM)</value>
+  </data>
+  <data name="MorsePlaySound" xml:space="preserve">
+    <value>Play sound</value>
+  </data>
+  <data name="MorsePlay" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="MorseStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="MorsePhotosensitivityNote" xml:space="preserve">
+    <value>Playback flashes the screen, which may affect people with photosensitive epilepsy. Use Stop at any time.</value>
   </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
