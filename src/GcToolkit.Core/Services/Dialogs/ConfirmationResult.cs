@@ -1,4 +1,4 @@
-namespace GcToolkit.Services.Dialogs;
+namespace GcToolkit.Core.Services.Dialogs;
 
 public enum ConfirmationResult
 {

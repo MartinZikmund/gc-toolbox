@@ -72,6 +72,20 @@ public sealed class InMemoryPreferences : IPreferences
 
     public void SetComplex<T>(string key, T value) => _complex[key] = JsonSerializer.Serialize(value);
 
+    public bool ContainsKey(string key) => _scalars.ContainsKey(key) || _complex.ContainsKey(key);
+
+    public void Remove(string key)
+    {
+        _scalars.Remove(key);
+        _complex.Remove(key);
+    }
+
+    public void Clear()
+    {
+        _scalars.Clear();
+        _complex.Clear();
+    }
+
     /// <summary>Test helper: writes raw JSON for a complex key to simulate corrupt stored data.</summary>
     public void SetRawComplex(string key, string json) => _complex[key] = json;
 }

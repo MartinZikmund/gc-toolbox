@@ -6,6 +6,9 @@ using GcToolkit.Core.Localization;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Search;
 using GcToolkit.Core.Services;
+using GcToolkit.Core.Services.Dialogs;
+using GcToolkit.Core.Services.Settings;
+using GcToolkit.Core.Services.Theming;
 using GcToolkit.Core.ViewModels;
 using GcToolkit.Services.Dialogs;
 using GcToolkit.Services.Navigation;
@@ -24,6 +27,15 @@ public partial class App : Application, IApplication
     public static new App Current => (App)Application.Current;
 
     public IServiceProvider Services => Host!.Services;
+
+    public string AppVersion
+    {
+        get
+        {
+            var version = Windows.ApplicationModel.Package.Current.Id.Version;
+            return $"{version.Major}.{version.Minor}.{version.Build}";
+        }
+    }
 
     public App()
     {

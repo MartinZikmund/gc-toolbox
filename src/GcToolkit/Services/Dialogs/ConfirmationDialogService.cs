@@ -1,3 +1,4 @@
+using GcToolkit.Core.Services.Dialogs;
 using GcToolkit.Services.Localization;
 using GcToolkit.Services.Navigation;
 

@@ -27,14 +27,17 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    // Packaged is listed first so `dotnet run -f net10.0-windows10.0.26100` defaults to it.
     "GC Toolkit (WinAppSDK Packaged)": {
       "commandName": "MsixPackage",
       "compatibleTargetFramework": "windows"
     },
-    //"GcToolkit (WinAppSDK Unpackaged)": {
-    //  "commandName": "Project",
-    //  "compatibleTargetFramework": "windows"
-    //},
+    // Unpackaged run for the WinAppSDK head. Explicit opt-in: select it and build unpackaged with
+    // `dotnet run -f net10.0-windows10.0.26100 -p:WindowsPackageType=None --launch-profile "GC Toolkit (WinAppSDK Unpackaged)"`.
+    "GC Toolkit (WinAppSDK Unpackaged)": {
+      "commandName": "Project",
+      "compatibleTargetFramework": "windows"
+    },
     "GC Toolkit (Desktop)": {
       "commandName": "Project",
       "compatibleTargetFramework": "desktop"
