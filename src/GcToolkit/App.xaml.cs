@@ -15,7 +15,6 @@ using GcToolkit.Services.Navigation;
 using GcToolkit.Services.Rating;
 using GcToolkit.Services.Settings;
 using GcToolkit.Services.Theming;
-using GcToolkit.ViewModels;
 using Uno.Resizetizer;
 using IPreferences = MZikmund.Toolkit.WinUI.Services.IPreferences;
 using Preferences = MZikmund.Toolkit.WinUI.Services.Preferences;

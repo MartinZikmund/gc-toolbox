@@ -1,5 +1,5 @@
 using GcToolkit.Core.Navigation;
-using GcToolkit.ViewModels;
+using GcToolkit.Core.ViewModels;
 
 namespace GcToolkit.Views;
 

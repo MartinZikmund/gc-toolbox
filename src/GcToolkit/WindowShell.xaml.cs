@@ -7,7 +7,6 @@ using GcToolkit.Helpers;
 using GcToolkit.Infrastructure;
 using GcToolkit.Services.Localization;
 using GcToolkit.Services.Navigation;
-using GcToolkit.ViewModels;
 using Microsoft.UI.Windowing;
 using Windows.Foundation.Metadata;
 
