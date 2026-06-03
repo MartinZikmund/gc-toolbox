@@ -41,7 +41,7 @@ public partial class ToolHostViewBase : Page, IViewBase
             throw new InvalidOperationException("ToolHostView was navigated to without a tool ViewModel type.");
         }
 
-        if (FindWindowShell(Frame.XamlRoot?.Content) is not WindowShell windowShell)
+        if (FindWindowShell(Frame?.XamlRoot?.Content) is not WindowShell windowShell)
         {
             throw new InvalidOperationException("View must be hosted inside a WindowShell.");
         }

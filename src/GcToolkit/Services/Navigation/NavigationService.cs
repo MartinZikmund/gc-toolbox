@@ -39,13 +39,14 @@ public sealed class NavigationService : INavigationService
     public void RegisterView(Type viewType, Type viewModelType)
         => _viewModelToViewMap[viewModelType] = viewType;
 
-    public void Navigate<TViewModel>() => NavigateCore(typeof(TViewModel), null);
+    public void Navigate<TViewModel>() => Navigate(typeof(TViewModel), null);
 
-    public void Navigate<TViewModel>(object? parameter) => NavigateCore(typeof(TViewModel), parameter);
+    public void Navigate<TViewModel>(object? parameter) => Navigate(typeof(TViewModel), parameter);
 
     public void Navigate(Type viewModelType, object? parameter = null)
         // The shared tool host needs the concrete ViewModel type to resolve; pass it as the frame
-        // parameter when no explicit one is supplied (research R10).
+        // parameter when no explicit one is supplied (research R10). Routing the generic overloads
+        // through here keeps that defaulting consistent so tool navigation never hands the host a null.
         => NavigateCore(viewModelType, parameter ?? viewModelType);
 
     private void NavigateCore(Type viewModelType, object? frameParameter)
