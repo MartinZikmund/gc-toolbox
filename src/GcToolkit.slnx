@@ -1,7 +1,9 @@
 <Solution>
   <Folder Name="/App/">
     <Project Path="../tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj" Id="c0de6d3e-8f3b-43c5-967a-d5aae7c80674" />
+    <Project Path="../tests/GcToolkit.SourceGenerators.Tests/GcToolkit.SourceGenerators.Tests.csproj" />
     <Project Path="GcToolkit.Core/GcToolkit.Core.csproj" />
+    <Project Path="GcToolkit.SourceGenerators/GcToolkit.SourceGenerators.csproj" />
     <Project Path="GcToolkit/GcToolkit.csproj">
       <Deploy Solution="Debug|*" />
     </Project>

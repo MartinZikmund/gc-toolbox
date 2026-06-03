@@ -1,6 +1,7 @@
 using GcToolkit.Core.Navigation;
+using GcToolkit.Core.Services;
 
-namespace GcToolkit.ViewModels;
+namespace GcToolkit.Core.ViewModels;
 
 /// <summary>
 /// Shared, incremental search state. A single instance backs both the shell search surface

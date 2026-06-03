@@ -503,3 +503,5 @@ solution-config.props
 
 # winapp ui screenshot captures (see .claude/skills/run-winui-app)
 .screenshots/
+
+.specify/feature.json

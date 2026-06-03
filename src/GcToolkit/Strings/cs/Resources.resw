@@ -188,36 +188,70 @@
   <data name="Category_Field" xml:space="preserve">
     <value>V terénu</value>
   </data>
-  <!-- Placeholder tools -->
-  <data name="Tool_CoordinateConversion" xml:space="preserve">
+  <!-- Groups -->
+  <data name="Group_Conversion" xml:space="preserve">
+    <value>Převody</value>
+  </data>
+  <!-- Tools: display name (&lt;Id&gt;_Name) + tooltip (&lt;Id&gt;_Tooltip) -->
+  <data name="CoordinateConversion_Name" xml:space="preserve">
     <value>Převod souřadnic</value>
   </data>
-  <data name="Tool_CoordinateDistance" xml:space="preserve">
+  <data name="CoordinateConversion_Tooltip" xml:space="preserve">
+    <value>Převod souřadnic mezi formáty (WGS84, UTM, …).</value>
+  </data>
+  <data name="CoordinateDistance_Name" xml:space="preserve">
     <value>Vzdálenost a azimut</value>
   </data>
-  <data name="Tool_CoordinateProjection" xml:space="preserve">
+  <data name="CoordinateDistance_Tooltip" xml:space="preserve">
+    <value>Změřte vzdálenost a azimut mezi dvěma body.</value>
+  </data>
+  <data name="CoordinateProjection_Name" xml:space="preserve">
     <value>Projekce bodu</value>
   </data>
-  <data name="Tool_CaesarCipher" xml:space="preserve">
+  <data name="CoordinateProjection_Tooltip" xml:space="preserve">
+    <value>Vypočítejte bod z výchozího bodu, azimutu a vzdálenosti.</value>
+  </data>
+  <data name="CaesarCipher_Name" xml:space="preserve">
     <value>Caesarova šifra</value>
   </data>
-  <data name="Tool_MorseCode" xml:space="preserve">
+  <data name="CaesarCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte text Caesarovým posunem.</value>
+  </data>
+  <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
-  <data name="Tool_VigenereCipher" xml:space="preserve">
+  <data name="MorseCode_Tooltip" xml:space="preserve">
+    <value>Převádějte text do Morseovy abecedy a zpět.</value>
+  </data>
+  <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
-  <data name="Tool_BaseConverter" xml:space="preserve">
+  <data name="VigenereCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte text klíčem Vigenèrovy šifry.</value>
+  </data>
+  <data name="BaseConverter_Name" xml:space="preserve">
     <value>Převodník soustav</value>
   </data>
-  <data name="Tool_Checksum" xml:space="preserve">
+  <data name="BaseConverter_Tooltip" xml:space="preserve">
+    <value>Převádějte čísla mezi soustavami (dvojková, šestnáctková, …).</value>
+  </data>
+  <data name="Checksum_Name" xml:space="preserve">
     <value>Kontrolní součet</value>
   </data>
-  <data name="Tool_Flashlight" xml:space="preserve">
+  <data name="Checksum_Tooltip" xml:space="preserve">
+    <value>Spočítejte kontrolní součty a haše textu.</value>
+  </data>
+  <data name="Flashlight_Name" xml:space="preserve">
     <value>Svítilna</value>
   </data>
-  <data name="Tool_Compass" xml:space="preserve">
+  <data name="Flashlight_Tooltip" xml:space="preserve">
+    <value>Proměňte obrazovku ve svítilnu.</value>
+  </data>
+  <data name="Compass_Name" xml:space="preserve">
     <value>Kompas</value>
+  </data>
+  <data name="Compass_Tooltip" xml:space="preserve">
+    <value>Zobrazte svůj směr živým kompasem.</value>
   </data>
   <!-- Home: favorite tools &amp; recents -->
   <data name="FavoriteTools" xml:space="preserve">
@@ -231,6 +265,16 @@
   </data>
   <data name="RecentsEmpty" xml:space="preserve">
     <value>Zde se zobrazí nástroje, které otevřete.</value>
+  </data>
+  <!-- Home: New &amp; Updated -->
+  <data name="NewAndUpdated" xml:space="preserve">
+    <value>Nové a aktualizované</value>
+  </data>
+  <data name="Badge_New" xml:space="preserve">
+    <value>Nové</value>
+  </data>
+  <data name="Badge_Updated" xml:space="preserve">
+    <value>Aktualizováno</value>
   </data>
   <!-- Search -->
   <data name="SearchPlaceholder" xml:space="preserve">

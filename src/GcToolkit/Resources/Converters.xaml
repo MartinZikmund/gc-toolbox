@@ -18,5 +18,6 @@
         EmptyValue="Visible"
         NotEmptyValue="Collapsed" />
     <converters:EnumLocalizationConverter x:Key="EnumLocalizationConverter" />
+    <converters:IconKeyToImageSourceConverter x:Key="IconKeyToImageSourceConverter" />
 
 </ResourceDictionary>

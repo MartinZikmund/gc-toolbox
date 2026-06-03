@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
 using GcToolkit.Core.Catalog;
+using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
 using GcToolkit.Core.Recents;
-using GcToolkit.Core.ViewModels;
+using GcToolkit.Core.Services;
+using Microsoft.Extensions.Localization;
 
-namespace GcToolkit.ViewModels;
+namespace GcToolkit.Core.ViewModels;
 
 /// <summary>
 /// Landing screen: a search entry into the catalog plus the user's favorite tools and recently
@@ -42,11 +44,16 @@ public partial class HomeViewModel : ViewModelBase
 
     public ObservableCollection<ToolListItem> RecentTools { get; } = new();
 
+    public ObservableCollection<ToolListItem> NewAndUpdatedTools { get; } = new();
+
     [ObservableProperty]
     public partial bool HasFavoriteTools { get; set; }
 
     [ObservableProperty]
     public partial bool HasRecentTools { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasNewAndUpdatedTools { get; set; }
 
     public override void ViewCreated()
     {
@@ -75,8 +82,23 @@ public partial class HomeViewModel : ViewModelBase
     {
         Populate(FavoriteTools, _favorites.GetFavoriteToolIds());
         Populate(RecentTools, _recents.GetRecentToolIds());
+        PopulateNewAndUpdated();
         HasFavoriteTools = FavoriteTools.Count > 0;
         HasRecentTools = RecentTools.Count > 0;
+        HasNewAndUpdatedTools = NewAndUpdatedTools.Count > 0;
+    }
+
+    private void PopulateNewAndUpdated()
+    {
+        NewAndUpdatedTools.Clear();
+        var today = DateOnly.FromDateTime(DateTime.Now);
+        foreach (var tool in _catalog.GetTools())
+        {
+            if (ToolRecencyClassifier.Classify(tool.IntroducedDate, tool.UpdatedDate, today) != ToolRecency.None)
+            {
+                NewAndUpdatedTools.Add(CreateItem(tool));
+            }
+        }
     }
 
     private void Populate(ObservableCollection<ToolListItem> target, IReadOnlyList<string> toolIds)
@@ -93,15 +115,36 @@ public partial class HomeViewModel : ViewModelBase
     }
 
     private ToolListItem CreateItem(ToolDescriptor tool)
-        => new(
+    {
+        ToolListItem item = new(
             tool.Id,
             _localizer[tool.NameKey].Value,
+            tool.TooltipKey is null ? null : _localizer[tool.TooltipKey].Value,
             tool.IconKey,
             _favorites.IsFavorite(tool.Id),
+            _localizer,
             OpenTool,
             ToggleFavorite);
+        item.BadgeString = RecencyBadge(tool);
+        return item;
+    }
 
-    private void OpenTool(string toolId) => _navigation.Navigate<ToolHostViewModel>(toolId);
+    private string RecencyBadge(ToolDescriptor tool)
+        => ToolRecencyClassifier.Classify(tool.IntroducedDate, tool.UpdatedDate, DateOnly.FromDateTime(DateTime.Now)) switch
+        {
+            ToolRecency.New => _localizer["Badge_New"].Value,
+            ToolRecency.Updated => _localizer["Badge_Updated"].Value,
+            _ => string.Empty,
+        };
+
+    private void OpenTool(string toolId)
+    {
+        var tool = _catalog.GetTools().FirstOrDefault(t => string.Equals(t.Id, toolId, StringComparison.Ordinal));
+        if (tool is not null)
+        {
+            _navigation.Navigate(tool.ViewModelType);
+        }
+    }
 
     private void ToggleFavorite(string toolId) => _ = _favorites.ToggleAsync(toolId);
 }

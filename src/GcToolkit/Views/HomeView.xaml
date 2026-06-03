@@ -25,6 +25,22 @@
                 Content="{markup:Localize Key=Catalog}"
                 Style="{ThemeResource AccentButtonStyle}" />
 
+            <!--  New & Updated  -->
+            <StackPanel
+                Spacing="8"
+                Visibility="{x:Bind ViewModel.HasNewAndUpdatedTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=NewAndUpdated}" />
+                <ItemsRepeater ItemTemplate="{StaticResource ToolCardTemplate}" ItemsSource="{x:Bind ViewModel.NewAndUpdatedTools, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsStretch="Fill"
+                            MinColumnSpacing="8"
+                            MinItemWidth="240"
+                            MinRowSpacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </StackPanel>
+
             <!--  Favorite tools  -->
             <StackPanel Spacing="8">
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=FavoriteTools}" />

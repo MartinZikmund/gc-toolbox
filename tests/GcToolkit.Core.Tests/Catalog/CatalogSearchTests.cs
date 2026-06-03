@@ -13,8 +13,8 @@ public class CatalogSearchTests
 
         ToolDescriptor[] tools =
         [
-            new("coordinates.conversion", "Name_Conversion", "coordinates", ["wgs84", "gps"], null, typeof(object)),
-            new("coordinates.solution", "Name_Solution", "coordinates", ["answer"], null, typeof(object)),
+            new("coordinates.conversion", "Name_Conversion", "coordinates", ["wgs84", "gps"], "", typeof(object)),
+            new("coordinates.solution", "Name_Solution", "coordinates", ["answer"], "", typeof(object)),
         ];
 
         // Localized names: one accented Czech name to exercise accent-insensitive search.

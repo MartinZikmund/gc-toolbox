@@ -9,7 +9,7 @@ namespace GcToolkit.Core.Tests.Fakes;
 public sealed class StubCatalogService(params string[] toolIds) : ICatalogService
 {
     private readonly IReadOnlyList<ToolDescriptor> _tools =
-        [.. toolIds.Select(id => new ToolDescriptor(id, $"Name_{id}", "cat", [], null, typeof(object)))];
+        [.. toolIds.Select(id => new ToolDescriptor(id, $"Name_{id}", "cat", [], "", typeof(object)))];
 
     public IReadOnlyList<Category> GetCategories() => [];
 

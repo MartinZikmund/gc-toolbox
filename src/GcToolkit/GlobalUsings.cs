@@ -1,10 +1,11 @@
 global using System.Collections.Immutable;
-global using GcToolkit.Models;
-global using GcToolkit.Core.Services;
-global using GcToolkit.Services;
-global using GcToolkit.Services.Navigation;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
+global using GcToolkit.Core.Services;
+global using GcToolkit.Core.ViewModels;
+global using GcToolkit.Models;
+global using GcToolkit.Services;
+global using GcToolkit.Services.Navigation;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Localization;

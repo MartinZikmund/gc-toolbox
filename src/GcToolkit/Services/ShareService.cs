@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using GcToolkit.Core.Services;
 using GcToolkit.Services.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -8,15 +9,25 @@ public sealed class ShareService : IShareService
 {
     private readonly IWindowShellProvider _windowShellProvider;
     private string? _pendingTitle;
-    private string? _pendingUri;
+    private Action<DataPackage>? _pendingFill;
 
     public ShareService(IWindowShellProvider windowShellProvider)
         => _windowShellProvider = windowShellProvider;
 
     public Task ShareAsync(string title, string uri)
+        => ShowShareUi(title, data =>
+        {
+            data.SetWebLink(new Uri(uri));
+            data.SetText(uri);
+        });
+
+    public Task ShareTextAsync(string title, string text)
+        => ShowShareUi(title, data => data.SetText(text));
+
+    private Task ShowShareUi(string title, Action<DataPackage> fill)
     {
         _pendingTitle = title;
-        _pendingUri = uri;
+        _pendingFill = fill;
 
 #if !HAS_UNO
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
@@ -33,16 +44,16 @@ public sealed class ShareService : IShareService
             dtm.DataRequested -= OnDataRequested;
         }
 #else
-		var dtm = DataTransferManager.GetForCurrentView();
-		dtm.DataRequested += OnDataRequested;
-		try
-		{
-			DataTransferManager.ShowShareUI();
-		}
-		catch (COMException)
-		{
-			dtm.DataRequested -= OnDataRequested;
-		}
+        var dtm = DataTransferManager.GetForCurrentView();
+        dtm.DataRequested += OnDataRequested;
+        try
+        {
+            DataTransferManager.ShowShareUI();
+        }
+        catch (COMException)
+        {
+            dtm.DataRequested -= OnDataRequested;
+        }
 #endif
 
         return Task.CompletedTask;
@@ -52,14 +63,10 @@ public sealed class ShareService : IShareService
     {
         sender.DataRequested -= OnDataRequested;
         args.Request.Data.Properties.Title = _pendingTitle ?? string.Empty;
-        if (_pendingUri is not null)
-        {
-            args.Request.Data.SetWebLink(new Uri(_pendingUri));
-            args.Request.Data.SetText(_pendingUri);
-        }
+        _pendingFill?.Invoke(args.Request.Data);
 
         _pendingTitle = null;
-        _pendingUri = null;
+        _pendingFill = null;
     }
 
 #if !HAS_UNO
