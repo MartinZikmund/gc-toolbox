@@ -218,7 +218,64 @@
     <value>Caesarova šifra</value>
   </data>
   <data name="CaesarCipher_Tooltip" xml:space="preserve">
-    <value>Zašifrujte a dešifrujte text Caesarovým posunem.</value>
+    <value>Zašifrujte a dešifrujte Caesarův posun (včetně ROT13) — nebo zobrazte všechny posuny najednou.</value>
+  </data>
+  <data name="CaesarMode" xml:space="preserve">
+    <value>Abeceda</value>
+  </data>
+  <data name="CaesarModeLetters" xml:space="preserve">
+    <value>Písmena · ROT13</value>
+  </data>
+  <data name="CaesarModeDigits" xml:space="preserve">
+    <value>Číslice · ROT5</value>
+  </data>
+  <data name="CaesarModeAscii" xml:space="preserve">
+    <value>ASCII · ROT47</value>
+  </data>
+  <data name="CaesarEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="CaesarDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="CaesarShiftLabel" xml:space="preserve">
+    <value>Posun</value>
+  </data>
+  <data name="CaesarInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="CaesarInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="CaesarClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="CaesarShowAllShifts" xml:space="preserve">
+    <value>Zobrazit všechny posuny</value>
+  </data>
+  <data name="CaesarOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="CaesarSelfInverseNote" xml:space="preserve">
+    <value>Tento posun je sám sobě inverzní — stejné nastavení šifruje i dešifruje.</value>
+  </data>
+  <data name="CaesarAllShiftsLabel" xml:space="preserve">
+    <value>Všechny posuny</value>
+  </data>
+  <data name="CaesarCopyShift" xml:space="preserve">
+    <value>Kopírovat tento posun</value>
+  </data>
+  <data name="CaesarCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="CaesarShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="CaesarKeyLabel" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="CaesarKeyNote" xml:space="preserve">
+    <value>Každý symbol v horním řádku odpovídá symbolu pod ním.</value>
   </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
