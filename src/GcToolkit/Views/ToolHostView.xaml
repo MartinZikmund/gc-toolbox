@@ -1,4 +1,4 @@
-<local:ToolHostViewBase
+﻿<local:ToolHostViewBase
     x:Class="GcToolkit.Views.ToolHostView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,7 @@
     xmlns:markup="using:GcToolkit.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <ScrollViewer Padding="24">
+    <ScrollViewer MaxWidth="760" Padding="24">
         <StackPanel Spacing="16">
 
             <!--  Header: tool name + favorite toggle  -->

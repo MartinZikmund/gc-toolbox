@@ -1,4 +1,4 @@
-<local:MorseCodeViewBase
+﻿<local:MorseCodeViewBase
     x:Class="GcToolkit.Views.MorseCodeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,11 +6,8 @@
     xmlns:markup="using:GcToolkit.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Stretch"
-            Spacing="16">
+    <ScrollViewer MaxWidth="760" Padding="24">
+        <StackPanel Spacing="16">
 
             <!--  Header: tool name + favorite toggle  -->
             <Grid ColumnSpacing="12">
@@ -46,9 +43,7 @@
             </Grid>
 
             <!--  Direction  -->
-            <RadioButtons
-                MaxColumns="2"
-                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
                 <RadioButton Content="{markup:Localize Key=MorseTextToCode}" />
                 <RadioButton Content="{markup:Localize Key=MorseCodeToText}" />
             </RadioButtons>
@@ -174,9 +169,7 @@
                                 <TextBlock Text="{markup:Localize Key=MorsePlay}" />
                             </StackPanel>
                         </Button>
-                        <Button
-                            MinWidth="100"
-                            Command="{x:Bind ViewModel.StopCommand}">
+                        <Button MinWidth="100" Command="{x:Bind ViewModel.StopCommand}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon FontSize="16" Glyph="&#xE71A;" />
                                 <TextBlock Text="{markup:Localize Key=MorseStop}" />

@@ -1,4 +1,4 @@
-<local:RomanNumeralsViewBase
+﻿<local:RomanNumeralsViewBase
     x:Class="GcToolkit.Views.RomanNumeralsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,11 +29,8 @@
         </Style>
     </local:RomanNumeralsViewBase.Resources>
 
-    <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Stretch"
-            Spacing="16">
+    <ScrollViewer MaxWidth="760" Padding="24">
+        <StackPanel Spacing="16">
 
             <!--  Header: tool name + favorite toggle  -->
             <Grid ColumnSpacing="12">
