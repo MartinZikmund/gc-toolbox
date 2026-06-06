@@ -3003,4 +3003,58 @@
   <data name="AtbashKeyNote" xml:space="preserve">
     <value>Každé písmeno v horním řádku odpovídá písmenu pod ním; velikost písmen zůstává zachována a vše ostatní projde beze změny.</value>
   </data>
+  <data name="WordValue_Name" xml:space="preserve">
+    <value>Hodnota slova</value>
+  </data>
+  <data name="WordValue_Tooltip" xml:space="preserve">
+    <value>Sečtěte hodnoty písmen (A=1 … Z=26) a součet zredukujte na ciferný kořen.</value>
+  </data>
+  <data name="WordValueInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="WordValueInputPlaceholder" xml:space="preserve">
+    <value>Zadejte jedno nebo více slov…</value>
+  </data>
+  <data name="WordValueCountNumbers" xml:space="preserve">
+    <value>Počítat čísla</value>
+  </data>
+  <data name="WordValueClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="WordValueCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="WordValueShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="WordValueTotalLabel" xml:space="preserve">
+    <value>Celková hodnota</value>
+  </data>
+  <data name="WordValueCrossSumLabel" xml:space="preserve">
+    <value>Ciferný součet</value>
+  </data>
+  <data name="WordValueDigitalRootLabel" xml:space="preserve">
+    <value>Ciferný kořen</value>
+  </data>
+  <data name="WordValueReductionLabel" xml:space="preserve">
+    <value>Redukce</value>
+  </data>
+  <data name="WordValueBreakdownLabel" xml:space="preserve">
+    <value>Rozklad po slovech</value>
+  </data>
+  <data name="WordValueWordHeader" xml:space="preserve">
+    <value>Slovo</value>
+  </data>
+  <data name="WordValueValueHeader" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="WordValueNumbersLabel" xml:space="preserve">
+    <value>Čísla</value>
+  </data>
+  <data name="WordValueNumbersTotalLabel" xml:space="preserve">
+    <value>Součet čísel</value>
+  </data>
+  <data name="WordValueHelpNote" xml:space="preserve">
+    <value>Každé písmeno má hodnotu své pozice v abecedě (A=1, B=2, … Z=26); ostatní znaky se ignorují. Hodnoty písmen se sečtou pro každé slovo i celkově a poté se číslice součtu opakovaně sčítají, dokud nezbude jediná číslice – ciferný kořen.</value>
+  </data>
 </root>
