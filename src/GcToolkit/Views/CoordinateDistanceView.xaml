@@ -1,0 +1,241 @@
+﻿<local:CoordinateDistanceViewBase
+    x:Class="GcToolkit.Views.CoordinateDistanceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="760"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Two coordinate inputs: side by side on wide screens, stacked when narrow  -->
+            <Grid ColumnSpacing="12" RowSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition x:Name="PointBColumn" Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBox
+                    x:Name="PointABox"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Header="{markup:Localize Key=CoordinateDistancePointA}"
+                    PlaceholderText="{markup:Localize Key=CoordinateDistanceInputPlaceholder}"
+                    Text="{x:Bind ViewModel.PointAText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBox
+                    x:Name="PointBBox"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Header="{markup:Localize Key=CoordinateDistancePointB}"
+                    PlaceholderText="{markup:Localize Key=CoordinateDistanceInputPlaceholder}"
+                    Text="{x:Bind ViewModel.PointBText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="{markup:Localize Key=CoordinateDistanceInputHint}"
+                TextWrapping="Wrap" />
+
+            <!--  Parse error  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Results card — visible only once both points parse  -->
+            <Border
+                Padding="20"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Visibility="{x:Bind ViewModel.HasResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Spacing="16">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=CoordinateDistanceResults}" />
+
+                    <!--  Distance, in every unit  -->
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="{markup:Localize Key=CoordinateDistanceDistance}" />
+                        <Grid ColumnSpacing="12" RowSpacing="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Text="{x:Bind ViewModel.DistanceMetersText, Mode=OneWay}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Text="{x:Bind ViewModel.DistanceKilometersText, Mode=OneWay}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Text="{x:Bind ViewModel.DistanceFeetText, Mode=OneWay}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Text="{x:Bind ViewModel.DistanceMilesText, Mode=OneWay}" />
+                        </Grid>
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                    <!--  Bearings: initial and final  -->
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="{markup:Localize Key=CoordinateDistanceInitialBearing}" />
+                            <TextBlock
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Text="{x:Bind ViewModel.InitialBearingText, Mode=OneWay}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="{markup:Localize Key=CoordinateDistanceFinalBearing}" />
+                            <TextBlock
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Text="{x:Bind ViewModel.FinalBearingText, Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                    <!--  Midpoint (geocaching norm = degrees + decimal minutes)  -->
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="{markup:Localize Key=CoordinateDistanceMidpoint}" />
+                        <TextBox
+                            FontFamily="Consolas"
+                            FontSize="18"
+                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                            IsReadOnly="True"
+                            IsSpellCheckEnabled="False"
+                            Text="{x:Bind ViewModel.MidpointText, Mode=OneWay}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=CoordinateDistanceMidpointNote}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!--  Actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=CoordinateDistanceCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=CoordinateDistanceShare}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=CoordinateDistanceClear}" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  Stack the two coordinate inputs vertically on narrow windows  -->
+                        <Setter Target="PointBColumn.Width" Value="0" />
+                        <Setter Target="PointBBox.(Grid.Row)" Value="1" />
+                        <Setter Target="PointBBox.(Grid.Column)" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="560" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PointBColumn.Width" Value="*" />
+                        <Setter Target="PointBBox.(Grid.Row)" Value="0" />
+                        <Setter Target="PointBBox.(Grid.Column)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </ScrollViewer>
+</local:CoordinateDistanceViewBase>
