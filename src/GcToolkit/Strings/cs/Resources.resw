@@ -192,7 +192,6 @@
   <data name="Category_Text" xml:space="preserve">
     <value>Text</value>
   </data>
-  <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Převody</value>
   </data>
@@ -3223,7 +3222,6 @@
   <data name="AsciiInvalidInput" xml:space="preserve">
     <value>Vstup není platný ve formátu {0}.</value>
   </data>
-  <!-- Numbers to letters / A1Z26 -->
   <data name="NumbersToLetters_Name" xml:space="preserve">
     <value>Čísla na písmena</value>
   </data>
@@ -3298,5 +3296,59 @@
   </data>
   <data name="NumbersShare" xml:space="preserve">
     <value>Sdílet</value>
+  </data>
+  <data name="BaseConverterInputLabel" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="BaseConverterInputPlaceholder" xml:space="preserve">
+    <value>Zadejte číslo (číslice 0–9, A–Z)…</value>
+  </data>
+  <data name="BaseConverterFromBase" xml:space="preserve">
+    <value>Ze soustavy</value>
+  </data>
+  <data name="BaseConverterToBase" xml:space="preserve">
+    <value>Do soustavy</value>
+  </data>
+  <data name="BaseConverterClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BaseConverterCommonLabel" xml:space="preserve">
+    <value>Všechny soustavy</value>
+  </data>
+  <data name="BaseConverterTargetLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BaseConverterBinary" xml:space="preserve">
+    <value>Dvojková (základ 2)</value>
+  </data>
+  <data name="BaseConverterOctal" xml:space="preserve">
+    <value>Osmičková (základ 8)</value>
+  </data>
+  <data name="BaseConverterDecimal" xml:space="preserve">
+    <value>Desítková (základ 10)</value>
+  </data>
+  <data name="BaseConverterHex" xml:space="preserve">
+    <value>Šestnáctková (základ 16)</value>
+  </data>
+  <data name="BaseConverterCopyRow" xml:space="preserve">
+    <value>Kopírovat tuto hodnotu</value>
+  </data>
+  <data name="BaseConverterCopy" xml:space="preserve">
+    <value>Kopírovat vše</value>
+  </data>
+  <data name="BaseConverterShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BaseConverterInvalidNotice" xml:space="preserve">
+    <value>To není platné číslo v soustavě o základu {0}. Zkontrolujte číslice a zvolený základ.</value>
+  </data>
+  <data name="BaseConverterTargetLine" xml:space="preserve">
+    <value>Soustava {0}: {1}</value>
+  </data>
+  <data name="BaseConverterDigitsLabel" xml:space="preserve">
+    <value>Číslice</value>
+  </data>
+  <data name="BaseConverterDigitsNote" xml:space="preserve">
+    <value>Soustava používá tento počet úvodních číslic v daném pořadí. U zadávání se nerozlišují velká a malá písmena.</value>
   </data>
 </root>
