@@ -205,6 +205,51 @@
   <data name="CoordinateConversion_Tooltip" xml:space="preserve">
     <value>Convert coordinates between formats (WGS84, UTM, …).</value>
   </data>
+  <data name="CoordConvInputLabel" xml:space="preserve">
+    <value>Coordinate</value>
+  </data>
+  <data name="CoordConvInputPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordConvInputHint" xml:space="preserve">
+    <value>Enter one coordinate in any notation — decimal degrees, degrees decimal minutes, degrees minutes seconds, UTM or MGRS. The notation is detected automatically.</value>
+  </data>
+  <data name="CoordConvParseError" xml:space="preserve">
+    <value>Could not recognize this coordinate. Try a notation like “N 49 12.345 E 016 34.567”, “49.205750 16.576117”, “33U 614803 5451524” or “33U XQ 14803 51524”.</value>
+  </data>
+  <data name="CoordConvDetectedLabel" xml:space="preserve">
+    <value>Detected notation</value>
+  </data>
+  <data name="CoordConvAllFormatsLabel" xml:space="preserve">
+    <value>All notations</value>
+  </data>
+  <data name="CoordConvFormatDecimalDegrees" xml:space="preserve">
+    <value>Decimal degrees</value>
+  </data>
+  <data name="CoordConvFormatDegreesDecimalMinutes" xml:space="preserve">
+    <value>Degrees decimal minutes</value>
+  </data>
+  <data name="CoordConvFormatDegreesMinutesSeconds" xml:space="preserve">
+    <value>Degrees minutes seconds</value>
+  </data>
+  <data name="CoordConvFormatUtm" xml:space="preserve">
+    <value>UTM</value>
+  </data>
+  <data name="CoordConvFormatMgrs" xml:space="preserve">
+    <value>MGRS</value>
+  </data>
+  <data name="CoordConvCopyFormat" xml:space="preserve">
+    <value>Copy {0}</value>
+  </data>
+  <data name="CoordConvCopyAll" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="CoordConvShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="CoordConvClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="CoordinateDistance_Name" xml:space="preserve">
     <value>Distance &amp; bearing</value>
   </data>

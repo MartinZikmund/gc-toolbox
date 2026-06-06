@@ -2,18 +2,22 @@ using GcToolkit.Core.Recents;
 
 namespace GcToolkit.Core.Tests.Fakes;
 
-/// <summary>No-op <see cref="IRecentsService"/> that records opens, for tool ViewModel tests.</summary>
+/// <summary>In-memory <see cref="IRecentsService"/> recording opens; enough for tool-VM activation.</summary>
 public sealed class FakeRecentsService : IRecentsService
 {
     private readonly List<string> _opened = [];
 
     public IReadOnlyList<string> Opened => _opened;
 
+    public int ClearCallCount { get; private set; }
+
     public event EventHandler? RecentsChanged;
 
     public Task RecordOpenedAsync(string toolId)
     {
-        _opened.Add(toolId);
+        _opened.Remove(toolId);
+        _opened.Insert(0, toolId);
+        RecentsChanged?.Invoke(this, EventArgs.Empty);
         return Task.CompletedTask;
     }
 
@@ -21,6 +25,7 @@ public sealed class FakeRecentsService : IRecentsService
 
     public Task ClearAsync()
     {
+        ClearCallCount++;
         _opened.Clear();
         RecentsChanged?.Invoke(this, EventArgs.Empty);
         return Task.CompletedTask;
