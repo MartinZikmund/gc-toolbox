@@ -3504,4 +3504,133 @@
   <data name="VigenereKeyLengthTo" xml:space="preserve">
     <value>do</value>
   </data>
+  <data name="ResistorCode_Name" xml:space="preserve">
+    <value>Barevný kód rezistoru</value>
+  </data>
+  <data name="ResistorCode_Tooltip" xml:space="preserve">
+    <value>Dekódujte barevné proužky rezistoru na hodnotu, nebo zakódujte hodnotu na proužky.</value>
+  </data>
+  <data name="ResistorMode" xml:space="preserve">
+    <value>Režim</value>
+  </data>
+  <data name="ResistorModeDecode" xml:space="preserve">
+    <value>Barvy → hodnota</value>
+  </data>
+  <data name="ResistorModeEncode" xml:space="preserve">
+    <value>Hodnota → barvy</value>
+  </data>
+  <data name="ResistorBands" xml:space="preserve">
+    <value>Proužky</value>
+  </data>
+  <data name="ResistorBands4" xml:space="preserve">
+    <value>4 proužky</value>
+  </data>
+  <data name="ResistorBands5" xml:space="preserve">
+    <value>5 proužků</value>
+  </data>
+  <data name="ResistorBands6" xml:space="preserve">
+    <value>6 proužků</value>
+  </data>
+  <data name="ResistorBandDigit" xml:space="preserve">
+    <value>Číslice {0}</value>
+  </data>
+  <data name="ResistorBandMultiplier" xml:space="preserve">
+    <value>Násobitel</value>
+  </data>
+  <data name="ResistorBandTolerance" xml:space="preserve">
+    <value>Tolerance</value>
+  </data>
+  <data name="ResistorBandTempCo" xml:space="preserve">
+    <value>Teplotní součinitel</value>
+  </data>
+  <data name="ResistorValueLabel" xml:space="preserve">
+    <value>Odpor (ohmy)</value>
+  </data>
+  <data name="ResistorValuePlaceholder" xml:space="preserve">
+    <value>např. 4700 nebo 4.7k</value>
+  </data>
+  <data name="ResistorResistanceLabel" xml:space="preserve">
+    <value>Odpor</value>
+  </data>
+  <data name="ResistorToleranceValue" xml:space="preserve">
+    <value>± {0} %</value>
+  </data>
+  <data name="ResistorTempCoValue" xml:space="preserve">
+    <value>{0} ppm/K</value>
+  </data>
+  <data name="ResistorCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="ResistorShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="ResistorClear" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="ResistorColor_Black" xml:space="preserve">
+    <value>Černá</value>
+  </data>
+  <data name="ResistorColor_Brown" xml:space="preserve">
+    <value>Hnědá</value>
+  </data>
+  <data name="ResistorColor_Red" xml:space="preserve">
+    <value>Červená</value>
+  </data>
+  <data name="ResistorColor_Orange" xml:space="preserve">
+    <value>Oranžová</value>
+  </data>
+  <data name="ResistorColor_Yellow" xml:space="preserve">
+    <value>Žlutá</value>
+  </data>
+  <data name="ResistorColor_Green" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="ResistorColor_Blue" xml:space="preserve">
+    <value>Modrá</value>
+  </data>
+  <data name="ResistorColor_Violet" xml:space="preserve">
+    <value>Fialová</value>
+  </data>
+  <data name="ResistorColor_Grey" xml:space="preserve">
+    <value>Šedá</value>
+  </data>
+  <data name="ResistorColor_White" xml:space="preserve">
+    <value>Bílá</value>
+  </data>
+  <data name="ResistorColor_Gold" xml:space="preserve">
+    <value>Zlatá</value>
+  </data>
+  <data name="ResistorColor_Silver" xml:space="preserve">
+    <value>Stříbrná</value>
+  </data>
+  <data name="ResistorColor_None" xml:space="preserve">
+    <value>Žádná</value>
+  </data>
+  <data name="ResistorErrorBandCount" xml:space="preserve">
+    <value>Vyberte platný počet proužků.</value>
+  </data>
+  <data name="ResistorErrorDigitBand" xml:space="preserve">
+    <value>Proužek číslice musí být barva od černé po bílou.</value>
+  </data>
+  <data name="ResistorErrorMultiplierBand" xml:space="preserve">
+    <value>Tuto barvu nelze použít jako násobitel.</value>
+  </data>
+  <data name="ResistorErrorToleranceBand" xml:space="preserve">
+    <value>Tuto barvu nelze použít jako toleranci.</value>
+  </data>
+  <data name="ResistorErrorTempCoBand" xml:space="preserve">
+    <value>Tuto barvu nelze použít jako teplotní součinitel.</value>
+  </data>
+  <data name="ResistorErrorTolerance" xml:space="preserve">
+    <value>Žádný barevný proužek neodpovídá této toleranci.</value>
+  </data>
+  <data name="ResistorErrorTempCo" xml:space="preserve">
+    <value>Žádný barevný proužek neodpovídá tomuto teplotnímu součiniteli.</value>
+  </data>
+  <data name="ResistorErrorValueRange" xml:space="preserve">
+    <value>Zadejte odpor větší než nula.</value>
+  </data>
+  <data name="ResistorErrorValue" xml:space="preserve">
+    <value>Tuto hodnotu nelze zobrazit s těmito proužky. Zkuste jinou hodnotu nebo více proužků.</value>
+  </data>
 </root>
