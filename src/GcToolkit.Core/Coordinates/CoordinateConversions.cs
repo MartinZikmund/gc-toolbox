@@ -10,7 +10,7 @@ public static class CoordinateConversions
 {
     /// <summary>The notations the conversion tool emits, in display order (declaration order of
     /// <see cref="CoordinateFormat"/>): Decimal Degrees, Degrees Decimal Minutes, Degrees Minutes
-    /// Seconds, UTM and MGRS.</summary>
+    /// Seconds, UTM, MGRS, USNG, Dutch RD and British OSGB grid.</summary>
     public static readonly IReadOnlyList<CoordinateFormat> AllFormats =
     [
         CoordinateFormat.DecimalDegrees,
@@ -18,6 +18,9 @@ public static class CoordinateConversions
         CoordinateFormat.DegreesMinutesSeconds,
         CoordinateFormat.Utm,
         CoordinateFormat.Mgrs,
+        CoordinateFormat.Usng,
+        CoordinateFormat.DutchRd,
+        CoordinateFormat.BritishGrid,
     ];
 
     /// <summary>Formats <paramref name="coordinate"/> in every notation in <see cref="AllFormats"/>.</summary>

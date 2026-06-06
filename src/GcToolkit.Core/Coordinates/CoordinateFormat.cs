@@ -17,4 +17,13 @@ public enum CoordinateFormat
 
     /// <summary>Military Grid Reference System, e.g. <c>33U VR 05083 44673</c>.</summary>
     Mgrs,
+
+    /// <summary>US National Grid, e.g. <c>18S UJ 23408 06479</c>. On WGS84 this is identical to MGRS.</summary>
+    Usng,
+
+    /// <summary>Dutch RD (Rijksdriehoek / "RD/AME-7") easting/northing in metres, e.g. <c>155000 463000</c>.</summary>
+    DutchRd,
+
+    /// <summary>British OSGB36 National Grid ("OGB-7"), e.g. <c>TG 51409 13177</c>.</summary>
+    BritishGrid,
 }

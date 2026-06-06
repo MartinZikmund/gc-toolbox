@@ -62,4 +62,30 @@ public class CoordinateFormatterTests
         StringAssert.StartsWith(mgrs, "18S");
         StringAssert.Contains(mgrs, "UJ");
     }
+
+    [TestMethod]
+    public void Format_Usng_EqualsMgrs()
+    {
+        // USNG == MGRS on WGS84.
+        var c = new GeoCoordinate(38.8894477, -77.0361063);
+        Assert.AreEqual(
+            CoordinateFormatter.Format(c, CoordinateFormat.Mgrs),
+            CoordinateFormatter.Format(c, CoordinateFormat.Usng));
+    }
+
+    [TestMethod]
+    public void Format_DutchRd_RendersEastingNorthing()
+    {
+        // Amersfoort origin -> 155000 463000.
+        var c = new GeoCoordinate(52.15517440, 5.38720621);
+        Assert.AreEqual("155000 463000", CoordinateFormatter.Format(c, CoordinateFormat.DutchRd));
+    }
+
+    [TestMethod]
+    public void Format_BritishGrid_RendersGridReference()
+    {
+        // Caister -> TG 51409 13177.
+        var c = new GeoCoordinate(52.65798, 1.71605);
+        Assert.AreEqual("TG 51409 13177", CoordinateFormatter.Format(c, CoordinateFormat.BritishGrid));
+    }
 }

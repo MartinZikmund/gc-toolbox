@@ -24,11 +24,12 @@ public class CoordinateConversionTests
     private const string GoldenDms = "N 49° 12' 20.70\" E 016° 34' 34.02\"";
     private const string GoldenUtm = "33U 614803 5451524";
     private const string GoldenMgrs = "33U XQ 14803 51524";
+    private const string GoldenUsng = "33U XQ 14803 51524"; // USNG == MGRS on WGS84
 
     // ---- Helper: ToAllFormats ----
 
     [TestMethod]
-    public void ToAllFormats_ReturnsAllFiveFormatsInDeclarationOrder()
+    public void ToAllFormats_ReturnsAllEightFormatsInDeclarationOrder()
     {
         var rows = CoordinateConversions.ToAllFormats(Golden);
 
@@ -40,6 +41,9 @@ public class CoordinateConversionTests
                 CoordinateFormat.DegreesMinutesSeconds,
                 CoordinateFormat.Utm,
                 CoordinateFormat.Mgrs,
+                CoordinateFormat.Usng,
+                CoordinateFormat.DutchRd,
+                CoordinateFormat.BritishGrid,
             },
             rows.Select(r => r.Format).ToArray());
     }
@@ -54,6 +58,11 @@ public class CoordinateConversionTests
         Assert.AreEqual(GoldenDms, ValueOf(rows, CoordinateFormat.DegreesMinutesSeconds));
         Assert.AreEqual(GoldenUtm, ValueOf(rows, CoordinateFormat.Utm));
         Assert.AreEqual(GoldenMgrs, ValueOf(rows, CoordinateFormat.Mgrs));
+        Assert.AreEqual(GoldenUsng, ValueOf(rows, CoordinateFormat.Usng));
+        // RD and British grid only make sense over their regions; just confirm they are present
+        // and non-empty (their exact values are pinned in DutchRdTests / BritishGridTests).
+        Assert.IsFalse(string.IsNullOrWhiteSpace(ValueOf(rows, CoordinateFormat.DutchRd)));
+        Assert.IsFalse(string.IsNullOrWhiteSpace(ValueOf(rows, CoordinateFormat.BritishGrid)));
     }
 
     [TestMethod]
@@ -68,7 +77,7 @@ public class CoordinateConversionTests
     // ---- ViewModel: live multi-format output ----
 
     [TestMethod]
-    public void Vm_DecimalDegreesInput_PopulatesAllFiveFormats()
+    public void Vm_DecimalDegreesInput_PopulatesAllEightFormats()
     {
         var vm = CreateViewModel();
 
@@ -76,12 +85,37 @@ public class CoordinateConversionTests
 
         Assert.IsTrue(vm.HasResult);
         Assert.IsFalse(vm.HasError);
-        Assert.AreEqual(5, vm.Results.Count);
+        Assert.AreEqual(8, vm.Results.Count);
         Assert.AreEqual(GoldenDd, RowValue(vm, CoordinateFormat.DecimalDegrees));
         Assert.AreEqual(GoldenDdm, RowValue(vm, CoordinateFormat.DegreesDecimalMinutes));
         Assert.AreEqual(GoldenDms, RowValue(vm, CoordinateFormat.DegreesMinutesSeconds));
         Assert.AreEqual(GoldenUtm, RowValue(vm, CoordinateFormat.Utm));
         Assert.AreEqual(GoldenMgrs, RowValue(vm, CoordinateFormat.Mgrs));
+        Assert.AreEqual(GoldenUsng, RowValue(vm, CoordinateFormat.Usng));
+        Assert.IsFalse(string.IsNullOrWhiteSpace(RowValue(vm, CoordinateFormat.DutchRd)));
+        Assert.IsFalse(string.IsNullOrWhiteSpace(RowValue(vm, CoordinateFormat.BritishGrid)));
+    }
+
+    [TestMethod]
+    public void Vm_Results_ExposeAllEightFormatsInDeclarationOrder()
+    {
+        var vm = CreateViewModel();
+
+        vm.InputText = GoldenDd;
+
+        CollectionAssert.AreEqual(
+            new[]
+            {
+                CoordinateFormat.DecimalDegrees,
+                CoordinateFormat.DegreesDecimalMinutes,
+                CoordinateFormat.DegreesMinutesSeconds,
+                CoordinateFormat.Utm,
+                CoordinateFormat.Mgrs,
+                CoordinateFormat.Usng,
+                CoordinateFormat.DutchRd,
+                CoordinateFormat.BritishGrid,
+            },
+            vm.Results.Select(r => r.Format).ToArray());
     }
 
     [TestMethod]

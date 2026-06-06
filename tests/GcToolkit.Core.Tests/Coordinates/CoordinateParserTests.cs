@@ -79,6 +79,68 @@ public class CoordinateParserTests
         Assert.AreEqual(CoordinateFormat.Mgrs, format);
     }
 
+    // ---- USNG (== MGRS on WGS84) ----
+
+    [DataTestMethod]
+    [DataRow("18S UJ 23408 06479")]
+    [DataRow("18SUJ2340806479")]
+    public void TryParse_Usng_DetectsAsMgrs(string text)
+    {
+        // USNG and MGRS share a notation; auto-detect reports MGRS (they are identical on WGS84).
+        Assert.IsTrue(CoordinateParser.TryParse(text, out _, out var format), text);
+        Assert.AreEqual(CoordinateFormat.Mgrs, format);
+    }
+
+    [TestMethod]
+    public void TryParse_ExplicitUsng_Parses()
+    {
+        Assert.IsTrue(CoordinateParser.TryParse("18S UJ 23408 06479", CoordinateFormat.Usng, out var c));
+        Assert.AreEqual(38.8894477, c.Latitude, 1e-3);
+        Assert.AreEqual(-77.0361063, c.Longitude, 1e-3);
+    }
+
+    // ---- Dutch RD ----
+
+    [DataTestMethod]
+    [DataRow("155000 463000", 52.15517440, 5.38720621)]
+    [DataRow("121687 487484", 52.37422, 4.89801)]
+    public void TryParse_DutchRd_DetectsAndParses(string text, double lat, double lon)
+    {
+        Assert.IsTrue(CoordinateParser.TryParse(text, out var c, out var format), text);
+        Assert.AreEqual(CoordinateFormat.DutchRd, format);
+        Assert.AreEqual(lat, c.Latitude, 1e-4, "lat");
+        Assert.AreEqual(lon, c.Longitude, 1e-4, "lon");
+    }
+
+    [TestMethod]
+    public void TryParse_ExplicitDutchRd_Parses()
+    {
+        Assert.IsTrue(CoordinateParser.TryParse("155000 463000", CoordinateFormat.DutchRd, out var c));
+        Assert.AreEqual(52.15517440, c.Latitude, 1e-5);
+        Assert.AreEqual(5.38720621, c.Longitude, 1e-5);
+    }
+
+    // ---- British OSGB grid ----
+
+    [DataTestMethod]
+    [DataRow("TG 51409 13177")]
+    [DataRow("TG5140913177")]
+    public void TryParse_BritishGrid_DetectsAndParses(string text)
+    {
+        Assert.IsTrue(CoordinateParser.TryParse(text, out var c, out var format), text);
+        Assert.AreEqual(CoordinateFormat.BritishGrid, format);
+        Assert.AreEqual(52.65798, c.Latitude, 1e-3, "lat");
+        Assert.AreEqual(1.71605, c.Longitude, 1e-3, "lon");
+    }
+
+    [TestMethod]
+    public void TryParse_ExplicitBritishGrid_Parses()
+    {
+        Assert.IsTrue(CoordinateParser.TryParse("TG 51409 13177", CoordinateFormat.BritishGrid, out var c));
+        Assert.AreEqual(52.65798, c.Latitude, 1e-3);
+        Assert.AreEqual(1.71605, c.Longitude, 1e-3);
+    }
+
     // ---- Explicit-format overload ----
 
     [TestMethod]
@@ -116,6 +178,7 @@ public class CoordinateParserTests
     [DataRow(CoordinateFormat.DegreesMinutesSeconds)]
     [DataRow(CoordinateFormat.Utm)]
     [DataRow(CoordinateFormat.Mgrs)]
+    [DataRow(CoordinateFormat.Usng)]
     public void ParseFormat_RoundTrips(CoordinateFormat format)
     {
         var original = new GeoCoordinate(49.205750, 16.576117);
@@ -123,6 +186,19 @@ public class CoordinateParserTests
         Assert.IsTrue(CoordinateParser.TryParse(text, format, out var parsed), text);
         Assert.AreEqual(original.Latitude, parsed.Latitude, 1e-3, $"lat for '{text}'");
         Assert.AreEqual(original.Longitude, parsed.Longitude, 1e-3, $"lon for '{text}'");
+    }
+
+    [DataTestMethod]
+    [DataRow(CoordinateFormat.DutchRd, 52.15517440, 5.38720621)]
+    [DataRow(CoordinateFormat.BritishGrid, 52.65798, 1.71605)]
+    public void ParseFormat_RegionalGrids_RoundTrip(CoordinateFormat format, double lat, double lon)
+    {
+        var original = new GeoCoordinate(lat, lon);
+        var text = CoordinateFormatter.Format(original, format);
+        Assert.IsTrue(CoordinateParser.TryParse(text, format, out var parsed), text);
+        // Metre-truncated grids round-trip within ~a few metres (~1e-4 deg).
+        Assert.AreEqual(original.Latitude, parsed.Latitude, 1e-4, $"lat for '{text}'");
+        Assert.AreEqual(original.Longitude, parsed.Longitude, 1e-4, $"lon for '{text}'");
     }
 
     [DataTestMethod]

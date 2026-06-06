@@ -238,6 +238,15 @@
   <data name="CoordConvFormatMgrs" xml:space="preserve">
     <value>MGRS</value>
   </data>
+  <data name="CoordConvFormatUsng" xml:space="preserve">
+    <value>USNG</value>
+  </data>
+  <data name="CoordConvFormatDutchRd" xml:space="preserve">
+    <value>Nizozemská síť (RD/AME-7)</value>
+  </data>
+  <data name="CoordConvFormatBritishGrid" xml:space="preserve">
+    <value>Britská síť (OGB-7)</value>
+  </data>
   <data name="CoordConvCopyFormat" xml:space="preserve">
     <value>Kopírovat {0}</value>
   </data>

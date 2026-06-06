@@ -238,6 +238,15 @@
   <data name="CoordConvFormatMgrs" xml:space="preserve">
     <value>MGRS</value>
   </data>
+  <data name="CoordConvFormatUsng" xml:space="preserve">
+    <value>USNG</value>
+  </data>
+  <data name="CoordConvFormatDutchRd" xml:space="preserve">
+    <value>Dutch grid (RD/AME-7)</value>
+  </data>
+  <data name="CoordConvFormatBritishGrid" xml:space="preserve">
+    <value>British grid (OGB-7)</value>
+  </data>
   <data name="CoordConvCopyFormat" xml:space="preserve">
     <value>Copy {0}</value>
   </data>

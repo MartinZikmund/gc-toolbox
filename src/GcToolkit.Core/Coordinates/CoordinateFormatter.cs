@@ -17,6 +17,9 @@ public static class CoordinateFormatter
         CoordinateFormat.DegreesMinutesSeconds => FormatDegreesMinutesSeconds(c),
         CoordinateFormat.Utm => Utm.FromLatLon(c).ToString(),
         CoordinateFormat.Mgrs => Mgrs.FromLatLon(c),
+        CoordinateFormat.Usng => Usng.FromLatLon(c),
+        CoordinateFormat.DutchRd => DutchRd.FromLatLon(c).ToString(),
+        CoordinateFormat.BritishGrid => BritishGrid.FromLatLon(c),
         _ => FormatDecimalDegrees(c),
     };
 

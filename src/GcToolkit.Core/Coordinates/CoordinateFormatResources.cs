@@ -12,6 +12,9 @@ public static class CoordinateFormatResources
         CoordinateFormat.DegreesMinutesSeconds => "CoordConvFormatDegreesMinutesSeconds",
         CoordinateFormat.Utm => "CoordConvFormatUtm",
         CoordinateFormat.Mgrs => "CoordConvFormatMgrs",
+        CoordinateFormat.Usng => "CoordConvFormatUsng",
+        CoordinateFormat.DutchRd => "CoordConvFormatDutchRd",
+        CoordinateFormat.BritishGrid => "CoordConvFormatBritishGrid",
         _ => "CoordConvFormatDecimalDegrees",
     };
 }
