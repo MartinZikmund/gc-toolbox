@@ -6,43 +6,45 @@
     xmlns:markup="using:GcToolkit.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <ScrollViewer MaxWidth="760" Padding="24">
-        <StackPanel Spacing="16">
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
 
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Style="{ThemeResource TitleLargeTextBlockStyle}"
-                    Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                    TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
 
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Center"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
 
-            <!--  Placeholder notice  -->
-            <InfoBar
-                IsClosable="False"
-                IsOpen="{x:Bind ViewModel.IsPlaceholder, Mode=OneWay}"
-                Message="{markup:Localize Key=PlaceholderToolNotice}"
-                Severity="Informational" />
+                <!--  Placeholder notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.IsPlaceholder, Mode=OneWay}"
+                    Message="{markup:Localize Key=PlaceholderToolNotice}"
+                    Severity="Informational" />
 
-        </StackPanel>
-    </ScrollViewer>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </local:ToolHostViewBase>
