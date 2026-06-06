@@ -192,6 +192,7 @@
   <data name="Category_Text" xml:space="preserve">
     <value>Text</value>
   </data>
+  <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Conversion</value>
   </data>
@@ -3221,5 +3222,60 @@
   </data>
   <data name="AsciiInvalidInput" xml:space="preserve">
     <value>The input isn't valid {0}.</value>
+  </data>
+  <!-- Numbers to letters / A1Z26 -->
+  <data name="NumbersToLetters_Name" xml:space="preserve">
+    <value>Numbers to letters</value>
+  </data>
+  <data name="NumbersToLetters_Tooltip" xml:space="preserve">
+    <value>Convert between letters and their A1Z26 numbers (A=1 … Z=26), both ways.</value>
+  </data>
+  <data name="NumbersLettersToNumbers" xml:space="preserve">
+    <value>Letters → Numbers</value>
+  </data>
+  <data name="NumbersNumbersToLetters" xml:space="preserve">
+    <value>Numbers → Letters</value>
+  </data>
+  <data name="NumbersInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="NumbersInputPlaceholderLetters" xml:space="preserve">
+    <value>Type letters to convert to numbers…</value>
+  </data>
+  <data name="NumbersInputPlaceholderNumbers" xml:space="preserve">
+    <value>Type numbers (1–26) separated by the separator…</value>
+  </data>
+  <data name="NumbersOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="NumbersOptionsLabel" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="NumbersSeparatorLabel" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="NumbersSeparatorPlaceholder" xml:space="preserve">
+    <value>space</value>
+  </data>
+  <data name="NumbersKeepNonLetters" xml:space="preserve">
+    <value>Keep other characters</value>
+  </data>
+  <data name="NumbersUpperCase" xml:space="preserve">
+    <value>Upper-case output</value>
+  </data>
+  <data name="NumbersWrapModulo" xml:space="preserve">
+    <value>Wrap values outside 1–26 (mod 26)</value>
+  </data>
+  <data name="NumbersWrapNote" xml:space="preserve">
+    <value>Off: values outside 1–26 (and non-numbers) show as #. On: they wrap, so 27 → A.</value>
+  </data>
+  <data name="NumbersClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="NumbersCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NumbersShare" xml:space="preserve">
+    <value>Share</value>
   </data>
 </root>

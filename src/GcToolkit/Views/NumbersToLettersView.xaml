@@ -1,0 +1,138 @@
+﻿<local:NumbersToLettersViewBase
+    x:Class="GcToolkit.Views.NumbersToLettersView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="760"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Direction  -->
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=NumbersLettersToNumbers}" />
+                <RadioButton Content="{markup:Localize Key=NumbersNumbersToLetters}" />
+            </RadioButtons>
+
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=NumbersInputLabel}"
+                IsSpellCheckEnabled="False"
+                PlaceholderText="{x:Bind ViewModel.InputPlaceholder, Mode=OneWay}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <!--  Options  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersOptionsLabel}" />
+
+                    <TextBox
+                        MaxWidth="200"
+                        HorizontalAlignment="Left"
+                        Header="{markup:Localize Key=NumbersSeparatorLabel}"
+                        IsSpellCheckEnabled="False"
+                        PlaceholderText="{markup:Localize Key=NumbersSeparatorPlaceholder}"
+                        Text="{x:Bind ViewModel.Separator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!--  Encode-only option: keep non-letters  -->
+                    <ToggleSwitch
+                        Header="{markup:Localize Key=NumbersKeepNonLetters}"
+                        IsOn="{x:Bind ViewModel.KeepNonLetters, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <!--  Decode-only options: case + wrap  -->
+                    <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                        <ToggleSwitch Header="{markup:Localize Key=NumbersUpperCase}" IsOn="{x:Bind ViewModel.UpperCase, Mode=TwoWay}" />
+                        <ToggleSwitch Header="{markup:Localize Key=NumbersWrapModulo}" IsOn="{x:Bind ViewModel.WrapModulo, Mode=TwoWay}" />
+                        <InfoBar
+                            IsClosable="False"
+                            IsOpen="True"
+                            Message="{markup:Localize Key=NumbersWrapNote}"
+                            Severity="Informational" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!--  Actions row  -->
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=NumbersClear}" />
+            </StackPanel>
+
+            <!--  Output  -->
+            <StackPanel Spacing="8">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersOutputLabel}" />
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=NumbersCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=NumbersShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</local:NumbersToLettersViewBase>
