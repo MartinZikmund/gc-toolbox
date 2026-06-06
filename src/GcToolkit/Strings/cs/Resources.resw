@@ -2860,4 +2860,71 @@
   <data name="PhoneKeypadCandidatesHeader" xml:space="preserve">
     <value>Možná slova</value>
   </data>
+  <!-- Tool: Coordinate projection -->
+  <data name="CoordinateProjectionStartLabel" xml:space="preserve">
+    <value>Výchozí souřadnice</value>
+  </data>
+  <data name="CoordinateProjectionStartPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordinateProjectionAngleLabel" xml:space="preserve">
+    <value>Úhel (°)</value>
+  </data>
+  <data name="CoordinateProjectionAnglePlaceholder" xml:space="preserve">
+    <value>0–360</value>
+  </data>
+  <data name="CoordinateProjectionAngleHint" xml:space="preserve">
+    <value>Úhel se měří ve stupních po směru hodinových ručiček od severu (0° = S, 90° = V, 180° = J, 270° = Z).</value>
+  </data>
+  <data name="CoordinateProjectionDistanceLabel" xml:space="preserve">
+    <value>Vzdálenost</value>
+  </data>
+  <data name="CoordinateProjectionDistancePlaceholder" xml:space="preserve">
+    <value>např. 100</value>
+  </data>
+  <data name="CoordinateProjectionUnitLabel" xml:space="preserve">
+    <value>Jednotka</value>
+  </data>
+  <data name="CoordinateProjectionUnitMeter" xml:space="preserve">
+    <value>Metr</value>
+  </data>
+  <data name="CoordinateProjectionUnitKilometer" xml:space="preserve">
+    <value>Kilometr</value>
+  </data>
+  <data name="CoordinateProjectionUnitFeet" xml:space="preserve">
+    <value>Stopa</value>
+  </data>
+  <data name="CoordinateProjectionUnitMile" xml:space="preserve">
+    <value>Míle</value>
+  </data>
+  <data name="CoordinateProjectionResultLabel" xml:space="preserve">
+    <value>Vypočítaná souřadnice</value>
+  </data>
+  <data name="CoordinateProjectionFormatDdm" xml:space="preserve">
+    <value>Stupně a desetinné minuty (DDM)</value>
+  </data>
+  <data name="CoordinateProjectionFormatDd" xml:space="preserve">
+    <value>Desetinné stupně (DD)</value>
+  </data>
+  <data name="CoordinateProjectionFormatDms" xml:space="preserve">
+    <value>Stupně, minuty, vteřiny (DMS)</value>
+  </data>
+  <data name="CoordinateProjectionCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="CoordinateProjectionShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="CoordinateProjectionClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="CoordinateProjectionErrorStart" xml:space="preserve">
+    <value>Zadejte platnou výchozí souřadnici (např. N 49 12.345 E 016 34.567).</value>
+  </data>
+  <data name="CoordinateProjectionErrorAngle" xml:space="preserve">
+    <value>Zadejte úhel jako číslo ve stupních.</value>
+  </data>
+  <data name="CoordinateProjectionErrorDistance" xml:space="preserve">
+    <value>Zadejte vzdálenost jako číslo.</value>
+  </data>
 </root>
