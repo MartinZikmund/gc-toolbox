@@ -171,11 +171,9 @@
   <data name="RateAppMessage" xml:space="preserve">
     <value>Pokud r&#225;di pou&#382;&#237;v&#225;te tuto aplikaci, nev&#225;hejte ji ohodnotit. Va&#353;e zp&#283;tn&#225; vazba n&#225;m pom&#225;h&#225;!</value>
   </data>
-  <!-- Shell &amp; navigation -->
   <data name="Catalog" xml:space="preserve">
     <value>Katalog</value>
   </data>
-  <!-- Categories -->
   <data name="Category_Coordinates" xml:space="preserve">
     <value>Souřadnice</value>
   </data>
@@ -194,11 +192,9 @@
   <data name="Category_Text" xml:space="preserve">
     <value>Text</value>
   </data>
-  <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Převody</value>
   </data>
-  <!-- Tools: display name (&lt;Id&gt;_Name) + tooltip (&lt;Id&gt;_Tooltip) -->
   <data name="CoordinateConversion_Name" xml:space="preserve">
     <value>Převod souřadnic</value>
   </data>
@@ -1195,7 +1191,6 @@
   <data name="MorsePhotosensitivityNote" xml:space="preserve">
     <value>Přehrávání bliká obrazovkou, což může ovlivnit osoby s fotosenzitivní epilepsií. Kdykoli použijte Zastavit.</value>
   </data>
-  <!-- Roman numerals -->
   <data name="RomanNumerals_Name" xml:space="preserve">
     <value>Římské číslice</value>
   </data>
@@ -1241,7 +1236,6 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
-  <!-- Lucas numbers -->
   <data name="LucasNumbers_Name" xml:space="preserve">
     <value>Lucasova čísla</value>
   </data>
@@ -1467,7 +1461,6 @@
   <data name="Compass_Tooltip" xml:space="preserve">
     <value>Zobrazte svůj směr živým kompasem.</value>
   </data>
-  <!-- Home: favorite tools &amp; recents -->
   <data name="FavoriteTools" xml:space="preserve">
     <value>Oblíbené nástroje</value>
   </data>
@@ -1480,7 +1473,6 @@
   <data name="RecentsEmpty" xml:space="preserve">
     <value>Zde se zobrazí nástroje, které otevřete.</value>
   </data>
-  <!-- Home: New &amp; Updated -->
   <data name="NewAndUpdated" xml:space="preserve">
     <value>Nové a aktualizované</value>
   </data>
@@ -1490,7 +1482,6 @@
   <data name="Badge_Updated" xml:space="preserve">
     <value>Aktualizováno</value>
   </data>
-  <!-- Search -->
   <data name="SearchPlaceholder" xml:space="preserve">
     <value>Hledat nástroje</value>
   </data>
@@ -1500,7 +1491,6 @@
   <data name="CatalogEmpty" xml:space="preserve">
     <value>Zatím nejsou k dispozici žádné nástroje.</value>
   </data>
-  <!-- Tool host -->
   <data name="PlaceholderToolNotice" xml:space="preserve">
     <value>Toto je zástupný nástroj. Jeho funkce přijde v budoucí aktualizaci.</value>
   </data>
@@ -1513,7 +1503,6 @@
   <data name="RemoveFromFavorites" xml:space="preserve">
     <value>Odebrat z oblíbených</value>
   </data>
-  <!-- Settings: language -->
   <data name="Language" xml:space="preserve">
     <value>Jazyk</value>
   </data>
@@ -1526,7 +1515,6 @@
   <data name="LanguageRestartNotice" xml:space="preserve">
     <value>Pro dokončení změny jazyka restartujte aplikaci.</value>
   </data>
-  <!-- Settings: recents -->
   <data name="ClearRecents" xml:space="preserve">
     <value>Smazat naposledy použité</value>
   </data>
@@ -1536,7 +1524,6 @@
   <data name="ClearRecentsConfirmMessage" xml:space="preserve">
     <value>Tím se odstraní seznam naposledy otevřených nástrojů. Tuto akci nelze vrátit zpět.</value>
   </data>
-  <!-- Tool: Braille -->
   <data name="Braille_Name" xml:space="preserve">
     <value>Braillovo písmo</value>
   </data>
@@ -1591,7 +1578,6 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
-  <!-- Tool: Tap code -->
   <data name="TapCode_Name" xml:space="preserve">
     <value>Klepací kód</value>
   </data>
@@ -1646,7 +1632,6 @@
   <data name="TapCodeAboutBody" xml:space="preserve">
     <value>Každé písmeno se klepe jako dvě čísla: nejprve řádek, poté sloupec v mřížce. Čtverec 5×5 vynechává K (sdílí buňku s C); čtverec 6×6 navíc pokrývá číslice 0–9. Při klepání se vyťuká počet pro řádek a počet pro sloupec s krátkou pauzou mezi nimi a delší pauzou mezi písmeny.</value>
   </data>
-  <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signální vlajky</value>
   </data>
@@ -1806,7 +1791,6 @@
   <data name="SignalFlagsMeaningSubstitute3" xml:space="preserve">
     <value>Opakuje třetí vlajku signálu.</value>
   </data>
-  <!-- Text reverse -->
   <data name="TextReverse_Name" xml:space="preserve">
     <value>Obrácení textu</value>
   </data>
@@ -2017,7 +2001,6 @@
   <data name="AngleCopyUnit" xml:space="preserve">
     <value>Kopírovat tuto hodnotu</value>
   </data>
-  <!-- Tool: Colour conversion -->
   <data name="ColourConversion_Name" xml:space="preserve">
     <value>Převod barev</value>
   </data>
@@ -2129,7 +2112,6 @@
   <data name="ColourConversionChromaCr" xml:space="preserve">
     <value>Chrominance Cr</value>
   </data>
-  <!-- Tool: Brainfuck & Ook! -->
   <data name="BrainfuckOok_Name" xml:space="preserve">
     <value>Brainfuck a Ook!</value>
   </data>
@@ -2283,7 +2265,6 @@
   <data name="SpellingAlphabetChartHint" xml:space="preserve">
     <value>Klepnutím na písmeno jej přidáte do vstupu.</value>
   </data>
-  <!-- Pi (π) tool -->
   <data name="Pi_Name" xml:space="preserve">
     <value>Pi (π)</value>
   </data>
@@ -2368,7 +2349,6 @@
   <data name="PiErrorPattern" xml:space="preserve">
     <value>Zadejte posloupnost 1 až 50 číslic.</value>
   </data>
-  <!-- Prime numbers -->
   <data name="PrimeNumbers_Name" xml:space="preserve">
     <value>Prvočísla</value>
   </data>
@@ -2456,7 +2436,6 @@
   <data name="PrimePreparing" xml:space="preserve">
     <value>Připravuje se tabulka prvočísel…</value>
   </data>
-  <!-- Euler's number (e) -->
   <data name="EulerNumber_Name" xml:space="preserve">
     <value>Eulerovo číslo (e)</value>
   </data>
@@ -2544,7 +2523,6 @@
   <data name="EulerIntegerNote" xml:space="preserve">
     <value>Pozice 1 je první číslice za desetinnou čárkou — celá část čísla e (2) se nepočítá.</value>
   </data>
-  <!-- Golden ratio -->
   <data name="GoldenRatio_Name" xml:space="preserve">
     <value>Zlatý řez (φ)</value>
   </data>
@@ -2626,7 +2604,6 @@
   <data name="GoldenRatioAboutNote" xml:space="preserve">
     <value>φ = (1+√5)/2 ≈ 1,6180339887… Všechna vyhledávání pracují offline nad prvními 1 000 000 desetinnými místy.</value>
   </data>
-  <!-- Tool: Fibonacci numbers -->
   <data name="Fibonacci_Name" xml:space="preserve">
     <value>Fibonacciho čísla</value>
   </data>
@@ -2747,7 +2724,6 @@
   <data name="FibonacciErrorDigitsRange" xml:space="preserve">
     <value>Počet číslic musí být mezi 1 a {0:N0}.</value>
   </data>
-  <!-- Tool: Semaphore flags -->
   <data name="Semaphore_Name" xml:space="preserve">
     <value>Semaforová abeceda</value>
   </data>
@@ -2832,7 +2808,6 @@
   <data name="SemaphoreArmAcrossHigh" xml:space="preserve">
     <value>křížem nahoru</value>
   </data>
-  <!-- Phone keypad -->
   <data name="PhoneKeypad_Name" xml:space="preserve">
     <value>Telefonní klávesnice</value>
   </data>
@@ -2920,7 +2895,6 @@
   <data name="PhoneKeypadCandidatesHeader" xml:space="preserve">
     <value>Možná slova</value>
   </data>
-  <!-- Tool: Coordinate projection -->
   <data name="CoordinateProjectionStartLabel" xml:space="preserve">
     <value>Výchozí souřadnice</value>
   </data>
@@ -2992,5 +2966,38 @@
   </data>
   <data name="CoordinateProjectionErrorDistanceNegative" xml:space="preserve">
     <value>Vzdálenost nemůže být záporná.</value>
+  </data>
+  <data name="AtbashCipher_Name" xml:space="preserve">
+    <value>Šifra Atbaš</value>
+  </data>
+  <data name="AtbashCipher_Tooltip" xml:space="preserve">
+    <value>Zrcadlí abecedu (A↔Z, B↔Y, …) — stejná operace šifruje i dešifruje.</value>
+  </data>
+  <data name="AtbashInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="AtbashInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="AtbashClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="AtbashOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="AtbashSelfInverseNote" xml:space="preserve">
+    <value>Atbaš je sama sobě inverzní — opětovné použití na výsledek vrátí původní text.</value>
+  </data>
+  <data name="AtbashCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="AtbashShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="AtbashKeyLabel" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="AtbashKeyNote" xml:space="preserve">
+    <value>Každé písmeno v horním řádku odpovídá písmenu pod ním; velikost písmen zůstává zachována a vše ostatní projde beze změny.</value>
   </data>
 </root>
