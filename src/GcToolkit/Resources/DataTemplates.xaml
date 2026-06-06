@@ -1,18 +1,18 @@
-<ResourceDictionary
+﻿<ResourceDictionary
     x:Class="GcToolkit.Resources.DataTemplates"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:GcToolkit.Core.ViewModels">
 
-    <!-- Shared tool card used by Home (favorites/recents) and the Catalog. -->
+    <!--  Shared tool card used by Home (favorites/recents) and the Catalog.  -->
     <DataTemplate x:Key="ToolCardTemplate" x:DataType="vm:ToolListItem">
         <Grid MinHeight="64">
-            <!-- Open affordance fills the card; right padding leaves room for the star. -->
+            <!--  Open affordance fills the card; right padding leaves room for the star.  -->
             <Button
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
-                VerticalAlignment="Stretch"
                 Padding="12,12,48,12"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
                 AutomationProperties.Name="{x:Bind Name}"
                 Command="{x:Bind OpenCommand}"
                 ToolTipService.ToolTip="{x:Bind Tooltip}">
@@ -36,7 +36,7 @@
                 </Grid>
             </Button>
 
-            <!-- "New"/"Updated" badge (US4) -->
+            <!--  "New"/"Updated" badge (US4)  -->
             <Border
                 Margin="8,8,0,0"
                 Padding="6,1"
@@ -52,7 +52,7 @@
                     Text="{x:Bind BadgeString, Mode=OneWay}" />
             </Border>
 
-            <!-- Favorite toggle overlay. -->
+            <!--  Favorite toggle overlay.  -->
             <ToggleButton
                 Width="40"
                 Height="40"
@@ -60,9 +60,9 @@
                 Padding="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
+                AutomationProperties.Name="{x:Bind FavoriteToggleLabel, Mode=OneWay}"
                 Background="Transparent"
                 BorderThickness="0"
-                AutomationProperties.Name="{x:Bind FavoriteToggleLabel, Mode=OneWay}"
                 Command="{x:Bind ToggleFavoriteCommand}"
                 IsChecked="{x:Bind IsFavorite, Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind FavoriteToggleLabel, Mode=OneWay}">

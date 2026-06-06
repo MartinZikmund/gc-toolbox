@@ -1,0 +1,206 @@
+﻿<local:RomanNumeralsViewBase
+    x:Class="GcToolkit.Views.RomanNumeralsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:RomanNumeralsViewBase.Resources>
+        <Style x:Key="RomanReferenceCellStyle" TargetType="Border">
+            <Setter Property="MinWidth" Value="44" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
+        <Style
+            x:Key="RomanReferenceSymbolStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Consolas" />
+        </Style>
+        <Style
+            x:Key="RomanReferenceValueStyle"
+            BasedOn="{StaticResource CaptionTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
+    </local:RomanNumeralsViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=RomanNumberToRoman}" />
+                    <RadioButton Content="{markup:Localize Key=RomanRomanToNumber}" />
+                </RadioButtons>
+
+                <!--  Input  -->
+                <TextBox
+                    Header="{markup:Localize Key=RomanInputLabel}"
+                    PlaceholderText="{markup:Localize Key=RomanInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <Button
+                    HorizontalAlignment="Left"
+                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Content="{markup:Localize Key=RomanClear}" />
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RomanOutputLabel}" />
+                <TextBox
+                    FontFamily="Consolas"
+                    FontSize="20"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Validation / non-standard notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasWarning, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.WarningMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=RomanCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=RomanShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Breakdown (single value only)  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=RomanBreakdownLabel}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind ViewModel.ShowBreakdown, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.BreakdownLines}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock
+                                    Margin="0,2"
+                                    FontFamily="Consolas"
+                                    FontSize="16"
+                                    Text="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <!--  Symbol reference (geocachingtoolbox parity)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RomanReferenceLabel}" />
+
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="I" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="1" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="V" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="5" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="X" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="10" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="L" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="50" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="C" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="100" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="D" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="500" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource RomanReferenceCellStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource RomanReferenceSymbolStyle}" Text="M" />
+                                    <TextBlock Style="{StaticResource RomanReferenceValueStyle}" Text="1000" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=RomanVinculumNote}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:RomanNumeralsViewBase>
