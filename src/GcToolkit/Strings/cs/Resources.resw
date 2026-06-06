@@ -3429,4 +3429,61 @@
   <data name="BaseNameTrigesimal" xml:space="preserve">
     <value>Třicítková</value>
   </data>
+  <data name="VigenereMode" xml:space="preserve">
+    <value>Režim</value>
+  </data>
+  <data name="VigenereEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="VigenereDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="VigenereAssisted" xml:space="preserve">
+    <value>Prolomit klíč</value>
+  </data>
+  <data name="VigenereKeyInputLabel" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="VigenereKeyPlaceholder" xml:space="preserve">
+    <value>Zadejte klíčové slovo (pouze písmena)…</value>
+  </data>
+  <data name="VigenereAssistedExplainer" xml:space="preserve">
+    <value>Klíč není potřeba. Nástroj odhadne délku klíče pomocí indexu koincidence a poté obnoví každé písmeno podle četnosti písmen v angličtině. Nejlépe funguje na dlouhém textu.</value>
+  </data>
+  <data name="VigenereInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="VigenereInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="VigenereClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="VigenereDerivedKeyLabel" xml:space="preserve">
+    <value>Obnovený klíč</value>
+  </data>
+  <data name="VigenereAssistedHint" xml:space="preserve">
+    <value>Pro obnovení klíče není dost textu. Vložte delší ukázku zašifrovaného textu a zkuste to znovu.</value>
+  </data>
+  <data name="VigenereOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="VigenereCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="VigenereShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="VigenereKeyLengthsLabel" xml:space="preserve">
+    <value>Pravděpodobné délky klíče</value>
+  </data>
+  <data name="VigenereKeyLengthsNote" xml:space="preserve">
+    <value>Kandidátní délky seřazené podle toho, jak blízko je jejich průměrný index koincidence angličtině (~0,067).</value>
+  </data>
+  <data name="VigenereKeyLabel" xml:space="preserve">
+    <value>Průběžný klíč</value>
+  </data>
+  <data name="VigenereKeyNote" xml:space="preserve">
+    <value>Každé písmeno klíče posune abecedu; písmeno otevřeného textu na dané pozici se mapuje na zobrazené písmeno.</value>
+  </data>
 </root>
