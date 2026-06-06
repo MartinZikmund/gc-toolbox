@@ -18,8 +18,8 @@ namespace GcToolkit.Core.Coordinates;
 public static partial class BritishGrid
 {
     // Airy 1830 ellipsoid (the OSGB36 reference ellipsoid).
-    private const double AiryA = 6_377_563.396;
-    private const double AiryB = 6_356_256.909;
+    private static readonly double AiryA = Ellipsoids.Airy1830.A;
+    private static readonly double AiryB = Ellipsoids.Airy1830.B;
 
     // National Grid Transverse Mercator parameters.
     private const double Lat0 = 49.0;          // true origin latitude (49°N)
@@ -27,15 +27,6 @@ public static partial class BritishGrid
     private const double F0 = 0.9996012717;    // scale factor on the central meridian
     private const double E0 = 400_000.0;       // easting of true origin
     private const double N0 = -100_000.0;      // northing of true origin
-
-    // Published Helmert transform OSGB36 -> WGS84 (negate for WGS84 -> OSGB36).
-    private const double Tx = -446.448;        // metres
-    private const double Ty = 125.157;
-    private const double Tz = -542.060;
-    private const double Rx = -0.1502;         // arc-seconds
-    private const double Ry = -0.2470;
-    private const double Rz = -0.8421;
-    private const double S = 20.4894;          // scale, ppm
 
     // National Grid 5x5 letter scheme (A..Z without I), row-major from the bottom-left.
     private const string GridLetters = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
@@ -51,7 +42,7 @@ public static partial class BritishGrid
     /// <summary>Projects a WGS84 coordinate onto OSGB36 National Grid easting/northing (metres).</summary>
     public static (double Easting, double Northing) ToEastingNorthing(GeoCoordinate c)
     {
-        var osgb36 = ShiftDatum(c, toOsgb36: true);
+        var osgb36 = DatumTransform.FromWgs84(c, DatumRegistry.Osgb36);
         return ProjectForward(osgb36.Latitude, osgb36.Longitude);
     }
 
@@ -71,7 +62,7 @@ public static partial class BritishGrid
         }
 
         var osgb36 = ProjectInverse(easting, northing);
-        c = ShiftDatum(osgb36, toOsgb36: false);
+        c = DatumTransform.ToWgs84(osgb36, DatumRegistry.Osgb36);
         return true;
     }
 
@@ -145,69 +136,8 @@ public static partial class BritishGrid
         return true;
     }
 
-    // ---- Helmert datum shift (WGS84 <-> OSGB36) via geocentric cartesian coordinates ----
-
-    private static GeoCoordinate ShiftDatum(GeoCoordinate c, bool toOsgb36)
-    {
-        // Source ellipsoid is whichever datum we start on.
-        var (sourceA, sourceB) = toOsgb36 ? (Wgs84.A, Wgs84.B) : (AiryA, AiryB);
-        var (targetA, targetB) = toOsgb36 ? (AiryA, AiryB) : (Wgs84.A, Wgs84.B);
-
-        var (x, y, z) = ToCartesian(c, sourceA, sourceB);
-
-        // The constants below are the WGS84 -> OSGB36 7-parameter set (position-vector convention),
-        // applied as-is in that direction and negated for the OSGB36 -> WGS84 inverse.
-        var sign = toOsgb36 ? 1.0 : -1.0;
-        var tx = sign * Tx;
-        var ty = sign * Ty;
-        var tz = sign * Tz;
-        var rx = sign * Rx * Math.PI / 180.0 / 3600.0; // arc-seconds -> radians
-        var ry = sign * Ry * Math.PI / 180.0 / 3600.0;
-        var rz = sign * Rz * Math.PI / 180.0 / 3600.0;
-        var s1 = sign * S / 1_000_000.0 + 1.0; // ppm -> scale multiplier
-
-        var x2 = tx + x * s1 - y * rz + z * ry;
-        var y2 = ty + x * rz + y * s1 - z * rx;
-        var z2 = tz - x * ry + y * rx + z * s1;
-
-        return FromCartesian(x2, y2, z2, targetA, targetB);
-    }
-
-    private static (double X, double Y, double Z) ToCartesian(GeoCoordinate c, double a, double b)
-    {
-        var phi = Rad(c.Latitude);
-        var lambda = Rad(c.Longitude);
-        var e2 = (a * a - b * b) / (a * a);
-        var nu = a / Math.Sqrt(1.0 - e2 * Math.Sin(phi) * Math.Sin(phi));
-
-        var x = nu * Math.Cos(phi) * Math.Cos(lambda);
-        var y = nu * Math.Cos(phi) * Math.Sin(lambda);
-        var z = ((1.0 - e2) * nu) * Math.Sin(phi);
-        return (x, y, z);
-    }
-
-    private static GeoCoordinate FromCartesian(double x, double y, double z, double a, double b)
-    {
-        var e2 = (a * a - b * b) / (a * a);
-        var p = Math.Sqrt(x * x + y * y);
-        var phi = Math.Atan2(z, p * (1.0 - e2));
-
-        // Iterate latitude to convergence (a handful of passes suffice).
-        double phiPrev;
-        var iterations = 0;
-        do
-        {
-            phiPrev = phi;
-            var nu = a / Math.Sqrt(1.0 - e2 * Math.Sin(phi) * Math.Sin(phi));
-            phi = Math.Atan2(z + e2 * nu * Math.Sin(phi), p);
-        }
-        while (Math.Abs(phi - phiPrev) > 1e-12 && ++iterations < 20);
-
-        var lambda = Math.Atan2(y, x);
-        return new GeoCoordinate(Deg(phi), Deg(lambda));
-    }
-
     // ---- Airy 1830 Transverse Mercator (OS National Grid) ----
+    // Datum shift WGS84 <-> OSGB36 is delegated to DatumTransform + DatumRegistry.Osgb36.
 
     private static (double Easting, double Northing) ProjectForward(double latDeg, double lonDeg)
     {

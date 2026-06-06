@@ -212,7 +212,13 @@
     <value>N 49 12.345 E 016 34.567</value>
   </data>
   <data name="CoordConvInputHint" xml:space="preserve">
-    <value>Zadejte jednu souřadnici v libovolném zápisu — desetinné stupně, stupně a desetinné minuty, stupně minuty vteřiny, UTM nebo MGRS. Zápis se rozpozná automaticky.</value>
+    <value>Zadejte jednu souřadnici v libovolném zápisu — desetinné stupně, stupně a desetinné minuty, stupně minuty vteřiny, UTM, MGRS, USNG, nizozemská RD nebo britská síť. Zápis se rozpozná automaticky.</value>
+  </data>
+  <data name="CoordConvInputDatum" xml:space="preserve">
+    <value>Vstupní geodetické datum</value>
+  </data>
+  <data name="CoordConvOutputDatum" xml:space="preserve">
+    <value>Výstupní geodetické datum</value>
   </data>
   <data name="CoordConvParseError" xml:space="preserve">
     <value>Tuto souřadnici se nepodařilo rozpoznat. Zkuste zápis jako „N 49 12.345 E 016 34.567“, „49.205750 16.576117“, „33U 614803 5451524“ nebo „33U XQ 14803 51524“.</value>

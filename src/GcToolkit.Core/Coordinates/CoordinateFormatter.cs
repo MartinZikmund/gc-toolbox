@@ -9,7 +9,7 @@ namespace GcToolkit.Core.Coordinates;
 /// </summary>
 public static class CoordinateFormatter
 {
-    /// <summary>Formats <paramref name="c"/> in the requested <paramref name="format"/>.</summary>
+    /// <summary>Formats <paramref name="c"/> (WGS84) in the requested <paramref name="format"/>.</summary>
     public static string Format(GeoCoordinate c, CoordinateFormat format) => format switch
     {
         CoordinateFormat.DecimalDegrees => FormatDecimalDegrees(c),
@@ -22,6 +22,20 @@ public static class CoordinateFormatter
         CoordinateFormat.BritishGrid => BritishGrid.FromLatLon(c),
         _ => FormatDecimalDegrees(c),
     };
+
+    /// <summary>Formats the WGS84 coordinate <paramref name="wgs84"/> as seen on <paramref name="outputDatum"/>.
+    /// The angular notations (DD/DDM/DMS) are shifted to the datum; the grid systems keep their own
+    /// intrinsic datum (UTM/MGRS/USNG are WGS84, OSGB is OSGB36, RD is Bessel/Amersfoort), so they are
+    /// rendered from the WGS84 hub regardless of the selected output datum.</summary>
+    public static string Format(GeoCoordinate wgs84, CoordinateFormat format, Datum outputDatum)
+    {
+        var angular = format is CoordinateFormat.DecimalDegrees
+            or CoordinateFormat.DegreesDecimalMinutes
+            or CoordinateFormat.DegreesMinutesSeconds;
+
+        var c = angular ? DatumTransform.FromWgs84(wgs84, outputDatum) : wgs84;
+        return Format(c, format);
+    }
 
     private static string FormatDecimalDegrees(GeoCoordinate c)
     {

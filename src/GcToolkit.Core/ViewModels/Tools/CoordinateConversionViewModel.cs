@@ -13,11 +13,14 @@ namespace GcToolkit.Core.ViewModels.Tools;
 /// <summary>
 /// Coordinate conversion (issue #4). Takes one coordinate as free text, auto-detects its notation via
 /// <see cref="CoordinateParser"/>, and renders the same point simultaneously in every supported
-/// notation — Decimal Degrees, Degrees Decimal Minutes, Degrees Minutes Seconds, UTM and MGRS — each
-/// on its own copyable row. This beats the geocachingtoolbox.com reference (which converts only the
-/// three angular notations and needs an explicit datum/grid choice) by auto-detecting the input,
-/// showing all five formats at once with per-row copy, reporting which format was detected, and
-/// offering copy-all / share. All conversion math lives in the foundation library (thin-VM convention).
+/// notation — Decimal Degrees, Degrees Decimal Minutes, Degrees Minutes Seconds, UTM, MGRS, USNG, Dutch
+/// RD and British OSGB grid — each on its own copyable row. Matching geocachingtoolbox.com, it also
+/// offers an <see cref="InputDatum"/> and <see cref="OutputDatum"/> selector over the full datum table:
+/// the input is interpreted on the chosen datum, converted to the WGS84 hub, and the angular notations
+/// are re-expressed on the output datum (the grids keep their intrinsic datum). It improves on the
+/// reference by auto-detecting the input, showing every format at once with per-row copy, reporting the
+/// detected notation, and offering copy-all / share. All conversion math lives in the foundation
+/// library (thin-VM convention).
 /// </summary>
 [Tool("CoordinateConversion", ToolCategory.Coordinates,
       Introduced = "2026-05-20", Updated = "2026-06-06",
@@ -68,7 +71,25 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
     /// <summary>The same point rendered in every supported notation, each row independently copyable.</summary>
     public ObservableCollection<CoordinateFormatRow> Results { get; } = [];
 
+    /// <summary>Every datum the tool can read from / write to (WGS84 first, then the full table).</summary>
+    public IReadOnlyList<Datum> Datums { get; } = DatumRegistry.All;
+
+    /// <summary>The datum picker entries (display string + value) the View's ComboBoxes bind to.</summary>
+    public IReadOnlyList<DatumOption> DatumOptions { get; } = [.. DatumRegistry.All.Select(d => new DatumOption(d))];
+
+    /// <summary>The datum the typed coordinate is interpreted on (angular input is shifted to WGS84 from here).</summary>
+    [ObservableProperty]
+    public partial Datum InputDatum { get; set; } = DatumRegistry.Wgs84;
+
+    /// <summary>The datum the angular output notations are expressed on (the grids keep their own datum).</summary>
+    [ObservableProperty]
+    public partial Datum OutputDatum { get; set; } = DatumRegistry.Wgs84;
+
     partial void OnInputTextChanged(string value) => Recompute();
+
+    partial void OnInputDatumChanged(Datum value) => Recompute();
+
+    partial void OnOutputDatumChanged(Datum value) => Recompute();
 
     partial void OnHasResultChanged(bool value)
     {
@@ -102,7 +123,11 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
         DetectedFormatLabelKey = CoordinateFormatResources.LabelKey(detected);
         DetectedFormatLabel = _localizer[DetectedFormatLabelKey].Value;
 
-        foreach (var result in CoordinateConversions.ToAllFormats(coordinate))
+        // Angular input is expressed on the chosen input datum; lift it to the WGS84 hub. Grids carry
+        // their own intrinsic datum, so the parser already produced WGS84 for them.
+        var wgs84 = IsAngular(detected) ? DatumTransform.ToWgs84(coordinate, InputDatum) : coordinate;
+
+        foreach (var result in CoordinateConversions.ToAllFormats(wgs84, OutputDatum))
         {
             var label = _localizer[CoordinateFormatResources.LabelKey(result.Format)].Value;
             var copyName = string.Format(_localizer["CoordConvCopyFormat"].Value, label);
@@ -135,4 +160,9 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
 
     [RelayCommand]
     private void Clear() => InputText = string.Empty;
+
+    private static bool IsAngular(CoordinateFormat format) => format is
+        CoordinateFormat.DecimalDegrees or
+        CoordinateFormat.DegreesDecimalMinutes or
+        CoordinateFormat.DegreesMinutesSeconds;
 }

@@ -62,6 +62,30 @@
                 Text="{markup:Localize Key=CoordConvInputHint}"
                 TextWrapping="Wrap" />
 
+            <!--  Datum selectors: interpret the input on one datum, render the angular notations on another  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    DisplayMemberPath="Display"
+                    Header="{markup:Localize Key=CoordConvInputDatum}"
+                    ItemsSource="{x:Bind ViewModel.DatumOptions}"
+                    SelectedValue="{x:Bind ViewModel.InputDatum, Mode=TwoWay}"
+                    SelectedValuePath="Value" />
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    DisplayMemberPath="Display"
+                    Header="{markup:Localize Key=CoordConvOutputDatum}"
+                    ItemsSource="{x:Bind ViewModel.DatumOptions}"
+                    SelectedValue="{x:Bind ViewModel.OutputDatum, Mode=TwoWay}"
+                    SelectedValuePath="Value" />
+            </Grid>
+
             <!--  Parse error  -->
             <InfoBar
                 IsClosable="False"

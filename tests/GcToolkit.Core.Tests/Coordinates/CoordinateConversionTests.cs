@@ -275,6 +275,63 @@ public class CoordinateConversionTests
         Assert.IsTrue(vm.ShareCommand.CanExecute(null));
     }
 
+    // ---- ViewModel: datum selectors ----
+
+    [TestMethod]
+    public void Vm_Datums_ExposesTheFullRegistryWithWgs84Default()
+    {
+        var vm = CreateViewModel();
+
+        Assert.IsTrue(vm.Datums.Count >= 180, $"only {vm.Datums.Count} datums");
+        Assert.AreEqual(DatumRegistry.Wgs84, vm.InputDatum);
+        Assert.AreEqual(DatumRegistry.Wgs84, vm.OutputDatum);
+    }
+
+    [TestMethod]
+    public void Vm_OutputDatum_ShiftsAngularNotationsButNotWhenWgs84()
+    {
+        var vm = CreateViewModel();
+        vm.InputText = GoldenDd;
+        var wgs84Dd = RowValue(vm, CoordinateFormat.DecimalDegrees);
+
+        vm.OutputDatum = DatumRegistry.Find("EUR-7")!.Value; // ED50
+
+        var ed50Dd = RowValue(vm, CoordinateFormat.DecimalDegrees);
+        // Switching the output datum must change the angular reading (ED50 differs from WGS84 by ~100 m).
+        Assert.AreNotEqual(wgs84Dd, ed50Dd);
+        StringAssert.StartsWith(ed50Dd, "N 49.20"); // still the same neighbourhood
+    }
+
+    [TestMethod]
+    public void Vm_InputDatum_InterpretsTheTypedCoordinateOnThatDatum()
+    {
+        var vm = CreateViewModel();
+
+        // Same numbers, read as ED50 instead of WGS84, land on a different WGS84 point.
+        vm.InputText = GoldenDd;
+        var asWgs84 = RowValue(vm, CoordinateFormat.DecimalDegrees);
+
+        vm.InputDatum = DatumRegistry.Find("EUR-7")!.Value;
+        var asEd50 = RowValue(vm, CoordinateFormat.DecimalDegrees);
+
+        Assert.AreNotEqual(asWgs84, asEd50);
+    }
+
+    [TestMethod]
+    public void Vm_OutputDatumOsgb_RoundTripsWithInputDatumOsgb()
+    {
+        var vm = CreateViewModel();
+        var osgb = DatumRegistry.Osgb36;
+
+        // Enter a coordinate already on OSGB36 and read it back on OSGB36 -> identity.
+        vm.OutputDatum = osgb;
+        vm.InputText = "N 52.6575703 E 1.7179215"; // OSGB36 lat/lon of the OS Caister example
+        vm.InputDatum = osgb;
+
+        var dd = RowValue(vm, CoordinateFormat.DecimalDegrees);
+        StringAssert.StartsWith(dd, "N 52.657570");
+    }
+
     // ---- Helpers ----
 
     private static string ValueOf(IReadOnlyList<CoordinateFormatResult> rows, CoordinateFormat format)

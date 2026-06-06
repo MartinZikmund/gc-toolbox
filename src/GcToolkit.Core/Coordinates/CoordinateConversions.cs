@@ -23,7 +23,13 @@ public static class CoordinateConversions
         CoordinateFormat.BritishGrid,
     ];
 
-    /// <summary>Formats <paramref name="coordinate"/> in every notation in <see cref="AllFormats"/>.</summary>
+    /// <summary>Formats <paramref name="coordinate"/> (WGS84) in every notation in <see cref="AllFormats"/>.</summary>
     public static IReadOnlyList<CoordinateFormatResult> ToAllFormats(GeoCoordinate coordinate)
         => [.. AllFormats.Select(format => new CoordinateFormatResult(format, CoordinateFormatter.Format(coordinate, format)))];
+
+    /// <summary>Formats <paramref name="wgs84"/> in every notation, with the angular notations expressed on
+    /// <paramref name="outputDatum"/> (the grids keep their intrinsic datum — see
+    /// <see cref="CoordinateFormatter.Format(GeoCoordinate, CoordinateFormat, Datum)"/>).</summary>
+    public static IReadOnlyList<CoordinateFormatResult> ToAllFormats(GeoCoordinate wgs84, Datum outputDatum)
+        => [.. AllFormats.Select(format => new CoordinateFormatResult(format, CoordinateFormatter.Format(wgs84, format, outputDatum)))];
 }
