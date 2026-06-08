@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
+    xmlns:text="using:GcToolkit.Core.Text"
     xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -45,6 +46,49 @@
                 </ToggleButton>
             </Grid>
 
+            <!--  Method picker  -->
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                Header="{markup:Localize Key=WordValueMethodLabel}"
+                ItemsSource="{x:Bind ViewModel.Methods}"
+                SelectedItem="{x:Bind ViewModel.SelectedMethod, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="text:WordValueMethod">
+                        <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <!--  Options  -->
+            <StackPanel Spacing="10">
+                <CheckBox Content="{markup:Localize Key=WordValueCountNumbers}" IsChecked="{x:Bind ViewModel.CountNumbers, Mode=TwoWay}" />
+
+                <!--  Beyond parity: choose how digits are counted  -->
+                <RadioButtons
+                    Margin="28,0,0,4"
+                    Header="{markup:Localize Key=WordValueNumberHandlingLabel}"
+                    SelectedIndex="{x:Bind ViewModel.NumberModeIndex, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.CountNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <RadioButton Content="{markup:Localize Key=WordValueNumbersInline}" />
+                    <RadioButton Content="{markup:Localize Key=WordValueNumbersSeparate}" />
+                </RadioButtons>
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <CheckBox
+                        Content="{markup:Localize Key=WordValueRemoveDiacritics}"
+                        IsChecked="{x:Bind ViewModel.RemoveDiacritics, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.CanRemoveDiacritics, Mode=OneWay}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=WordValueRemoveDiacriticsHint}" />
+                </StackPanel>
+
+                <CheckBox Content="{markup:Localize Key=WordValueShowCalculation}" IsChecked="{x:Bind ViewModel.ShowCalculation, Mode=TwoWay}" />
+                <CheckBox Content="{markup:Localize Key=WordValueCountSeparateWords}" IsChecked="{x:Bind ViewModel.CountSeparateWords, Mode=TwoWay}" />
+            </StackPanel>
+
             <!--  Input  -->
             <TextBox
                 MinHeight="96"
@@ -54,198 +98,97 @@
                 Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
 
-            <!--  Options  -->
-            <StackPanel Orientation="Horizontal" Spacing="16">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=WordValueClear}" />
-                <ToggleSwitch
-                    VerticalAlignment="Center"
-                    Header="{markup:Localize Key=WordValueCountNumbers}"
-                    IsOn="{x:Bind ViewModel.CountNumbers, Mode=TwoWay}" />
-            </StackPanel>
+            <Button Command="{x:Bind ViewModel.ResetCommand}" Content="{markup:Localize Key=WordValueReset}" />
 
-            <!--  Summary: total · cross sum · digital root  -->
+            <!--  Result: word value + summed to one digit  -->
             <Border
                 Padding="16"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
-                CornerRadius="8">
-                <Grid ColumnSpacing="16" RowSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Spacing="2">
+                CornerRadius="8"
+                Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
                         <TextBlock
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=WordValueTotalLabel}" />
-                        <TextBlock
-                            FontFamily="Consolas"
-                            Style="{ThemeResource TitleTextBlockStyle}"
-                            Text="{x:Bind ViewModel.LetterTotal, Mode=OneWay}" />
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Spacing="2">
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=WordValueCrossSumLabel}" />
-                        <TextBlock
-                            FontFamily="Consolas"
-                            Style="{ThemeResource TitleTextBlockStyle}"
-                            Text="{x:Bind ViewModel.LetterCrossSum, Mode=OneWay}" />
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Spacing="2">
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=WordValueDigitalRootLabel}" />
-                        <TextBlock
-                            FontFamily="Consolas"
-                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                            Style="{ThemeResource TitleTextBlockStyle}"
-                            Text="{x:Bind ViewModel.LetterDigitalRoot, Mode=OneWay}" />
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Spacing="2">
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=WordValueReductionLabel}" />
+                            Text="{markup:Localize Key=WordValueResultLabel}" />
                         <TextBlock
                             FontFamily="Consolas"
                             FontSize="16"
-                            Text="{x:Bind ViewModel.LetterReduction, Mode=OneWay}"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.WordValueLine, Mode=OneWay}"
                             TextWrapping="Wrap" />
                     </StackPanel>
-                </Grid>
+                    <StackPanel Spacing="2">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=WordValueSummedLabel}" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            Style="{ThemeResource TitleTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ReductionLine, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
             </Border>
 
-            <!--  Per-word breakdown (beyond parity)  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueBreakdownLabel}" />
-                <Grid Padding="8,0" ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="0"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{markup:Localize Key=WordValueWordHeader}" />
-                    <TextBlock
-                        Grid.Column="1"
-                        MinWidth="64"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        HorizontalTextAlignment="Right"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{markup:Localize Key=WordValueValueHeader}" />
-                </Grid>
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Words}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="tools:WordValueItem">
-                            <Grid
-                                Margin="0,2"
-                                Padding="8,6"
-                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                ColumnSpacing="12"
-                                CornerRadius="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Consolas"
-                                    Text="{x:Bind Word}"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    MinWidth="64"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Consolas"
-                                    HorizontalTextAlignment="Right"
-                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind Value}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-
-            <!--  Numbers found in the input (when counting numbers)  -->
+            <!--  Separate numbers (only when summing numbers separately)  -->
             <Border
                 Padding="16"
                 Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="8"
-                Visibility="{x:Bind ViewModel.HasNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Spacing="8">
+                Visibility="{x:Bind ViewModel.ShowSeparateNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Spacing="6">
                     <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueNumbersLabel}" />
                     <TextBlock
                         FontFamily="Consolas"
-                        FontSize="15"
-                        Text="{x:Bind ViewModel.NumbersSummary, Mode=OneWay}"
+                        IsTextSelectionEnabled="True"
+                        Text="{x:Bind ViewModel.NumbersLine, Mode=OneWay}"
                         TextWrapping="Wrap" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Spacing="2">
-                            <TextBlock
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                Text="{markup:Localize Key=WordValueNumbersTotalLabel}" />
-                            <TextBlock
-                                FontFamily="Consolas"
-                                Style="{ThemeResource SubtitleTextBlockStyle}"
-                                Text="{x:Bind ViewModel.NumberTotal, Mode=OneWay}" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Spacing="2">
-                            <TextBlock
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                Text="{markup:Localize Key=WordValueDigitalRootLabel}" />
-                            <TextBlock
-                                FontFamily="Consolas"
-                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                Style="{ThemeResource SubtitleTextBlockStyle}"
-                                Text="{x:Bind ViewModel.NumberDigitalRoot, Mode=OneWay}" />
-                        </StackPanel>
-                    </Grid>
                     <TextBlock
                         FontFamily="Consolas"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{x:Bind ViewModel.NumberReduction, Mode=OneWay}"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        IsTextSelectionEnabled="True"
+                        Text="{x:Bind ViewModel.NumbersReductionLine, Mode=OneWay}"
                         TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
+
+            <!--  Per-word breakdown (count separate words)  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowSeparateWords, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueSeparateWordsLabel}" />
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Words}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="tools:WordValueWordItem">
+                            <StackPanel
+                                Margin="0,2"
+                                Padding="10,8"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                CornerRadius="6"
+                                Spacing="2">
+                                <TextBlock
+                                    FontFamily="Consolas"
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    Text="{x:Bind Word}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontFamily="Consolas"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
+                                    Text="{x:Bind Detail}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
 
             <!--  Output actions  -->
             <StackPanel Orientation="Horizontal" Spacing="8">
@@ -262,6 +205,51 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
+
+            <!--  Collapsible conversion table  -->
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="False">
+                <Expander.Header>
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueConversionTableLabel}" />
+                </Expander.Header>
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Conversion}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            MinColumnSpacing="4"
+                            MinItemHeight="48"
+                            MinItemWidth="40"
+                            MinRowSpacing="4" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="tools:WordValueConversionItem">
+                            <Border
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                CornerRadius="6">
+                                <StackPanel
+                                    Padding="4"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind Character}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Value}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Expander>
 
             <!--  How it works  -->
             <TextBlock

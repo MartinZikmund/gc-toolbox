@@ -3007,7 +3007,7 @@
     <value>Word value</value>
   </data>
   <data name="WordValue_Tooltip" xml:space="preserve">
-    <value>Add up letter values (A=1 … Z=26) and reduce the total to its digital root.</value>
+    <value>Add up character values (A=1 … Z=26 and more) and reduce the total to its digital root.</value>
   </data>
   <data name="WordValueInputLabel" xml:space="preserve">
     <value>Text</value>
@@ -3015,11 +3015,35 @@
   <data name="WordValueInputPlaceholder" xml:space="preserve">
     <value>Type one or more words…</value>
   </data>
+  <data name="WordValueMethodLabel" xml:space="preserve">
+    <value>Method</value>
+  </data>
   <data name="WordValueCountNumbers" xml:space="preserve">
     <value>Count numbers</value>
   </data>
-  <data name="WordValueClear" xml:space="preserve">
-    <value>Clear</value>
+  <data name="WordValueNumberHandlingLabel" xml:space="preserve">
+    <value>Number handling</value>
+  </data>
+  <data name="WordValueNumbersInline" xml:space="preserve">
+    <value>Add digits to the total</value>
+  </data>
+  <data name="WordValueNumbersSeparate" xml:space="preserve">
+    <value>Sum numbers separately</value>
+  </data>
+  <data name="WordValueRemoveDiacritics" xml:space="preserve">
+    <value>Remove diacritics</value>
+  </data>
+  <data name="WordValueRemoveDiacriticsHint" xml:space="preserve">
+    <value>(é → e, ä → a, …)</value>
+  </data>
+  <data name="WordValueShowCalculation" xml:space="preserve">
+    <value>Show calculation</value>
+  </data>
+  <data name="WordValueCountSeparateWords" xml:space="preserve">
+    <value>Count separate words</value>
+  </data>
+  <data name="WordValueReset" xml:space="preserve">
+    <value>Reset fields</value>
   </data>
   <data name="WordValueCopy" xml:space="preserve">
     <value>Copy</value>
@@ -3027,34 +3051,67 @@
   <data name="WordValueShare" xml:space="preserve">
     <value>Share</value>
   </data>
-  <data name="WordValueTotalLabel" xml:space="preserve">
-    <value>Total value</value>
+  <data name="WordValueResultLabel" xml:space="preserve">
+    <value>Word value (Digital root)</value>
   </data>
-  <data name="WordValueCrossSumLabel" xml:space="preserve">
-    <value>Cross sum</value>
+  <data name="WordValueSummedLabel" xml:space="preserve">
+    <value>Summed to one digit</value>
   </data>
-  <data name="WordValueDigitalRootLabel" xml:space="preserve">
-    <value>Digital root</value>
-  </data>
-  <data name="WordValueReductionLabel" xml:space="preserve">
-    <value>Reduction</value>
-  </data>
-  <data name="WordValueBreakdownLabel" xml:space="preserve">
-    <value>Per-word breakdown</value>
-  </data>
-  <data name="WordValueWordHeader" xml:space="preserve">
-    <value>Word</value>
-  </data>
-  <data name="WordValueValueHeader" xml:space="preserve">
-    <value>Value</value>
+  <data name="WordValueSeparateWordsLabel" xml:space="preserve">
+    <value>Result: separate words</value>
   </data>
   <data name="WordValueNumbersLabel" xml:space="preserve">
     <value>Numbers</value>
   </data>
-  <data name="WordValueNumbersTotalLabel" xml:space="preserve">
-    <value>Numbers total</value>
+  <data name="WordValueConversionTableLabel" xml:space="preserve">
+    <value>Conversion table</value>
   </data>
   <data name="WordValueHelpNote" xml:space="preserve">
-    <value>Each letter scores its position in the alphabet (A=1, B=2, … Z=26); other characters are ignored. The letter values are summed per word and overall, then the total's digits are added repeatedly until a single digit — the digital root — remains.</value>
+    <value>Each character scores a value depending on the chosen method (by default A=1, B=2, … Z=26); uncounted characters are skipped. The values are summed, then the total's digits are added repeatedly until a single digit — the digital root — remains.</value>
+  </data>
+  <data name="WordValueMethod_A1Z26" xml:space="preserve">
+    <value>A=1 … Z=26</value>
+  </data>
+  <data name="WordValueMethod_A0Z25" xml:space="preserve">
+    <value>A=0 … Z=25</value>
+  </data>
+  <data name="WordValueMethod_A26Z1" xml:space="preserve">
+    <value>A=26 … Z=1</value>
+  </data>
+  <data name="WordValueMethod_A25Z0" xml:space="preserve">
+    <value>A=25 … Z=0</value>
+  </data>
+  <data name="WordValueMethod_Vanity" xml:space="preserve">
+    <value>A=2 … Z=9 (Vanity code)</value>
+  </data>
+  <data name="WordValueMethod_ScrabbleDutch" xml:space="preserve">
+    <value>A=1 … Z=4 (Scrabble Dutch)</value>
+  </data>
+  <data name="WordValueMethod_ScrabbleEnglish" xml:space="preserve">
+    <value>A=1 … Z=10 (Scrabble English)</value>
+  </data>
+  <data name="WordValueMethod_ScrabbleGerman" xml:space="preserve">
+    <value>A=1 … Z=3 (Scrabble German)</value>
+  </data>
+  <data name="WordValueMethod_Table0to9" xml:space="preserve">
+    <value>A=0 … Z=5 (Table 0-9)</value>
+  </data>
+  <data name="WordValueMethod_Table1to0" xml:space="preserve">
+    <value>A=1 … Z=6 (Table 1-0)</value>
+  </data>
+  <data name="WordValueMethod_Table1to9" xml:space="preserve">
+    <value>A=1 … Z=8 (Table 1-9)</value>
+  </data>
+  <data name="WordValueMethod_German1" xml:space="preserve">
+    <value>A=1 … Z=26, ä=27, ö=28, ü=29, ß=30</value>
+  </data>
+  <data name="WordValueMethod_German0" xml:space="preserve">
+    <value>A=0 … Z=25, ä=26, ö=27, ü=28, ß=29</value>
+  </data>
+  <data name="WordValueMethod_Swedish1" xml:space="preserve">
+    <value>A=1 … Z=26, å=27, ä=28, ö=29</value>
+  </data>
+  <data name="WordValueMethod_Swedish0" xml:space="preserve">
+    <value>A=0 … Z=25, å=26, ä=27, ö=28</value>
   </data>
 </root>

@@ -2,88 +2,55 @@ using System.Text;
 
 namespace GcToolkit.Core.Text;
 
-/// <summary>One word and its letter-sum value (A=1 … Z=26, non-letters ignored).</summary>
-public readonly record struct WordLetterValue(string Text, int Value);
+/// <summary>One whitespace-separated word and its computed value: the contributing per-character
+/// <see cref="Terms"/>, their <see cref="Total"/>, and the reduction chain down to the digital root.</summary>
+public sealed record WordValueWord(string Text, IReadOnlyList<int> Terms, long Total, IReadOnlyList<long> ReductionSteps);
 
 /// <summary>
-/// The full word-value analysis of a block of text: the per-word letter sums and their grand total,
-/// any plain numbers found in the input, and the cross-sum / digital-root reductions of both totals.
+/// The full word-value analysis of a block of text: the contributing terms and grand total, the
+/// reduction chain to the digital root, the per-word breakdown, and — when numbers are summed
+/// separately — the plain numbers found and their own total / reduction.
 /// </summary>
 public sealed class WordValueAnalysis
 {
-    /// <summary>The words found (tokens containing at least one letter), each with its letter sum.</summary>
-    public required IReadOnlyList<WordLetterValue> Words { get; init; }
+    /// <summary>The contributing terms of the whole text, in order. Skipped characters (spaces,
+    /// punctuation, uncounted digits) produce no term, so the calculation reads cleanly.</summary>
+    public required IReadOnlyList<int> Terms { get; init; }
 
-    /// <summary>The plain numbers found in the input (each maximal run of digits), in order.
-    /// Empty when number counting is off.</summary>
+    /// <summary>Sum of every term — the headline "word value".</summary>
+    public required long Total { get; init; }
+
+    /// <summary>The reduction chain for <see cref="Total"/>, e.g. <c>[782, 17, 8]</c>.</summary>
+    public required IReadOnlyList<long> ReductionSteps { get; init; }
+
+    /// <summary>The per-word breakdown (one entry per whitespace-separated token).</summary>
+    public required IReadOnlyList<WordValueWord> Words { get; init; }
+
+    /// <summary>The plain numbers found, when <see cref="NumberHandling.NumbersSeparate"/> is used; empty otherwise.</summary>
     public required IReadOnlyList<long> Numbers { get; init; }
 
-    /// <summary>Sum of every word's letter value — the headline "word value".</summary>
-    public required long LetterTotal { get; init; }
-
-    /// <summary>Cross-sum (single pass of summing the digits) of <see cref="LetterTotal"/>.</summary>
-    public required int LetterCrossSum { get; init; }
-
-    /// <summary>Digital root (repeated digit-sum) of <see cref="LetterTotal"/>; 1–9, or 0 when the total is 0.</summary>
-    public required int LetterDigitalRoot { get; init; }
-
-    /// <summary>The reduction chain for <see cref="LetterTotal"/>, e.g. <c>[12345, 15, 6]</c>.</summary>
-    public required IReadOnlyList<long> LetterReductionSteps { get; init; }
-
-    /// <summary>Sum of every number found in the input. 0 when number counting is off or none were found.</summary>
+    /// <summary>Sum of <see cref="Numbers"/>.</summary>
     public required long NumberTotal { get; init; }
-
-    /// <summary>Cross-sum of <see cref="NumberTotal"/>.</summary>
-    public required int NumberCrossSum { get; init; }
-
-    /// <summary>Digital root of <see cref="NumberTotal"/>.</summary>
-    public required int NumberDigitalRoot { get; init; }
 
     /// <summary>The reduction chain for <see cref="NumberTotal"/>.</summary>
     public required IReadOnlyList<long> NumberReductionSteps { get; init; }
 
-    /// <summary><see langword="true"/> when at least one letter-bearing word was found.</summary>
-    public bool HasContent => Words.Count > 0;
+    /// <summary><see langword="true"/> when at least one term was counted.</summary>
+    public bool HasContent => Terms.Count > 0;
 
-    /// <summary><see langword="true"/> when at least one number was captured.</summary>
+    /// <summary><see langword="true"/> when at least one separate number was captured.</summary>
     public bool HasNumbers => Numbers.Count > 0;
 }
 
 /// <summary>
 /// A pure, stateless calculator for the geocaching "word value (digital root)" method — the single
-/// source of truth for the transform. It sums letter positions (A=1 … Z=26, case-insensitive,
-/// non-letters ignored) per word and overall, and reduces any total via its cross-sum (one digit-sum
-/// pass) to its digital root (repeated until a single digit remains). Beyond geocachingtoolbox.com
-/// parity (total value, per-word values, digital root), it also captures plain numbers in the input
-/// and reduces them too, and exposes the full reduction chain for a "show your work" display.
+/// source of truth for the transform. For a chosen <see cref="WordValueScheme"/> it sums each scored
+/// character's value, optionally folding diacritics first and optionally counting digits, then reduces
+/// the total via repeated digit-sums to its digital root. It also produces a per-word breakdown and,
+/// when asked, sums plain multi-digit numbers separately.
 /// </summary>
 public sealed class WordValueCalculator
 {
-    /// <summary>The position of <paramref name="c"/> in the alphabet (A/a = 1 … Z/z = 26), or 0 if it is not a Latin letter.</summary>
-    public int LetterValue(char c) => c switch
-    {
-        >= 'A' and <= 'Z' => c - 'A' + 1,
-        >= 'a' and <= 'z' => c - 'a' + 1,
-        _ => 0,
-    };
-
-    /// <summary>The letter sum of <paramref name="word"/>: every Latin letter's position added up, others ignored.</summary>
-    public int WordValue(string? word)
-    {
-        if (string.IsNullOrEmpty(word))
-        {
-            return 0;
-        }
-
-        var sum = 0;
-        foreach (var c in word)
-        {
-            sum += LetterValue(c);
-        }
-
-        return sum;
-    }
-
     /// <summary>The cross-sum of <paramref name="value"/>: a single pass summing its decimal digits.</summary>
     public int CrossSum(long value)
     {
@@ -98,10 +65,7 @@ public sealed class WordValueCalculator
         return sum;
     }
 
-    /// <summary>
-    /// The digital root of <paramref name="value"/>: the cross-sum applied repeatedly until a single
-    /// digit remains. Always 1–9 for a positive value; 0 only for 0.
-    /// </summary>
+    /// <summary>The digital root of <paramref name="value"/>: the cross-sum applied until one digit remains.</summary>
     public int DigitalRoot(long value)
     {
         var n = Math.Abs(value);
@@ -113,10 +77,8 @@ public sealed class WordValueCalculator
         return (int)n;
     }
 
-    /// <summary>
-    /// The reduction chain from <paramref name="value"/> down to its digital root — the value itself,
-    /// then each successive cross-sum, ending on a single digit. A single-digit value yields a one-element list.
-    /// </summary>
+    /// <summary>The reduction chain from <paramref name="value"/> to its digital root (the value itself,
+    /// then each successive cross-sum). A single-digit value yields a one-element list.</summary>
     public IReadOnlyList<long> ReductionSteps(long value)
     {
         var n = Math.Abs(value);
@@ -131,66 +93,87 @@ public sealed class WordValueCalculator
     }
 
     /// <summary>
-    /// Analyzes <paramref name="text"/>: splits it into whitespace-separated words, computes each word's
-    /// letter value and the grand total, reduces that total to its digital root, and — when
-    /// <paramref name="countNumbers"/> is <see langword="true"/> — also collects every digit-run as a
-    /// number and reduces their sum.
+    /// Analyzes <paramref name="text"/> with the given <paramref name="scheme"/>, <paramref name="numbers"/>
+    /// handling, and optional diacritic folding. Returns the contributing terms, the total and its
+    /// reduction, the per-word breakdown, and any separately-summed numbers.
     /// </summary>
-    public WordValueAnalysis Analyze(string? text, bool countNumbers)
+    public WordValueAnalysis Analyze(string? text, WordValueScheme scheme, NumberHandling numbers, bool removeDiacritics)
     {
-        var words = new List<WordLetterValue>();
-        var numbers = new List<long>();
-        long letterTotal = 0;
-
-        if (!string.IsNullOrWhiteSpace(text))
+        var working = text ?? string.Empty;
+        if (removeDiacritics && scheme.AllowsDiacriticRemoval)
         {
-            foreach (var token in text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries))
-            {
-                var value = WordValue(token);
-                if (value > 0)
-                {
-                    words.Add(new WordLetterValue(token, value));
-                    letterTotal += value;
-                }
-            }
-
-            if (countNumbers)
-            {
-                CollectNumbers(text, numbers);
-            }
+            working = DiacriticFolder.Fold(working);
         }
 
-        long numberTotal = 0;
-        foreach (var number in numbers)
+        var includeDigits = numbers == NumberHandling.DigitsInTotal;
+
+        var (terms, total) = ComputeTerms(working, scheme, includeDigits);
+
+        var words = new List<WordValueWord>();
+        foreach (var token in working.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries))
         {
-            numberTotal += number;
+            var (wordTerms, wordTotal) = ComputeTerms(token, scheme, includeDigits);
+            words.Add(new WordValueWord(token, wordTerms, wordTotal, ReductionSteps(wordTotal)));
+        }
+
+        var foundNumbers = new List<long>();
+        long numberTotal = 0;
+        if (numbers == NumberHandling.NumbersSeparate)
+        {
+            CollectNumbers(working, foundNumbers);
+            foreach (var number in foundNumbers)
+            {
+                numberTotal += number;
+            }
         }
 
         return new WordValueAnalysis
         {
+            Terms = terms,
+            Total = total,
+            ReductionSteps = ReductionSteps(total),
             Words = words,
-            Numbers = numbers,
-            LetterTotal = letterTotal,
-            LetterCrossSum = CrossSum(letterTotal),
-            LetterDigitalRoot = DigitalRoot(letterTotal),
-            LetterReductionSteps = ReductionSteps(letterTotal),
+            Numbers = foundNumbers,
             NumberTotal = numberTotal,
-            NumberCrossSum = CrossSum(numberTotal),
-            NumberDigitalRoot = DigitalRoot(numberTotal),
             NumberReductionSteps = ReductionSteps(numberTotal),
         };
     }
 
-    /// <summary>Captures every maximal run of ASCII digits in <paramref name="text"/> as a number.
-    /// Runs that overflow <see cref="long"/> are skipped rather than throwing.</summary>
+    /// <summary>Walks <paramref name="text"/> collecting a term for every scored character (and, when
+    /// <paramref name="includeDigits"/> is set, every digit). Uncounted characters produce no term.</summary>
+    private static (List<int> Terms, long Total) ComputeTerms(string text, WordValueScheme scheme, bool includeDigits)
+    {
+        var terms = new List<int>();
+        long total = 0;
+
+        foreach (var ch in text)
+        {
+            var lower = char.ToLowerInvariant(ch);
+            if (scheme.Values.TryGetValue(lower, out var value))
+            {
+                terms.Add(value);
+                total += value;
+            }
+            else if (includeDigits && lower is >= '0' and <= '9')
+            {
+                var digit = lower - '0';
+                terms.Add(digit);
+                total += digit;
+            }
+        }
+
+        return (terms, total);
+    }
+
+    /// <summary>Captures every maximal run of ASCII digits as a number; runs that overflow are skipped.</summary>
     private static void CollectNumbers(string text, List<long> numbers)
     {
         var run = new StringBuilder();
-        foreach (var c in text)
+        foreach (var ch in text)
         {
-            if (c is >= '0' and <= '9')
+            if (ch is >= '0' and <= '9')
             {
-                run.Append(c);
+                run.Append(ch);
             }
             else if (run.Length > 0)
             {

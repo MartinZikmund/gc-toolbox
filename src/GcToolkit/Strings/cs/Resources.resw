@@ -3007,7 +3007,7 @@
     <value>Hodnota slova</value>
   </data>
   <data name="WordValue_Tooltip" xml:space="preserve">
-    <value>Sečtěte hodnoty písmen (A=1 … Z=26) a součet zredukujte na ciferný kořen.</value>
+    <value>Sečtěte hodnoty znaků (A=1 … Z=26 a další) a součet zredukujte na ciferný kořen.</value>
   </data>
   <data name="WordValueInputLabel" xml:space="preserve">
     <value>Text</value>
@@ -3015,11 +3015,35 @@
   <data name="WordValueInputPlaceholder" xml:space="preserve">
     <value>Zadejte jedno nebo více slov…</value>
   </data>
+  <data name="WordValueMethodLabel" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
   <data name="WordValueCountNumbers" xml:space="preserve">
     <value>Počítat čísla</value>
   </data>
-  <data name="WordValueClear" xml:space="preserve">
-    <value>Vymazat</value>
+  <data name="WordValueNumberHandlingLabel" xml:space="preserve">
+    <value>Zpracování čísel</value>
+  </data>
+  <data name="WordValueNumbersInline" xml:space="preserve">
+    <value>Přičíst číslice k součtu</value>
+  </data>
+  <data name="WordValueNumbersSeparate" xml:space="preserve">
+    <value>Sčítat čísla samostatně</value>
+  </data>
+  <data name="WordValueRemoveDiacritics" xml:space="preserve">
+    <value>Odstranit diakritiku</value>
+  </data>
+  <data name="WordValueRemoveDiacriticsHint" xml:space="preserve">
+    <value>(é → e, ä → a, …)</value>
+  </data>
+  <data name="WordValueShowCalculation" xml:space="preserve">
+    <value>Zobrazit výpočet</value>
+  </data>
+  <data name="WordValueCountSeparateWords" xml:space="preserve">
+    <value>Počítat slova samostatně</value>
+  </data>
+  <data name="WordValueReset" xml:space="preserve">
+    <value>Obnovit pole</value>
   </data>
   <data name="WordValueCopy" xml:space="preserve">
     <value>Kopírovat</value>
@@ -3027,34 +3051,67 @@
   <data name="WordValueShare" xml:space="preserve">
     <value>Sdílet</value>
   </data>
-  <data name="WordValueTotalLabel" xml:space="preserve">
-    <value>Celková hodnota</value>
+  <data name="WordValueResultLabel" xml:space="preserve">
+    <value>Hodnota slova (ciferný kořen)</value>
   </data>
-  <data name="WordValueCrossSumLabel" xml:space="preserve">
-    <value>Ciferný součet</value>
+  <data name="WordValueSummedLabel" xml:space="preserve">
+    <value>Sečteno na jednu číslici</value>
   </data>
-  <data name="WordValueDigitalRootLabel" xml:space="preserve">
-    <value>Ciferný kořen</value>
-  </data>
-  <data name="WordValueReductionLabel" xml:space="preserve">
-    <value>Redukce</value>
-  </data>
-  <data name="WordValueBreakdownLabel" xml:space="preserve">
-    <value>Rozklad po slovech</value>
-  </data>
-  <data name="WordValueWordHeader" xml:space="preserve">
-    <value>Slovo</value>
-  </data>
-  <data name="WordValueValueHeader" xml:space="preserve">
-    <value>Hodnota</value>
+  <data name="WordValueSeparateWordsLabel" xml:space="preserve">
+    <value>Výsledek: jednotlivá slova</value>
   </data>
   <data name="WordValueNumbersLabel" xml:space="preserve">
     <value>Čísla</value>
   </data>
-  <data name="WordValueNumbersTotalLabel" xml:space="preserve">
-    <value>Součet čísel</value>
+  <data name="WordValueConversionTableLabel" xml:space="preserve">
+    <value>Převodní tabulka</value>
   </data>
   <data name="WordValueHelpNote" xml:space="preserve">
-    <value>Každé písmeno má hodnotu své pozice v abecedě (A=1, B=2, … Z=26); ostatní znaky se ignorují. Hodnoty písmen se sečtou pro každé slovo i celkově a poté se číslice součtu opakovaně sčítají, dokud nezbude jediná číslice – ciferný kořen.</value>
+    <value>Každý znak má hodnotu podle zvolené metody (výchozí A=1, B=2, … Z=26); nezapočítané znaky se přeskočí. Hodnoty se sečtou a poté se číslice součtu opakovaně sčítají, dokud nezbude jediná číslice – ciferný kořen.</value>
+  </data>
+  <data name="WordValueMethod_A1Z26" xml:space="preserve">
+    <value>A=1 … Z=26</value>
+  </data>
+  <data name="WordValueMethod_A0Z25" xml:space="preserve">
+    <value>A=0 … Z=25</value>
+  </data>
+  <data name="WordValueMethod_A26Z1" xml:space="preserve">
+    <value>A=26 … Z=1</value>
+  </data>
+  <data name="WordValueMethod_A25Z0" xml:space="preserve">
+    <value>A=25 … Z=0</value>
+  </data>
+  <data name="WordValueMethod_Vanity" xml:space="preserve">
+    <value>A=2 … Z=9 (Telefonní klávesnice)</value>
+  </data>
+  <data name="WordValueMethod_ScrabbleDutch" xml:space="preserve">
+    <value>A=1 … Z=4 (Scrabble nizozemský)</value>
+  </data>
+  <data name="WordValueMethod_ScrabbleEnglish" xml:space="preserve">
+    <value>A=1 … Z=10 (Scrabble anglický)</value>
+  </data>
+  <data name="WordValueMethod_ScrabbleGerman" xml:space="preserve">
+    <value>A=1 … Z=3 (Scrabble německý)</value>
+  </data>
+  <data name="WordValueMethod_Table0to9" xml:space="preserve">
+    <value>A=0 … Z=5 (Tabulka 0-9)</value>
+  </data>
+  <data name="WordValueMethod_Table1to0" xml:space="preserve">
+    <value>A=1 … Z=6 (Tabulka 1-0)</value>
+  </data>
+  <data name="WordValueMethod_Table1to9" xml:space="preserve">
+    <value>A=1 … Z=8 (Tabulka 1-9)</value>
+  </data>
+  <data name="WordValueMethod_German1" xml:space="preserve">
+    <value>A=1 … Z=26, ä=27, ö=28, ü=29, ß=30</value>
+  </data>
+  <data name="WordValueMethod_German0" xml:space="preserve">
+    <value>A=0 … Z=25, ä=26, ö=27, ü=28, ß=29</value>
+  </data>
+  <data name="WordValueMethod_Swedish1" xml:space="preserve">
+    <value>A=1 … Z=26, å=27, ä=28, ö=29</value>
+  </data>
+  <data name="WordValueMethod_Swedish0" xml:space="preserve">
+    <value>A=0 … Z=25, å=26, ä=27, ö=28</value>
   </data>
 </root>

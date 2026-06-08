@@ -13,16 +13,19 @@ using Microsoft.Extensions.Localization;
 namespace GcToolkit.Core.ViewModels.Tools;
 
 /// <summary>
-/// Word value / digital root (issue #30). Computes the letter-sum word value (A=1 … Z=26) for each word
-/// and the grand total live as the user types, then reduces that total to its cross-sum and digital root —
-/// the well-known geocaching "turn words into numbers" method (geocachingtoolbox.com parity). Goes beyond
-/// parity with a per-word breakdown, the full reduction chain ("show your work"), and an optional pass that
-/// also sums and reduces any plain numbers in the input. All arithmetic lives in the pure
-/// <see cref="WordValueCalculator"/> (thin-VM convention).
+/// Word value / digital root (issue #30). Computes the letter-sum word value live as the user types and
+/// reduces it to its digital root — the geocaching "turn words into numbers" method. Matches
+/// geocachingtoolbox.com feature-for-feature: 15 value schemes (A=1…Z=26 and its variants, the phone
+/// keypad, Scrabble NL/UK/DE, three cyclic tables, and German/Swedish accent-extended schemes), an
+/// optional digit count, diacritic folding, a toggleable step-by-step calculation, a per-word
+/// breakdown, and a conversion table. Goes beyond parity with a choice of number handling (digits inline
+/// vs. multi-digit numbers summed separately), copy/share, and a favorite toggle. All arithmetic lives
+/// in the pure <see cref="WordValueCalculator"/> (thin-VM convention).
 /// </summary>
 [Tool("WordValue", ToolCategory.Text,
-      Introduced = "2026-06-06", Updated = "2026-06-06",
+      Introduced = "2026-06-06", Updated = "2026-06-07",
       Keywords = ["word", "value", "digital", "root", "sum", "letters", "cross sum", "checksum",
+                  "scrabble", "vanity", "keypad", "method",
                   "hodnota", "slova", "ciferný", "kořen", "součet", "písmena"])]
 public sealed partial class WordValueViewModel : ToolViewModelBase
 {
@@ -30,6 +33,9 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
+
+    private bool _suppressRecompute;
+    private WordValueMethod? _conversionMethod;
 
     public WordValueViewModel(
         ICatalogService catalog,
@@ -46,56 +52,92 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
         Recompute();
     }
 
+    /// <summary>Every value scheme, in dropdown order, for the method picker.</summary>
+    public IReadOnlyList<WordValueMethod> Methods { get; } = WordValueSchemes.All;
+
+    [ObservableProperty]
+    public partial WordValueMethod SelectedMethod { get; set; } = WordValueMethod.A1Z26;
+
     [ObservableProperty]
     public partial string InputText { get; set; } = string.Empty;
 
-    /// <summary>Whether plain numbers in the input are summed and reduced alongside the letter value.</summary>
+    /// <summary>Whether digits in the input are counted at all.</summary>
     [ObservableProperty]
     public partial bool CountNumbers { get; set; } = true;
+
+    /// <summary>When counting numbers: 0 adds each digit inline to the one total (reference behavior);
+    /// 1 sums multi-digit numbers in a separate total with its own digital root.</summary>
+    [ObservableProperty]
+    public partial int NumberModeIndex { get; set; }
+
+    /// <summary>Fold accents to plain letters (é → e, ä → a, …) before counting.</summary>
+    [ObservableProperty]
+    public partial bool RemoveDiacritics { get; set; } = true;
+
+    /// <summary><see langword="false"/> for the accent-extended schemes, where folding would discard the
+    /// very characters that carry a value — the option is disabled in the UI then.</summary>
+    [ObservableProperty]
+    public partial bool CanRemoveDiacritics { get; set; } = true;
+
+    /// <summary>Show the step-by-step "1 + 8 + 15 … = total" calculation.</summary>
+    [ObservableProperty]
+    public partial bool ShowCalculation { get; set; } = true;
+
+    /// <summary>Also compute and list each whitespace-separated word's value.</summary>
+    [ObservableProperty]
+    public partial bool CountSeparateWords { get; set; }
 
     [ObservableProperty]
     public partial bool HasOutput { get; set; }
 
-    /// <summary>The headline letter-sum total of every word.</summary>
+    /// <summary>The "Word value (Digital root)" line: <c>terms = total</c> (or just the total when the
+    /// calculation is hidden).</summary>
     [ObservableProperty]
-    public partial long LetterTotal { get; set; }
+    public partial string WordValueLine { get; set; } = string.Empty;
 
-    /// <summary>Cross-sum (one digit-sum pass) of <see cref="LetterTotal"/>.</summary>
+    /// <summary>The "Summed to one digit" reduction chain, e.g. <c>782 = 17 = 8</c>.</summary>
     [ObservableProperty]
-    public partial int LetterCrossSum { get; set; }
+    public partial string ReductionLine { get; set; } = string.Empty;
 
-    /// <summary>Digital root of <see cref="LetterTotal"/> (1–9, or 0 for an empty input).</summary>
-    [ObservableProperty]
-    public partial int LetterDigitalRoot { get; set; }
-
-    /// <summary>The reduction chain for the letter total rendered as <c>"123 → 6 → 6"</c>.</summary>
-    [ObservableProperty]
-    public partial string LetterReduction { get; set; } = string.Empty;
-
-    /// <summary><see langword="true"/> when numbers were found and counted (drives the numeric section).</summary>
-    [ObservableProperty]
-    public partial bool HasNumbers { get; set; }
+    /// <summary>Per-word rows shown when <see cref="CountSeparateWords"/> is on.</summary>
+    public ObservableCollection<WordValueWordItem> Words { get; } = [];
 
     [ObservableProperty]
-    public partial long NumberTotal { get; set; }
+    public partial bool ShowSeparateWords { get; set; }
+
+    /// <summary>The separate multi-digit numbers section (only in <see cref="SumNumbersSeparately"/> mode).</summary>
+    [ObservableProperty]
+    public partial bool ShowSeparateNumbers { get; set; }
 
     [ObservableProperty]
-    public partial int NumberDigitalRoot { get; set; }
+    public partial string NumbersLine { get; set; } = string.Empty;
 
-    /// <summary>The reduction chain for the number total, same format as <see cref="LetterReduction"/>.</summary>
     [ObservableProperty]
-    public partial string NumberReduction { get; set; } = string.Empty;
+    public partial string NumbersReductionLine { get; set; } = string.Empty;
 
-    /// <summary>The numbers found in the input, joined for display (e.g. <c>"49 + 13 + 456"</c>).</summary>
-    [ObservableProperty]
-    public partial string NumbersSummary { get; set; } = string.Empty;
+    /// <summary>The conversion table for the active scheme (one cell per scored character).</summary>
+    public ObservableCollection<WordValueConversionItem> Conversion { get; } = [];
 
-    /// <summary>Per-word rows shown in the breakdown table.</summary>
-    public ObservableCollection<WordValueItem> Words { get; } = [];
+    partial void OnSelectedMethodChanged(WordValueMethod value) => Recompute();
 
     partial void OnInputTextChanged(string value) => Recompute();
 
     partial void OnCountNumbersChanged(bool value) => Recompute();
+
+    partial void OnNumberModeIndexChanged(int value)
+    {
+        // Ignore the transient -1 a RadioButtons control can emit while re-templating.
+        if (value is 0 or 1)
+        {
+            Recompute();
+        }
+    }
+
+    partial void OnRemoveDiacriticsChanged(bool value) => Recompute();
+
+    partial void OnShowCalculationChanged(bool value) => Recompute();
+
+    partial void OnCountSeparateWordsChanged(bool value) => Recompute();
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -103,75 +145,94 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
         ShareOutputCommand.NotifyCanExecuteChanged();
     }
 
+    private NumberHandling NumberMode => !CountNumbers
+        ? NumberHandling.Ignore
+        : NumberModeIndex == 1 ? NumberHandling.NumbersSeparate : NumberHandling.DigitsInTotal;
+
     private void Recompute()
     {
-        var analysis = _calculator.Analyze(InputText, CountNumbers);
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        var scheme = WordValueSchemes.For(SelectedMethod);
+        CanRemoveDiacritics = scheme.AllowsDiacriticRemoval;
+
+        if (_conversionMethod != SelectedMethod)
+        {
+            BuildConversionTable(scheme);
+            _conversionMethod = SelectedMethod;
+        }
+
+        var analysis = _calculator.Analyze(InputText, scheme, NumberMode, RemoveDiacritics);
+
+        HasOutput = !string.IsNullOrEmpty(InputText) && analysis.HasContent;
+
+        WordValueLine = FormatValueLine(analysis.Terms, analysis.Total);
+        ReductionLine = FormatReduction(analysis.ReductionSteps);
 
         Words.Clear();
         foreach (var word in analysis.Words)
         {
-            Words.Add(new WordValueItem(word.Text, word.Value));
+            var detail = ShowCalculation && word.Terms.Count > 0
+                ? $"{FormatTerms(word.Terms)} = {FormatReduction(word.ReductionSteps)}"
+                : FormatReduction(word.ReductionSteps);
+            Words.Add(new WordValueWordItem(word.Text, detail));
         }
 
-        LetterTotal = analysis.LetterTotal;
-        LetterCrossSum = analysis.LetterCrossSum;
-        LetterDigitalRoot = analysis.LetterDigitalRoot;
-        LetterReduction = FormatReduction(analysis.LetterReductionSteps);
+        ShowSeparateWords = CountSeparateWords && Words.Count > 0;
 
-        HasNumbers = analysis.HasNumbers;
-        NumberTotal = analysis.NumberTotal;
-        NumberDigitalRoot = analysis.NumberDigitalRoot;
-        NumberReduction = FormatReduction(analysis.NumberReductionSteps);
-        NumbersSummary = string.Join(" + ", analysis.Numbers.Select(n => n.ToString(CultureInfo.CurrentCulture)));
-
-        HasOutput = analysis.HasContent || analysis.HasNumbers;
+        ShowSeparateNumbers = NumberMode == NumberHandling.NumbersSeparate && analysis.HasNumbers;
+        if (ShowSeparateNumbers)
+        {
+            NumbersLine = $"{string.Join(" + ", analysis.Numbers.Select(Format))} = {analysis.NumberTotal}";
+            NumbersReductionLine = FormatReduction(analysis.NumberReductionSteps);
+        }
     }
 
-    /// <summary>Renders a reduction chain as <c>"a → b → c"</c> (a single value shows just itself).</summary>
+    private void BuildConversionTable(WordValueScheme scheme)
+    {
+        Conversion.Clear();
+        foreach (var ch in scheme.Characters)
+        {
+            Conversion.Add(new WordValueConversionItem(ch.ToString(), scheme.Values[ch]));
+        }
+    }
+
+    /// <summary>The headline value line: <c>terms = total</c> with the calculation, just <c>total</c> without.</summary>
+    private string FormatValueLine(IReadOnlyList<int> terms, long total)
+        => ShowCalculation && terms.Count > 0 ? $"{FormatTerms(terms)} = {Format(total)}" : Format(total);
+
+    private static string FormatTerms(IReadOnlyList<int> terms)
+        => string.Join(" + ", terms.Select(t => t.ToString(CultureInfo.CurrentCulture)));
+
+    /// <summary>Renders a reduction chain as <c>"782 = 17 = 8"</c> (a single value shows just itself).</summary>
     private static string FormatReduction(IReadOnlyList<long> steps)
-        => string.Join(" → ", steps.Select(s => s.ToString(CultureInfo.CurrentCulture)));
+        => string.Join(" = ", steps.Select(Format));
+
+    private static string Format(long value) => value.ToString(CultureInfo.CurrentCulture);
 
     /// <summary>The plain-text summary the Copy/Share actions emit.</summary>
     private string BuildResultText()
     {
         var builder = new StringBuilder();
+        builder.Append(_localizer["WordValueResultLabel"].Value).Append(": ").AppendLine(WordValueLine);
+        builder.Append(_localizer["WordValueSummedLabel"].Value).Append(": ").AppendLine(ReductionLine);
 
-        if (Words.Count > 0)
+        if (ShowSeparateNumbers)
         {
-            foreach (var word in Words)
-            {
-                builder.Append(word.Word)
-                    .Append(" = ")
-                    .Append(word.Value.ToString(CultureInfo.CurrentCulture))
-                    .AppendLine();
-            }
-
-            builder.Append(_localizer["WordValueTotalLabel"].Value)
-                .Append(": ")
-                .Append(LetterTotal.ToString(CultureInfo.CurrentCulture))
-                .AppendLine();
-            builder.Append(_localizer["WordValueDigitalRootLabel"].Value)
-                .Append(": ")
-                .Append(LetterDigitalRoot.ToString(CultureInfo.CurrentCulture))
-                .Append("  (")
-                .Append(LetterReduction)
-                .Append(')')
-                .AppendLine();
+            builder.Append(_localizer["WordValueNumbersLabel"].Value).Append(": ").Append(NumbersLine)
+                .Append("  (").Append(NumbersReductionLine).AppendLine(")");
         }
 
-        if (HasNumbers)
+        if (ShowSeparateWords)
         {
-            builder.Append(_localizer["WordValueNumbersLabel"].Value)
-                .Append(": ")
-                .Append(NumbersSummary)
-                .Append(" = ")
-                .Append(NumberTotal.ToString(CultureInfo.CurrentCulture))
-                .Append("  (")
-                .Append(_localizer["WordValueDigitalRootLabel"].Value)
-                .Append(' ')
-                .Append(NumberDigitalRoot.ToString(CultureInfo.CurrentCulture))
-                .Append(')')
-                .AppendLine();
+            builder.AppendLine().AppendLine(_localizer["WordValueSeparateWordsLabel"].Value);
+            foreach (var word in Words)
+            {
+                builder.Append(word.Word).Append(": ").AppendLine(word.Detail);
+            }
         }
 
         return builder.ToString().TrimEnd();
@@ -193,6 +254,19 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
         }
     }
 
+    /// <summary>Resets the text and every option back to its default (the reference "Reset fields").</summary>
     [RelayCommand]
-    private void Clear() => InputText = string.Empty;
+    private void Reset()
+    {
+        _suppressRecompute = true;
+        InputText = string.Empty;
+        SelectedMethod = WordValueMethod.A1Z26;
+        CountNumbers = true;
+        NumberModeIndex = 0;
+        RemoveDiacritics = true;
+        ShowCalculation = true;
+        CountSeparateWords = false;
+        _suppressRecompute = false;
+        Recompute();
+    }
 }
