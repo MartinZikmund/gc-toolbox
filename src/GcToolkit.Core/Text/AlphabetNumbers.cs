@@ -17,9 +17,13 @@ public sealed record AlphabetNumberOptions
     /// </summary>
     public string Separator { get; init; } = " ";
 
+    /// <summary>The numbering scheme. Defaults to <see cref="AlphabetMethod.A1Z26"/> (A=1 … Z=26).</summary>
+    public AlphabetMethod Method { get; init; } = AlphabetMethod.A1Z26;
+
     /// <summary>
-    /// When decoding, map a value outside 1–26 back into range with <c>1 + ((n − 1) mod 26)</c> instead
-    /// of marking it as <see cref="UnknownMarker"/>. Lets 27→A, 0→Z, −1→Y, etc.
+    /// When decoding, map a value outside the method's range back into range (e.g. 27→A) instead of
+    /// treating it as unknown. Modulo is taken over the active method's range, so 31→A under a 30-letter
+    /// German method.
     /// </summary>
     public bool WrapModulo { get; init; }
 
@@ -31,22 +35,37 @@ public sealed record AlphabetNumberOptions
     /// instead of dropping them. Word boundaries are always preserved either way.
     /// </summary>
     public bool KeepNonLetters { get; init; }
+
+    /// <summary>
+    /// When decoding, the string substituted for a token that does not map to a letter (out of range
+    /// and not wrapped, or non-numeric). Empty drops the token. Ignored when
+    /// <see cref="KeepOriginalUnknown"/> is set. Defaults to <see cref="AlphabetNumbers.UnknownMarker"/>.
+    /// </summary>
+    public string UnknownReplacement { get; init; } = AlphabetNumbers.UnknownMarker;
+
+    /// <summary>
+    /// When decoding, emit the original token text verbatim for an unmapped token instead of
+    /// <see cref="UnknownReplacement"/> (geocachingtoolbox.com's "&lt;Original&gt;" behavior).
+    /// </summary>
+    public bool KeepOriginalUnknown { get; init; }
 }
 
 /// <summary>
-/// Bidirectional A1Z26 codec — the single source of truth for the "numbers ↔ letters" transform.
-/// Encoding maps A→1 … Z→26 (case-insensitive) and joins the numbers of a word with a configurable
-/// separator; decoding reverses it, mapping 1→A … 26→Z. Word boundaries survive a round trip.
+/// Bidirectional numbers ↔ letters codec — the single source of truth for the transform. The active
+/// <see cref="AlphabetMethod"/> defines the character ↔ value mapping (A=1…Z=26 and its 0-based,
+/// reversed, German and Nordic variants); encoding joins the numbers of a word with a configurable
+/// separator, decoding reverses it. Word boundaries survive a round trip.
 /// Beyond geocachingtoolbox.com parity (which only decodes numbers→letters with a space separator),
-/// this codec is bidirectional, takes any separator, can keep or strip non-letters when encoding,
-/// offers a configurable output case, and either wraps out-of-range values modulo 26 or flags them.
+/// this codec is bidirectional, supports every method, takes any separator, can keep or strip
+/// non-letters when encoding, offers a configurable output case, wraps out-of-range values into the
+/// method's range, and lets unmapped tokens be kept verbatim or replaced with any string.
 /// </summary>
 public sealed class AlphabetNumbers
 {
     /// <summary>Number of letters in the Latin alphabet.</summary>
     public const int AlphabetSize = 26;
 
-    /// <summary>Emitted for a token that is not a valid letter index (and not wrapped).</summary>
+    /// <summary>Default substitution for a token that is not a valid letter index (and not wrapped).</summary>
     public const string UnknownMarker = "#";
 
     /// <summary>
@@ -64,9 +83,10 @@ public sealed class AlphabetNumbers
         }
 
         options ??= AlphabetNumberOptions.Default;
+        var method = AlphabetMethods.Get(options.Method);
         return options.KeepNonLetters
-            ? EncodeKeepingNonLetters(text, options.Separator)
-            : EncodeStrippingNonLetters(text, options.Separator);
+            ? EncodeKeepingNonLetters(text, options.Separator, method)
+            : EncodeStrippingNonLetters(text, options.Separator, method);
     }
 
     /// <summary>
@@ -85,6 +105,7 @@ public sealed class AlphabetNumbers
         }
 
         options ??= AlphabetNumberOptions.Default;
+        var method = AlphabetMethods.Get(options.Method);
         var words = SplitIntoWords(text, options.Separator);
 
         var result = new StringBuilder();
@@ -97,14 +118,14 @@ public sealed class AlphabetNumbers
 
             foreach (var token in words[w])
             {
-                result.Append(DecodeToken(token, options));
+                result.Append(DecodeToken(token, options, method));
             }
         }
 
         return result.ToString();
     }
 
-    private static string EncodeStrippingNonLetters(string text, string separator)
+    private static string EncodeStrippingNonLetters(string text, string separator, AlphabetMethodDefinition method)
     {
         // A word boundary must survive decoding. With a non-space separator, a single space already
         // marks the boundary unambiguously; with the default space separator we widen it (sep+" "+sep)
@@ -143,7 +164,7 @@ public sealed class AlphabetNumbers
 
         foreach (var c in text)
         {
-            if (TryLetterValue(c, out var value))
+            if (method.TryGetValue(c, out var value))
             {
                 wordNumbers.Add(value);
             }
@@ -159,7 +180,7 @@ public sealed class AlphabetNumbers
         return result.ToString();
     }
 
-    private static string EncodeKeepingNonLetters(string text, string separator)
+    private static string EncodeKeepingNonLetters(string text, string separator, AlphabetMethodDefinition method)
     {
         // Verbatim pass-through of everything but letters; the separator is inserted only between two
         // letters that are directly adjacent (so runs within a word are split, punctuation untouched).
@@ -168,7 +189,7 @@ public sealed class AlphabetNumbers
 
         foreach (var c in text)
         {
-            if (TryLetterValue(c, out var value))
+            if (method.TryGetValue(c, out var value))
             {
                 if (previousWasNumber)
                 {
@@ -313,56 +334,27 @@ public sealed class AlphabetNumbers
         return words;
     }
 
-    private static string DecodeToken(string token, AlphabetNumberOptions options)
+    private static string DecodeToken(string token, AlphabetNumberOptions options, AlphabetMethodDefinition method)
     {
         if (int.TryParse(token, out var n))
         {
-            if (n is >= 1 and <= AlphabetSize)
+            if (method.TryGetChar(n, out var letter))
             {
-                return Letter(n, options.UpperCase);
+                return Cased(letter, options.UpperCase);
             }
 
-            if (options.WrapModulo)
+            if (options.WrapModulo && method.TryGetChar(method.WrapIntoRange(n), out var wrapped))
             {
-                return Letter(WrapIntoRange(n), options.UpperCase);
+                return Cased(wrapped, options.UpperCase);
             }
         }
 
-        return UnknownMarker;
+        // Unmapped (out of range without wrap, or non-numeric): keep the original or substitute.
+        return options.KeepOriginalUnknown ? token : options.UnknownReplacement;
     }
 
-    private static string Letter(int index, bool upper)
-        => ((char)((upper ? 'A' : 'a') + (index - 1))).ToString();
-
-    /// <summary>Maps any integer into 1–26 via <c>1 + ((n − 1) mod 26)</c> (handles negatives).</summary>
-    private static int WrapIntoRange(int n)
-    {
-        var m = (n - 1) % AlphabetSize;
-        if (m < 0)
-        {
-            m += AlphabetSize;
-        }
-
-        return m + 1;
-    }
-
-    private static bool TryLetterValue(char c, out int value)
-    {
-        if (c is >= 'A' and <= 'Z')
-        {
-            value = c - 'A' + 1;
-            return true;
-        }
-
-        if (c is >= 'a' and <= 'z')
-        {
-            value = c - 'a' + 1;
-            return true;
-        }
-
-        value = 0;
-        return false;
-    }
+    private static string Cased(char letter, bool upper)
+        => (upper ? char.ToUpperInvariant(letter) : letter).ToString();
 
     private static bool IsSpaceSeparator(string separator)
         => string.IsNullOrEmpty(separator) || separator.All(char.IsWhiteSpace);

@@ -3236,6 +3236,9 @@
   <data name="NumbersNumbersToLetters" xml:space="preserve">
     <value>Numbers → Letters</value>
   </data>
+  <data name="NumbersMethodLabel" xml:space="preserve">
+    <value>Method</value>
+  </data>
   <data name="NumbersInputLabel" xml:space="preserve">
     <value>Input</value>
   </data>
@@ -3243,7 +3246,7 @@
     <value>Type letters to convert to numbers…</value>
   </data>
   <data name="NumbersInputPlaceholderNumbers" xml:space="preserve">
-    <value>Type numbers (1–26) separated by the separator…</value>
+    <value>Type numbers separated by the separator…</value>
   </data>
   <data name="NumbersOutputLabel" xml:space="preserve">
     <value>Result</value>
@@ -3264,10 +3267,22 @@
     <value>Upper-case output</value>
   </data>
   <data name="NumbersWrapModulo" xml:space="preserve">
-    <value>Wrap values outside 1–26 (mod 26)</value>
+    <value>Wrap values outside the method's range</value>
   </data>
   <data name="NumbersWrapNote" xml:space="preserve">
-    <value>Off: values outside 1–26 (and non-numbers) show as #. On: they wrap, so 27 → A.</value>
+    <value>Off: numbers outside the method's range (and non-numbers) use the option below. On: they wrap into range, so 27 → A.</value>
+  </data>
+  <data name="NumbersKeepOriginalUnknown" xml:space="preserve">
+    <value>Keep unknown numbers as typed</value>
+  </data>
+  <data name="NumbersReplaceUnknownLabel" xml:space="preserve">
+    <value>Replace unknown number by</value>
+  </data>
+  <data name="NumbersReplaceUnknownPlaceholder" xml:space="preserve">
+    <value>e.g. ? (empty = remove)</value>
+  </data>
+  <data name="NumbersConversionTableLabel" xml:space="preserve">
+    <value>Conversion table</value>
   </data>
   <data name="NumbersClear" xml:space="preserve">
     <value>Clear</value>

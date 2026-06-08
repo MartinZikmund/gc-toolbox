@@ -18,8 +18,8 @@ namespace GcToolkit.Core.ViewModels.Tools;
 /// the pure <see cref="AlphabetNumbers"/> codec (thin-VM convention).
 /// </summary>
 [Tool("NumbersToLetters", ToolCategory.Text,
-      Introduced = "2026-06-06", Updated = "2026-06-06",
-      Keywords = ["a1z26", "numbers", "letters", "alphabet", "position", "index", "číslapísmena", "čísla", "písmena", "abeceda", "pozice", "letter to number", "number to letter"])]
+      Introduced = "2026-06-06", Updated = "2026-06-07",
+      Keywords = ["a1z26", "numbers", "letters", "alphabet", "position", "index", "method", "umlaut", "german", "nordic", "conversion table", "číslapísmena", "čísla", "písmena", "abeceda", "pozice", "metoda", "převodní tabulka", "letter to number", "number to letter"])]
 public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
 {
     private readonly AlphabetNumbers _codec = new();
@@ -40,11 +40,23 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
         _share = share;
         _localizer = localizer;
         InputPlaceholder = _localizer["NumbersInputPlaceholderLetters"].Value;
+        MethodLabels = [.. AlphabetMethods.All.Select(m => m.Label)];
+        ConversionTable = SelectedMethodDefinition.Entries;
     }
+
+    /// <summary>The eight method formulas shown in the picker (locale-neutral data, e.g. <c>A=1 ... Z=26</c>).</summary>
+    public IReadOnlyList<string> MethodLabels { get; }
 
     /// <summary>0 = letters → numbers, 1 = numbers → letters.</summary>
     [ObservableProperty]
     public partial int DirectionIndex { get; set; }
+
+    /// <summary>Index into <see cref="MethodLabels"/> / <see cref="AlphabetMethods.All"/>; the selected numbering scheme.</summary>
+    [ObservableProperty]
+    public partial int MethodIndex { get; set; }
+
+    private AlphabetMethodDefinition SelectedMethodDefinition
+        => AlphabetMethods.All[Math.Clamp(MethodIndex, 0, AlphabetMethods.All.Count - 1)];
 
     [ObservableProperty]
     public partial string InputText { get; set; } = string.Empty;
@@ -53,7 +65,7 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial string Separator { get; set; } = " ";
 
-    /// <summary>When decoding, wrap values outside 1–26 back into range modulo 26 instead of flagging them.</summary>
+    /// <summary>When decoding, wrap values outside the selected method's range back into range instead of flagging them.</summary>
     [ObservableProperty]
     public partial bool WrapModulo { get; set; }
 
@@ -64,6 +76,25 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
     /// <summary>When encoding, keep non-letter characters verbatim instead of dropping them.</summary>
     [ObservableProperty]
     public partial bool KeepNonLetters { get; set; }
+
+    /// <summary>
+    /// When decoding, the string a number that maps to no letter is replaced with (empty = drop it).
+    /// Ignored while <see cref="KeepOriginalUnknown"/> is on.
+    /// </summary>
+    [ObservableProperty]
+    public partial string ReplaceUnknownText { get; set; } = "?";
+
+    /// <summary>When decoding, keep an unmapped number as typed instead of replacing it.</summary>
+    [ObservableProperty]
+    public partial bool KeepOriginalUnknown { get; set; }
+
+    /// <summary><see langword="true"/> when the replacement text box is editable (i.e. not keeping originals).</summary>
+    [ObservableProperty]
+    public partial bool CanEditReplacement { get; set; } = true;
+
+    /// <summary>The character ↔ value pairs of the selected method, shown in the conversion table.</summary>
+    [ObservableProperty]
+    public partial IReadOnlyList<AlphabetEntry> ConversionTable { get; set; } = [];
 
     [ObservableProperty]
     public partial string OutputText { get; set; } = string.Empty;
@@ -104,6 +135,26 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
 
     partial void OnKeepNonLettersChanged(bool value) => Recompute();
 
+    partial void OnReplaceUnknownTextChanged(string value) => Recompute();
+
+    partial void OnKeepOriginalUnknownChanged(bool value)
+    {
+        CanEditReplacement = !value;
+        Recompute();
+    }
+
+    partial void OnMethodIndexChanged(int value)
+    {
+        // A ComboBox can momentarily report -1 while its items load.
+        if (value < 0)
+        {
+            return;
+        }
+
+        ConversionTable = SelectedMethodDefinition.Entries;
+        Recompute();
+    }
+
     partial void OnHasOutputChanged(bool value)
     {
         CopyOutputCommand.NotifyCanExecuteChanged();
@@ -122,10 +173,13 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
         // An empty separator box falls back to the default single space (the parity convention).
         var options = new AlphabetNumberOptions
         {
+            Method = SelectedMethodDefinition.Method,
             Separator = string.IsNullOrEmpty(Separator) ? " " : Separator,
             WrapModulo = WrapModulo,
             UpperCase = UpperCase,
             KeepNonLetters = KeepNonLetters,
+            KeepOriginalUnknown = KeepOriginalUnknown,
+            UnknownReplacement = ReplaceUnknownText,
         };
 
         OutputText = IsDecode

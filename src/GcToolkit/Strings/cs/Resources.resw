@@ -3236,6 +3236,9 @@
   <data name="NumbersNumbersToLetters" xml:space="preserve">
     <value>Čísla → písmena</value>
   </data>
+  <data name="NumbersMethodLabel" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
   <data name="NumbersInputLabel" xml:space="preserve">
     <value>Vstup</value>
   </data>
@@ -3243,7 +3246,7 @@
     <value>Zadejte písmena k převodu na čísla…</value>
   </data>
   <data name="NumbersInputPlaceholderNumbers" xml:space="preserve">
-    <value>Zadejte čísla (1–26) oddělená oddělovačem…</value>
+    <value>Zadejte čísla oddělená oddělovačem…</value>
   </data>
   <data name="NumbersOutputLabel" xml:space="preserve">
     <value>Výsledek</value>
@@ -3264,10 +3267,22 @@
     <value>Výstup velkými písmeny</value>
   </data>
   <data name="NumbersWrapModulo" xml:space="preserve">
-    <value>Zalomit hodnoty mimo 1–26 (mod 26)</value>
+    <value>Zalomit hodnoty mimo rozsah metody</value>
   </data>
   <data name="NumbersWrapNote" xml:space="preserve">
-    <value>Vypnuto: hodnoty mimo 1–26 (a nečíselné) se zobrazí jako #. Zapnuto: zalomí se, takže 27 → A.</value>
+    <value>Vypnuto: čísla mimo rozsah metody (a nečíselná) se nahradí podle volby níže. Zapnuto: zalomí se do rozsahu, takže 27 → A.</value>
+  </data>
+  <data name="NumbersKeepOriginalUnknown" xml:space="preserve">
+    <value>Ponechat neznámá čísla beze změny</value>
+  </data>
+  <data name="NumbersReplaceUnknownLabel" xml:space="preserve">
+    <value>Nahradit neznámé číslo za</value>
+  </data>
+  <data name="NumbersReplaceUnknownPlaceholder" xml:space="preserve">
+    <value>např. ? (prázdné = odebrat)</value>
+  </data>
+  <data name="NumbersConversionTableLabel" xml:space="preserve">
+    <value>Převodní tabulka</value>
   </data>
   <data name="NumbersClear" xml:space="preserve">
     <value>Vymazat</value>

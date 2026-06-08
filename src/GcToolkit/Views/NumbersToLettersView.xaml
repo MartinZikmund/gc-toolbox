@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
+    xmlns:text="using:GcToolkit.Core.Text"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
@@ -51,6 +52,13 @@
                 <RadioButton Content="{markup:Localize Key=NumbersNumbersToLetters}" />
             </RadioButtons>
 
+            <!--  Method (numbering scheme)  -->
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                Header="{markup:Localize Key=NumbersMethodLabel}"
+                ItemsSource="{x:Bind ViewModel.MethodLabels}"
+                SelectedIndex="{x:Bind ViewModel.MethodIndex, Mode=TwoWay}" />
+
             <!--  Input  -->
             <TextBox
                 MinHeight="96"
@@ -85,10 +93,22 @@
                         IsOn="{x:Bind ViewModel.KeepNonLetters, Mode=TwoWay}"
                         Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                    <!--  Decode-only options: case + wrap  -->
+                    <!--  Decode-only options: case, wrap, replace-unknown  -->
                     <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
                         <ToggleSwitch Header="{markup:Localize Key=NumbersUpperCase}" IsOn="{x:Bind ViewModel.UpperCase, Mode=TwoWay}" />
                         <ToggleSwitch Header="{markup:Localize Key=NumbersWrapModulo}" IsOn="{x:Bind ViewModel.WrapModulo, Mode=TwoWay}" />
+
+                        <!--  What to do with a number that maps to no letter  -->
+                        <ToggleSwitch Header="{markup:Localize Key=NumbersKeepOriginalUnknown}" IsOn="{x:Bind ViewModel.KeepOriginalUnknown, Mode=TwoWay}" />
+                        <TextBox
+                            MaxWidth="200"
+                            HorizontalAlignment="Left"
+                            Header="{markup:Localize Key=NumbersReplaceUnknownLabel}"
+                            IsEnabled="{x:Bind ViewModel.CanEditReplacement, Mode=OneWay}"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="{markup:Localize Key=NumbersReplaceUnknownPlaceholder}"
+                            Text="{x:Bind ViewModel.ReplaceUnknownText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
                         <InfoBar
                             IsClosable="False"
                             IsOpen="True"
@@ -132,6 +152,43 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
+
+            <!--  Conversion table (reflects the selected method)  -->
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Header="{markup:Localize Key=NumbersConversionTableLabel}"
+                IsExpanded="True">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.ConversionTable, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            MinColumnSpacing="8"
+                            MinItemWidth="44"
+                            MinRowSpacing="8" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="text:AlphabetEntry">
+                            <Border
+                                Padding="8,6"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                CornerRadius="6">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind Character}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind ValueText}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Expander>
 
         </StackPanel>
     </ScrollViewer>
