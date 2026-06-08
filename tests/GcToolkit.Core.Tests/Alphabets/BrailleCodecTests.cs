@@ -182,4 +182,133 @@ public class BrailleCodecTests
         var result = _codec.DescribeDots("A");
         Assert.AreEqual("6 1", result);
     }
+
+    // ---- Dot-grid model (BrailleDots) for XAML-shape rendering ----
+
+    [TestMethod]
+    public void BrailleDots_FromCell_A_HasOnlyDotOne()
+    {
+        var dots = BrailleDots.FromCell('⠁'); // letter a = dot 1
+        Assert.IsTrue(dots.Dot1);
+        Assert.IsFalse(dots.Dot2 || dots.Dot3 || dots.Dot4 || dots.Dot5 || dots.Dot6);
+    }
+
+    [TestMethod]
+    public void BrailleDots_FromCell_M_HasDots134()
+    {
+        var dots = BrailleDots.FromCell('⠍'); // m = dots 1-3-4
+        Assert.IsTrue(dots.Dot1 && dots.Dot3 && dots.Dot4);
+        Assert.IsFalse(dots.Dot2 || dots.Dot5 || dots.Dot6);
+    }
+
+    [TestMethod]
+    public void BrailleDots_FromCell_NumberSign_HasDots3456()
+    {
+        var dots = BrailleDots.FromCell(BrailleCodec.NumberSign); // dots 3-4-5-6
+        Assert.IsTrue(dots.Dot3 && dots.Dot4 && dots.Dot5 && dots.Dot6);
+        Assert.IsFalse(dots.Dot1 || dots.Dot2);
+    }
+
+    [TestMethod]
+    public void BrailleDots_FromCell_BlankCell_HasNoDots()
+    {
+        var dots = BrailleDots.FromCell(BrailleCodec.Blank);
+        Assert.IsFalse(dots.Dot1 || dots.Dot2 || dots.Dot3 || dots.Dot4 || dots.Dot5 || dots.Dot6);
+    }
+
+    [TestMethod]
+    public void BrailleDots_FromCell_NonBraille_HasNoDots()
+    {
+        var dots = BrailleDots.FromCell('x');
+        Assert.IsFalse(dots.Dot1 || dots.Dot2 || dots.Dot3 || dots.Dot4 || dots.Dot5 || dots.Dot6);
+    }
+
+    // ---- ToGlyphs: one dot-grid glyph per output cell ----
+
+    [TestMethod]
+    public void ToGlyphs_EncodedText_YieldsOneGlyphPerCell()
+    {
+        var glyphs = BrailleCodec.ToGlyphs(_codec.Encode("ab")); // ⠁⠃
+        Assert.AreEqual(2, glyphs.Count);
+        Assert.AreEqual('⠁', glyphs[0].Cell);
+        Assert.IsTrue(glyphs[0].Dots.Dot1);
+        Assert.AreEqual("1", glyphs[0].DotNumbers);
+        Assert.AreEqual("1-2", glyphs[1].DotNumbers);
+    }
+
+    [DataTestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    public void ToGlyphs_EmptyOrNull_YieldsNoGlyphs(string? braille)
+        => Assert.AreEqual(0, BrailleCodec.ToGlyphs(braille).Count);
+
+    // ---- GetAlphabet: the clickable reference chart (geocachingtoolbox parity) ----
+
+    [TestMethod]
+    public void GetAlphabet_HasAllThirtyNineEntries()
+        // 26 letters + capital + number + space + 10 punctuation marks = the 39 chart cells.
+        => Assert.AreEqual(39, BrailleCodec.GetAlphabet().Count);
+
+    [TestMethod]
+    public void GetAlphabet_Letters_LabelDigitsForAtoJ()
+    {
+        var alphabet = BrailleCodec.GetAlphabet();
+        Assert.AreEqual("a / 1", alphabet.First(e => e.Id == "a").Label);
+        Assert.AreEqual("j / 0", alphabet.First(e => e.Id == "j").Label);
+        Assert.AreEqual("k", alphabet.First(e => e.Id == "k").Label);
+    }
+
+    [TestMethod]
+    public void GetAlphabet_Letter_CarriesTextCellAndDots()
+    {
+        var m = BrailleCodec.GetAlphabet().First(e => e.Id == "m");
+        Assert.AreEqual("m", m.Text);       // typed into text→braille input
+        Assert.AreEqual("⠍", m.Cell);       // typed into braille→text input
+        Assert.IsTrue(m.Dots.Dot1 && m.Dots.Dot3 && m.Dots.Dot4);
+    }
+
+    [TestMethod]
+    public void GetAlphabet_Indicators_UseBrailleCells()
+    {
+        var alphabet = BrailleCodec.GetAlphabet();
+        var capital = alphabet.First(e => e.Id == "Capital");
+        var number = alphabet.First(e => e.Id == "Number");
+        var space = alphabet.First(e => e.Id == "Space");
+        Assert.AreEqual(BrailleCodec.CapitalSign.ToString(), capital.Cell);
+        Assert.AreEqual(BrailleCodec.NumberSign.ToString(), number.Cell);
+        Assert.AreEqual(BrailleCodec.Blank.ToString(), space.Cell);
+        Assert.AreEqual(" ", space.Text);
+        // Capital/Number have no plain-text equivalent, so they only type as braille cells.
+        Assert.AreEqual(string.Empty, capital.Text);
+        Assert.AreEqual(string.Empty, number.Text);
+    }
+
+    [TestMethod]
+    public void GetAlphabet_Indicators_CarryLocalizationKeys()
+    {
+        var alphabet = BrailleCodec.GetAlphabet();
+        Assert.AreEqual("BrailleCapital", alphabet.First(e => e.Id == "Capital").LabelKey);
+        Assert.AreEqual("BrailleNumber", alphabet.First(e => e.Id == "Number").LabelKey);
+        Assert.AreEqual("BrailleSpace", alphabet.First(e => e.Id == "Space").LabelKey);
+        // Letters/punctuation use their literal label, so no key.
+        Assert.IsNull(alphabet.First(e => e.Id == "a").LabelKey);
+    }
+
+    [TestMethod]
+    public void GetAlphabet_IncludesBothQuotesAsDistinctCells()
+    {
+        var alphabet = BrailleCodec.GetAlphabet();
+        var open = alphabet.First(e => e.Id == "QuoteOpen");
+        var close = alphabet.First(e => e.Id == "QuoteClose");
+        Assert.AreEqual("⠦", open.Cell);  // dots 2-3-6 (shared with '?')
+        Assert.AreEqual("⠴", close.Cell); // dots 3-5-6
+    }
+
+    // ---- Curly-quote encode aliases (chart uses “ ”) ----
+
+    [DataTestMethod]
+    [DataRow("“", "⠦")] // “ opening quote -> dots 2-3-6
+    [DataRow("”", "⠴")] // ” closing quote -> dots 3-5-6
+    public void Encode_CurlyQuotes_MapToQuoteCells(string text, string expected)
+        => Assert.AreEqual(expected, _codec.Encode(text));
 }

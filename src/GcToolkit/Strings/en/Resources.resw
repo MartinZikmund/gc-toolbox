@@ -501,11 +501,23 @@
   <data name="BrailleClear" xml:space="preserve">
     <value>Clear</value>
   </data>
-  <data name="BrailleShowDots" xml:space="preserve">
-    <value>Show dot numbers</value>
+  <data name="BrailleVisualLabel" xml:space="preserve">
+    <value>Braille</value>
   </data>
-  <data name="BrailleDotsLabel" xml:space="preserve">
-    <value>Dot numbers</value>
+  <data name="BrailleAlphabetTitle" xml:space="preserve">
+    <value>Braille alphabet</value>
+  </data>
+  <data name="BrailleAlphabetHint" xml:space="preserve">
+    <value>Click a character to type it.</value>
+  </data>
+  <data name="BrailleCapital" xml:space="preserve">
+    <value>Capital</value>
+  </data>
+  <data name="BrailleNumber" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="BrailleSpace" xml:space="preserve">
+    <value>Space</value>
   </data>
   <data name="BrailleCopy" xml:space="preserve">
     <value>Copy</value>

@@ -501,11 +501,23 @@
   <data name="BrailleClear" xml:space="preserve">
     <value>Vymazat</value>
   </data>
-  <data name="BrailleShowDots" xml:space="preserve">
-    <value>Zobrazit čísla bodů</value>
+  <data name="BrailleVisualLabel" xml:space="preserve">
+    <value>Braillovo písmo</value>
   </data>
-  <data name="BrailleDotsLabel" xml:space="preserve">
-    <value>Čísla bodů</value>
+  <data name="BrailleAlphabetTitle" xml:space="preserve">
+    <value>Braillova abeceda</value>
+  </data>
+  <data name="BrailleAlphabetHint" xml:space="preserve">
+    <value>Kliknutím na znak jej napíšete.</value>
+  </data>
+  <data name="BrailleCapital" xml:space="preserve">
+    <value>Velké písmeno</value>
+  </data>
+  <data name="BrailleNumber" xml:space="preserve">
+    <value>Číslo</value>
+  </data>
+  <data name="BrailleSpace" xml:space="preserve">
+    <value>Mezera</value>
   </data>
   <data name="BrailleCopy" xml:space="preserve">
     <value>Kopírovat</value>

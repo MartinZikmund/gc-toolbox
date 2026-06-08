@@ -87,6 +87,11 @@ public sealed class BrailleCodec
             cellToPunctuation.TryAdd(cell, character); // first listed wins the shared cell on decode
         }
 
+        // Curly “smart” quotes (as the chart labels them) alias to the straight-quote cells on encode
+        // only; decode keeps the canonical '?'/'"' above so existing round-trips are unaffected.
+        punctuationToCell['“'] = CellFromDots([2, 3, 6]); // “ opening quote shares the '?' cell
+        punctuationToCell['”'] = CellFromDots([3, 5, 6]); // ” closing quote
+
         // 'a'..'i' -> 1..9, 'j' -> 0.
         var cellToDigit = new Dictionary<char, char>();
         for (var d = 1; d <= 9; d++)
@@ -255,6 +260,84 @@ public sealed class BrailleCodec
         }
 
         return string.Join(' ', groups);
+    }
+
+    /// <summary>Splits a braille string into per-cell <see cref="BrailleGlyph"/> models so the UI can draw
+    /// each cell as a 2×3 dot grid (filled and hollow circles). Returns an empty list for null/empty
+    /// input.</summary>
+    public static IReadOnlyList<BrailleGlyph> ToGlyphs(string? braille)
+    {
+        if (string.IsNullOrEmpty(braille))
+        {
+            return [];
+        }
+
+        var glyphs = new List<BrailleGlyph>(braille.Length);
+        foreach (var cell in braille)
+        {
+            glyphs.Add(new BrailleGlyph(cell, BrailleDots.FromCell(cell), DotsOfCell(cell)));
+        }
+
+        return glyphs;
+    }
+
+    /// <summary>
+    /// The braille reference chart as an ordered, clickable list: the 26 letters (a–j double as digits
+    /// 1–0), the capital and number indicators, the space, and the literary punctuation — i.e. the
+    /// geocachingtoolbox.com "alphabet" the UI lets you click to type braille. The three word-captioned
+    /// indicators carry a <see cref="BraillePaletteEntry.LabelKey"/> to localize; the rest use a literal
+    /// label.
+    /// </summary>
+    public static IReadOnlyList<BraillePaletteEntry> GetAlphabet()
+    {
+        var entries = new List<BraillePaletteEntry>(39);
+
+        foreach (var (character, _) in LetterDots)
+        {
+            var cell = LetterToCell[character];
+            var label = character switch
+            {
+                >= 'a' and <= 'i' => $"{character} / {character - 'a' + 1}",
+                'j' => "j / 0",
+                _ => character.ToString(),
+            };
+            entries.Add(new BraillePaletteEntry(
+                character.ToString(), label, LabelKey: null,
+                BrailleDots.FromCell(cell), character.ToString(), cell.ToString(), DotsOfCell(cell)));
+        }
+
+        entries.Add(Indicator("Capital", "Capital", "BrailleCapital", CapitalSign));
+        entries.Add(Indicator("Number", "Number", "BrailleNumber", NumberSign));
+        entries.Add(new BraillePaletteEntry(
+            "Space", "Space", "BrailleSpace",
+            BrailleDots.FromCell(Blank), Text: " ", Blank.ToString(), DotNumbers: string.Empty));
+
+        // (Id, literal label, the text character to type, the character whose braille cell to look up).
+        var punctuation = new (string Id, string Label, string Text, char Lookup)[]
+        {
+            ("Apostrophe", "'", "'", '\''),
+            ("Period", ".", ".", '.'),
+            ("Comma", ",", ",", ','),
+            ("Semicolon", ";", ";", ';'),
+            ("Exclamation", "!", "!", '!'),
+            ("QuoteOpen", "“", "“", '“'),
+            ("QuoteClose", "”", "”", '”'),
+            ("Question", "?", "?", '?'),
+            ("Bracket", "( / )", "(", '('),
+            ("Hyphen", "-", "-", '-'),
+        };
+
+        foreach (var (id, label, text, lookup) in punctuation)
+        {
+            var cell = PunctuationToCell[lookup];
+            entries.Add(new BraillePaletteEntry(
+                id, label, LabelKey: null, BrailleDots.FromCell(cell), text, cell.ToString(), DotsOfCell(cell)));
+        }
+
+        return entries;
+
+        static BraillePaletteEntry Indicator(string id, string label, string labelKey, char cell) =>
+            new(id, label, labelKey, BrailleDots.FromCell(cell), Text: string.Empty, cell.ToString(), DotsOfCell(cell));
     }
 
     /// <summary>The dash-joined dot numbers raised in a single braille <paramref name="cell"/>

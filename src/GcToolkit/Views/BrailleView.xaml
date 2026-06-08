@@ -2,6 +2,8 @@
     x:Class="GcToolkit.Views.BrailleView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:alphabets="using:GcToolkit.Core.Alphabets"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -59,54 +61,104 @@
                 Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
 
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BrailleClear}" />
-                <ToggleSwitch
-                    VerticalAlignment="Center"
-                    Header="{markup:Localize Key=BrailleShowDots}"
-                    IsEnabled="{x:Bind ViewModel.CanShowDots, Mode=OneWay}"
-                    IsOn="{x:Bind ViewModel.ShowDots, Mode=TwoWay}" />
+            <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BrailleClear}" />
+
+            <!--  Clickable braille reference chart — click a cell to "type" it  -->
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True">
+                <Expander.Header>
+                    <StackPanel Spacing="2">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrailleAlphabetTitle}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=BrailleAlphabetHint}" />
+                    </StackPanel>
+                </Expander.Header>
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Alphabet}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsStretch="None"
+                            MinColumnSpacing="8"
+                            MinItemWidth="78"
+                            MinRowSpacing="8" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="alphabets:BraillePaletteEntry">
+                            <Button
+                                Padding="6,8"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutomationProperties.Name="{x:Bind Label}"
+                                Click="OnAlphabetItemClick"
+                                Tag="{x:Bind}"
+                                ToolTipService.ToolTip="{x:Bind DotNumbers}">
+                                <StackPanel HorizontalAlignment="Center" Spacing="6">
+                                    <controls:BrailleCell
+                                        HorizontalAlignment="Center"
+                                        Dot1="{x:Bind Dots.Dot1}"
+                                        Dot2="{x:Bind Dots.Dot2}"
+                                        Dot3="{x:Bind Dots.Dot3}"
+                                        Dot4="{x:Bind Dots.Dot4}"
+                                        Dot5="{x:Bind Dots.Dot5}"
+                                        Dot6="{x:Bind Dots.Dot6}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Label}" />
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Expander>
+
+            <!--  Braille shown as dot grids (filled vs. hollow circles)  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasGlyphs, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrailleVisualLabel}" />
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                    CornerRadius="8">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Glyphs}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="None"
+                                MinColumnSpacing="10"
+                                MinItemWidth="40"
+                                MinRowSpacing="10" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="alphabets:BrailleGlyph">
+                                <controls:BrailleCell
+                                    HorizontalAlignment="Center"
+                                    Dot1="{x:Bind Dots.Dot1}"
+                                    Dot2="{x:Bind Dots.Dot2}"
+                                    Dot3="{x:Bind Dots.Dot3}"
+                                    Dot4="{x:Bind Dots.Dot4}"
+                                    Dot5="{x:Bind Dots.Dot5}"
+                                    Dot6="{x:Bind Dots.Dot6}"
+                                    ToolTipService.ToolTip="{x:Bind DotNumbers}" />
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
             </StackPanel>
 
-            <!--  Result  -->
+            <!--  Result as selectable, copy-pasteable text (real Unicode braille when encoding)  -->
             <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrailleOutputLabel}" />
-
-            <!--  Large, copy-pasteable braille glyph line  -->
-            <Border
-                Padding="16"
-                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                CornerRadius="8">
-                <TextBlock
-                    x:Name="OutputBraille"
-                    AutomationProperties.Name="{markup:Localize Key=BrailleOutputLabel}"
-                    FontSize="28"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-            </Border>
-
-            <!--  Same result in an editable read-only box (so it's easy to select/copy as text)  -->
             <TextBox
                 MinHeight="72"
                 AcceptsReturn="True"
+                AutomationProperties.Name="{markup:Localize Key=BrailleOutputLabel}"
                 FontFamily="Consolas"
+                FontSize="18"
                 IsReadOnly="True"
                 IsSpellCheckEnabled="False"
                 Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
                 TextWrapping="Wrap" />
-
-            <!--  Optional dot-number breakdown (beyond geocachingtoolbox parity)  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowDots, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrailleDotsLabel}" />
-                <TextBox
-                    MinHeight="48"
-                    AcceptsReturn="True"
-                    FontFamily="Consolas"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.DotsText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-            </StackPanel>
 
             <!--  Output actions  -->
             <StackPanel Orientation="Horizontal" Spacing="8">
@@ -140,19 +192,6 @@
                         TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
-
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                    <VisualState>
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="640" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="OutputBraille.FontSize" Value="32" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
         </StackPanel>
     </ScrollViewer>
 </local:BrailleViewBase>
