@@ -2178,4 +2178,89 @@
   <data name="SpellingAlphabetChartHint" xml:space="preserve">
     <value>Klepnutím na písmeno jej přidáte do vstupu.</value>
   </data>
+  <!-- Pi (π) tool -->
+  <data name="Pi_Name" xml:space="preserve">
+    <value>Pi (π)</value>
+  </data>
+  <data name="Pi_Tooltip" xml:space="preserve">
+    <value>Vyhledávání desetinných číslic čísla π — prvních N číslic, číslice podle pozice, rozsahy a hledání posloupností.</value>
+  </data>
+  <data name="PiModeFirst" xml:space="preserve">
+    <value>Prvních N číslic</value>
+  </data>
+  <data name="PiModeDigitAt" xml:space="preserve">
+    <value>Číslice na pozici</value>
+  </data>
+  <data name="PiModeRange" xml:space="preserve">
+    <value>Rozsah pozic</value>
+  </data>
+  <data name="PiModeSearch" xml:space="preserve">
+    <value>Hledání posloupnosti</value>
+  </data>
+  <data name="PiCountLabel" xml:space="preserve">
+    <value>Počet desetinných číslic (1–1 000 000)</value>
+  </data>
+  <data name="PiPositionLabel" xml:space="preserve">
+    <value>Pozice (1–1 000 000)</value>
+  </data>
+  <data name="PiFromLabel" xml:space="preserve">
+    <value>Od pozice</value>
+  </data>
+  <data name="PiToLabel" xml:space="preserve">
+    <value>Do pozice (včetně)</value>
+  </data>
+  <data name="PiSearchLabel" xml:space="preserve">
+    <value>Posloupnost číslic</value>
+  </data>
+  <data name="PiSearchPlaceholder" xml:space="preserve">
+    <value>např. 1415</value>
+  </data>
+  <data name="PiPositionNote" xml:space="preserve">
+    <value>Pozice 1 je první číslice za desetinnou čárkou.</value>
+  </data>
+  <data name="PiShow" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="PiGroupDigits" xml:space="preserve">
+    <value>Seskupit číslice do bloků po 10</value>
+  </data>
+  <data name="PiLineNumbers" xml:space="preserve">
+    <value>Zobrazit pozice na začátku řádků</value>
+  </data>
+  <data name="PiResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="PiContextLabel" xml:space="preserve">
+    <value>V kontextu</value>
+  </data>
+  <data name="PiCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PiShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PiDigitAtSummary" xml:space="preserve">
+    <value>Desetinná číslice π na pozici {0}</value>
+  </data>
+  <data name="PiFoundSummary" xml:space="preserve">
+    <value>Nalezeno výskytů: {0}</value>
+  </data>
+  <data name="PiFoundTruncated" xml:space="preserve">
+    <value>Nalezeno výskytů: {0} (zobrazeno prvních {1} pozic)</value>
+  </data>
+  <data name="PiNoOccurrences" xml:space="preserve">
+    <value>Posloupnost se v prvním milionu desetinných číslic π nevyskytuje.</value>
+  </data>
+  <data name="PiErrorCount" xml:space="preserve">
+    <value>Zadejte počet desetinných číslic od 1 do 1 000 000.</value>
+  </data>
+  <data name="PiErrorPosition" xml:space="preserve">
+    <value>Zadejte pozici od 1 do 1 000 000.</value>
+  </data>
+  <data name="PiErrorRange" xml:space="preserve">
+    <value>Zadejte platný rozsah od 1 do 1 000 000 (od ≤ do).</value>
+  </data>
+  <data name="PiErrorPattern" xml:space="preserve">
+    <value>Zadejte posloupnost 1 až 50 číslic.</value>
+  </data>
 </root>

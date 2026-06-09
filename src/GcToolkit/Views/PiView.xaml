@@ -1,0 +1,213 @@
+﻿<local:PiViewBase
+    x:Class="GcToolkit.Views.PiView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer
+            x:Name="RootScrollViewer"
+            Padding="24"
+            HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Mode selection  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=PiModeFirst}" />
+                    <RadioButton Content="{markup:Localize Key=PiModeDigitAt}" />
+                    <RadioButton Content="{markup:Localize Key=PiModeRange}" />
+                    <RadioButton Content="{markup:Localize Key=PiModeSearch}" />
+                </RadioButtons>
+
+                <!--  Inputs (per mode)  -->
+                <TextBox
+                    MaxWidth="360"
+                    HorizontalAlignment="Left"
+                    Header="{markup:Localize Key=PiCountLabel}"
+                    InputScope="Number"
+                    Text="{x:Bind ViewModel.CountText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsFirstMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <TextBox
+                    MaxWidth="360"
+                    HorizontalAlignment="Left"
+                    Header="{markup:Localize Key=PiPositionLabel}"
+                    InputScope="Number"
+                    Text="{x:Bind ViewModel.PositionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsDigitAtMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <Grid
+                    MaxWidth="480"
+                    HorizontalAlignment="Left"
+                    ColumnSpacing="12"
+                    Visibility="{x:Bind ViewModel.IsRangeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        Header="{markup:Localize Key=PiFromLabel}"
+                        InputScope="Number"
+                        Text="{x:Bind ViewModel.FromText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Header="{markup:Localize Key=PiToLabel}"
+                        InputScope="Number"
+                        Text="{x:Bind ViewModel.ToText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <TextBox
+                    MaxWidth="360"
+                    HorizontalAlignment="Left"
+                    Header="{markup:Localize Key=PiSearchLabel}"
+                    InputScope="Number"
+                    PlaceholderText="{markup:Localize Key=PiSearchPlaceholder}"
+                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{markup:Localize Key=PiPositionNote}"
+                    TextWrapping="Wrap" />
+
+                <!--  Formatting options (digit-run modes only)  -->
+                <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.ShowFormattingOptions, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <CheckBox Content="{markup:Localize Key=PiGroupDigits}" IsChecked="{x:Bind ViewModel.GroupDigits, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=PiLineNumbers}" IsChecked="{x:Bind ViewModel.ShowLineNumbers, Mode=TwoWay}" />
+                </StackPanel>
+
+                <!--  Actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button
+                        Command="{x:Bind ViewModel.ExecuteCommand}"
+                        Content="{markup:Localize Key=PiShow}"
+                        Style="{StaticResource AccentButtonStyle}" />
+                    <ProgressRing
+                        Width="24"
+                        Height="24"
+                        AutomationProperties.Name="{markup:Localize Key=PiShow}"
+                        IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
+
+                <!--  Validation / empty-result notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Result  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PiResultLabel}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ResultSummary, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.HasSummary, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBox
+                        FontFamily="Consolas"
+                        FontSize="16"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+
+                    <!--  Output actions  -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                                <TextBlock Text="{markup:Localize Key=PiCopy}" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                                <TextBlock Text="{markup:Localize Key=PiShare}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  Surrounding-context previews (digit-at + search)  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=PiContextLabel}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind ViewModel.HasContextItems, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.ContextItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock
+                                    Margin="0,2"
+                                    FontFamily="Consolas"
+                                    FontSize="14"
+                                    IsTextSelectionEnabled="True"
+                                    Text="{x:Bind}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootScrollViewer.Padding" Value="12" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</local:PiViewBase>
