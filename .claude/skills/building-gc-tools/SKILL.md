@@ -215,16 +215,7 @@ Also sanity-check the canonical source (e.g. Wikipedia's table) so coverage is c
 - **Then do better** where it's cheap — the existing tools each exceed parity (Morse adds full
   punctuation/accents + audio + visual flash; Caesar adds a "show all shifts" brute-force view; Roman
   adds the vinculum range + lenient decoding with warnings). Capture the comparison in the PR.
-
-## Reference tools to copy from
-
-Three real tools that follow this spine exactly — read whichever is closest to what you're building:
-
-- **Roman numerals** (`RomanNumeralsViewModel` + `RomanNumeralCodec`) — cleanest converter, only
-  clipboard/share services.
-- **Caesar** (`CaesarCipherViewModel` + `CaesarCipher`) — multi-mode + a collection view of candidates.
-- **Morse** (`MorseCodeViewModel` + `MorseCodec`/`MorseTimeline`) — the full case: audio, visual
-  playback, display-request, head-gated capability.
+- Aim to cover all features the parity source has, and then exceed it with additional features (especially when the device capabilities like sensors would provide even better experiences than the reference).
 
 ## Common mistakes
 
