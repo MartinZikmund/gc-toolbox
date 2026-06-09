@@ -2263,4 +2263,92 @@
   <data name="PiErrorPattern" xml:space="preserve">
     <value>Zadejte posloupnost 1 až 50 číslic.</value>
   </data>
+  <!-- Prime numbers -->
+  <data name="PrimeNumbers_Name" xml:space="preserve">
+    <value>Prvočísla</value>
+  </data>
+  <data name="PrimeNumbers_Tooltip" xml:space="preserve">
+    <value>Test prvočíselnosti, n-té prvočíslo, pořadí prvočísla, nejbližší prvočíslo a rozklad na prvočísla.</value>
+  </data>
+  <data name="PrimeModeLabel" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="PrimeModePrimality" xml:space="preserve">
+    <value>Test prvočíselnosti</value>
+  </data>
+  <data name="PrimeModeNthPrime" xml:space="preserve">
+    <value>N-té prvočíslo</value>
+  </data>
+  <data name="PrimeModePosition" xml:space="preserve">
+    <value>Pořadí prvočísla</value>
+  </data>
+  <data name="PrimeModeNearest" xml:space="preserve">
+    <value>Nejbližší prvočíslo</value>
+  </data>
+  <data name="PrimeModeFactorization" xml:space="preserve">
+    <value>Rozklad na prvočísla</value>
+  </data>
+  <data name="PrimeInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="PrimeInputPlaceholder" xml:space="preserve">
+    <value>Zadejte celé číslo…</value>
+  </data>
+  <data name="PrimeRangeHint" xml:space="preserve">
+    <value>Platný rozsah: {0} – {1}</value>
+  </data>
+  <data name="PrimeClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="PrimeResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="PrimeCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PrimeShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PrimeInvalidNumber" xml:space="preserve">
+    <value>Zadejte celé číslo.</value>
+  </data>
+  <data name="PrimeOutOfRange" xml:space="preserve">
+    <value>Zadejte číslo mezi {0} a {1}.</value>
+  </data>
+  <data name="PrimeIsPrime" xml:space="preserve">
+    <value>{0} je prvočíslo.</value>
+  </data>
+  <data name="PrimeIsNotPrime" xml:space="preserve">
+    <value>{0} není prvočíslo — je dělitelné číslem {1}.</value>
+  </data>
+  <data name="PrimeIsNotPrimeSimple" xml:space="preserve">
+    <value>{0} není prvočíslo.</value>
+  </data>
+  <data name="PrimeNthResult" xml:space="preserve">
+    <value>{0}. prvočíslo je {1}.</value>
+  </data>
+  <data name="PrimePositionResult" xml:space="preserve">
+    <value>{0} je {1}. prvočíslo.</value>
+  </data>
+  <data name="PrimePositionNotPrime" xml:space="preserve">
+    <value>{0} není prvočíslo — menších prvočísel je {1}.</value>
+  </data>
+  <data name="PrimeNearestResult" xml:space="preserve">
+    <value>Nejbližší prvočíslo k {0} je {1}.</value>
+  </data>
+  <data name="PrimeNearestSelf" xml:space="preserve">
+    <value>{0} je samo prvočíslo.</value>
+  </data>
+  <data name="PrimePrevious" xml:space="preserve">
+    <value>Předchozí prvočíslo</value>
+  </data>
+  <data name="PrimeNext" xml:space="preserve">
+    <value>Následující prvočíslo</value>
+  </data>
+  <data name="PrimeFactorizationPrime" xml:space="preserve">
+    <value>{0} je prvočíslo — nemá žádné menší činitele.</value>
+  </data>
+  <data name="PrimePreparing" xml:space="preserve">
+    <value>Připravuje se tabulka prvočísel…</value>
+  </data>
 </root>

@@ -1,0 +1,179 @@
+﻿<local:PrimeNumbersViewBase
+    x:Class="GcToolkit.Views.PrimeNumbersView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Function selector  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=PrimeModeLabel}"
+                    MaxColumns="2"
+                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=PrimeModePrimality}" />
+                    <RadioButton Content="{markup:Localize Key=PrimeModeNthPrime}" />
+                    <RadioButton Content="{markup:Localize Key=PrimeModePosition}" />
+                    <RadioButton Content="{markup:Localize Key=PrimeModeNearest}" />
+                    <RadioButton Content="{markup:Localize Key=PrimeModeFactorization}" />
+                </RadioButtons>
+
+                <!--  Input + valid range hint  -->
+                <StackPanel Spacing="4">
+                    <TextBox
+                        Header="{markup:Localize Key=PrimeInputLabel}"
+                        InputScope="Number"
+                        PlaceholderText="{markup:Localize Key=PrimeInputPlaceholder}"
+                        Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.RangeText, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <Button
+                    HorizontalAlignment="Left"
+                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Content="{markup:Localize Key=PrimeClear}" />
+
+                <!--  Busy state (first sieve build)  -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="12"
+                    Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ProgressRing
+                        Width="20"
+                        Height="20"
+                        AutomationProperties.Name="{markup:Localize Key=PrimePreparing}"
+                        IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{markup:Localize Key=PrimePreparing}" />
+                </StackPanel>
+
+                <!--  Validation error  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                    Severity="Error" />
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PrimeResultLabel}" />
+                <TextBox
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.ResultText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Previous / next primes (nearest + position modes)  -->
+                <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.ShowNeighbors, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border
+                        Grid.Column="0"
+                        Padding="16,12"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                        <StackPanel Spacing="4">
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=PrimePrevious}" />
+                            <TextBlock
+                                FontFamily="Consolas"
+                                IsTextSelectionEnabled="True"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="{x:Bind ViewModel.PreviousPrimeText, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        Grid.Column="1"
+                        Padding="16,12"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                        <StackPanel Spacing="4">
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=PrimeNext}" />
+                            <TextBlock
+                                FontFamily="Consolas"
+                                IsTextSelectionEnabled="True"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="{x:Bind ViewModel.NextPrimeText, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyResultCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=PrimeCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareResultCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=PrimeShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:PrimeNumbersViewBase>
