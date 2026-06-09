@@ -2351,4 +2351,92 @@
   <data name="PrimePreparing" xml:space="preserve">
     <value>Připravuje se tabulka prvočísel…</value>
   </data>
+  <!-- Euler's number (e) -->
+  <data name="EulerNumber_Name" xml:space="preserve">
+    <value>Eulerovo číslo (e)</value>
+  </data>
+  <data name="EulerNumber_Tooltip" xml:space="preserve">
+    <value>Vyhledávání v desetinném rozvoji čísla e — prvních N číslic, pozice, rozsah nebo všechny výskyty sekvence.</value>
+  </data>
+  <data name="EulerMode" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="EulerModeFirst" xml:space="preserve">
+    <value>Prvních N desetinných míst</value>
+  </data>
+  <data name="EulerModePosition" xml:space="preserve">
+    <value>Číslici na pozici</value>
+  </data>
+  <data name="EulerModeRange" xml:space="preserve">
+    <value>Rozsah pozic</value>
+  </data>
+  <data name="EulerModeSearch" xml:space="preserve">
+    <value>Hledat sekvenci</value>
+  </data>
+  <data name="EulerCountLabel" xml:space="preserve">
+    <value>Počet desetinných míst (1–1 000 000)</value>
+  </data>
+  <data name="EulerPositionLabel" xml:space="preserve">
+    <value>Pozice (1–1 000 000)</value>
+  </data>
+  <data name="EulerRangeFromLabel" xml:space="preserve">
+    <value>Od pozice</value>
+  </data>
+  <data name="EulerRangeToLabel" xml:space="preserve">
+    <value>Do pozice (včetně)</value>
+  </data>
+  <data name="EulerSearchLabel" xml:space="preserve">
+    <value>Sekvence číslic</value>
+  </data>
+  <data name="EulerSearchPlaceholder" xml:space="preserve">
+    <value>např. 1828</value>
+  </data>
+  <data name="EulerGroupDigits" xml:space="preserve">
+    <value>Seskupit číslice do bloků po 10</value>
+  </data>
+  <data name="EulerShowPositions" xml:space="preserve">
+    <value>Zobrazit pozice řádků</value>
+  </data>
+  <data name="EulerOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="EulerOccurrencesLabel" xml:space="preserve">
+    <value>Výskyty</value>
+  </data>
+  <data name="EulerCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="EulerShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="EulerCopyPosition" xml:space="preserve">
+    <value>Kopírovat tuto pozici</value>
+  </data>
+  <data name="EulerCountError" xml:space="preserve">
+    <value>Zadejte počet desetinných míst od 1 do 1 000 000.</value>
+  </data>
+  <data name="EulerPositionError" xml:space="preserve">
+    <value>Zadejte pozici od 1 do 1 000 000.</value>
+  </data>
+  <data name="EulerRangeError" xml:space="preserve">
+    <value>Zadejte platný rozsah od 1 do 1 000 000 (začátek před koncem).</value>
+  </data>
+  <data name="EulerSearchError" xml:space="preserve">
+    <value>Hledaná sekvence smí obsahovat pouze číslice 0–9.</value>
+  </data>
+  <data name="EulerLoadError" xml:space="preserve">
+    <value>Číslice čísla e se nepodařilo načíst.</value>
+  </data>
+  <data name="EulerSearchNoMatch" xml:space="preserve">
+    <value>Sekvence se v prvním 1 000 000 desetinných míst nevyskytuje.</value>
+  </data>
+  <data name="EulerSearchCount" xml:space="preserve">
+    <value>Počet výskytů: {0}</value>
+  </data>
+  <data name="EulerSearchTruncated" xml:space="preserve">
+    <value>Počet výskytů: {0} (zobrazeno prvních {1})</value>
+  </data>
+  <data name="EulerIntegerNote" xml:space="preserve">
+    <value>Pozice 1 je první číslice za desetinnou čárkou — celá část čísla e (2) se nepočítá.</value>
+  </data>
 </root>
