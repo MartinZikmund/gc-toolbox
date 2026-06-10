@@ -26,6 +26,8 @@
         <EmbeddedResource Include="Numbers\Pi\PiDecimals.txt" LogicalName="GcToolkit.Core.Numbers.Pi.PiDecimals.txt" />
         <!-- 1,000,000 decimals of e, gzip-compressed, for the Euler's number tool -->
         <EmbeddedResource Include="Numbers\EulerNumberDecimals.gz" LogicalName="GcToolkit.Core.Numbers.EulerNumberDecimals.gz" />
+        <!-- Offline φ digits for the Golden ratio tool (1,000,000 decimals, gzipped) -->
+        <EmbeddedResource Include="Numbers\GoldenRatio\GoldenRatioDigits.gz" LogicalName="GcToolkit.Core.Numbers.GoldenRatio.GoldenRatioDigits.gz" />
     </ItemGroup>
 
     <ItemGroup>

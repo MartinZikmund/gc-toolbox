@@ -2439,4 +2439,86 @@
   <data name="EulerIntegerNote" xml:space="preserve">
     <value>Pozice 1 je první číslice za desetinnou čárkou — celá část čísla e (2) se nepočítá.</value>
   </data>
+  <!-- Golden ratio -->
+  <data name="GoldenRatio_Name" xml:space="preserve">
+    <value>Zlatý řez (φ)</value>
+  </data>
+  <data name="GoldenRatio_Tooltip" xml:space="preserve">
+    <value>Vyhledávání desetinných míst čísla φ — prvních N číslic, číslice na pozici, rozsah pozic nebo posloupnost číslic.</value>
+  </data>
+  <data name="GoldenRatioModeFirst" xml:space="preserve">
+    <value>První desetinná místa</value>
+  </data>
+  <data name="GoldenRatioModeDigitAt" xml:space="preserve">
+    <value>Číslice na pozici</value>
+  </data>
+  <data name="GoldenRatioModeRange" xml:space="preserve">
+    <value>Rozsah pozic</value>
+  </data>
+  <data name="GoldenRatioModeSearch" xml:space="preserve">
+    <value>Hledat posloupnost</value>
+  </data>
+  <data name="GoldenRatioCountLabel" xml:space="preserve">
+    <value>Počet desetinných míst (1–1 000 000)</value>
+  </data>
+  <data name="GoldenRatioPositionLabel" xml:space="preserve">
+    <value>Pozice (1 = první desetinné místo)</value>
+  </data>
+  <data name="GoldenRatioFromLabel" xml:space="preserve">
+    <value>Od pozice</value>
+  </data>
+  <data name="GoldenRatioToLabel" xml:space="preserve">
+    <value>Do pozice</value>
+  </data>
+  <data name="GoldenRatioSearchLabel" xml:space="preserve">
+    <value>Posloupnost číslic</value>
+  </data>
+  <data name="GoldenRatioSearchPlaceholder" xml:space="preserve">
+    <value>např. 2026</value>
+  </data>
+  <data name="GoldenRatioGroupDigits" xml:space="preserve">
+    <value>Seskupit číslice do bloků po 10</value>
+  </data>
+  <data name="GoldenRatioLineNumbers" xml:space="preserve">
+    <value>Označit řádky pozicemi číslic</value>
+  </data>
+  <data name="GoldenRatioOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="GoldenRatioCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="GoldenRatioShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="GoldenRatioErrorCount" xml:space="preserve">
+    <value>Zadejte počet desetinných míst od 1 do 1 000 000.</value>
+  </data>
+  <data name="GoldenRatioErrorPosition" xml:space="preserve">
+    <value>Zadejte pozici od 1 do 1 000 000.</value>
+  </data>
+  <data name="GoldenRatioErrorRange" xml:space="preserve">
+    <value>Zadejte platný rozsah v mezích 1 až 1 000 000 (od ≤ do).</value>
+  </data>
+  <data name="GoldenRatioErrorSequence" xml:space="preserve">
+    <value>Zadejte 1 až 100 číslic (0–9).</value>
+  </data>
+  <data name="GoldenRatioDigitAtSummary" xml:space="preserve">
+    <value>Desetinné místo č. {0} čísla φ je {1}.</value>
+  </data>
+  <data name="GoldenRatioRangeSummary" xml:space="preserve">
+    <value>Desetinná místa {0} až {1} čísla φ ({2} číslic).</value>
+  </data>
+  <data name="GoldenRatioSearchSummary" xml:space="preserve">
+    <value>Počet výskytů v prvních 1 000 000 desetinných místech čísla φ: {0}.</value>
+  </data>
+  <data name="GoldenRatioSearchNone" xml:space="preserve">
+    <value>Posloupnost se v prvních 1 000 000 desetinných místech čísla φ nevyskytuje.</value>
+  </data>
+  <data name="GoldenRatioSearchTruncated" xml:space="preserve">
+    <value>Zobrazeno prvních {0} výskytů.</value>
+  </data>
+  <data name="GoldenRatioAboutNote" xml:space="preserve">
+    <value>φ = (1+√5)/2 ≈ 1,6180339887… Všechna vyhledávání pracují offline nad prvními 1 000 000 desetinnými místy.</value>
+  </data>
 </root>

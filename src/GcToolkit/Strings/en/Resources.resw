@@ -2439,4 +2439,86 @@
   <data name="EulerIntegerNote" xml:space="preserve">
     <value>Position 1 is the first digit after the decimal point — the integer part of e (2) is not counted.</value>
   </data>
+  <!-- Golden ratio -->
+  <data name="GoldenRatio_Name" xml:space="preserve">
+    <value>Golden ratio (φ)</value>
+  </data>
+  <data name="GoldenRatio_Tooltip" xml:space="preserve">
+    <value>Look up the decimals of φ — first N digits, a digit at a position, a range, or a digit sequence.</value>
+  </data>
+  <data name="GoldenRatioModeFirst" xml:space="preserve">
+    <value>First decimals</value>
+  </data>
+  <data name="GoldenRatioModeDigitAt" xml:space="preserve">
+    <value>Digit at position</value>
+  </data>
+  <data name="GoldenRatioModeRange" xml:space="preserve">
+    <value>Position range</value>
+  </data>
+  <data name="GoldenRatioModeSearch" xml:space="preserve">
+    <value>Find sequence</value>
+  </data>
+  <data name="GoldenRatioCountLabel" xml:space="preserve">
+    <value>Number of decimals (1–1,000,000)</value>
+  </data>
+  <data name="GoldenRatioPositionLabel" xml:space="preserve">
+    <value>Position (1 = first decimal)</value>
+  </data>
+  <data name="GoldenRatioFromLabel" xml:space="preserve">
+    <value>From position</value>
+  </data>
+  <data name="GoldenRatioToLabel" xml:space="preserve">
+    <value>To position</value>
+  </data>
+  <data name="GoldenRatioSearchLabel" xml:space="preserve">
+    <value>Digit sequence</value>
+  </data>
+  <data name="GoldenRatioSearchPlaceholder" xml:space="preserve">
+    <value>e.g. 2026</value>
+  </data>
+  <data name="GoldenRatioGroupDigits" xml:space="preserve">
+    <value>Group digits in blocks of 10</value>
+  </data>
+  <data name="GoldenRatioLineNumbers" xml:space="preserve">
+    <value>Label lines with digit positions</value>
+  </data>
+  <data name="GoldenRatioOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="GoldenRatioCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="GoldenRatioShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="GoldenRatioErrorCount" xml:space="preserve">
+    <value>Enter a number of decimals between 1 and 1,000,000.</value>
+  </data>
+  <data name="GoldenRatioErrorPosition" xml:space="preserve">
+    <value>Enter a position between 1 and 1,000,000.</value>
+  </data>
+  <data name="GoldenRatioErrorRange" xml:space="preserve">
+    <value>Enter a valid range within 1 to 1,000,000 (from ≤ to).</value>
+  </data>
+  <data name="GoldenRatioErrorSequence" xml:space="preserve">
+    <value>Enter 1 to 100 digits (0–9).</value>
+  </data>
+  <data name="GoldenRatioDigitAtSummary" xml:space="preserve">
+    <value>Decimal #{0} of φ is {1}.</value>
+  </data>
+  <data name="GoldenRatioRangeSummary" xml:space="preserve">
+    <value>Decimals {0} to {1} of φ ({2} digits).</value>
+  </data>
+  <data name="GoldenRatioSearchSummary" xml:space="preserve">
+    <value>Occurrences in the first 1,000,000 decimals of φ: {0}.</value>
+  </data>
+  <data name="GoldenRatioSearchNone" xml:space="preserve">
+    <value>The sequence does not occur in the first 1,000,000 decimals of φ.</value>
+  </data>
+  <data name="GoldenRatioSearchTruncated" xml:space="preserve">
+    <value>Showing the first {0} matches.</value>
+  </data>
+  <data name="GoldenRatioAboutNote" xml:space="preserve">
+    <value>φ = (1+√5)/2 ≈ 1.6180339887… All lookups work offline over the first 1,000,000 decimals.</value>
+  </data>
 </root>
