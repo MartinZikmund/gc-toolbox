@@ -2521,4 +2521,125 @@
   <data name="GoldenRatioAboutNote" xml:space="preserve">
     <value>φ = (1+√5)/2 ≈ 1.6180339887… All lookups work offline over the first 1,000,000 decimals.</value>
   </data>
+  <!-- Tool: Fibonacci numbers -->
+  <data name="Fibonacci_Name" xml:space="preserve">
+    <value>Fibonacci numbers</value>
+  </data>
+  <data name="Fibonacci_Tooltip" xml:space="preserve">
+    <value>Generate Fibonacci numbers, check whether a number belongs to the sequence, and look up values by position or positions by value</value>
+  </data>
+  <data name="FibonacciFunctionLabel" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="FibonacciModeCheck" xml:space="preserve">
+    <value>Check whether a number is a Fibonacci number</value>
+  </data>
+  <data name="FibonacciModeAtIndex" xml:space="preserve">
+    <value>Show the Fibonacci number at a position</value>
+  </data>
+  <data name="FibonacciModeRange" xml:space="preserve">
+    <value>Show the Fibonacci numbers in a range of positions</value>
+  </data>
+  <data name="FibonacciModeIndexOf" xml:space="preserve">
+    <value>Show the position of a Fibonacci number</value>
+  </data>
+  <data name="FibonacciModeByDigits" xml:space="preserve">
+    <value>Show all Fibonacci numbers with a given number of digits</value>
+  </data>
+  <data name="FibonacciValueLabel" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="FibonacciValuePlaceholder" xml:space="preserve">
+    <value>e.g. 89</value>
+  </data>
+  <data name="FibonacciIndexLabel" xml:space="preserve">
+    <value>Position (n)</value>
+  </data>
+  <data name="FibonacciIndexPlaceholder" xml:space="preserve">
+    <value>0 to 100,000</value>
+  </data>
+  <data name="FibonacciFromLabel" xml:space="preserve">
+    <value>From position</value>
+  </data>
+  <data name="FibonacciToLabel" xml:space="preserve">
+    <value>To position</value>
+  </data>
+  <data name="FibonacciDigitsLabel" xml:space="preserve">
+    <value>Number of digits</value>
+  </data>
+  <data name="FibonacciDigitsPlaceholder" xml:space="preserve">
+    <value>e.g. 3</value>
+  </data>
+  <data name="FibonacciShowPositions" xml:space="preserve">
+    <value>Show positions</value>
+  </data>
+  <data name="FibonacciShowDigitCounts" xml:space="preserve">
+    <value>Show digit counts</value>
+  </data>
+  <data name="FibonacciClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="FibonacciCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="FibonacciShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="FibonacciResultLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="FibonacciResultPlaceholder" xml:space="preserve">
+    <value>The result appears here as you type.</value>
+  </data>
+  <data name="FibonacciComputing" xml:space="preserve">
+    <value>Computing</value>
+  </data>
+  <data name="FibonacciZeroBasedNote" xml:space="preserve">
+    <value>Positions are zero-based: F(0) = 0, F(1) = 1, F(2) = 1. The value 1 is reported at its first occurrence, F(1). Positions up to 100,000 are supported.</value>
+  </data>
+  <data name="FibonacciIsMember" xml:space="preserve">
+    <value>{0} is the Fibonacci number F({1}).</value>
+  </data>
+  <data name="FibonacciIsNotMember" xml:space="preserve">
+    <value>{0} is not a Fibonacci number.</value>
+  </data>
+  <data name="FibonacciNearestBelow" xml:space="preserve">
+    <value>Nearest Fibonacci number below: F({0}) = {1}</value>
+  </data>
+  <data name="FibonacciNearestAbove" xml:space="preserve">
+    <value>Nearest Fibonacci number above: F({0}) = {1}</value>
+  </data>
+  <data name="FibonacciNoResults" xml:space="preserve">
+    <value>No Fibonacci numbers match.</value>
+  </data>
+  <data name="FibonacciValueBeyondRange" xml:space="preserve">
+    <value>The number is larger than F(100,000), the largest supported Fibonacci number.</value>
+  </data>
+  <data name="FibonacciDigitsOne" xml:space="preserve">
+    <value>(1 digit)</value>
+  </data>
+  <data name="FibonacciDigitsFew" xml:space="preserve">
+    <value>({0} digits)</value>
+  </data>
+  <data name="FibonacciDigitsMany" xml:space="preserve">
+    <value>({0} digits)</value>
+  </data>
+  <data name="FibonacciErrorNotInteger" xml:space="preserve">
+    <value>Enter a whole number.</value>
+  </data>
+  <data name="FibonacciErrorNegative" xml:space="preserve">
+    <value>Enter a number that is zero or greater.</value>
+  </data>
+  <data name="FibonacciErrorIndexRange" xml:space="preserve">
+    <value>Positions must be whole numbers between 0 and {0:N0}.</value>
+  </data>
+  <data name="FibonacciErrorRangeOrder" xml:space="preserve">
+    <value>The start position must not be greater than the end position.</value>
+  </data>
+  <data name="FibonacciErrorRangeSpan" xml:space="preserve">
+    <value>The range can cover at most {0:N0} positions.</value>
+  </data>
+  <data name="FibonacciErrorDigitsRange" xml:space="preserve">
+    <value>The number of digits must be between 1 and {0:N0}.</value>
+  </data>
 </root>
