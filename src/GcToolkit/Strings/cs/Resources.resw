@@ -531,4 +531,164 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
+  <!-- Tool: signal flags -->
+  <data name="SignalFlags_Name" xml:space="preserve">
+    <value>Signální vlajky</value>
+  </data>
+  <data name="SignalFlags_Tooltip" xml:space="preserve">
+    <value>Převádějte text na mezinárodní námořní signální vlajky (ICS) a zpět.</value>
+  </data>
+  <data name="SignalFlagsInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="SignalFlagsInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text (a–z, 0–9)…</value>
+  </data>
+  <data name="SignalFlagsBackspace" xml:space="preserve">
+    <value>Odebrat poslední znak</value>
+  </data>
+  <data name="SignalFlagsSpace" xml:space="preserve">
+    <value>Přidat mezeru</value>
+  </data>
+  <data name="SignalFlagsClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="SignalFlagsCopy" xml:space="preserve">
+    <value>Kopírovat text</value>
+  </data>
+  <data name="SignalFlagsShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="SignalFlagsOutputLabel" xml:space="preserve">
+    <value>Vlajky</value>
+  </data>
+  <data name="SignalFlagsEmptyHint" xml:space="preserve">
+    <value>Vlajky se zobrazí během psaní.</value>
+  </data>
+  <data name="SignalFlagsSkippedNotice" xml:space="preserve">
+    <value>Znaky bez vlajky byly přeskočeny: {0}</value>
+  </data>
+  <data name="SignalFlagsFlagSize" xml:space="preserve">
+    <value>Velikost vlajek</value>
+  </data>
+  <data name="SignalFlagsChartHeader" xml:space="preserve">
+    <value>Přehled vlajek</value>
+  </data>
+  <data name="SignalFlagsChartHint" xml:space="preserve">
+    <value>Klepnutím na vlajku přidáte její znak do textu.</value>
+  </data>
+  <data name="SignalFlagsLettersHeader" xml:space="preserve">
+    <value>Písmena</value>
+  </data>
+  <data name="SignalFlagsNumeralsHeader" xml:space="preserve">
+    <value>Číselné plamence</value>
+  </data>
+  <data name="SignalFlagsSpecialsHeader" xml:space="preserve">
+    <value>Odpovídací a opakovací plamence</value>
+  </data>
+  <data name="SignalFlagsGapName" xml:space="preserve">
+    <value>Mezera</value>
+  </data>
+  <data name="SignalFlagsAnswerPennant" xml:space="preserve">
+    <value>Odpovídací plamenec</value>
+  </data>
+  <data name="SignalFlagsSubstitute1" xml:space="preserve">
+    <value>První opakovací plamenec</value>
+  </data>
+  <data name="SignalFlagsSubstitute2" xml:space="preserve">
+    <value>Druhý opakovací plamenec</value>
+  </data>
+  <data name="SignalFlagsSubstitute3" xml:space="preserve">
+    <value>Třetí opakovací plamenec</value>
+  </data>
+  <data name="SignalFlagsMeaningA" xml:space="preserve">
+    <value>Mám potápěče pod hladinou; držte se v bezpečné vzdálenosti a plujte pomalu.</value>
+  </data>
+  <data name="SignalFlagsMeaningB" xml:space="preserve">
+    <value>Nakládám, vykládám nebo přepravuji nebezpečný náklad.</value>
+  </data>
+  <data name="SignalFlagsMeaningC" xml:space="preserve">
+    <value>Ano (potvrzení).</value>
+  </data>
+  <data name="SignalFlagsMeaningD" xml:space="preserve">
+    <value>Držte se ode mne dál; manévruji s obtížemi.</value>
+  </data>
+  <data name="SignalFlagsMeaningE" xml:space="preserve">
+    <value>Měním kurz doprava.</value>
+  </data>
+  <data name="SignalFlagsMeaningF" xml:space="preserve">
+    <value>Jsem neschopný plavby; navažte se mnou spojení.</value>
+  </data>
+  <data name="SignalFlagsMeaningG" xml:space="preserve">
+    <value>Potřebuji lodivoda.</value>
+  </data>
+  <data name="SignalFlagsMeaningH" xml:space="preserve">
+    <value>Mám na palubě lodivoda.</value>
+  </data>
+  <data name="SignalFlagsMeaningI" xml:space="preserve">
+    <value>Měním kurz doleva.</value>
+  </data>
+  <data name="SignalFlagsMeaningJ" xml:space="preserve">
+    <value>Hořím a mám na palubě nebezpečný náklad; držte se ode mne dál.</value>
+  </data>
+  <data name="SignalFlagsMeaningK" xml:space="preserve">
+    <value>Přeji si s vámi navázat spojení.</value>
+  </data>
+  <data name="SignalFlagsMeaningL" xml:space="preserve">
+    <value>Okamžitě zastavte své plavidlo.</value>
+  </data>
+  <data name="SignalFlagsMeaningM" xml:space="preserve">
+    <value>Moje plavidlo stojí a nepohybuje se.</value>
+  </data>
+  <data name="SignalFlagsMeaningN" xml:space="preserve">
+    <value>Ne (zápor).</value>
+  </data>
+  <data name="SignalFlagsMeaningO" xml:space="preserve">
+    <value>Muž přes palubu.</value>
+  </data>
+  <data name="SignalFlagsMeaningP" xml:space="preserve">
+    <value>Všechny osoby se mají hlásit na palubu; plavidlo brzy vypluje.</value>
+  </data>
+  <data name="SignalFlagsMeaningQ" xml:space="preserve">
+    <value>Moje plavidlo je zdravé; žádám o povolení volného styku s přístavem.</value>
+  </data>
+  <data name="SignalFlagsMeaningR" xml:space="preserve">
+    <value>Této vlajce není přiřazen žádný samostatný signál.</value>
+  </data>
+  <data name="SignalFlagsMeaningS" xml:space="preserve">
+    <value>Moje stroje pracují zpětným chodem.</value>
+  </data>
+  <data name="SignalFlagsMeaningT" xml:space="preserve">
+    <value>Držte se ode mne dál; provádím párový vlečný rybolov.</value>
+  </data>
+  <data name="SignalFlagsMeaningU" xml:space="preserve">
+    <value>Plujete do nebezpečí.</value>
+  </data>
+  <data name="SignalFlagsMeaningV" xml:space="preserve">
+    <value>Potřebuji pomoc.</value>
+  </data>
+  <data name="SignalFlagsMeaningW" xml:space="preserve">
+    <value>Potřebuji lékařskou pomoc.</value>
+  </data>
+  <data name="SignalFlagsMeaningX" xml:space="preserve">
+    <value>Zastavte provádění svých záměrů a sledujte moje signály.</value>
+  </data>
+  <data name="SignalFlagsMeaningY" xml:space="preserve">
+    <value>Vleče se mi kotva.</value>
+  </data>
+  <data name="SignalFlagsMeaningZ" xml:space="preserve">
+    <value>Potřebuji remorkér.</value>
+  </data>
+  <data name="SignalFlagsMeaningAnswer" xml:space="preserve">
+    <value>Potvrzuje přijetí signálu; slouží také jako desetinná čárka.</value>
+  </data>
+  <data name="SignalFlagsMeaningSubstitute1" xml:space="preserve">
+    <value>Opakuje první vlajku signálu.</value>
+  </data>
+  <data name="SignalFlagsMeaningSubstitute2" xml:space="preserve">
+    <value>Opakuje druhou vlajku signálu.</value>
+  </data>
+  <data name="SignalFlagsMeaningSubstitute3" xml:space="preserve">
+    <value>Opakuje třetí vlajku signálu.</value>
+  </data>
 </root>

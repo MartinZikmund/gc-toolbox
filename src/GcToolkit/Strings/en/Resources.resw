@@ -531,4 +531,164 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
   </data>
+  <!-- Tool: signal flags -->
+  <data name="SignalFlags_Name" xml:space="preserve">
+    <value>Signal flags</value>
+  </data>
+  <data name="SignalFlags_Tooltip" xml:space="preserve">
+    <value>Convert text to international maritime signal flags (ICS) and back.</value>
+  </data>
+  <data name="SignalFlagsInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="SignalFlagsInputPlaceholder" xml:space="preserve">
+    <value>Type text (a–z, 0–9)…</value>
+  </data>
+  <data name="SignalFlagsBackspace" xml:space="preserve">
+    <value>Remove last character</value>
+  </data>
+  <data name="SignalFlagsSpace" xml:space="preserve">
+    <value>Add space</value>
+  </data>
+  <data name="SignalFlagsClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SignalFlagsCopy" xml:space="preserve">
+    <value>Copy text</value>
+  </data>
+  <data name="SignalFlagsShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="SignalFlagsOutputLabel" xml:space="preserve">
+    <value>Flags</value>
+  </data>
+  <data name="SignalFlagsEmptyHint" xml:space="preserve">
+    <value>Flags appear here as you type.</value>
+  </data>
+  <data name="SignalFlagsSkippedNotice" xml:space="preserve">
+    <value>Characters without a flag were skipped: {0}</value>
+  </data>
+  <data name="SignalFlagsFlagSize" xml:space="preserve">
+    <value>Flag size</value>
+  </data>
+  <data name="SignalFlagsChartHeader" xml:space="preserve">
+    <value>Reference chart</value>
+  </data>
+  <data name="SignalFlagsChartHint" xml:space="preserve">
+    <value>Tap a flag to add its character to the text.</value>
+  </data>
+  <data name="SignalFlagsLettersHeader" xml:space="preserve">
+    <value>Letters</value>
+  </data>
+  <data name="SignalFlagsNumeralsHeader" xml:space="preserve">
+    <value>Numeral pennants</value>
+  </data>
+  <data name="SignalFlagsSpecialsHeader" xml:space="preserve">
+    <value>Answering pennant and substitutes</value>
+  </data>
+  <data name="SignalFlagsGapName" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="SignalFlagsAnswerPennant" xml:space="preserve">
+    <value>Answering pennant</value>
+  </data>
+  <data name="SignalFlagsSubstitute1" xml:space="preserve">
+    <value>First substitute</value>
+  </data>
+  <data name="SignalFlagsSubstitute2" xml:space="preserve">
+    <value>Second substitute</value>
+  </data>
+  <data name="SignalFlagsSubstitute3" xml:space="preserve">
+    <value>Third substitute</value>
+  </data>
+  <data name="SignalFlagsMeaningA" xml:space="preserve">
+    <value>I have a diver down; keep well clear at slow speed.</value>
+  </data>
+  <data name="SignalFlagsMeaningB" xml:space="preserve">
+    <value>I am taking in, discharging, or carrying dangerous goods.</value>
+  </data>
+  <data name="SignalFlagsMeaningC" xml:space="preserve">
+    <value>Yes (affirmative).</value>
+  </data>
+  <data name="SignalFlagsMeaningD" xml:space="preserve">
+    <value>Keep clear of me; I am manoeuvring with difficulty.</value>
+  </data>
+  <data name="SignalFlagsMeaningE" xml:space="preserve">
+    <value>I am altering my course to starboard.</value>
+  </data>
+  <data name="SignalFlagsMeaningF" xml:space="preserve">
+    <value>I am disabled; communicate with me.</value>
+  </data>
+  <data name="SignalFlagsMeaningG" xml:space="preserve">
+    <value>I require a pilot.</value>
+  </data>
+  <data name="SignalFlagsMeaningH" xml:space="preserve">
+    <value>I have a pilot on board.</value>
+  </data>
+  <data name="SignalFlagsMeaningI" xml:space="preserve">
+    <value>I am altering my course to port.</value>
+  </data>
+  <data name="SignalFlagsMeaningJ" xml:space="preserve">
+    <value>I am on fire and have dangerous cargo on board; keep well clear of me.</value>
+  </data>
+  <data name="SignalFlagsMeaningK" xml:space="preserve">
+    <value>I wish to communicate with you.</value>
+  </data>
+  <data name="SignalFlagsMeaningL" xml:space="preserve">
+    <value>You should stop your vessel instantly.</value>
+  </data>
+  <data name="SignalFlagsMeaningM" xml:space="preserve">
+    <value>My vessel is stopped and making no way through the water.</value>
+  </data>
+  <data name="SignalFlagsMeaningN" xml:space="preserve">
+    <value>No (negative).</value>
+  </data>
+  <data name="SignalFlagsMeaningO" xml:space="preserve">
+    <value>Man overboard.</value>
+  </data>
+  <data name="SignalFlagsMeaningP" xml:space="preserve">
+    <value>All persons should report on board; the vessel is about to proceed to sea.</value>
+  </data>
+  <data name="SignalFlagsMeaningQ" xml:space="preserve">
+    <value>My vessel is healthy and I request free pratique.</value>
+  </data>
+  <data name="SignalFlagsMeaningR" xml:space="preserve">
+    <value>No single-flag signal is assigned to this flag.</value>
+  </data>
+  <data name="SignalFlagsMeaningS" xml:space="preserve">
+    <value>I am operating astern propulsion.</value>
+  </data>
+  <data name="SignalFlagsMeaningT" xml:space="preserve">
+    <value>Keep clear of me; I am engaged in pair trawling.</value>
+  </data>
+  <data name="SignalFlagsMeaningU" xml:space="preserve">
+    <value>You are running into danger.</value>
+  </data>
+  <data name="SignalFlagsMeaningV" xml:space="preserve">
+    <value>I require assistance.</value>
+  </data>
+  <data name="SignalFlagsMeaningW" xml:space="preserve">
+    <value>I require medical assistance.</value>
+  </data>
+  <data name="SignalFlagsMeaningX" xml:space="preserve">
+    <value>Stop carrying out your intentions and watch for my signals.</value>
+  </data>
+  <data name="SignalFlagsMeaningY" xml:space="preserve">
+    <value>I am dragging my anchor.</value>
+  </data>
+  <data name="SignalFlagsMeaningZ" xml:space="preserve">
+    <value>I require a tug.</value>
+  </data>
+  <data name="SignalFlagsMeaningAnswer" xml:space="preserve">
+    <value>Acknowledges a signal; also serves as the decimal point.</value>
+  </data>
+  <data name="SignalFlagsMeaningSubstitute1" xml:space="preserve">
+    <value>Repeats the first flag of the hoist.</value>
+  </data>
+  <data name="SignalFlagsMeaningSubstitute2" xml:space="preserve">
+    <value>Repeats the second flag of the hoist.</value>
+  </data>
+  <data name="SignalFlagsMeaningSubstitute3" xml:space="preserve">
+    <value>Repeats the third flag of the hoist.</value>
+  </data>
 </root>
