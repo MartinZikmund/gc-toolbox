@@ -24,8 +24,9 @@ namespace GcToolkit.Core.ViewModels.Tools;
       Keywords = ["fibonacci", "sequence", "golden", "spiral", "Fibonacciho posloupnost", "posloupnost", "zlatý řez"])]
 public sealed partial class FibonacciViewModel : ToolViewModelBase
 {
-    /// <summary>Largest from→to span the range mode renders, to keep the output box sane.</summary>
-    public const int MaxRangeSpan = 1_000;
+    /// <summary>Largest from→to span the range mode renders (matches the geocachingtoolbox limit).
+    /// The result list is virtualized, so this stays responsive even at the full span.</summary>
+    public const int MaxRangeSpan = 10_000;
 
     private readonly FibonacciCalculator _calculator = new();
     private readonly IClipboardService _clipboard;
@@ -76,8 +77,10 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial bool ShowDigitCounts { get; set; } = true;
 
+    /// <summary>The result, one line per entry (or per message line). Bound to a virtualized list so
+    /// even a 10,000-position range renders without building or laying out one giant string.</summary>
     [ObservableProperty]
-    public partial string OutputText { get; set; } = string.Empty;
+    public partial IReadOnlyList<string> ResultLines { get; set; } = [];
 
     [ObservableProperty]
     public partial bool HasOutput { get; set; }
@@ -128,7 +131,11 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
         ShareOutputCommand.NotifyCanExecuteChanged();
     }
 
-    private void Recompute() => _ = RecomputeAsync();
+    /// <summary>The in-flight (or last) recomputation. Exposed so a host — or a test — can await the
+    /// current result instead of polling the busy flag.</summary>
+    public Task Computation { get; private set; } = Task.CompletedTask;
+
+    private void Recompute() => Computation = RecomputeAsync();
 
     private async Task RecomputeAsync()
     {
@@ -147,10 +154,10 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
         }
 
         IsBusy = true;
-        string output;
+        IReadOnlyList<string> lines;
         try
         {
-            output = await Task.Run(compute);
+            lines = await Task.Run(compute);
         }
         catch (Exception)
         {
@@ -168,8 +175,8 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
             return;
         }
 
-        OutputText = output;
-        HasOutput = output.Length > 0;
+        ResultLines = lines;
+        HasOutput = lines.Count > 0;
         HasError = false;
         ErrorMessage = string.Empty;
         IsBusy = false;
@@ -180,7 +187,7 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
     /// for valid input, <see langword="null"/> compute for empty input, or <see langword="false"/>
     /// with a localized error.
     /// </summary>
-    private bool TryValidate(out Func<string>? compute, out string error)
+    private bool TryValidate(out Func<IReadOnlyList<string>>? compute, out string error)
     {
         compute = null;
         error = string.Empty;
@@ -206,7 +213,7 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
                 }
 
                 compute = () => FormatLookup(value);
-                return true;
+                return true; // FormatLookup returns the message split into lines
 
             case 1:
                 if (string.IsNullOrWhiteSpace(IndexInput))
@@ -283,57 +290,52 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
         return false;
     }
 
-    private string FormatLookup(BigInteger value)
+    private IReadOnlyList<string> FormatLookup(BigInteger value)
     {
         var lookup = _calculator.Locate(value);
         if (lookup is null)
         {
-            return _localizer["FibonacciValueBeyondRange"].Value;
+            return [_localizer["FibonacciValueBeyondRange"].Value];
         }
 
         if (lookup.IsMember)
         {
-            return string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciIsMember"].Value, value, lookup.Index);
+            return [string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciIsMember"].Value, value, lookup.Index)];
         }
 
-        StringBuilder builder = new();
-        builder.AppendLine(string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciIsNotMember"].Value, value));
+        List<string> lines = [string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciIsNotMember"].Value, value)];
         if (lookup.Below is { } below)
         {
-            builder.AppendLine(string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciNearestBelow"].Value, below.Index, below.Value));
+            lines.Add(string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciNearestBelow"].Value, below.Index, below.Value));
         }
 
         if (lookup.Above is { } above)
         {
-            builder.Append(string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciNearestAbove"].Value, above.Index, above.Value));
+            lines.Add(string.Format(CultureInfo.CurrentCulture, _localizer["FibonacciNearestAbove"].Value, above.Index, above.Value));
         }
 
-        return builder.ToString();
+        return lines;
     }
 
-    private string FormatEntries(IReadOnlyList<FibonacciEntry> entries)
+    private IReadOnlyList<string> FormatEntries(IReadOnlyList<FibonacciEntry> entries)
     {
         if (entries.Count == 0)
         {
-            return _localizer["FibonacciNoResults"].Value;
+            return [_localizer["FibonacciNoResults"].Value];
         }
 
-        StringBuilder builder = new();
+        var lines = new string[entries.Count];
         for (var i = 0; i < entries.Count; i++)
         {
-            if (i > 0)
-            {
-                builder.AppendLine();
-            }
-
-            AppendEntry(builder, entries[i]);
+            lines[i] = FormatEntry(entries[i]);
         }
 
-        return builder.ToString();
+        return lines;
     }
 
-    private void AppendEntry(StringBuilder builder, FibonacciEntry entry)
+    private string FormatEntry(FibonacciEntry entry)
     {
+        StringBuilder builder = new();
         if (ShowPositions)
         {
             builder.Append(CultureInfo.InvariantCulture, $"F({entry.Index}) = ");
@@ -345,6 +347,8 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
         {
             builder.Append(' ').Append(FormatDigitCount(FibonacciCalculator.GetDigitCount(entry.Value)));
         }
+
+        return builder.ToString();
     }
 
     /// <summary>Digit-count annotation with simple plural selection (1 / 2–4 / 5+), which covers Czech and English.</summary>
@@ -364,7 +368,7 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
     {
         ErrorMessage = message;
         HasError = true;
-        OutputText = string.Empty;
+        ResultLines = [];
         HasOutput = false;
         IsBusy = false;
     }
@@ -373,20 +377,23 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
     {
         ErrorMessage = string.Empty;
         HasError = false;
-        OutputText = string.Empty;
+        ResultLines = [];
         HasOutput = false;
         IsBusy = false;
     }
 
+    // Join only on demand — for a 10,000-position range the full text can be megabytes.
+    private string JoinResult() => string.Join(Environment.NewLine, ResultLines);
+
     [RelayCommand(CanExecute = nameof(HasOutput))]
-    private void CopyOutput() => _clipboard.SetText(OutputText);
+    private void CopyOutput() => _clipboard.SetText(JoinResult());
 
     [RelayCommand(CanExecute = nameof(HasOutput))]
     private async Task ShareOutputAsync()
     {
         try
         {
-            await _share.ShareTextAsync(ToolName, OutputText);
+            await _share.ShareTextAsync(ToolName, JoinResult());
         }
         catch (Exception)
         {

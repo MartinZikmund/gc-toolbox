@@ -67,6 +67,16 @@ public class FibonacciCalculatorTests
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _calculator.Range(5, 4));
 
     [TestMethod]
+    public void Range_TenThousandSpan_ReturnsAllEntries()
+    {
+        var entries = _calculator.Range(0, 9_999);
+
+        Assert.AreEqual(10_000, entries.Count);
+        Assert.AreEqual(9_999, entries[^1].Index);
+        Assert.AreEqual(_calculator.At(9_999), entries[^1].Value);
+    }
+
+    [TestMethod]
     public void Range_MatchesAtForEveryEntry()
     {
         var entries = _calculator.Range(95, 105);

@@ -139,17 +139,38 @@
                         IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
                 </Grid>
 
-                <TextBox
+                <!--  Results: a virtualized list of selectable lines (handles the full 10,000-position range)  -->
+                <Border
+                    MinHeight="56"
                     MaxHeight="420"
-                    AcceptsReturn="True"
-                    AutomationProperties.Name="{markup:Localize Key=FibonacciResultLabel}"
-                    FontFamily="Consolas"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    PlaceholderText="{markup:Localize Key=FibonacciResultPlaceholder}"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
+                    Padding="12,8"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                    <Grid>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{markup:Localize Key=FibonacciResultPlaceholder}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ItemsRepeater AutomationProperties.Name="{markup:Localize Key=FibonacciResultLabel}" ItemsSource="{x:Bind ViewModel.ResultLines, Mode=OneWay}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <TextBlock
+                                            FontFamily="Consolas"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind}"
+                                            TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
 
                 <!--  Output actions  -->
                 <StackPanel Orientation="Horizontal" Spacing="8">
