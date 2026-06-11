@@ -476,4 +476,59 @@
   <data name="ClearRecentsConfirmMessage" xml:space="preserve">
     <value>Tím se odstraní seznam naposledy otevřených nástrojů. Tuto akci nelze vrátit zpět.</value>
   </data>
+  <!-- Tool: Braille -->
+  <data name="Braille_Name" xml:space="preserve">
+    <value>Braillovo písmo</value>
+  </data>
+  <data name="Braille_Tooltip" xml:space="preserve">
+    <value>Převádějte text do Braillova písma 1. stupně (Unicode body) a zpět.</value>
+  </data>
+  <data name="BrailleTextToBraille" xml:space="preserve">
+    <value>Text → Braillovo písmo</value>
+  </data>
+  <data name="BrailleBrailleToText" xml:space="preserve">
+    <value>Braillovo písmo → Text</value>
+  </data>
+  <data name="BrailleInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="BrailleInputPlaceholder" xml:space="preserve">
+    <value>Napište text k převodu do Braillova písma nebo vložte Braillovo písmo k přečtení…</value>
+  </data>
+  <data name="BrailleOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BrailleClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BrailleVisualLabel" xml:space="preserve">
+    <value>Braillovo písmo</value>
+  </data>
+  <data name="BrailleAlphabetTitle" xml:space="preserve">
+    <value>Braillova abeceda</value>
+  </data>
+  <data name="BrailleAlphabetHint" xml:space="preserve">
+    <value>Kliknutím na znak jej napíšete.</value>
+  </data>
+  <data name="BrailleCapital" xml:space="preserve">
+    <value>Velké písmeno</value>
+  </data>
+  <data name="BrailleNumber" xml:space="preserve">
+    <value>Číslo</value>
+  </data>
+  <data name="BrailleSpace" xml:space="preserve">
+    <value>Mezera</value>
+  </data>
+  <data name="BrailleCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BrailleShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BrailleAboutTitle" xml:space="preserve">
+    <value>O tomto převodu</value>
+  </data>
+  <data name="BrailleAboutBody" xml:space="preserve">
+    <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
+  </data>
 </root>

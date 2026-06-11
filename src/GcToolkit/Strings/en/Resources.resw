@@ -476,4 +476,59 @@
   <data name="ClearRecentsConfirmMessage" xml:space="preserve">
     <value>This removes the list of recently opened tools. This can't be undone.</value>
   </data>
+  <!-- Tool: Braille -->
+  <data name="Braille_Name" xml:space="preserve">
+    <value>Braille</value>
+  </data>
+  <data name="Braille_Tooltip" xml:space="preserve">
+    <value>Translate text to and from Grade-1 Braille (Unicode dots).</value>
+  </data>
+  <data name="BrailleTextToBraille" xml:space="preserve">
+    <value>Text → Braille</value>
+  </data>
+  <data name="BrailleBrailleToText" xml:space="preserve">
+    <value>Braille → Text</value>
+  </data>
+  <data name="BrailleInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="BrailleInputPlaceholder" xml:space="preserve">
+    <value>Type text to convert to Braille, or paste Braille to read it…</value>
+  </data>
+  <data name="BrailleOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BrailleClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BrailleVisualLabel" xml:space="preserve">
+    <value>Braille</value>
+  </data>
+  <data name="BrailleAlphabetTitle" xml:space="preserve">
+    <value>Braille alphabet</value>
+  </data>
+  <data name="BrailleAlphabetHint" xml:space="preserve">
+    <value>Click a character to type it.</value>
+  </data>
+  <data name="BrailleCapital" xml:space="preserve">
+    <value>Capital</value>
+  </data>
+  <data name="BrailleNumber" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="BrailleSpace" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="BrailleCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BrailleShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BrailleAboutTitle" xml:space="preserve">
+    <value>About this conversion</value>
+  </data>
+  <data name="BrailleAboutBody" xml:space="preserve">
+    <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
+  </data>
 </root>
