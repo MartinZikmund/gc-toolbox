@@ -26,10 +26,24 @@ public sealed partial class SemaphoreFigureControl : UserControl
 
     private static void OnFigureChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SemaphoreFigureControl control && e.NewValue is SemaphoreFigure figure)
+        if (d is not SemaphoreFigureControl control || e.NewValue is not SemaphoreFigure figure)
         {
-            control.LeftArmRotation.Angle = figure.LeftFlagAngle;
-            control.RightArmRotation.Angle = figure.RightFlagAngle;
+            return;
+        }
+
+        control.LeftArmRotation.Angle = figure.LeftFlagAngle;
+        control.RightArmRotation.Angle = figure.RightFlagAngle;
+
+        // A figure with a second pose (e.g. Error) renders that pose as a faint "waving" ghost.
+        if (figure.SecondaryLeftFlagAngle is double leftGhost && figure.SecondaryRightFlagAngle is double rightGhost)
+        {
+            control.LeftArmGhostRotation.Angle = leftGhost;
+            control.RightArmGhostRotation.Angle = rightGhost;
+            control.GhostArms.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            control.GhostArms.Visibility = Visibility.Collapsed;
         }
     }
 }

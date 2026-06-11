@@ -44,10 +44,14 @@ public sealed partial class SemaphoreViewModel : ToolViewModelBase
         _share = share;
         _localizer = localizer;
         Palette = [.. SemaphoreAlphabet.ChartFigures.Select(CreatePaletteItem)];
+        SpecialSignals = [.. SemaphoreAlphabet.SpecialFigures.Select(CreateSpecialItem)];
     }
 
     /// <summary>The tappable chart: A–Z (with digit captions) plus the Space/Letters/Numbers signs.</summary>
     public IReadOnlyList<SemaphoreFigureItem> Palette { get; }
+
+    /// <summary>Reference-only special signals (Cancel, Error) shown below the chart — not tappable.</summary>
+    public IReadOnlyList<SemaphoreFigureItem> SpecialSignals { get; }
 
     [ObservableProperty]
     public partial string InputText { get; set; } = string.Empty;
@@ -164,6 +168,17 @@ public sealed partial class SemaphoreViewModel : ToolViewModelBase
             caption,
             DescribeArms(figure),
             new RelayCommand(() => TapFigure(figure)));
+    }
+
+    private SemaphoreFigureItem CreateSpecialItem(SemaphoreFigure figure)
+    {
+        var (captionKey, tooltipKey) = figure.Kind == SemaphoreFigureKind.Cancel
+            ? ("SemaphoreCancelSign", "SemaphoreCancelTooltip")
+            : ("SemaphoreErrorSign", "SemaphoreErrorTooltip");
+        var caption = _localizer[captionKey].Value;
+
+        // No tap command — these are a non-clickable reference, not part of the encoder.
+        return new SemaphoreFigureItem(figure, caption, caption, _localizer[tooltipKey].Value);
     }
 
     private string SignName(SemaphoreFigureKind kind) => kind switch

@@ -19,6 +19,20 @@ public static class SemaphoreAlphabet
     public static SemaphoreFigure NumbersSign { get; } =
         new(SemaphoreFigureKind.NumbersSign, '\0', null, SemaphoreArmPosition.High, SemaphoreArmPosition.Up);
 
+    /// <summary>"Cancel" — nullifies the signal sent so far. A single upper-left to lower-right diagonal.</summary>
+    public static SemaphoreFigure Cancel { get; } =
+        new(SemaphoreFigureKind.Cancel, '\0', null, SemaphoreArmPosition.Low, SemaphoreArmPosition.High);
+
+    /// <summary>"Error" — both flags waved overhead and back down (the repeated-E waggle), so it carries
+    /// the down pose as a secondary position to render as motion.</summary>
+    public static SemaphoreFigure Error { get; } =
+        new(SemaphoreFigureKind.Error, '\0', null,
+            SemaphoreArmPosition.High, SemaphoreArmPosition.High,
+            SemaphoreArmPosition.Low, SemaphoreArmPosition.Low);
+
+    /// <summary>Display-only reference signals (Cancel, Error) — never tappable and not part of the codec.</summary>
+    public static IReadOnlyList<SemaphoreFigure> SpecialFigures { get; } = [Cancel, Error];
+
     public static IReadOnlyDictionary<char, char> DigitToLetter { get; } = new Dictionary<char, char>
     {
         ['1'] = 'A',

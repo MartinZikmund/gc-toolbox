@@ -133,6 +133,55 @@ public class SemaphoreAlphabetTests
         Assert.AreEqual(SemaphoreFigureKind.NumbersSign, chart[28].Kind);
     }
 
+    [TestMethod]
+    public void Cancel_IsTheUpperLeftToLowerRightDiagonal()
+    {
+        var cancel = SemaphoreAlphabet.Cancel;
+
+        Assert.AreEqual(SemaphoreFigureKind.Cancel, cancel.Kind);
+        Assert.AreEqual(SemaphoreArmPosition.Low, cancel.LeftArm);
+        Assert.AreEqual(SemaphoreArmPosition.High, cancel.RightArm);
+        Assert.IsNull(cancel.SecondaryLeftFlagAngle);
+        Assert.IsNull(cancel.SecondaryRightFlagAngle);
+    }
+
+    [TestMethod]
+    public void Error_WavesBothArmsBetweenHighAndLow()
+    {
+        var error = SemaphoreAlphabet.Error;
+
+        Assert.AreEqual(SemaphoreFigureKind.Error, error.Kind);
+        Assert.AreEqual(SemaphoreArmPosition.High, error.LeftArm);
+        Assert.AreEqual(SemaphoreArmPosition.High, error.RightArm);
+        Assert.AreEqual(225.0, error.LeftFlagAngle);
+        Assert.AreEqual(135.0, error.RightFlagAngle);
+        // The waving "down" pose, rendered as a faint ghost so Error reads as motion, not as U.
+        Assert.AreEqual(315.0, error.SecondaryLeftFlagAngle);
+        Assert.AreEqual(45.0, error.SecondaryRightFlagAngle);
+    }
+
+    [TestMethod]
+    public void Letters_HaveNoSecondaryWaveAngles()
+    {
+        var a = SemaphoreAlphabet.Letters['A'];
+
+        Assert.IsNull(a.SecondaryLeftFlagAngle);
+        Assert.IsNull(a.SecondaryRightFlagAngle);
+    }
+
+    [TestMethod]
+    public void SpecialFigures_AreCancelThenError_AndExcludedFromTheTappableChart()
+    {
+        var specials = SemaphoreAlphabet.SpecialFigures;
+
+        Assert.AreEqual(2, specials.Count);
+        Assert.AreEqual(SemaphoreFigureKind.Cancel, specials[0].Kind);
+        Assert.AreEqual(SemaphoreFigureKind.Error, specials[1].Kind);
+        Assert.IsFalse(
+            SemaphoreAlphabet.ChartFigures.Any(f => f.Kind is SemaphoreFigureKind.Cancel or SemaphoreFigureKind.Error),
+            "Special reference signals must not be part of the tappable chart.");
+    }
+
     // Viewer-facing flag angles: degrees clockwise from straight down, signaller facing the viewer
     // (so the signaller's right arm renders on the viewer's left).
     [DataTestMethod]

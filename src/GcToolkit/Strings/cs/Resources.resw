@@ -2690,6 +2690,21 @@
   <data name="SemaphoreNumbersSign" xml:space="preserve">
     <value>Číslice</value>
   </data>
+  <data name="SemaphoreSpecialLabel" xml:space="preserve">
+    <value>Speciální značky</value>
+  </data>
+  <data name="SemaphoreCancelSign" xml:space="preserve">
+    <value>Zrušení</value>
+  </data>
+  <data name="SemaphoreErrorSign" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="SemaphoreCancelTooltip" xml:space="preserve">
+    <value>Zrušení – dosud odeslaný signál neberte v potaz.</value>
+  </data>
+  <data name="SemaphoreErrorTooltip" xml:space="preserve">
+    <value>Chyba – oběma vlajkami se mávne nad hlavu a zpět dolů; dosavadní zprávu ignorujte.</value>
+  </data>
   <data name="SemaphoreArmsTooltip" xml:space="preserve">
     <value>Levá paže {0}, pravá paže {1} (z pohledu signalisty)</value>
   </data>

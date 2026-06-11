@@ -2690,6 +2690,21 @@
   <data name="SemaphoreNumbersSign" xml:space="preserve">
     <value>Numbers</value>
   </data>
+  <data name="SemaphoreSpecialLabel" xml:space="preserve">
+    <value>Special signals</value>
+  </data>
+  <data name="SemaphoreCancelSign" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SemaphoreErrorSign" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="SemaphoreCancelTooltip" xml:space="preserve">
+    <value>Cancel — disregard the signal sent so far.</value>
+  </data>
+  <data name="SemaphoreErrorTooltip" xml:space="preserve">
+    <value>Error — both flags are waved overhead and back down; ignore the message so far.</value>
+  </data>
   <data name="SemaphoreArmsTooltip" xml:space="preserve">
     <value>Left arm {0}, right arm {1} (signaller's view)</value>
   </data>

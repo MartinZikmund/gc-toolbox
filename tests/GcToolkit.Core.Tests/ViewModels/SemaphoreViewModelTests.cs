@@ -56,6 +56,17 @@ public class SemaphoreViewModelTests
     }
 
     [TestMethod]
+    public void SpecialSignals_AreCancelAndError_AndNotClickable()
+    {
+        var vm = CreateViewModel();
+
+        Assert.AreEqual(2, vm.SpecialSignals.Count);
+        Assert.AreEqual(SemaphoreFigureKind.Cancel, vm.SpecialSignals[0].Figure.Kind);
+        Assert.AreEqual(SemaphoreFigureKind.Error, vm.SpecialSignals[1].Figure.Kind);
+        Assert.IsTrue(vm.SpecialSignals.All(i => i.TapCommand is null), "Reference signals must not be tappable.");
+    }
+
+    [TestMethod]
     public void TapFigure_LetterInLettersMode_AppendsLowercaseLetter()
     {
         var vm = CreateViewModel();
