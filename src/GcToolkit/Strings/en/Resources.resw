@@ -2727,4 +2727,86 @@
   <data name="SemaphoreArmAcrossHigh" xml:space="preserve">
     <value>across high</value>
   </data>
+  <!-- Phone keypad -->
+  <data name="PhoneKeypad_Name" xml:space="preserve">
+    <value>Phone keypad</value>
+  </data>
+  <data name="PhoneKeypad_Tooltip" xml:space="preserve">
+    <value>Type like an old phone (multitap) and convert text to keypad digits and back.</value>
+  </data>
+  <data name="PhoneKeypadInteractiveHeader" xml:space="preserve">
+    <value>Interactive keypad</value>
+  </data>
+  <data name="PhoneKeypadInteractiveHint" xml:space="preserve">
+    <value>Tap a key to cycle its letters; pause to lock the letter in — just like texting on an old phone.</value>
+  </data>
+  <data name="PhoneKeypadComposedLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PhoneKeypadCodeLabel" xml:space="preserve">
+    <value>Multitap code</value>
+  </data>
+  <data name="PhoneKeypadSpeedLabel" xml:space="preserve">
+    <value>Multitap speed</value>
+  </data>
+  <data name="PhoneKeypadSpeedFast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="PhoneKeypadSpeedSlow" xml:space="preserve">
+    <value>Slow</value>
+  </data>
+  <data name="PhoneKeypadKeySpace" xml:space="preserve">
+    <value>space</value>
+  </data>
+  <data name="PhoneKeypadBackspace" xml:space="preserve">
+    <value>Backspace</value>
+  </data>
+  <data name="PhoneKeypadClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="PhoneKeypadCopyText" xml:space="preserve">
+    <value>Copy text</value>
+  </data>
+  <data name="PhoneKeypadCopyCode" xml:space="preserve">
+    <value>Copy code</value>
+  </data>
+  <data name="PhoneKeypadConverterHeader" xml:space="preserve">
+    <value>Text ⇄ digits converter</value>
+  </data>
+  <data name="PhoneKeypadMode" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="PhoneKeypadModeVanity" xml:space="preserve">
+    <value>Vanity · one digit</value>
+  </data>
+  <data name="PhoneKeypadModeMultitap" xml:space="preserve">
+    <value>Multitap · A=2, B=22</value>
+  </data>
+  <data name="PhoneKeypadDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="PhoneKeypadEncode" xml:space="preserve">
+    <value>Text → digits</value>
+  </data>
+  <data name="PhoneKeypadDecode" xml:space="preserve">
+    <value>Digits → text</value>
+  </data>
+  <data name="PhoneKeypadInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="PhoneKeypadInputPlaceholder" xml:space="preserve">
+    <value>Type text or keypad digits…</value>
+  </data>
+  <data name="PhoneKeypadOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="PhoneKeypadCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PhoneKeypadShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PhoneKeypadVanityNote" xml:space="preserve">
+    <value>A vanity code is ambiguous — each digit could be any of its letters, so decoding lists the options per digit.</value>
+  </data>
 </root>

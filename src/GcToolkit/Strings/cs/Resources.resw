@@ -2727,4 +2727,86 @@
   <data name="SemaphoreArmAcrossHigh" xml:space="preserve">
     <value>křížem nahoru</value>
   </data>
+  <!-- Phone keypad -->
+  <data name="PhoneKeypad_Name" xml:space="preserve">
+    <value>Telefonní klávesnice</value>
+  </data>
+  <data name="PhoneKeypad_Tooltip" xml:space="preserve">
+    <value>Pište jako na starém telefonu (multitap) a převádějte text na číslice klávesnice i zpět.</value>
+  </data>
+  <data name="PhoneKeypadInteractiveHeader" xml:space="preserve">
+    <value>Interaktivní klávesnice</value>
+  </data>
+  <data name="PhoneKeypadInteractiveHint" xml:space="preserve">
+    <value>Klepnutím na klávesu procházíte její písmena; pauzou písmeno potvrdíte — jako psaní SMS na starém telefonu.</value>
+  </data>
+  <data name="PhoneKeypadComposedLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PhoneKeypadCodeLabel" xml:space="preserve">
+    <value>Kód multitap</value>
+  </data>
+  <data name="PhoneKeypadSpeedLabel" xml:space="preserve">
+    <value>Rychlost multitap</value>
+  </data>
+  <data name="PhoneKeypadSpeedFast" xml:space="preserve">
+    <value>Rychle</value>
+  </data>
+  <data name="PhoneKeypadSpeedSlow" xml:space="preserve">
+    <value>Pomalu</value>
+  </data>
+  <data name="PhoneKeypadKeySpace" xml:space="preserve">
+    <value>mezera</value>
+  </data>
+  <data name="PhoneKeypadBackspace" xml:space="preserve">
+    <value>Smazat znak</value>
+  </data>
+  <data name="PhoneKeypadClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="PhoneKeypadCopyText" xml:space="preserve">
+    <value>Kopírovat text</value>
+  </data>
+  <data name="PhoneKeypadCopyCode" xml:space="preserve">
+    <value>Kopírovat kód</value>
+  </data>
+  <data name="PhoneKeypadConverterHeader" xml:space="preserve">
+    <value>Převodník text ⇄ číslice</value>
+  </data>
+  <data name="PhoneKeypadMode" xml:space="preserve">
+    <value>Kódování</value>
+  </data>
+  <data name="PhoneKeypadModeVanity" xml:space="preserve">
+    <value>Vanity · jedna číslice</value>
+  </data>
+  <data name="PhoneKeypadModeMultitap" xml:space="preserve">
+    <value>Multitap · A=2, B=22</value>
+  </data>
+  <data name="PhoneKeypadDirection" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="PhoneKeypadEncode" xml:space="preserve">
+    <value>Text → číslice</value>
+  </data>
+  <data name="PhoneKeypadDecode" xml:space="preserve">
+    <value>Číslice → text</value>
+  </data>
+  <data name="PhoneKeypadInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="PhoneKeypadInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text nebo číslice klávesnice…</value>
+  </data>
+  <data name="PhoneKeypadOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="PhoneKeypadCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PhoneKeypadShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PhoneKeypadVanityNote" xml:space="preserve">
+    <value>Vanity kód je nejednoznačný — každá číslice může být kterékoli z jejích písmen, proto se při dekódování vypíšou možnosti pro každou číslici.</value>
+  </data>
 </root>
