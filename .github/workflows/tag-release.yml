@@ -13,35 +13,30 @@ on:
     branches:
       - "release/v**"
 
+env:
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
 jobs:
   tag:
     if: >
       github.event.workflow_run.conclusion == 'success' &&
       github.event.repository.private == false
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write
     steps:
-      - name: Checkout the built commit
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.workflow_run.head_sha }}
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
-
-      - name: Install nbgv
-        run: dotnet tool install -g nbgv
-
+      # The gate only needs gh + the token (GH_REPO substitutes for a checkout),
+      # so it runs first — most invocations skip (not all three workflows green
+      # yet) and shouldn't pay for checkout/SDK/nbgv setup.
       - name: Check all three packaging workflows succeeded on this commit
         id: gate
         env:
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           for wf in "Build Windows Packages" "Build Android Packages" "Build iOS Packages"; do
             # Filter by branch as well as commit: a workflow_dispatch run of the same
@@ -54,6 +49,18 @@ jobs:
             fi
           done
           echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout the built commit
+        if: steps.gate.outputs.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      # No setup-dotnet: the preinstalled .NET 10 SDK is enough to run nbgv.
+      - name: Install nbgv
+        if: steps.gate.outputs.skip != 'true'
+        run: dotnet tool install -g nbgv
 
       - name: Tag
         if: steps.gate.outputs.skip != 'true'

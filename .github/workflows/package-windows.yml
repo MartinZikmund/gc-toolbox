@@ -31,17 +31,18 @@ jobs:
     strategy:
       matrix:
         configuration: [Release]
-        platform: [x86,x64,ARM64]
+        # Dev-channel pushes to main only need a sideload-testable x64 package;
+        # release and manual dispatch builds produce the full platform set.
+        platform: ${{ (startsWith(github.ref, 'refs/heads/release/') || github.event_name == 'workflow_dispatch') && fromJSON('["x86","x64","ARM64"]') || fromJSON('["x64"]') }}
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    timeout-minutes: 60
 
     outputs:
       channel: ${{ steps.channel.outputs.value }}
 
     env:
-      STEP_TIMEOUT_MINUTES: 60
-
       # .NET niceties
       DOTNET_NOLOGO: 1
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
@@ -63,28 +64,34 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Cache NuGet to speed up restores
-    - name: NuGet cache
-      uses: actions/cache@v4
+    # Restore-only: the packaging-specific delta (R2R/runtime packs) is saved
+    # by a single leg below under a distinct -pkg- key, so the three matrix
+    # legs don't race to compress and save the same multi-GB archive.
+    - name: NuGet cache (restore)
+      id: nuget
+      uses: actions/cache/restore@v4
       with:
         path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
+        key: ${{ runner.os }}-nuget-pkg-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Build.props', '**/Directory.Packages.props', '**/global.json') }}
         restore-keys: |
+          ${{ runner.os }}-nuget-pkg-
           ${{ runner.os }}-nuget-
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: |
           ${{ env.DOTNET_VERSION }}
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
+      uses: microsoft/setup-msbuild@v3
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    # Restore the application to populate the obj folder with RuntimeIdentifiers.
+    # The project (not the solution) is targeted so the test projects don't get
+    # dragged through every matrix leg; P2P references restore transitively.
     - name: Restore the application
-      run: msbuild $env:SOLUTION_FILE /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:PublishReadyToRun=true /p:AppChannel=${{ steps.channel.outputs.value }}
+      run: msbuild $env:PROJECT_FILE /m /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:PublishReadyToRun=true /p:AppChannel=${{ steps.channel.outputs.value }}
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -101,15 +108,25 @@ jobs:
         $certificatePath = "GitHubActionsWorkflow.pfx"
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
-    # Create the app package by building and packaging the project
+    # Create the app package by building and packaging the project.
+    # Dev-channel (main/dispatch) packages skip ReadyToRun — R2R compilation is
+    # a large chunk of packaging time and only matters for shipped Prod builds.
     - name: Create the app package
-      run: msbuild $env:SOLUTION_FILE /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true /p:AppChannel=${{ steps.channel.outputs.value }}
+      run: msbuild $env:PROJECT_FILE /m /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true /p:AppChannel=${{ steps.channel.outputs.value }} $env:R2R_ARGS
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: CI
         Appx_Package_Dir: Packages\
         Configuration: ${{ matrix.configuration }}
         Platform: ${{ matrix.platform }}
+        R2R_ARGS: ${{ steps.channel.outputs.value == 'Dev' && '/p:PublishReadyToRun=false' || '' }}
+
+    - name: NuGet cache (save)
+      if: matrix.platform == 'x64' && steps.nuget.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ steps.nuget.outputs.cache-primary-key }}
 
     # Remove the pfx
     - name: Remove the pfx
@@ -124,13 +141,14 @@ jobs:
 
   merge:
     if: needs.create_package.result == 'success'
+    # Stays on windows-latest: the MsixBundler action shells out to makeappx.exe.
     runs-on: windows-latest
+    timeout-minutes: 15
     needs: create_package
     steps:
+      # Shallow checkout — this job only reads Package.appxmanifest.
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Read package version from manifest
         id: manifest

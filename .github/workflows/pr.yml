@@ -1,0 +1,73 @@
+name: PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - release/**
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'specs/**'
+      - '.claude/**'
+      - 'LICENSE'
+
+env:
+  # App Configuration
+  APP_NAME: GcToolkit
+  PROJECT_FILE: src/GcToolkit/GcToolkit.csproj
+
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+# A new push to a PR cancels that PR's in-flight build.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Fast feedback: a Debug build of the two workload-free heads (desktop on
+  # Linux — 1x and faster — and the WinAppSDK head on Windows). Unit tests
+  # piggyback on the desktop leg so they share its checkout/restore. The two
+  # legs run in parallel, so PR wall-clock is just the slower of the two.
+  # Full Release coverage of every target happens post-merge in main.yml.
+  smoke:
+    name: Smoke ${{ matrix.label }} (Debug)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { label: desktop,   os: ubuntu-latest,  tfm: net10.0-desktop }
+          - { label: WinAppSDK, os: windows-latest, tfm: net10.0-windows10.0.26100 }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Nerdbank.GitVersioning needs full history to compute the version.
+          fetch-depth: 0
+
+      # PRs restore the shared NuGet cache but never save it: a cache saved from
+      # a PR run is scoped to that PR's merge ref (useless to other branches) and
+      # the save itself costs minutes. Pushes to main maintain it for everyone.
+      - name: NuGet cache (restore)
+        id: nuget
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Build.props', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # No setup-dotnet: global.json doesn't pin an SDK version and the runner
+      # images preinstall a matching stable .NET 10 SDK.
+      - name: Build ${{ matrix.label }} head (Debug)
+        run: dotnet build ${{ env.PROJECT_FILE }} -f ${{ matrix.tfm }} -c Debug
+
+      # MTP runner — don't pass VSTest-only flags like --nologo.
+      - name: Run unit tests
+        if: matrix.label == 'desktop'
+        run: |
+          dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj
+          dotnet test tests/GcToolkit.SourceGenerators.Tests/GcToolkit.SourceGenerators.Tests.csproj

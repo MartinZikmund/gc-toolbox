@@ -16,6 +16,10 @@ on:
   issue_comment:
     types: [created]
 
+env:
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
 jobs:
   apply:
     if: >-
@@ -24,6 +28,7 @@ jobs:
       startsWith(github.event.comment.body, '/apply-xaml-style')
     name: Apply XAML Styler
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
       pull-requests: write
@@ -87,10 +92,8 @@ jobs:
           ref: ${{ steps.pr.outputs.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
+      # No setup-dotnet: the runner image's preinstalled .NET 10 SDK suffices
+      # for tool restore + XAML Styler.
       - name: Restore dotnet tools
         run: dotnet tool restore
 
