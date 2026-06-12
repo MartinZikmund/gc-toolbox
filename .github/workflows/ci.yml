@@ -47,11 +47,12 @@ jobs:
           dotnet-version: |
             ${{ env.DOTNET_VERSION }}
 
-      - name: Install .NET workloads
-        run: |
-          dotnet workload restore "$env:SOLUTION_FILE"
-          dotnet workload install wasm-tools
-
-      - name: Build ${{ env.APP_NAME }} (Debug)
+      # Smoke-build only the workload-free heads (desktop + WinAppSDK); the mobile/WASM
+      # heads are covered by their packaging workflows and would need slow workload installs.
+      - name: Build ${{ env.APP_NAME }} desktop head (Debug)
         shell: pwsh
-        run: dotnet build $env:PROJECT_FILE -c Debug
+        run: dotnet build $env:PROJECT_FILE -f net10.0-desktop -c Debug
+
+      - name: Build ${{ env.APP_NAME }} WinAppSDK head (Debug)
+        shell: pwsh
+        run: dotnet build $env:PROJECT_FILE -f net10.0-windows10.0.26100 -c Debug
