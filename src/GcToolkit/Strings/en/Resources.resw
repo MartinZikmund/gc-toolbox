@@ -712,6 +712,78 @@
   <data name="SubstitutionCipherKeyErrorNonLetter" xml:space="preserve">
     <value>'{0}' is not a letter — the key may only contain A–Z.</value>
   </data>
+  <data name="KamasutraCipher_Name" xml:space="preserve">
+    <value>Kamasutra cipher</value>
+  </data>
+  <data name="KamasutraCipher_Tooltip" xml:space="preserve">
+    <value>Swap each letter with its paired partner — a reciprocal cipher that encodes and decodes with the same key.</value>
+  </data>
+  <data name="KamasutraKeyMode" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="KamasutraModeDefault" xml:space="preserve">
+    <value>A–Z split</value>
+  </data>
+  <data name="KamasutraModeKeyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="KamasutraModeManual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="KamasutraModeRandom" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="KamasutraKeywordLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="KamasutraKeywordPlaceholder" xml:space="preserve">
+    <value>Seed the alphabet with a keyword…</value>
+  </data>
+  <data name="KamasutraPairsLabel" xml:space="preserve">
+    <value>Pairs</value>
+  </data>
+  <data name="KamasutraPairsPlaceholder" xml:space="preserve">
+    <value>Enter 13 letter pairs, e.g. AN BO CP…</value>
+  </data>
+  <data name="KamasutraReroll" xml:space="preserve">
+    <value>Re-roll</value>
+  </data>
+  <data name="KamasutraInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="KamasutraInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="KamasutraClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="KamasutraOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="KamasutraReciprocalNote" xml:space="preserve">
+    <value>This cipher is reciprocal — the same key both encodes and decodes.</value>
+  </data>
+  <data name="KamasutraCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="KamasutraShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="KamasutraKeyLabel" xml:space="preserve">
+    <value>Pairing</value>
+  </data>
+  <data name="KamasutraKeyNote" xml:space="preserve">
+    <value>Each letter swaps with the partner beneath it — applying the cipher twice restores the original.</value>
+  </data>
+  <data name="KamasutraErrorInvalidChar" xml:space="preserve">
+    <value>Pairs may only contain letters.</value>
+  </data>
+  <data name="KamasutraErrorOddCount" xml:space="preserve">
+    <value>A letter is missing its partner.</value>
+  </data>
+  <data name="KamasutraErrorDuplicate" xml:space="preserve">
+    <value>A letter appears in more than one pair.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
