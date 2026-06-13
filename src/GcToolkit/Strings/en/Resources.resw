@@ -217,6 +217,69 @@
   <data name="CoordinateProjection_Tooltip" xml:space="preserve">
     <value>Project a waypoint from a point, bearing and distance.</value>
   </data>
+  <data name="Collatz_Name" xml:space="preserve">
+    <value>Collatz conjecture</value>
+  </data>
+  <data name="Collatz_Tooltip" xml:space="preserve">
+    <value>Trace the 3n+1 hailstone sequence of any number, or find the most stubborn starter up to a limit.</value>
+  </data>
+  <data name="CollatzStartLabel" xml:space="preserve">
+    <value>Starting number</value>
+  </data>
+  <data name="CollatzStartPlaceholder" xml:space="preserve">
+    <value>Enter a whole number ≥ 1</value>
+  </data>
+  <data name="CollatzInvalidNotice" xml:space="preserve">
+    <value>Enter a whole number of 1 or greater.</value>
+  </data>
+  <data name="CollatzStepsLabel" xml:space="preserve">
+    <value>Steps</value>
+  </data>
+  <data name="CollatzPeakLabel" xml:space="preserve">
+    <value>Peak value</value>
+  </data>
+  <data name="CollatzLengthLabel" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="CollatzEvenOddSplit" xml:space="preserve">
+    <value>{0:N0} halving steps · {1:N0} 3n+1 steps</value>
+  </data>
+  <data name="CollatzSequenceLabel" xml:space="preserve">
+    <value>Hailstone sequence</value>
+  </data>
+  <data name="CollatzCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CollatzShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="CollatzShareSummary" xml:space="preserve">
+    <value>Collatz trace of {0}: {1} steps, peak {2}, length {3}.</value>
+  </data>
+  <data name="CollatzSearchTitle" xml:space="preserve">
+    <value>Most stubborn number</value>
+  </data>
+  <data name="CollatzSearchHint" xml:space="preserve">
+    <value>Finds the starter up to your limit with the longest sequence. Limited to 1,000,000 to stay responsive.</value>
+  </data>
+  <data name="CollatzLimitLabel" xml:space="preserve">
+    <value>Upper limit</value>
+  </data>
+  <data name="CollatzLimitPlaceholder" xml:space="preserve">
+    <value>1 to 1,000,000</value>
+  </data>
+  <data name="CollatzSearchButton" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="CollatzSearchInvalidNotice" xml:space="preserve">
+    <value>Enter a limit between 1 and 1,000,000.</value>
+  </data>
+  <data name="CollatzSearchResult" xml:space="preserve">
+    <value>{0} has the longest sequence up to {2} — {1} steps.</value>
+  </data>
+  <data name="CollatzAbout" xml:space="preserve">
+    <value>The Collatz conjecture asks whether repeatedly halving even numbers and applying 3n+1 to odd ones always reaches 1. It is unproven, but holds for every number ever tested.</value>
+  </data>
   <data name="CaesarCipher_Name" xml:space="preserve">
     <value>Caesar cipher</value>
   </data>
