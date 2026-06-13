@@ -2091,4 +2091,91 @@
   <data name="BrainfuckOokAboutBody" xml:space="preserve">
     <value>Brainfuck je minimalistický jazyk osmi příkazů (&gt; &lt; + - . , [ ]) pracujících s páskou bajtových buněk. Ook! a Ook! krátká jsou přesné přepisy stejných příkazů. Spusťte program a uvidíte jeho výstup, vygenerujte program vypisující váš text nebo libovolně převádějte mezi třemi notacemi. Smyčky, které nikdy neskončí, se automaticky zastaví.</value>
   </data>
+  <data name="SpellingAlphabet_Name" xml:space="preserve">
+    <value>Hláskovací abeceda</value>
+  </data>
+  <data name="SpellingAlphabet_Tooltip" xml:space="preserve">
+    <value>Vyhláskuje text pomocí kódových slov NATO (a deseti historických variant) — a přečte je zpět.</value>
+  </data>
+  <data name="SpellingAlphabetVariantLabel" xml:space="preserve">
+    <value>Abeceda</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Nato" xml:space="preserve">
+    <value>NATO / ICAO (mezinárodní)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Itu1932" xml:space="preserve">
+    <value>ITU 1932 (mezinárodní)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_WesternUnion" xml:space="preserve">
+    <value>Western Union</value>
+  </data>
+  <data name="SpellingAlphabetVariant_AbleBaker" xml:space="preserve">
+    <value>Armáda/námořnictvo USA (Able Baker)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Raf1924" xml:space="preserve">
+    <value>RAF 1924</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Apco" xml:space="preserve">
+    <value>APCO / policie</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Dutch" xml:space="preserve">
+    <value>Nizozemská</value>
+  </data>
+  <data name="SpellingAlphabetVariant_German" xml:space="preserve">
+    <value>Německá</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Swedish" xml:space="preserve">
+    <value>Švédská</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianOfficial" xml:space="preserve">
+    <value>Ruská (oficiální)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianUnofficial" xml:space="preserve">
+    <value>Ruská (neoficiální)</value>
+  </data>
+  <data name="SpellingAlphabetEncode" xml:space="preserve">
+    <value>Text na kódová slova</value>
+  </data>
+  <data name="SpellingAlphabetDecode" xml:space="preserve">
+    <value>Kódová slova na text</value>
+  </data>
+  <data name="SpellingAlphabetAutoDetect" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="SpellingAlphabetInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="SpellingAlphabetInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text nebo vložte kódová slova k přečtení</value>
+  </data>
+  <data name="SpellingAlphabetClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="SpellingAlphabetSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="SpellingAlphabetShowAllVariants" xml:space="preserve">
+    <value>Zobrazit všechny abecedy</value>
+  </data>
+  <data name="SpellingAlphabetOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="SpellingAlphabetUnknownNotice" xml:space="preserve">
+    <value>Nerozpoznaná kódová slova: {0}</value>
+  </data>
+  <data name="SpellingAlphabetCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="SpellingAlphabetShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="SpellingAlphabetAllVariantsLabel" xml:space="preserve">
+    <value>Všechny abecedy</value>
+  </data>
+  <data name="SpellingAlphabetChartTitle" xml:space="preserve">
+    <value>Přehled kódových slov</value>
+  </data>
+  <data name="SpellingAlphabetChartHint" xml:space="preserve">
+    <value>Klepnutím na písmeno jej přidáte do vstupu.</value>
+  </data>
 </root>
