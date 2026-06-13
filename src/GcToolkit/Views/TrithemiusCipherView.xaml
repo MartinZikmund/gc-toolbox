@@ -1,0 +1,214 @@
+﻿<local:TrithemiusCipherViewBase
+    x:Class="GcToolkit.Views.TrithemiusCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="760"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Direction  -->
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=TrithemiusEncrypt}" />
+                <RadioButton Content="{markup:Localize Key=TrithemiusDecrypt}" />
+            </RadioButtons>
+
+            <!--  Progression controls (beyond cachesleuth parity): starting row + step per letter  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <NumberBox
+                    Grid.Column="0"
+                    Header="{markup:Localize Key=TrithemiusStartOffset}"
+                    LargeChange="1"
+                    Maximum="25"
+                    Minimum="0"
+                    SmallChange="1"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{x:Bind ViewModel.StartOffset, Mode=TwoWay}" />
+                <NumberBox
+                    Grid.Column="1"
+                    Header="{markup:Localize Key=TrithemiusStep}"
+                    LargeChange="1"
+                    Maximum="25"
+                    Minimum="0"
+                    SmallChange="1"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{x:Bind ViewModel.Step, Mode=TwoWay}" />
+            </Grid>
+
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=TrithemiusInputLabel}"
+                PlaceholderText="{markup:Localize Key=TrithemiusInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=TrithemiusClear}" />
+                <ToggleSwitch
+                    VerticalAlignment="Center"
+                    Header="{markup:Localize Key=TrithemiusShowAllOffsets}"
+                    IsOn="{x:Bind ViewModel.ShowAllOffsets, Mode=TwoWay}" />
+            </StackPanel>
+
+            <!--  Single result (hidden while showing every offset)  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllOffsets, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TrithemiusOutputLabel}" />
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  All offsets (brute-force list) — visible only in "show all offsets" mode  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllOffsets, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TrithemiusAllOffsetsLabel}" />
+                <ItemsControl ItemsSource="{x:Bind ViewModel.OffsetResults}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="tools:TrithemiusOffsetItem">
+                            <Grid
+                                Margin="0,2"
+                                Padding="8,6"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                ColumnSpacing="12"
+                                CornerRadius="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    HorizontalTextAlignment="Right"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind StartOffset}" />
+                                <TextBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    FontFamily="Consolas"
+                                    IsReadOnly="True"
+                                    IsSpellCheckEnabled="False"
+                                    Text="{x:Bind Text}"
+                                    TextWrapping="Wrap" />
+                                <Button
+                                    Grid.Column="2"
+                                    Width="36"
+                                    Height="36"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.Name="{markup:Localize Key=TrithemiusCopyOffset}"
+                                    Command="{x:Bind CopyCommand}"
+                                    ToolTipService.ToolTip="{markup:Localize Key=TrithemiusCopyOffset}">
+                                    <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=TrithemiusCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=TrithemiusShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  Tabula recta (the reference table the cipher rotates through)  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TrithemiusTabulaLabel}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=TrithemiusTabulaNote}"
+                        TextWrapping="Wrap" />
+                    <ScrollViewer
+                        MaxHeight="320"
+                        HorizontalScrollBarVisibility="Auto"
+                        HorizontalScrollMode="Auto"
+                        VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.TabulaRecta}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <TextBlock
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        Text="{x:Bind}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</local:TrithemiusCipherViewBase>

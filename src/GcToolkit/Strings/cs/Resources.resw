@@ -856,6 +856,57 @@
   <data name="OneTimePadNote" xml:space="preserve">
     <value>Jednorázová tabulka je neprolomitelná pouze tehdy, je-li klíč skutečně náhodný, alespoň tak dlouhý jako zpráva a nikdy znovu nepoužitý. Varianta Beaufort je sama svou inverzí: dvojí zašifrování vrátí původní text.</value>
   </data>
+  <data name="TrithemiusCipher_Name" xml:space="preserve">
+    <value>Trithemiova šifra</value>
+  </data>
+  <data name="TrithemiusCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte bezklíčovou progresivní šifru — každé písmeno se posune o krok dál (předchůdce Vigenèrovy šifry).</value>
+  </data>
+  <data name="TrithemiusEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="TrithemiusDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="TrithemiusStartOffset" xml:space="preserve">
+    <value>Počáteční posun</value>
+  </data>
+  <data name="TrithemiusStep" xml:space="preserve">
+    <value>Krok na písmeno</value>
+  </data>
+  <data name="TrithemiusInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="TrithemiusInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="TrithemiusClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="TrithemiusShowAllOffsets" xml:space="preserve">
+    <value>Zobrazit všechny počáteční posuny</value>
+  </data>
+  <data name="TrithemiusOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="TrithemiusAllOffsetsLabel" xml:space="preserve">
+    <value>Všechny počáteční posuny</value>
+  </data>
+  <data name="TrithemiusCopyOffset" xml:space="preserve">
+    <value>Kopírovat tento posun</value>
+  </data>
+  <data name="TrithemiusCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="TrithemiusShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="TrithemiusTabulaLabel" xml:space="preserve">
+    <value>Tabula recta</value>
+  </data>
+  <data name="TrithemiusTabulaNote" xml:space="preserve">
+    <value>1. písmeno používá řádek 0, 2. řádek 1, 3. řádek 2 a tak dále.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

@@ -856,6 +856,57 @@
   <data name="OneTimePadNote" xml:space="preserve">
     <value>A one-time pad is unbreakable only when the key is truly random, at least as long as the message, and never reused. The Beaufort variant is its own inverse: encrypting twice returns the plaintext.</value>
   </data>
+  <data name="TrithemiusCipher_Name" xml:space="preserve">
+    <value>Trithemius cipher</value>
+  </data>
+  <data name="TrithemiusCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the keyless progressive cipher — each letter shifts one step further (the ancestor of Vigenère).</value>
+  </data>
+  <data name="TrithemiusEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="TrithemiusDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="TrithemiusStartOffset" xml:space="preserve">
+    <value>Start offset</value>
+  </data>
+  <data name="TrithemiusStep" xml:space="preserve">
+    <value>Step per letter</value>
+  </data>
+  <data name="TrithemiusInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="TrithemiusInputPlaceholder" xml:space="preserve">
+    <value>Type text to encrypt or decrypt…</value>
+  </data>
+  <data name="TrithemiusClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="TrithemiusShowAllOffsets" xml:space="preserve">
+    <value>Show all start offsets</value>
+  </data>
+  <data name="TrithemiusOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="TrithemiusAllOffsetsLabel" xml:space="preserve">
+    <value>All start offsets</value>
+  </data>
+  <data name="TrithemiusCopyOffset" xml:space="preserve">
+    <value>Copy this offset</value>
+  </data>
+  <data name="TrithemiusCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="TrithemiusShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="TrithemiusTabulaLabel" xml:space="preserve">
+    <value>Tabula recta</value>
+  </data>
+  <data name="TrithemiusTabulaNote" xml:space="preserve">
+    <value>The 1st letter uses row 0, the 2nd row 1, the 3rd row 2, and so on.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
