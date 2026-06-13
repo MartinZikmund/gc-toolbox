@@ -460,6 +460,63 @@
   <data name="DvorakHistoryNote" xml:space="preserve">
     <value>Zjednodušené rozložení Dvorak navrhli August Dvorak a William Dealey a v roce 1936 si jej nechali patentovat jako rychlejší a méně namáhavou alternativu ke QWERTY.</value>
   </data>
+  <data name="AffineCipher_Name" xml:space="preserve">
+    <value>Afinní šifra</value>
+  </data>
+  <data name="AffineCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte afinní šifru E(x) = (a·x + b) mod 26 — nebo automaticky zjistěte neznámý klíč.</value>
+  </data>
+  <data name="AffineMultiplier" xml:space="preserve">
+    <value>Násobitel (a)</value>
+  </data>
+  <data name="AffineOffset" xml:space="preserve">
+    <value>Posun (b)</value>
+  </data>
+  <data name="AffineFormulaPrefix" xml:space="preserve">
+    <value>Vzorec:</value>
+  </data>
+  <data name="AffineEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="AffineDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="AffineInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="AffineInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="AffineClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="AffineAutoSolve" xml:space="preserve">
+    <value>Automatické řešení (vyzkoušet všechny klíče)</value>
+  </data>
+  <data name="AffineOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="AffineAutoSolveLabel" xml:space="preserve">
+    <value>Všechny klíče</value>
+  </data>
+  <data name="AffineCopyCandidate" xml:space="preserve">
+    <value>Kopírovat tento kandidát</value>
+  </data>
+  <data name="AffineCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="AffineShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="AffineKeyLabel" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="AffineInverseLabel" xml:space="preserve">
+    <value>Modulární inverze a:</value>
+  </data>
+  <data name="AffineKeyNote" xml:space="preserve">
+    <value>Každé písmeno v horním řádku odpovídá písmenu pod ním. Násobitel musí být nesoudělný s 26.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
