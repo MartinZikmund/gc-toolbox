@@ -784,6 +784,78 @@
   <data name="KamasutraErrorDuplicate" xml:space="preserve">
     <value>Některé písmeno se vyskytuje ve více párech.</value>
   </data>
+  <data name="OneTimePad_Name" xml:space="preserve">
+    <value>Jednorázová tabulka</value>
+  </data>
+  <data name="OneTimePad_Tooltip" xml:space="preserve">
+    <value>Šifrujte a dešifrujte Vernamovou jednorázovou tabulkou — každé písmeno se posune o odpovídající písmeno klíče.</value>
+  </data>
+  <data name="OneTimePadEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="OneTimePadDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="OneTimePadVariant" xml:space="preserve">
+    <value>Varianta</value>
+  </data>
+  <data name="OneTimePadVariantVigenere" xml:space="preserve">
+    <value>Vigenère</value>
+  </data>
+  <data name="OneTimePadVariantBeaufort" xml:space="preserve">
+    <value>Beaufort</value>
+  </data>
+  <data name="OneTimePadVariantVariantBeaufort" xml:space="preserve">
+    <value>Varianta Beaufort</value>
+  </data>
+  <data name="OneTimePadCharset" xml:space="preserve">
+    <value>Abeceda</value>
+  </data>
+  <data name="OneTimePadCharsetLetters" xml:space="preserve">
+    <value>Písmena · mod 26</value>
+  </data>
+  <data name="OneTimePadCharsetLettersDigits" xml:space="preserve">
+    <value>Písmena + číslice · mod 36</value>
+  </data>
+  <data name="OneTimePadCharsetAscii" xml:space="preserve">
+    <value>ASCII · mod 95</value>
+  </data>
+  <data name="OneTimePadKeyLabel" xml:space="preserve">
+    <value>Klíč (tabulka)</value>
+  </data>
+  <data name="OneTimePadKeyPlaceholder" xml:space="preserve">
+    <value>Zadejte nebo vygenerujte klíč…</value>
+  </data>
+  <data name="OneTimePadGeneratePad" xml:space="preserve">
+    <value>Vygenerovat klíč</value>
+  </data>
+  <data name="OneTimePadKeyTooShort" xml:space="preserve">
+    <value>Klíč nelze použít jako skutečnou jednorázovou tabulku: je buď kratší než zpráva (a musí se proto opakovat), nebo neobsahuje žádné použitelné znaky (a text tak zůstává beze změny). Skutečná jednorázová tabulka potřebuje náhodný klíč alespoň tak dlouhý jako zpráva, použitý pouze jednou.</value>
+  </data>
+  <data name="OneTimePadInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="OneTimePadInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="OneTimePadClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="OneTimePadPreserve" xml:space="preserve">
+    <value>Zachovat velikost písmen a interpunkci</value>
+  </data>
+  <data name="OneTimePadOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="OneTimePadCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="OneTimePadShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="OneTimePadNote" xml:space="preserve">
+    <value>Jednorázová tabulka je neprolomitelná pouze tehdy, je-li klíč skutečně náhodný, alespoň tak dlouhý jako zpráva a nikdy znovu nepoužitý. Varianta Beaufort je sama svou inverzí: dvojí zašifrování vrátí původní text.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
