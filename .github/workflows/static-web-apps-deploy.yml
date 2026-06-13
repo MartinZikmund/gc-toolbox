@@ -71,12 +71,13 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       # Only wasm-tools — `workload restore` would also pull the android/ios
-      # workloads this WASM-only build never uses.
+      # workloads this WASM-only build never uses. SingleTargetFramework collapses
+      # restore to wasm so it doesn't evaluate (and demand workloads for) the others.
       - name: Publish WASM
         run: |
           cd ${{ env.PROJECT_PATH }}
           dotnet workload install wasm-tools
-          dotnet publish -c Release -f ${{ env.WASM_TARGET_FRAMEWORK }} -p:AppChannel=${{ steps.channel.outputs.value }}
+          dotnet publish -c Release -f ${{ env.WASM_TARGET_FRAMEWORK }} -p:SingleTargetFramework=${{ env.WASM_TARGET_FRAMEWORK }} -p:AppChannel=${{ steps.channel.outputs.value }}
 
       - name: NuGet cache (save)
         if: github.event_name == 'push' && steps.nuget.outputs.cache-hit != 'true'

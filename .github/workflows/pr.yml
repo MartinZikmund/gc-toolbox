@@ -62,12 +62,18 @@ jobs:
 
       # No setup-dotnet: global.json doesn't pin an SDK version and the runner
       # images preinstall a matching stable .NET 10 SDK.
+      #
+      # SingleTargetFramework collapses TargetFrameworks to this one TFM. Without it,
+      # the implicit restore evaluates EVERY TFM (android/ios/wasm) and `dotnet build`
+      # fails (NETSDK1147) demanding workloads no smoke leg installs — `-f` alone only
+      # narrows the build, not the restore.
       - name: Build ${{ matrix.label }} head (Debug)
-        run: dotnet build ${{ env.PROJECT_FILE }} -f ${{ matrix.tfm }} -c Debug
+        run: dotnet build ${{ env.PROJECT_FILE }} -p:SingleTargetFramework=${{ matrix.tfm }} -c Debug
 
       # MTP runner — don't pass VSTest-only flags like --nologo.
+      # Collapse GcToolkit.Core (referenced by the tests) to net10.0 for the same reason.
       - name: Run unit tests
         if: matrix.label == 'desktop'
         run: |
-          dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj
+          dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj -p:SingleTargetFramework=net10.0
           dotnet test tests/GcToolkit.SourceGenerators.Tests/GcToolkit.SourceGenerators.Tests.csproj

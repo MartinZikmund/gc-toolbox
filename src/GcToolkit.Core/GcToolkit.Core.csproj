@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Uno.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>
+        <TargetFrameworks Condition="'$(SingleTargetFramework)' == ''">
             net10.0;
             net10.0-android;
             net10.0-ios;
@@ -9,6 +9,7 @@
             net10.0-desktop;
             net10.0-browserwasm;
         </TargetFrameworks>
+        <TargetFrameworks Condition="'$(SingleTargetFramework)' != ''">$(SingleTargetFramework)</TargetFrameworks>
 
         <UnoSingleProject>true</UnoSingleProject>
         <OutputType>Library</OutputType>

@@ -60,6 +60,8 @@ jobs:
 
       # Install only this target's workload — `workload restore` would pull the
       # union of all five heads' workloads onto a runner that builds just one.
+      # Paired with -p:SingleTargetFramework below: the collapse keeps restore from
+      # evaluating (and demanding workloads for) the other four TFMs.
       - name: Install ${{ matrix.workload }} workload
         if: matrix.workload != ''
         run: dotnet workload install ${{ matrix.workload }} --ignore-failed-sources
@@ -71,13 +73,15 @@ jobs:
         run: xcrun --sdk iphoneos --show-sdk-path >/dev/null 2>&1 || xcodebuild -downloadPlatform iOS
 
       - name: Build ${{ matrix.label }} head (Release)
-        run: dotnet build ${{ env.PROJECT_FILE }} -f ${{ matrix.tfm }} -c Release
+        run: dotnet build ${{ env.PROJECT_FILE }} -p:SingleTargetFramework=${{ matrix.tfm }} -c Release
 
       # MTP runner — don't pass VSTest-only flags like --nologo.
+      # Collapse GcToolkit.Core (referenced by the tests) to net10.0 so restore
+      # doesn't wander into the other platforms' workloads.
       - name: Run unit tests
         if: matrix.label == 'desktop'
         run: |
-          dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj
+          dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj -p:SingleTargetFramework=net10.0
           dotnet test tests/GcToolkit.SourceGenerators.Tests/GcToolkit.SourceGenerators.Tests.csproj
 
       # Maintain the shared cache from the two legs the frequent PR path uses

@@ -1,0 +1,27 @@
+<!--
+  Local single-target build override (sample).
+
+  Building the multi-targeted Uno projects normally restores/evaluates EVERY target
+  framework (android, ios, wasm, desktop, windows) even when you pass `-f <one-tfm>` —
+  so a plain build of the desktop or Windows head still demands the android/ios/wasm
+  workloads. To build just one platform (and need only that platform's workload):
+
+    1. Copy this file to `crosstargeting-override.props` (same folder). That name is
+       gitignored, so it only affects YOUR machine — CI and other devs are untouched.
+    2. Set <SingleTargetFramework> below to the one TFM you want.
+    3. Build / open the solution as usual. Delete the copy to restore full multi-target.
+
+  Equivalent one-off on the command line (no file needed):
+    dotnet build src/GcToolkit/GcToolkit.csproj -p:SingleTargetFramework=net10.0-desktop
+
+  The property is opt-in: only the cross-targeted Uno projects read it, so any non-Uno
+  single-target project you add later (e.g. a plain net10.0 library) is unaffected.
+
+  Valid values: net10.0-desktop | net10.0-windows10.0.26100 | net10.0-browserwasm
+                net10.0-android  | net10.0-ios
+-->
+<Project>
+  <PropertyGroup>
+    <SingleTargetFramework>net10.0-windows10.0.26100</SingleTargetFramework>
+  </PropertyGroup>
+</Project>

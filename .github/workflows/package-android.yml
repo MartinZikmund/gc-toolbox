@@ -72,7 +72,8 @@ jobs:
 
       # Only the android workload — `workload restore` on the solution would
       # also pull ios + wasm-tools, which this job never uses. No explicit
-      # `dotnet restore` either: publish restores its own TFM closure.
+      # `dotnet restore` either: publish restores its own TFM closure (collapsed
+      # to android by -p:SingleTargetFramework below, so it stays android-only).
       - name: Install .NET workloads
         run:
           dotnet workload install android --ignore-failed-sources
@@ -87,6 +88,7 @@ jobs:
       - name: Publish AAB (signed with Upload Key)
         run: |
           dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.ANDROID_TARGET_FRAMEWORK }} \
+            -p:SingleTargetFramework=${{ env.ANDROID_TARGET_FRAMEWORK }} \
             -p:AppChannel=${{ steps.channel.outputs.value }} \
             -p:AndroidKeyStore=true \
             -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \

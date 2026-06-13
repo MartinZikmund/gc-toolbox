@@ -54,8 +54,13 @@ that folder, which is why we disambiguate with `--exe` below).
 ### 2. Build the head
 
 ```powershell
-dotnet build src/GcToolkit/GcToolkit.csproj -f net10.0-windows10.0.26100 -c Debug
+dotnet build src/GcToolkit/GcToolkit.csproj -p:SingleTargetFramework=net10.0-windows10.0.26100 -c Debug
 ```
+
+`-p:SingleTargetFramework=` collapses the multi-target projects to just Windows for **restore and
+build**, so the build is faster and needs no android/ios/wasm workloads. A bare `-f
+net10.0-windows10.0.26100` builds the same head but its restore still evaluates every other TFM and
+fails with `NETSDK1147` on a runner without those workloads (see AGENTS.md → "Build & test").
 
 `AppChannel` defaults to `Dev` (see `src/Directory.Build.props`), so the package identity
 (`dev.mzikmund.gctoolkit.dev`) and the `DEV` corner badge are set automatically — no extra
@@ -81,12 +86,13 @@ chance exceptions; can't be combined with `--detach`).
 app closes, so don't use it when you need to run more commands afterward:
 
 ```powershell
-dotnet run --project src/GcToolkit/GcToolkit.csproj -f net10.0-windows10.0.26100 -c Debug
+dotnet run --project src/GcToolkit/GcToolkit.csproj -f net10.0-windows10.0.26100 -p:SingleTargetFramework=net10.0-windows10.0.26100 -c Debug
 ```
 
 The `-f net10.0-windows10.0.26100` is **required**: `launchSettings.json` lists the WebAssembly
 profile first, so a bare `dotnet run` would launch WASM. Passing the Windows TFM makes `dotnet
-run` auto-select the compatible `MsixPackage` profile and launch the packaged WinUI app.
+run` auto-select the compatible `MsixPackage` profile and launch the packaged WinUI app. The added
+`-p:SingleTargetFramework=` keeps the implicit restore Windows-only (workload-free) — see step 2.
 
 > Do not use PowerShell `Start-Job` to background the app: background jobs do **not** survive
 > across separate tool calls. `winapp run --detach` launches a real detached OS process that

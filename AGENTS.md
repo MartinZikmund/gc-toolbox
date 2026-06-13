@@ -36,8 +36,8 @@ reference (PowerShell; the WinUI TFM is the `*-windows*` entry in
 `src/GcToolkit/GcToolkit.csproj`):
 
 ```powershell
-# 1. Build the Windows head
-dotnet build src/GcToolkit/GcToolkit.csproj -f net10.0-windows10.0.26100 -c Debug
+# 1. Build the Windows head (SingleTargetFramework keeps restore+build Windows-only & workload-free)
+dotnet build src/GcToolkit/GcToolkit.csproj -p:SingleTargetFramework=net10.0-windows10.0.26100 -c Debug
 
 # 2. Launch packaged + detached (returns AUMID + PID; stays non-blocking so you can automate)
 $out = Join-Path (Get-Location) "src\GcToolkit\bin\Debug\net10.0-windows10.0.26100"   # run from the repo root
@@ -73,13 +73,25 @@ actually render before reporting it done.
 ```bash
 dotnet tool restore                                                  # once after cloning (XAML Styler)
 
-# Build a head (TFM is per-platform; WinUI TFM is the *-windows* entry in the csproj)
-dotnet build src/GcToolkit/GcToolkit.csproj -f net10.0-desktop
-dotnet build src/GcToolkit/GcToolkit.csproj -f net10.0-windows10.0.26100
+# Build ONE head, workload-free (preferred). SingleTargetFramework collapses the
+# multi-target projects to this TFM for restore AND build, so only that platform's
+# workload is needed. Plain `-f` does NOT do this — see the note below.
+dotnet build src/GcToolkit/GcToolkit.csproj -p:SingleTargetFramework=net10.0-desktop
+dotnet build src/GcToolkit/GcToolkit.csproj -p:SingleTargetFramework=net10.0-windows10.0.26100
 
-# Run the unit tests (MSTest on Microsoft.Testing.Platform, net10.0)
-dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj
+# Run the unit tests (MSTest on Microsoft.Testing.Platform, net10.0).
+# Collapse GcToolkit.Core to net10.0 so the tests' restore stays workload-free too.
+dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj -p:SingleTargetFramework=net10.0
 ```
+
+> **Why `-p:SingleTargetFramework=` and not just `-f`?** `GcToolkit` and `GcToolkit.Core`
+> multi-target android/ios/wasm/desktop/windows. `dotnet build -f <tfm>` only narrows the
+> *build*; the implicit **restore** still evaluates every TFM and fails with `NETSDK1147`
+> demanding the android/ios/wasm workloads — even for a desktop or Windows build. Setting
+> `SingleTargetFramework` rewrites `<TargetFrameworks>` to the one TFM, so restore stays on
+> that platform. It's opt-in (only the Uno projects read it), so non-Uno projects are
+> unaffected. For repeated local builds, copy `src/crosstargeting-override.props.sample` to
+> `src/crosstargeting-override.props` (gitignored) instead of passing the flag each time.
 
 Logic worth testing lives in **`GcToolkit.Core`** (view models, services, navigation) and belongs
 under **`GcToolkit.Core.Tests`** — keep testable code there so it stays head-independent. Tests run

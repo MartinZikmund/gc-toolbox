@@ -107,6 +107,7 @@ jobs:
         if: steps.channel.outputs.value == 'Prod'
         run: |
           dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.IOS_TARGET_FRAMEWORK }} -r ios-arm64 \
+            -p:SingleTargetFramework=${{ env.IOS_TARGET_FRAMEWORK }} \
             -p:AppChannel=Prod \
             -p:ArchiveOnBuild=true \
             -p:BuildIpa=true \
@@ -118,6 +119,7 @@ jobs:
         if: steps.channel.outputs.value == 'Dev'
         run: |
           dotnet build "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.IOS_TARGET_FRAMEWORK }} \
+            -p:SingleTargetFramework=${{ env.IOS_TARGET_FRAMEWORK }} \
             -p:AppChannel=Dev
 
       - name: Upload .ipa
