@@ -1318,6 +1318,61 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
+  <!-- Tool: Tap code -->
+  <data name="TapCode_Name" xml:space="preserve">
+    <value>Klepací kód</value>
+  </data>
+  <data name="TapCode_Tooltip" xml:space="preserve">
+    <value>Převádí mezi písmeny, čísly klepnutí a vzory klepání podle Polybiova čtverce.</value>
+  </data>
+  <data name="TapCodeGrid5" xml:space="preserve">
+    <value>5×5 (C/K sloučeno)</value>
+  </data>
+  <data name="TapCodeGrid6" xml:space="preserve">
+    <value>6×6 (s číslicemi)</value>
+  </data>
+  <data name="TapCodeLettersLabel" xml:space="preserve">
+    <value>Písmena</value>
+  </data>
+  <data name="TapCodeLettersPlaceholder" xml:space="preserve">
+    <value>Napište text k zaklepání…</value>
+  </data>
+  <data name="TapCodeNumbersLabel" xml:space="preserve">
+    <value>Čísla (řádek sloupec)</value>
+  </data>
+  <data name="TapCodeNumbersPlaceholder" xml:space="preserve">
+    <value>např. 22 15 34</value>
+  </data>
+  <data name="TapCodeDotsLabel" xml:space="preserve">
+    <value>Klepnutí</value>
+  </data>
+  <data name="TapCodeDotsPlaceholder" xml:space="preserve">
+    <value>např. .. ..  . .....  ... ....</value>
+  </data>
+  <data name="TapCodeCopyLetters" xml:space="preserve">
+    <value>Kopírovat písmena</value>
+  </data>
+  <data name="TapCodeCopyNumbers" xml:space="preserve">
+    <value>Kopírovat čísla</value>
+  </data>
+  <data name="TapCodeShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="TapCodeClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="TapCodeGridTitle" xml:space="preserve">
+    <value>Polybiův čtverec</value>
+  </data>
+  <data name="TapCodeGridHint" xml:space="preserve">
+    <value>Klepnutím na buňku napíšete její písmeno. Číslo pod ní je řádek a sloupec.</value>
+  </data>
+  <data name="TapCodeAboutTitle" xml:space="preserve">
+    <value>O tomto převodu</value>
+  </data>
+  <data name="TapCodeAboutBody" xml:space="preserve">
+    <value>Každé písmeno se klepe jako dvě čísla: nejprve řádek, poté sloupec v mřížce. Čtverec 5×5 vynechává K (sdílí buňku s C); čtverec 6×6 navíc pokrývá číslice 0–9. Při klepání se vyťuká počet pro řádek a počet pro sloupec s krátkou pauzou mezi nimi a delší pauzou mezi písmeny.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signální vlajky</value>

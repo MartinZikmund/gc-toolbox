@@ -1318,6 +1318,61 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
   </data>
+  <!-- Tool: Tap code -->
+  <data name="TapCode_Name" xml:space="preserve">
+    <value>Tap code</value>
+  </data>
+  <data name="TapCode_Tooltip" xml:space="preserve">
+    <value>Convert between letters, tap numbers and knock patterns on a Polybius square.</value>
+  </data>
+  <data name="TapCodeGrid5" xml:space="preserve">
+    <value>5×5 (C/K merged)</value>
+  </data>
+  <data name="TapCodeGrid6" xml:space="preserve">
+    <value>6×6 (with digits)</value>
+  </data>
+  <data name="TapCodeLettersLabel" xml:space="preserve">
+    <value>Letters</value>
+  </data>
+  <data name="TapCodeLettersPlaceholder" xml:space="preserve">
+    <value>Type text to tap out…</value>
+  </data>
+  <data name="TapCodeNumbersLabel" xml:space="preserve">
+    <value>Numbers (row column)</value>
+  </data>
+  <data name="TapCodeNumbersPlaceholder" xml:space="preserve">
+    <value>e.g. 22 15 34</value>
+  </data>
+  <data name="TapCodeDotsLabel" xml:space="preserve">
+    <value>Taps</value>
+  </data>
+  <data name="TapCodeDotsPlaceholder" xml:space="preserve">
+    <value>e.g. .. ..  . .....  ... ....</value>
+  </data>
+  <data name="TapCodeCopyLetters" xml:space="preserve">
+    <value>Copy letters</value>
+  </data>
+  <data name="TapCodeCopyNumbers" xml:space="preserve">
+    <value>Copy numbers</value>
+  </data>
+  <data name="TapCodeShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="TapCodeClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="TapCodeGridTitle" xml:space="preserve">
+    <value>Polybius square</value>
+  </data>
+  <data name="TapCodeGridHint" xml:space="preserve">
+    <value>Click a cell to type its letter. The number below it is row then column.</value>
+  </data>
+  <data name="TapCodeAboutTitle" xml:space="preserve">
+    <value>About this conversion</value>
+  </data>
+  <data name="TapCodeAboutBody" xml:space="preserve">
+    <value>Each letter is tapped as two numbers: first the row, then the column on the grid. The 5×5 square drops K (it shares the C cell); the 6×6 square also covers the digits 0–9. As taps, the row count and column count are knocked out with a short pause between them and a longer pause between letters.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signal flags</value>
