@@ -1,0 +1,95 @@
+name: Main
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'specs/**'
+      - '.claude/**'
+      - 'LICENSE'
+
+env:
+  # App Configuration
+  APP_NAME: GcToolkit
+  PROJECT_FILE: src/GcToolkit/GcToolkit.csproj
+
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+# Merging a second PR while the previous merge's build is still running cancels
+# that stale build — main always builds its newest commit, not an outdated one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # After a merge to main, build EVERY target in Release to catch Release-only
+  # and platform-specific breakage the fast PR smoke can't. Each target runs on
+  # its cheapest capable runner, in parallel, installing only its own workload.
+  # Build-only (no signing/packaging) — shipped artifacts come from the
+  # package-* / release-v* pipeline.
+  release_build:
+    name: Release ${{ matrix.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { label: desktop,   os: ubuntu-latest,  tfm: net10.0-desktop,           workload: '' }
+          - { label: wasm,      os: ubuntu-latest,  tfm: net10.0-browserwasm,       workload: wasm-tools }
+          - { label: android,   os: ubuntu-latest,  tfm: net10.0-android,           workload: android }
+          - { label: WinAppSDK, os: windows-latest, tfm: net10.0-windows10.0.26100, workload: '' }
+          - { label: iOS,       os: macos-26,       tfm: net10.0-ios,               workload: ios }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Nerdbank.GitVersioning needs full history to compute the version.
+          fetch-depth: 0
+
+      - name: NuGet cache (restore)
+        id: nuget
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Build.props', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Install only this target's workload — `workload restore` would pull the
+      # union of all five heads' workloads onto a runner that builds just one.
+      # Paired with -p:SingleTargetFramework below: the collapse keeps restore from
+      # evaluating (and demanding workloads for) the other four TFMs.
+      - name: Install ${{ matrix.workload }} workload
+        if: matrix.workload != ''
+        run: dotnet workload install ${{ matrix.workload }} --ignore-failed-sources
+
+      # Device-only iOS build needs the iphoneos SDK, not the simulator runtime —
+      # only download it if the selected Xcode doesn't already ship it.
+      - name: Download iOS platform if missing
+        if: matrix.label == 'iOS'
+        run: xcrun --sdk iphoneos --show-sdk-path >/dev/null 2>&1 || xcodebuild -downloadPlatform iOS
+
+      - name: Build ${{ matrix.label }} head (Release)
+        run: dotnet build ${{ env.PROJECT_FILE }} -p:SingleTargetFramework=${{ matrix.tfm }} -c Release
+
+      # MTP runner — don't pass VSTest-only flags like --nologo.
+      # Collapse GcToolkit.Core (referenced by the tests) to net10.0 so restore
+      # doesn't wander into the other platforms' workloads.
+      - name: Run unit tests
+        if: matrix.label == 'desktop'
+        run: |
+          dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj -p:SingleTargetFramework=net10.0
+          dotnet test tests/GcToolkit.SourceGenerators.Tests/GcToolkit.SourceGenerators.Tests.csproj
+
+      # Maintain the shared cache from the two legs the frequent PR path uses
+      # (the desktop Linux head and the Windows head). One save per runner.os, so
+      # the parallel Linux legs don't race to compress the same archive.
+      - name: NuGet cache (save)
+        if: steps.nuget.outputs.cache-hit != 'true' && contains(fromJSON('["desktop","WinAppSDK"]'), matrix.label)
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget.outputs.cache-primary-key }}

@@ -505,3 +505,7 @@ solution-config.props
 .screenshots/
 
 .specify/feature.json
+
+# Local single-target build override (copy from crosstargeting-override.props.sample).
+# Machine-local on purpose — never commit it, or CI would build only one platform.
+src/crosstargeting-override.props

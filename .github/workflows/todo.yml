@@ -2,10 +2,17 @@ name: "Run TODO to Issue"
 on:
   push:
     branches: [ "main" ]
+    # Only TODOs in code should become issues.
+    paths:
+      - 'src/**'
+      - 'tests/**'
 jobs:
     build:
         runs-on: "ubuntu-latest"
+        timeout-minutes: 10
+        # Deliberately no cancel-in-progress concurrency: the action scans each
+        # push's commit diff, so cancelling a run would silently drop TODOs.
         steps:
-            - uses: "actions/checkout@v3"
+            - uses: "actions/checkout@v4"
             - name: "TODO to Issue"
-              uses: "alstr/todo-to-issue-action@v4"
+              uses: "alstr/todo-to-issue-action@v5"

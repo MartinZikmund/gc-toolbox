@@ -7,16 +7,27 @@ name: Validate Manifest Version
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'src/GcToolkit/Package.appxmanifest'
+      - '.github/workflows/validate-manifest-version.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
       - main
       - release/**
+    paths:
+      - 'src/GcToolkit/Package.appxmanifest'
+      - '.github/workflows/validate-manifest-version.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check_version:
     name: Check Package.appxmanifest Version
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
 

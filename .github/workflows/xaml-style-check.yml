@@ -9,6 +9,14 @@ on:
       - '.github/workflows/xaml-style-check.yml'
   workflow_dispatch:
 
+env:
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   xaml-style:
     name: XAML Style Check
@@ -16,16 +24,15 @@ jobs:
     # ones, so only run this check when the repository is public.
     if: github.event.repository.private == false
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
+      # No setup-dotnet: the runner image's preinstalled .NET 10 SDK suffices
+      # for tool restore + XAML Styler.
       - name: Restore dotnet tools
         run: dotnet tool restore
 

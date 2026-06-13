@@ -1,4 +1,12 @@
 <Project>
+    <!-- Local single-target builds: drop a gitignored `crosstargeting-override.props`
+         next to this file setting <SingleTargetFramework> to one TFM to build/restore
+         only that platform (no other platform's workload needed). The property is
+         opt-in — only the cross-targeted Uno projects read it, so non-Uno single-target
+         projects are unaffected. Imported early so csprojs see it. See AGENTS.md. -->
+    <Import Project="$(MSBuildThisFileDirectory)crosstargeting-override.props"
+            Condition="Exists('$(MSBuildThisFileDirectory)crosstargeting-override.props')" />
+
     <PropertyGroup>
         <Copyright>Martin Zikmund 2026</Copyright>
 		<Author>Martin Zikmund</Author>
