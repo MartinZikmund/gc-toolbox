@@ -1831,4 +1831,85 @@
   <data name="GcCodeIdHowItWorksBody" xml:space="preserve">
     <value>Každá keš má veřejný kód (GC…) a interní číselné ID. Kódy do GCFFFF jsou jednoduchá šestnáctková čísla (GCFFFF = 65535). Od GCG000 výše je kód číslo o základu 31 nad znaky 0-9 a A-Z bez nejednoznačných I, L, O, S a U, s pevným posunem. Předpona „GC“ je nepovinná a na velikosti písmen nezáleží.</value>
   </data>
+  <data name="AngleConversion_Name" xml:space="preserve">
+    <value>Převod úhlů</value>
+  </data>
+  <data name="AngleConversion_Tooltip" xml:space="preserve">
+    <value>Převeďte úhel mezi stupni, radiány, gradiány, dílky, otáčkami, kompasovými body a dalšími jednotkami.</value>
+  </data>
+  <data name="AngleUnit_Degrees" xml:space="preserve">
+    <value>Stupně (°)</value>
+  </data>
+  <data name="AngleUnit_Radians" xml:space="preserve">
+    <value>Radiány (rad)</value>
+  </data>
+  <data name="AngleUnit_Gradians" xml:space="preserve">
+    <value>Gradiány (grad, gon)</value>
+  </data>
+  <data name="AngleUnit_MilsNato" xml:space="preserve">
+    <value>Dílky NATO (1/6400)</value>
+  </data>
+  <data name="AngleUnit_MilsMilliradian" xml:space="preserve">
+    <value>Dílky / miliradián (1/(2000·π))</value>
+  </data>
+  <data name="AngleUnit_MilsSoviet" xml:space="preserve">
+    <value>Dílky sovětské (1/6000)</value>
+  </data>
+  <data name="AngleUnit_MilsSweden" xml:space="preserve">
+    <value>Dílky švédské (1/6300)</value>
+  </data>
+  <data name="AngleUnit_Turns" xml:space="preserve">
+    <value>Otáčky</value>
+  </data>
+  <data name="AngleUnit_Points" xml:space="preserve">
+    <value>Kompasové body</value>
+  </data>
+  <data name="AngleUnit_HourAngles" xml:space="preserve">
+    <value>Hodinové úhly</value>
+  </data>
+  <data name="AngleUnit_Arcminutes" xml:space="preserve">
+    <value>Úhlové minuty (′)</value>
+  </data>
+  <data name="AngleUnit_Arcseconds" xml:space="preserve">
+    <value>Úhlové sekundy (″)</value>
+  </data>
+  <data name="AngleInputLabel" xml:space="preserve">
+    <value>Úhel</value>
+  </data>
+  <data name="AngleInputPlaceholder" xml:space="preserve">
+    <value>např. 45, 45.5, 45,5 nebo 45°30'15"…</value>
+  </data>
+  <data name="AngleFromLabel" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="AngleToLabel" xml:space="preserve">
+    <value>Na</value>
+  </data>
+  <data name="AngleSwap" xml:space="preserve">
+    <value>Prohodit jednotky</value>
+  </data>
+  <data name="AngleDecimalsLabel" xml:space="preserve">
+    <value>Počet desetinných míst</value>
+  </data>
+  <data name="AngleResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="AngleInvalidNotice" xml:space="preserve">
+    <value>Zadejte platný úhel — číslo nebo stupně ve tvaru D°M'S".</value>
+  </data>
+  <data name="AngleClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="AngleCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="AngleShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="AngleAllUnitsLabel" xml:space="preserve">
+    <value>Všechny jednotky</value>
+  </data>
+  <data name="AngleCopyUnit" xml:space="preserve">
+    <value>Kopírovat tuto hodnotu</value>
+  </data>
 </root>

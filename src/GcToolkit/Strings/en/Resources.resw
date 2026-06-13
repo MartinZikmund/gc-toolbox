@@ -1831,4 +1831,85 @@
   <data name="GcCodeIdHowItWorksBody" xml:space="preserve">
     <value>Each cache has a public code (GC…) and an internal numeric ID. Codes up to GCFFFF are simple hexadecimal (GCFFFF = 65535). From GCG000 onward the code is a base-31 number over the characters 0-9 and A-Z without the ambiguous I, L, O, S and U, with a fixed offset applied. The “GC” prefix is optional and input is case-insensitive.</value>
   </data>
+  <data name="AngleConversion_Name" xml:space="preserve">
+    <value>Angle conversion</value>
+  </data>
+  <data name="AngleConversion_Tooltip" xml:space="preserve">
+    <value>Convert an angle between degrees, radians, gradians, mils, turns, compass points and more.</value>
+  </data>
+  <data name="AngleUnit_Degrees" xml:space="preserve">
+    <value>Degrees (°)</value>
+  </data>
+  <data name="AngleUnit_Radians" xml:space="preserve">
+    <value>Radians (rad)</value>
+  </data>
+  <data name="AngleUnit_Gradians" xml:space="preserve">
+    <value>Gradians (grad, gon)</value>
+  </data>
+  <data name="AngleUnit_MilsNato" xml:space="preserve">
+    <value>Mils NATO (1/6400)</value>
+  </data>
+  <data name="AngleUnit_MilsMilliradian" xml:space="preserve">
+    <value>Mils / milliradian (1/(2000·π))</value>
+  </data>
+  <data name="AngleUnit_MilsSoviet" xml:space="preserve">
+    <value>Mils Soviet (1/6000)</value>
+  </data>
+  <data name="AngleUnit_MilsSweden" xml:space="preserve">
+    <value>Mils Sweden (1/6300)</value>
+  </data>
+  <data name="AngleUnit_Turns" xml:space="preserve">
+    <value>Turns</value>
+  </data>
+  <data name="AngleUnit_Points" xml:space="preserve">
+    <value>Points (compass)</value>
+  </data>
+  <data name="AngleUnit_HourAngles" xml:space="preserve">
+    <value>Hour angles</value>
+  </data>
+  <data name="AngleUnit_Arcminutes" xml:space="preserve">
+    <value>Arcminutes (′)</value>
+  </data>
+  <data name="AngleUnit_Arcseconds" xml:space="preserve">
+    <value>Arcseconds (″)</value>
+  </data>
+  <data name="AngleInputLabel" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="AngleInputPlaceholder" xml:space="preserve">
+    <value>e.g. 45, 45.5, 45,5 or 45°30'15"…</value>
+  </data>
+  <data name="AngleFromLabel" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="AngleToLabel" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="AngleSwap" xml:space="preserve">
+    <value>Swap units</value>
+  </data>
+  <data name="AngleDecimalsLabel" xml:space="preserve">
+    <value>Decimal places</value>
+  </data>
+  <data name="AngleResultLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="AngleInvalidNotice" xml:space="preserve">
+    <value>Enter a valid angle — a number, or degrees in D°M'S" form.</value>
+  </data>
+  <data name="AngleClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AngleCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="AngleShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="AngleAllUnitsLabel" xml:space="preserve">
+    <value>All units</value>
+  </data>
+  <data name="AngleCopyUnit" xml:space="preserve">
+    <value>Copy this value</value>
+  </data>
 </root>
