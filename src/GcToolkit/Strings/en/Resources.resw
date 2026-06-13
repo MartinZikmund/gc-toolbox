@@ -2024,4 +2024,71 @@
   <data name="ColourConversionChromaCr" xml:space="preserve">
     <value>Chrominance Cr</value>
   </data>
+  <!-- Tool: Brainfuck & Ook! -->
+  <data name="BrainfuckOok_Name" xml:space="preserve">
+    <value>Brainfuck &amp; Ook!</value>
+  </data>
+  <data name="BrainfuckOok_Tooltip" xml:space="preserve">
+    <value>Run, generate and transliterate Brainfuck and its Ook! variants.</value>
+  </data>
+  <data name="BrainfuckOokModeLabel" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="BrainfuckOokModeExecute" xml:space="preserve">
+    <value>Run code → text</value>
+  </data>
+  <data name="BrainfuckOokModeEncode" xml:space="preserve">
+    <value>Text → code</value>
+  </data>
+  <data name="BrainfuckOokModeConvert" xml:space="preserve">
+    <value>Convert notation</value>
+  </data>
+  <data name="BrainfuckOokNotationLabel" xml:space="preserve">
+    <value>Notation</value>
+  </data>
+  <data name="BrainfuckOokTargetNotationLabel" xml:space="preserve">
+    <value>To notation</value>
+  </data>
+  <data name="BrainfuckOokNotationBrainfuck" xml:space="preserve">
+    <value>Brainfuck</value>
+  </data>
+  <data name="BrainfuckOokNotationOok" xml:space="preserve">
+    <value>Ook!</value>
+  </data>
+  <data name="BrainfuckOokNotationOokShort" xml:space="preserve">
+    <value>Ook! short</value>
+  </data>
+  <data name="BrainfuckOokInputLabel" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="BrainfuckOokInputPlaceholder" xml:space="preserve">
+    <value>Paste a program to run, or type text to encode…</value>
+  </data>
+  <data name="BrainfuckOokStdinLabel" xml:space="preserve">
+    <value>Input (stdin)</value>
+  </data>
+  <data name="BrainfuckOokStdinPlaceholder" xml:space="preserve">
+    <value>Bytes fed to the "," command…</value>
+  </data>
+  <data name="BrainfuckOokClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BrainfuckOokOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BrainfuckOokCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BrainfuckOokShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BrainfuckOokAbortedMessage" xml:space="preserve">
+    <value>The program was stopped: it ran too long or produced too much output (possible infinite loop).</value>
+  </data>
+  <data name="BrainfuckOokAboutTitle" xml:space="preserve">
+    <value>About Brainfuck &amp; Ook!</value>
+  </data>
+  <data name="BrainfuckOokAboutBody" xml:space="preserve">
+    <value>Brainfuck is a minimalist language of eight commands (&gt; &lt; + - . , [ ]) operating on a byte-cell tape. Ook! and Ook! short are exact rewrites of the same commands. Run a program to see its output, generate a program that prints your text, or convert freely between the three notations. Loops that never end are stopped automatically.</value>
+  </data>
 </root>

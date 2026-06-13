@@ -2024,4 +2024,71 @@
   <data name="ColourConversionChromaCr" xml:space="preserve">
     <value>Chrominance Cr</value>
   </data>
+  <!-- Tool: Brainfuck & Ook! -->
+  <data name="BrainfuckOok_Name" xml:space="preserve">
+    <value>Brainfuck a Ook!</value>
+  </data>
+  <data name="BrainfuckOok_Tooltip" xml:space="preserve">
+    <value>Spusťte, vygenerujte a převádějte Brainfuck a jeho varianty Ook!.</value>
+  </data>
+  <data name="BrainfuckOokModeLabel" xml:space="preserve">
+    <value>Režim</value>
+  </data>
+  <data name="BrainfuckOokModeExecute" xml:space="preserve">
+    <value>Spustit kód → text</value>
+  </data>
+  <data name="BrainfuckOokModeEncode" xml:space="preserve">
+    <value>Text → kód</value>
+  </data>
+  <data name="BrainfuckOokModeConvert" xml:space="preserve">
+    <value>Převést notaci</value>
+  </data>
+  <data name="BrainfuckOokNotationLabel" xml:space="preserve">
+    <value>Notace</value>
+  </data>
+  <data name="BrainfuckOokTargetNotationLabel" xml:space="preserve">
+    <value>Na notaci</value>
+  </data>
+  <data name="BrainfuckOokNotationBrainfuck" xml:space="preserve">
+    <value>Brainfuck</value>
+  </data>
+  <data name="BrainfuckOokNotationOok" xml:space="preserve">
+    <value>Ook!</value>
+  </data>
+  <data name="BrainfuckOokNotationOokShort" xml:space="preserve">
+    <value>Ook! krátká</value>
+  </data>
+  <data name="BrainfuckOokInputLabel" xml:space="preserve">
+    <value>Kód</value>
+  </data>
+  <data name="BrainfuckOokInputPlaceholder" xml:space="preserve">
+    <value>Vložte program ke spuštění nebo napište text k zakódování…</value>
+  </data>
+  <data name="BrainfuckOokStdinLabel" xml:space="preserve">
+    <value>Vstup (stdin)</value>
+  </data>
+  <data name="BrainfuckOokStdinPlaceholder" xml:space="preserve">
+    <value>Bajty předané příkazu „,“…</value>
+  </data>
+  <data name="BrainfuckOokClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BrainfuckOokOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BrainfuckOokCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BrainfuckOokShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BrainfuckOokAbortedMessage" xml:space="preserve">
+    <value>Program byl zastaven: běžel příliš dlouho nebo vytvořil příliš mnoho výstupu (možná nekonečná smyčka).</value>
+  </data>
+  <data name="BrainfuckOokAboutTitle" xml:space="preserve">
+    <value>O jazyce Brainfuck a Ook!</value>
+  </data>
+  <data name="BrainfuckOokAboutBody" xml:space="preserve">
+    <value>Brainfuck je minimalistický jazyk osmi příkazů (&gt; &lt; + - . , [ ]) pracujících s páskou bajtových buněk. Ook! a Ook! krátká jsou přesné přepisy stejných příkazů. Spusťte program a uvidíte jeho výstup, vygenerujte program vypisující váš text nebo libovolně převádějte mezi třemi notacemi. Smyčky, které nikdy neskončí, se automaticky zastaví.</value>
+  </data>
 </root>
