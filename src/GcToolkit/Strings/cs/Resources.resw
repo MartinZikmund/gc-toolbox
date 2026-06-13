@@ -437,6 +437,97 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Lucas numbers -->
+  <data name="LucasNumbers_Name" xml:space="preserve">
+    <value>Lucasova čísla</value>
+  </data>
+  <data name="LucasNumbers_Tooltip" xml:space="preserve">
+    <value>Prozkoumejte Lucasovu posloupnost (2, 1, 3, 4, 7, …): vyhledejte podle pozice, vypište rozsah, najděte index podle hodnoty nebo filtrujte podle počtu číslic.</value>
+  </data>
+  <data name="LucasModePosition" xml:space="preserve">
+    <value>Pozice</value>
+  </data>
+  <data name="LucasModeRange" xml:space="preserve">
+    <value>Rozsah</value>
+  </data>
+  <data name="LucasModeByValue" xml:space="preserve">
+    <value>Podle hodnoty</value>
+  </data>
+  <data name="LucasModeByDigits" xml:space="preserve">
+    <value>Podle počtu číslic</value>
+  </data>
+  <data name="LucasPositionLabel" xml:space="preserve">
+    <value>Index (n)</value>
+  </data>
+  <data name="LucasRangeStartLabel" xml:space="preserve">
+    <value>Od indexu</value>
+  </data>
+  <data name="LucasRangeEndLabel" xml:space="preserve">
+    <value>Do indexu</value>
+  </data>
+  <data name="LucasValueLabel" xml:space="preserve">
+    <value>Lucasovo číslo</value>
+  </data>
+  <data name="LucasDigitCountLabel" xml:space="preserve">
+    <value>Počet číslic</value>
+  </data>
+  <data name="LucasPositionCaption" xml:space="preserve">
+    <value>L({0})</value>
+  </data>
+  <data name="LucasValueCaption" xml:space="preserve">
+    <value>Index čísla {0}</value>
+  </data>
+  <data name="LucasShowPosition" xml:space="preserve">
+    <value>Zobrazit index</value>
+  </data>
+  <data name="LucasShowDigitCount" xml:space="preserve">
+    <value>Zobrazit počet číslic</value>
+  </data>
+  <data name="LucasResultsLabel" xml:space="preserve">
+    <value>Výsledky</value>
+  </data>
+  <data name="LucasColumnIndex" xml:space="preserve">
+    <value>n</value>
+  </data>
+  <data name="LucasColumnValue" xml:space="preserve">
+    <value>L(n)</value>
+  </data>
+  <data name="LucasColumnDigits" xml:space="preserve">
+    <value>Číslic</value>
+  </data>
+  <data name="LucasCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="LucasShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="LucasErrorInvalidIndex" xml:space="preserve">
+    <value>Zadejte celé číslo od 0 do 200 000.</value>
+  </data>
+  <data name="LucasErrorStartAfterEnd" xml:space="preserve">
+    <value>Počáteční index nesmí být větší než koncový index.</value>
+  </data>
+  <data name="LucasErrorRangeTooLarge" xml:space="preserve">
+    <value>Tento rozsah je příliš velký na výpis — zúžte jej na nejvýše 1 000 indexů.</value>
+  </data>
+  <data name="LucasErrorInvalidValue" xml:space="preserve">
+    <value>Zadejte celé číslo k vyhledání.</value>
+  </data>
+  <data name="LucasErrorNotLucas" xml:space="preserve">
+    <value>Toto není Lucasovo číslo, takže v posloupnosti nemá žádný index.</value>
+  </data>
+  <data name="LucasErrorInvalidDigitCount" xml:space="preserve">
+    <value>Zadejte kladný celý počet číslic.</value>
+  </data>
+  <data name="LucasErrorNoMatches" xml:space="preserve">
+    <value>Žádné Lucasovo číslo nemá tolik číslic.</value>
+  </data>
+  <data name="LucasAboutLabel" xml:space="preserve">
+    <value>O posloupnosti</value>
+  </data>
+  <data name="LucasAboutText" xml:space="preserve">
+    <value>Lucasova posloupnost začíná L(0) = 2, L(1) = 1 a každý další člen je součtem dvou předchozích — stejné pravidlo jako u Fibonacciho, jen s jinými počátečními hodnotami. Začíná 2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, …</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

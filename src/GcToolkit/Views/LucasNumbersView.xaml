@@ -1,0 +1,243 @@
+﻿<local:LucasNumbersViewBase
+    x:Class="GcToolkit.Views.LucasNumbersView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    x:Name="RootView"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Mode selector  -->
+                <RadioButtons MaxColumns="4" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=LucasModePosition}" />
+                    <RadioButton Content="{markup:Localize Key=LucasModeRange}" />
+                    <RadioButton Content="{markup:Localize Key=LucasModeByValue}" />
+                    <RadioButton Content="{markup:Localize Key=LucasModeByDigits}" />
+                </RadioButtons>
+
+                <!--  Per-mode inputs  -->
+                <NumberBox
+                    Header="{markup:Localize Key=LucasPositionLabel}"
+                    SpinButtonPlacementMode="Compact"
+                    Text="{x:Bind ViewModel.PositionInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ValidationMode="Disabled"
+                    Visibility="{x:Bind ViewModel.IsPositionMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.IsRangeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox
+                        Grid.Column="0"
+                        Header="{markup:Localize Key=LucasRangeStartLabel}"
+                        SpinButtonPlacementMode="Compact"
+                        Text="{x:Bind ViewModel.RangeStartInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ValidationMode="Disabled" />
+                    <NumberBox
+                        Grid.Column="1"
+                        Header="{markup:Localize Key=LucasRangeEndLabel}"
+                        SpinButtonPlacementMode="Compact"
+                        Text="{x:Bind ViewModel.RangeEndInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ValidationMode="Disabled" />
+                </Grid>
+
+                <TextBox
+                    Header="{markup:Localize Key=LucasValueLabel}"
+                    InputScope="Number"
+                    Text="{x:Bind ViewModel.ValueInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsByValueMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <NumberBox
+                    Header="{markup:Localize Key=LucasDigitCountLabel}"
+                    SpinButtonPlacementMode="Compact"
+                    Text="{x:Bind ViewModel.DigitCountInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ValidationMode="Disabled"
+                    Visibility="{x:Bind ViewModel.IsByDigitsMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <!--  Output options (list modes only)  -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="24"
+                    Visibility="{x:Bind ViewModel.IsListMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <CheckBox Content="{markup:Localize Key=LucasShowPosition}" IsChecked="{x:Bind ViewModel.ShowPosition, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=LucasShowDigitCount}" IsChecked="{x:Bind ViewModel.ShowDigitCount, Mode=TwoWay}" />
+                </StackPanel>
+
+                <!--  Validation  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Single-value result (position / by value)  -->
+                <Border
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.ShowSingleResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.SingleResultCaption, Mode=OneWay}" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            IsTextSelectionEnabled="True"
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.SingleResultValue, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+                <!--  List results (range / digit count)  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsListMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=LucasResultsLabel}" />
+
+                    <!--  Column headers  -->
+                    <Grid Padding="12,0" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="56" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=LucasColumnIndex}"
+                            Visibility="{x:Bind ViewModel.ShowPosition, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=LucasColumnValue}" />
+                        <TextBlock
+                            Grid.Column="2"
+                            MinWidth="48"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=LucasColumnDigits}"
+                            TextAlignment="Right"
+                            Visibility="{x:Bind ViewModel.ShowDigitCount, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+
+                    <ListView
+                        MaxHeight="480"
+                        ItemsSource="{x:Bind ViewModel.Results}"
+                        SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="Padding" Value="12,6" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:LucasNumberItem">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="56" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind Index}"
+                                        Visibility="{Binding ViewModel.ShowPosition, ElementName=RootView, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Value}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        MinWidth="48"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind DigitCount}"
+                                        TextAlignment="Right"
+                                        Visibility="{Binding ViewModel.ShowDigitCount, ElementName=RootView, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!--  Actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=LucasCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=LucasShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  About  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=LucasAboutLabel}">
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=LucasAboutText}"
+                        TextWrapping="Wrap" />
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:LucasNumbersViewBase>
