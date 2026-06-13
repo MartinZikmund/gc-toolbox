@@ -191,6 +191,9 @@
   <data name="Category_Alphabets" xml:space="preserve">
     <value>Abecedy</value>
   </data>
+  <data name="Category_Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
   <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Převody</value>
@@ -690,5 +693,81 @@
   </data>
   <data name="SignalFlagsMeaningSubstitute3" xml:space="preserve">
     <value>Opakuje třetí vlajku signálu.</value>
+  </data>
+  <!-- Text reverse -->
+  <data name="TextReverse_Name" xml:space="preserve">
+    <value>Obrácení textu</value>
+  </data>
+  <data name="TextReverse_Tooltip" xml:space="preserve">
+    <value>Obraťte, zamíchejte nebo otočte text — po řetězci, řádku, slově či znaku.</value>
+  </data>
+  <data name="TextReverseMode" xml:space="preserve">
+    <value>Režim</value>
+  </data>
+  <data name="TextReverseModeText" xml:space="preserve">
+    <value>Obrátit text</value>
+  </data>
+  <data name="TextReverseModeTextPerLine" xml:space="preserve">
+    <value>Obrátit text po řádcích</value>
+  </data>
+  <data name="TextReverseModeWordOrder" xml:space="preserve">
+    <value>Obrátit pořadí slov</value>
+  </data>
+  <data name="TextReverseModeWordOrderPerLine" xml:space="preserve">
+    <value>Obrátit pořadí slov po řádcích</value>
+  </data>
+  <data name="TextReverseModeCharsPerWord" xml:space="preserve">
+    <value>Obrátit pořadí znaků v každém slově</value>
+  </data>
+  <data name="TextReverseModeRandomPerWord" xml:space="preserve">
+    <value>Náhodné pořadí znaků v každém slově</value>
+  </data>
+  <data name="TextReverseModeUpsideDown" xml:space="preserve">
+    <value>Text vzhůru nohama</value>
+  </data>
+  <data name="TextReverseModifiers" xml:space="preserve">
+    <value>Úpravy</value>
+  </data>
+  <data name="TextReverseKeepCaseLocation" xml:space="preserve">
+    <value>Zachovat pozice velkých písmen</value>
+  </data>
+  <data name="TextReverseKeepFirstLast" xml:space="preserve">
+    <value>Zachovat první a poslední znak</value>
+  </data>
+  <data name="TextReverseSwapCase" xml:space="preserve">
+    <value>Prohodit velká a malá písmena</value>
+  </data>
+  <data name="TextReverseToUpper" xml:space="preserve">
+    <value>Převést na velká písmena</value>
+  </data>
+  <data name="TextReverseToLower" xml:space="preserve">
+    <value>Převést na malá písmena</value>
+  </data>
+  <data name="TextReverseRemoveUnknown" xml:space="preserve">
+    <value>Odebrat neznámé znaky</value>
+  </data>
+  <data name="TextReverseReverseUpsideDown" xml:space="preserve">
+    <value>Obrátit text (čitelný po otočení vzhůru nohama)</value>
+  </data>
+  <data name="TextReverseInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="TextReverseInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k obrácení, zamíchání nebo otočení…</value>
+  </data>
+  <data name="TextReverseOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="TextReverseClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="TextReverseCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="TextReverseShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="TextReverseReroll" xml:space="preserve">
+    <value>Zamíchat znovu</value>
   </data>
 </root>

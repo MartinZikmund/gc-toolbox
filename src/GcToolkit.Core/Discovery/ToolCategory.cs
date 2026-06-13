@@ -19,4 +19,5 @@ public enum ToolCategory
     Numbers,
     Field,
     Alphabets,
+    Text,
 }
