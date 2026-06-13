@@ -280,6 +280,63 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Each symbol in the top row maps to the one beneath it.</value>
   </data>
+  <data name="KennyCode_Name" xml:space="preserve">
+    <value>Kenny code</value>
+  </data>
+  <data name="KennyCode_Tooltip" xml:space="preserve">
+    <value>Encode and decode the South Park "mmm / mpp / mpf" cipher.</value>
+  </data>
+  <data name="KennyCodeEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="KennyCodeDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="KennyCodeInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="KennyCodeInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode, or Kenny code (m / p / f) to decode…</value>
+  </data>
+  <data name="KennyCodeClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="KennyCodeSeparator" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="KennyCodeSeparatorNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="KennyCodeSeparatorSpace" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="KennyCodeSeparatorComma" xml:space="preserve">
+    <value>Comma</value>
+  </data>
+  <data name="KennyCodeUpperCase" xml:space="preserve">
+    <value>Upper case</value>
+  </data>
+  <data name="KennyCodePreserveStructure" xml:space="preserve">
+    <value>Keep word spacing</value>
+  </data>
+  <data name="KennyCodeOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="KennyCodeInvalidNotice" xml:space="preserve">
+    <value>The input isn't a clean multiple of three m/p/f symbols; incomplete or impossible groups show as ?.</value>
+  </data>
+  <data name="KennyCodeCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="KennyCodeShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="KennyCodeTableLabel" xml:space="preserve">
+    <value>Substitution table</value>
+  </data>
+  <data name="KennyCodeTableNote" xml:space="preserve">
+    <value>Each letter maps to a fixed three-symbol group over m &lt; p &lt; f.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>

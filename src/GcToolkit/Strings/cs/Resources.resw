@@ -280,6 +280,63 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Každý symbol v horním řádku odpovídá symbolu pod ním.</value>
   </data>
+  <data name="KennyCode_Name" xml:space="preserve">
+    <value>Kennyho kód</value>
+  </data>
+  <data name="KennyCode_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte šifru „mmm / mpp / mpf“ ze South Parku.</value>
+  </data>
+  <data name="KennyCodeEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="KennyCodeDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="KennyCodeInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="KennyCodeInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo Kennyho kód (m / p / f) k dešifrování…</value>
+  </data>
+  <data name="KennyCodeClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="KennyCodeSeparator" xml:space="preserve">
+    <value>Oddělovač</value>
+  </data>
+  <data name="KennyCodeSeparatorNone" xml:space="preserve">
+    <value>Žádný</value>
+  </data>
+  <data name="KennyCodeSeparatorSpace" xml:space="preserve">
+    <value>Mezera</value>
+  </data>
+  <data name="KennyCodeSeparatorComma" xml:space="preserve">
+    <value>Čárka</value>
+  </data>
+  <data name="KennyCodeUpperCase" xml:space="preserve">
+    <value>Velká písmena</value>
+  </data>
+  <data name="KennyCodePreserveStructure" xml:space="preserve">
+    <value>Zachovat mezery mezi slovy</value>
+  </data>
+  <data name="KennyCodeOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="KennyCodeInvalidNotice" xml:space="preserve">
+    <value>Vstup není čistým násobkem tří symbolů m/p/f; neúplné nebo nemožné skupiny se zobrazí jako ?.</value>
+  </data>
+  <data name="KennyCodeCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="KennyCodeShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="KennyCodeTableLabel" xml:space="preserve">
+    <value>Substituční tabulka</value>
+  </data>
+  <data name="KennyCodeTableNote" xml:space="preserve">
+    <value>Každé písmeno odpovídá pevné trojici symbolů v pořadí m &lt; p &lt; f.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
