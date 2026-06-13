@@ -562,6 +562,72 @@
   <data name="GronsfeldReferenceNote" xml:space="preserve">
     <value>Každá číslice klíče posune následující písmeno o daný počet míst (0⇒A, 1⇒B … 9⇒J).</value>
   </data>
+  <data name="RailFenceCipher_Name" xml:space="preserve">
+    <value>Plotová šifra</value>
+  </data>
+  <data name="RailFenceCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte klikatou (plotovou) transpozici — nastavte počet řad a posun, zobrazte plot, nebo automaticky najděte neznámý klíč.</value>
+  </data>
+  <data name="RailFenceEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="RailFenceDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="RailFenceRails" xml:space="preserve">
+    <value>Počet řad</value>
+  </data>
+  <data name="RailFenceOffset" xml:space="preserve">
+    <value>Posun</value>
+  </data>
+  <data name="RailFenceShowFence" xml:space="preserve">
+    <value>Zobrazit plot</value>
+  </data>
+  <data name="RailFenceDelimiter" xml:space="preserve">
+    <value>Prázdná buňka</value>
+  </data>
+  <data name="RailFenceInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="RailFenceInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="RailFenceClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="RailFenceAutoSolve" xml:space="preserve">
+    <value>Automatické řešení</value>
+  </data>
+  <data name="RailFenceOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="RailFenceCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="RailFenceShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="RailFenceDiagramLabel" xml:space="preserve">
+    <value>Plot</value>
+  </data>
+  <data name="RailFenceAutoSolveLabel" xml:space="preserve">
+    <value>Návrhy automatického řešení</value>
+  </data>
+  <data name="RailFenceAutoSolveNote" xml:space="preserve">
+    <value>Dešifrováno pro každý počet řad s posunem 0 — jeden řádek obsahuje původní text (počet řad / posun vlevo). Nenulový posun je neobvyklá varianta; pokud žádný řádek nesedí, nastavte posun ručně výše.</value>
+  </data>
+  <data name="RailFenceCopyCandidate" xml:space="preserve">
+    <value>Kopírovat tento návrh</value>
+  </data>
+  <data name="RailFenceRailsTooFew" xml:space="preserve">
+    <value>Plotová šifra potřebuje alespoň 2 řady.</value>
+  </data>
+  <data name="RailFenceOffsetNegative" xml:space="preserve">
+    <value>Posun nemůže být záporný.</value>
+  </data>
+  <data name="RailFenceRailsTooMany" xml:space="preserve">
+    <value>Při tolika řadách je každý znak na vlastní řadě, takže dešifrování nemá žádný účinek — použijte méně řad, než je délka textu.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
