@@ -517,6 +517,54 @@
   <data name="AffineKeyNote" xml:space="preserve">
     <value>Each letter in the top row maps to the one beneath it. The multiplier must be coprime to 26.</value>
   </data>
+  <data name="GronsfeldCipher_Name" xml:space="preserve">
+    <value>Gronsfeld cipher</value>
+  </data>
+  <data name="GronsfeldCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode a Gronsfeld cipher — a Vigenère variant with a numeric key.</value>
+  </data>
+  <data name="GronsfeldKeyLabel" xml:space="preserve">
+    <value>Numeric key</value>
+  </data>
+  <data name="GronsfeldKeyPlaceholder" xml:space="preserve">
+    <value>Digits 0–9, e.g. 31415</value>
+  </data>
+  <data name="GronsfeldKeyError" xml:space="preserve">
+    <value>The key must contain only digits 0–9.</value>
+  </data>
+  <data name="GronsfeldEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="GronsfeldDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="GronsfeldSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="GronsfeldInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="GronsfeldInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="GronsfeldClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="GronsfeldOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="GronsfeldCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="GronsfeldShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="GronsfeldReferenceLabel" xml:space="preserve">
+    <value>Digit reference</value>
+  </data>
+  <data name="GronsfeldReferenceNote" xml:space="preserve">
+    <value>Each key digit shifts the next letter by that many places (0⇒A, 1⇒B … 9⇒J).</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
