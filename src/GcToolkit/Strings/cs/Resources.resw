@@ -337,6 +337,66 @@
   <data name="KennyCodeTableNote" xml:space="preserve">
     <value>Každé písmeno odpovídá pevné trojici symbolů v pořadí m &lt; p &lt; f.</value>
   </data>
+  <data name="BaconCipher_Name" xml:space="preserve">
+    <value>Baconova šifra</value>
+  </data>
+  <data name="BaconCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte Baconovu dvojkovou šifru — každé písmeno jako pětici symbolů A a B.</value>
+  </data>
+  <data name="BaconVersion" xml:space="preserve">
+    <value>Verze</value>
+  </data>
+  <data name="BaconVersionStandard" xml:space="preserve">
+    <value>Standardní (I=J a U=V)</value>
+  </data>
+  <data name="BaconVersionDistinct" xml:space="preserve">
+    <value>Odlišné hodnoty</value>
+  </data>
+  <data name="BaconEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="BaconDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="BaconSwapSymbols" xml:space="preserve">
+    <value>Prohodit oba symboly</value>
+  </data>
+  <data name="BaconFirstSymbol" xml:space="preserve">
+    <value>Symbol A</value>
+  </data>
+  <data name="BaconSecondSymbol" xml:space="preserve">
+    <value>Symbol B</value>
+  </data>
+  <data name="BaconInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="BaconInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo skupiny A/B k dešifrování…</value>
+  </data>
+  <data name="BaconClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BaconSwapDirection" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="BaconOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BaconDecodeWarning" xml:space="preserve">
+    <value>Některé skupiny neměly pět platných symbolů a zobrazují se jako ?.</value>
+  </data>
+  <data name="BaconCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BaconShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BaconTableLabel" xml:space="preserve">
+    <value>Referenční tabulka</value>
+  </data>
+  <data name="BaconTableNote" xml:space="preserve">
+    <value>Kód každého písmene ve zvolené verzi. Dešifrování ignoruje mezery, interpunkci a další šum.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
