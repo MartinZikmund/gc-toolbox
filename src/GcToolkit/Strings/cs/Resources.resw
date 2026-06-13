@@ -1164,6 +1164,105 @@
   <data name="LucasAboutText" xml:space="preserve">
     <value>Lucasova posloupnost začíná L(0) = 2, L(1) = 1 a každý další člen je součtem dvou předchozích — stejné pravidlo jako u Fibonacciho, jen s jinými počátečními hodnotami. Začíná 2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, …</value>
   </data>
+  <data name="Kaprekar_Name" xml:space="preserve">
+    <value>Kaprekarova konstanta</value>
+  </data>
+  <data name="Kaprekar_Tooltip" xml:space="preserve">
+    <value>Spusťte Kaprekarův postup ke konstantě 6174 (nebo 495) krok za krokem a ověřujte či vypisujte Kaprekarova čísla.</value>
+  </data>
+  <data name="KaprekarRoutineHeader" xml:space="preserve">
+    <value>Kaprekarův postup</value>
+  </data>
+  <data name="KaprekarRoutineDescription" xml:space="preserve">
+    <value>Seřaďte číslice sestupně a vzestupně, odečtěte a opakujte, dokud se nedosáhne konstanty.</value>
+  </data>
+  <data name="KaprekarNumberLabel" xml:space="preserve">
+    <value>Číslo</value>
+  </data>
+  <data name="KaprekarNumberPlaceholder" xml:space="preserve">
+    <value>např. 3524</value>
+  </data>
+  <data name="KaprekarDigitWidthLabel" xml:space="preserve">
+    <value>Počet číslic</value>
+  </data>
+  <data name="KaprekarWidthFour" xml:space="preserve">
+    <value>4 číslice (dosáhne 6174)</value>
+  </data>
+  <data name="KaprekarWidthThree" xml:space="preserve">
+    <value>3 číslice (dosáhne 495)</value>
+  </data>
+  <data name="KaprekarClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="KaprekarStepColumn" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="KaprekarDescendingColumn" xml:space="preserve">
+    <value>Sestupně</value>
+  </data>
+  <data name="KaprekarAscendingColumn" xml:space="preserve">
+    <value>Vzestupně</value>
+  </data>
+  <data name="KaprekarDifferenceColumn" xml:space="preserve">
+    <value>Rozdíl</value>
+  </data>
+  <data name="KaprekarStepCountOne" xml:space="preserve">
+    <value>Dosaženo za 1 krok</value>
+  </data>
+  <data name="KaprekarStepCountFew" xml:space="preserve">
+    <value>Dosaženo za {0} kroky</value>
+  </data>
+  <data name="KaprekarStepCountMany" xml:space="preserve">
+    <value>Dosaženo za {0} kroků</value>
+  </data>
+  <data name="KaprekarDigitsWord" xml:space="preserve">
+    <value>číslic</value>
+  </data>
+  <data name="KaprekarCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="KaprekarShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="KaprekarErrorNumeric" xml:space="preserve">
+    <value>Zadejte celé nezáporné číslo.</value>
+  </data>
+  <data name="KaprekarErrorRange" xml:space="preserve">
+    <value>Pro {0} číslic zadejte číslo od 0 do {1}.</value>
+  </data>
+  <data name="KaprekarErrorRepdigit" xml:space="preserve">
+    <value>Všechny číslice jsou stejné, takže postup vede k 0 — zvolte číslo s alespoň dvěma různými číslicemi.</value>
+  </data>
+  <data name="KaprekarCheckerHeader" xml:space="preserve">
+    <value>Ověření Kaprekarova čísla</value>
+  </data>
+  <data name="KaprekarCheckerDescription" xml:space="preserve">
+    <value>Druhá mocnina Kaprekarova čísla se rozdělí na dvě části, jejichž součet je dané číslo (např. 45² = 2025 → 20 + 25 = 45).</value>
+  </data>
+  <data name="KaprekarCheckerLabel" xml:space="preserve">
+    <value>Ověřit číslo</value>
+  </data>
+  <data name="KaprekarCheckerPlaceholder" xml:space="preserve">
+    <value>např. 45</value>
+  </data>
+  <data name="KaprekarCheckYes" xml:space="preserve">
+    <value>{0} je Kaprekarovo číslo: {0}² = {1} → {2} + {3} = {0}</value>
+  </data>
+  <data name="KaprekarCheckNo" xml:space="preserve">
+    <value>{0} není Kaprekarovo číslo.</value>
+  </data>
+  <data name="KaprekarListerHeader" xml:space="preserve">
+    <value>Seznam Kaprekarových čísel</value>
+  </data>
+  <data name="KaprekarListerDescription" xml:space="preserve">
+    <value>Vypište všechna Kaprekarova čísla až do zadané meze (omezeno na 1 000 000).</value>
+  </data>
+  <data name="KaprekarListerLabel" xml:space="preserve">
+    <value>Vypsat do N</value>
+  </data>
+  <data name="KaprekarListerPlaceholder" xml:space="preserve">
+    <value>např. 1000</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
