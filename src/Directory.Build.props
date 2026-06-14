@@ -17,6 +17,14 @@
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
         <WarningsAsErrors>True</WarningsAsErrors>
 
+        <!-- Uno's XAML source generator stamps [UnconditionalSuppressMessage(IL2026/IL2111)]
+             on nearly every generated member; on trimming builds (notably iOS Release, where
+             ILLink runs at build time) the trimmer flags the redundant ones as IL2121
+             "unused suppression" — thousands of them, all generated code we don't control.
+             Mute the noise; genuine trim warnings (IL2026/IL2122) still surface. Remove once
+             fixed upstream: https://github.com/unoplatform/uno/issues/23453 -->
+        <NoWarn>$(NoWarn);IL2121</NoWarn>
+
         <UnoFeatures>
             SkiaRenderer;
             Hosting;

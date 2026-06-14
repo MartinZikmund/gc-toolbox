@@ -1,0 +1,53 @@
+name: Weekly iOS (full AOT)
+
+# main.yml's per-push iOS leg builds with -p:UseInterpreter=true (a fast compile check,
+# no AOT). This job runs the REAL Mono full-AOT Release build once a week so AOT /
+# IL-strip / trim regressions are still caught off the hot path. Device-AOT for the
+# shipped .ipa is validated separately on release/v* in package-ios.yml.
+#
+# NOTE: schedule triggers only fire from the workflow file on the DEFAULT branch (main),
+# so this won't run until merged. workflow_dispatch lets you run it on demand (and is the
+# manual fallback if the schedule auto-disables after 60 days of repo inactivity).
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays 06:17 UTC (off-peak; minute offset to dodge :00 cron congestion)
+  workflow_dispatch:
+
+env:
+  PROJECT_FILE: src/GcToolkit/GcToolkit.csproj
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios_full_aot:
+    name: iOS full-AOT (Release)
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Nerdbank.GitVersioning needs full history to compute the version.
+          fetch-depth: 0
+
+      # Restore-only: the macOS NuGet cache is saved by main.yml's iOS leg.
+      - name: NuGet cache (restore)
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Build.props', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install ios workload
+        run: dotnet workload install ios --ignore-failed-sources
+
+      - name: Download iOS platform if missing
+        run: xcrun --sdk iphoneos --show-sdk-path >/dev/null 2>&1 || xcodebuild -downloadPlatform iOS
+
+      # Full Mono AOT (NO -p:UseInterpreter) — this is the ~17 min build main.yml skips.
+      - name: Build iOS head (Release, full AOT)
+        run: dotnet build ${{ env.PROJECT_FILE }} -p:SingleTargetFramework=net10.0-ios -c Release

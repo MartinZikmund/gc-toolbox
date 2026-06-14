@@ -40,7 +40,7 @@ jobs:
           - { label: wasm,      os: ubuntu-latest,  tfm: net10.0-browserwasm,       workload: wasm-tools }
           - { label: android,   os: ubuntu-latest,  tfm: net10.0-android,           workload: android }
           - { label: WinAppSDK, os: windows-latest, tfm: net10.0-windows10.0.26100, workload: '' }
-          - { label: iOS,       os: macos-26,       tfm: net10.0-ios,               workload: ios }
+          - { label: iOS,       os: macos-26,       tfm: net10.0-ios,               workload: ios,                  args: '-p:UseInterpreter=true' }
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
     steps:
@@ -66,14 +66,21 @@ jobs:
         if: matrix.workload != ''
         run: dotnet workload install ${{ matrix.workload }} --ignore-failed-sources
 
-      # Device-only iOS build needs the iphoneos SDK, not the simulator runtime —
-      # only download it if the selected Xcode doesn't already ship it.
+      # Ensure the iOS platform/SDK is present (newer macOS images may omit it for the
+      # latest Xcode) — only download when missing. NOTE: this leg is a SIMULATOR build
+      # (no -r ios-arm64); the iphoneos check is a cheap proxy for "iOS platform
+      # installed" and the download is a no-op when it already is.
       - name: Download iOS platform if missing
         if: matrix.label == 'iOS'
         run: xcrun --sdk iphoneos --show-sdk-path >/dev/null 2>&1 || xcodebuild -downloadPlatform iOS
 
+      # iOS is a build-only compile check. A -c Release iOS build otherwise runs Mono
+      # full AOT + IL-strip (~17 min wasted) even for the simulator, because Uno only
+      # enables the interpreter for Debug. matrix.args passes -p:UseInterpreter=true for
+      # iOS to skip AOT codegen (~20 min -> ~3-4 min). Real device AOT is validated
+      # weekly (weekly-ios-aot.yml) and on release/v* (package-ios.yml).
       - name: Build ${{ matrix.label }} head (Release)
-        run: dotnet build ${{ env.PROJECT_FILE }} -p:SingleTargetFramework=${{ matrix.tfm }} -c Release
+        run: dotnet build ${{ env.PROJECT_FILE }} -p:SingleTargetFramework=${{ matrix.tfm }} -c Release ${{ matrix.args }}
 
       # MTP runner — don't pass VSTest-only flags like --nologo.
       # Collapse GcToolkit.Core (referenced by the tests) to net10.0 so restore
@@ -84,11 +91,13 @@ jobs:
           dotnet test tests/GcToolkit.Core.Tests/GcToolkit.Core.Tests.csproj -p:SingleTargetFramework=net10.0
           dotnet test tests/GcToolkit.SourceGenerators.Tests/GcToolkit.SourceGenerators.Tests.csproj
 
-      # Maintain the shared cache from the two legs the frequent PR path uses
-      # (the desktop Linux head and the Windows head). One save per runner.os, so
-      # the parallel Linux legs don't race to compress the same archive.
+      # One save per runner.os so the parallel Linux legs don't race to compress the
+      # same archive. Linux: desktop saves (the PR hot-path leg — pr.yml builds it too,
+      # and its closure warms PRs). Windows: WinAppSDK. macOS: iOS — previously the
+      # macOS cache was NEVER saved, so the iOS leg cold-restored NuGet on every
+      # (10x-billed) run; now it stays warm.
       - name: NuGet cache (save)
-        if: steps.nuget.outputs.cache-hit != 'true' && contains(fromJSON('["desktop","WinAppSDK"]'), matrix.label)
+        if: steps.nuget.outputs.cache-hit != 'true' && contains(fromJSON('["desktop","WinAppSDK","iOS"]'), matrix.label)
         uses: actions/cache/save@v4
         with:
           path: ~/.nuget/packages
