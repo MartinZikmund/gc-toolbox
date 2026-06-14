@@ -191,6 +191,9 @@
   <data name="Category_Alphabets" xml:space="preserve">
     <value>Alphabets</value>
   </data>
+  <data name="Category_Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
   <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Conversion</value>
@@ -690,5 +693,81 @@
   </data>
   <data name="SignalFlagsMeaningSubstitute3" xml:space="preserve">
     <value>Repeats the third flag of the hoist.</value>
+  </data>
+  <!-- Text reverse -->
+  <data name="TextReverse_Name" xml:space="preserve">
+    <value>Reverse text</value>
+  </data>
+  <data name="TextReverse_Tooltip" xml:space="preserve">
+    <value>Reverse, shuffle or flip text — by string, line, word or character.</value>
+  </data>
+  <data name="TextReverseMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="TextReverseModeText" xml:space="preserve">
+    <value>Reverse text</value>
+  </data>
+  <data name="TextReverseModeTextPerLine" xml:space="preserve">
+    <value>Reverse text per line</value>
+  </data>
+  <data name="TextReverseModeWordOrder" xml:space="preserve">
+    <value>Reverse word order</value>
+  </data>
+  <data name="TextReverseModeWordOrderPerLine" xml:space="preserve">
+    <value>Reverse word order per line</value>
+  </data>
+  <data name="TextReverseModeCharsPerWord" xml:space="preserve">
+    <value>Reverse character order per word</value>
+  </data>
+  <data name="TextReverseModeRandomPerWord" xml:space="preserve">
+    <value>Random character order per word</value>
+  </data>
+  <data name="TextReverseModeUpsideDown" xml:space="preserve">
+    <value>Text upside down</value>
+  </data>
+  <data name="TextReverseModifiers" xml:space="preserve">
+    <value>Modifiers</value>
+  </data>
+  <data name="TextReverseKeepCaseLocation" xml:space="preserve">
+    <value>Keep upper case location</value>
+  </data>
+  <data name="TextReverseKeepFirstLast" xml:space="preserve">
+    <value>Keep the first and last character</value>
+  </data>
+  <data name="TextReverseSwapCase" xml:space="preserve">
+    <value>Change upper and lower case</value>
+  </data>
+  <data name="TextReverseToUpper" xml:space="preserve">
+    <value>Convert to upper case</value>
+  </data>
+  <data name="TextReverseToLower" xml:space="preserve">
+    <value>Convert to lower case</value>
+  </data>
+  <data name="TextReverseRemoveUnknown" xml:space="preserve">
+    <value>Remove unknown characters</value>
+  </data>
+  <data name="TextReverseReverseUpsideDown" xml:space="preserve">
+    <value>Reverse text (reads right way up when flipped)</value>
+  </data>
+  <data name="TextReverseInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="TextReverseInputPlaceholder" xml:space="preserve">
+    <value>Type text to reverse, shuffle or flip…</value>
+  </data>
+  <data name="TextReverseOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="TextReverseClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="TextReverseCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="TextReverseShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="TextReverseReroll" xml:space="preserve">
+    <value>Shuffle again</value>
   </data>
 </root>
