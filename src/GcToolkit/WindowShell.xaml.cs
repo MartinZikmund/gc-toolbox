@@ -7,6 +7,7 @@ using GcToolkit.Helpers;
 using GcToolkit.Infrastructure;
 using GcToolkit.Services.Localization;
 using GcToolkit.Services.Navigation;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Windows.Foundation.Metadata;
 
@@ -167,7 +168,7 @@ public sealed partial class WindowShell : Page, IWindowShell
         }
 #endif
 
-        if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.Window", "SystemBackdrop"))
+        if (MicaController.IsSupported())
         {
             _associatedWindow.SystemBackdrop = new MicaBackdrop();
             Background = null;
