@@ -380,6 +380,76 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- T9 / phone keypad decoder -->
+  <data name="T9PhoneKeypad_Name" xml:space="preserve">
+    <value>T9 / phone keypad</value>
+  </data>
+  <data name="T9PhoneKeypad_Tooltip" xml:space="preserve">
+    <value>Decode old phone-keypad digits to text and back: T9, multi-tap, and key+position.</value>
+  </data>
+  <data name="T9ModeT9" xml:space="preserve">
+    <value>T9 predictive</value>
+  </data>
+  <data name="T9ModeMultitap" xml:space="preserve">
+    <value>Multi-tap</value>
+  </data>
+  <data name="T9ModeKeyPosition" xml:space="preserve">
+    <value>Key + position</value>
+  </data>
+  <data name="T9ModeLabel" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="T9TextToDigits" xml:space="preserve">
+    <value>Text → digits</value>
+  </data>
+  <data name="T9DigitsToText" xml:space="preserve">
+    <value>Digits → text</value>
+  </data>
+  <data name="T9InputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="T9OutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="T9Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="T9Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="T9Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="T9NoResultNotice" xml:space="preserve">
+    <value>Nothing decoded — check the mode and that the input uses keypad digits.</value>
+  </data>
+  <data name="T9TruncatedNotice" xml:space="preserve">
+    <value>That sequence has many possibilities; only the first matches are shown.</value>
+  </data>
+  <data name="T9CandidatesLabel" xml:space="preserve">
+    <value>Possible words</value>
+  </data>
+  <data name="T9KeypadLabel" xml:space="preserve">
+    <value>Keypad</value>
+  </data>
+  <data name="T9PlaceholderT9Encode" xml:space="preserve">
+    <value>Type text to turn into T9 digits…</value>
+  </data>
+  <data name="T9PlaceholderT9Decode" xml:space="preserve">
+    <value>Type digits (one per letter), e.g. 43622243…</value>
+  </data>
+  <data name="T9PlaceholderMultitapEncode" xml:space="preserve">
+    <value>Type text, e.g. CODE…</value>
+  </data>
+  <data name="T9PlaceholderMultitapDecode" xml:space="preserve">
+    <value>Type multi-tap groups, e.g. 222-666-3-33…</value>
+  </data>
+  <data name="T9PlaceholderKeyPositionEncode" xml:space="preserve">
+    <value>Type text to turn into key-position pairs…</value>
+  </data>
+  <data name="T9PlaceholderKeyPositionDecode" xml:space="preserve">
+    <value>Type key-position pairs, e.g. 7-3 2-1…</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

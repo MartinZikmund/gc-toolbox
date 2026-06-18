@@ -380,6 +380,76 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- T9 / dekodér telefonní klávesnice -->
+  <data name="T9PhoneKeypad_Name" xml:space="preserve">
+    <value>T9 / telefonní klávesnice</value>
+  </data>
+  <data name="T9PhoneKeypad_Tooltip" xml:space="preserve">
+    <value>Převádějte číslice ze staré telefonní klávesnice na text i zpět: T9, multi-tap a klávesa+pozice.</value>
+  </data>
+  <data name="T9ModeT9" xml:space="preserve">
+    <value>T9 prediktivní</value>
+  </data>
+  <data name="T9ModeMultitap" xml:space="preserve">
+    <value>Multi-tap</value>
+  </data>
+  <data name="T9ModeKeyPosition" xml:space="preserve">
+    <value>Klávesa + pozice</value>
+  </data>
+  <data name="T9ModeLabel" xml:space="preserve">
+    <value>Režim</value>
+  </data>
+  <data name="T9TextToDigits" xml:space="preserve">
+    <value>Text → číslice</value>
+  </data>
+  <data name="T9DigitsToText" xml:space="preserve">
+    <value>Číslice → text</value>
+  </data>
+  <data name="T9InputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="T9OutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="T9Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="T9Copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="T9Share" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="T9NoResultNotice" xml:space="preserve">
+    <value>Nic se nepodařilo dekódovat – zkontrolujte režim a že vstup používá číslice klávesnice.</value>
+  </data>
+  <data name="T9TruncatedNotice" xml:space="preserve">
+    <value>Tato sekvence má mnoho možností; zobrazují se jen první shody.</value>
+  </data>
+  <data name="T9CandidatesLabel" xml:space="preserve">
+    <value>Možná slova</value>
+  </data>
+  <data name="T9KeypadLabel" xml:space="preserve">
+    <value>Klávesnice</value>
+  </data>
+  <data name="T9PlaceholderT9Encode" xml:space="preserve">
+    <value>Zadejte text pro převod na číslice T9…</value>
+  </data>
+  <data name="T9PlaceholderT9Decode" xml:space="preserve">
+    <value>Zadejte číslice (jedna na písmeno), např. 43622243…</value>
+  </data>
+  <data name="T9PlaceholderMultitapEncode" xml:space="preserve">
+    <value>Zadejte text, např. CODE…</value>
+  </data>
+  <data name="T9PlaceholderMultitapDecode" xml:space="preserve">
+    <value>Zadejte skupiny multi-tap, např. 222-666-3-33…</value>
+  </data>
+  <data name="T9PlaceholderKeyPositionEncode" xml:space="preserve">
+    <value>Zadejte text pro převod na dvojice klávesa-pozice…</value>
+  </data>
+  <data name="T9PlaceholderKeyPositionDecode" xml:space="preserve">
+    <value>Zadejte dvojice klávesa-pozice, např. 7-3 2-1…</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
