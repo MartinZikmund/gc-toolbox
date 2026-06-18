@@ -770,4 +770,110 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Zamíchat znovu</value>
   </data>
+  <!-- Scrabble scorer -->
+  <data name="ScrabbleScorer_Name" xml:space="preserve">
+    <value>Scrabble bodování</value>
+  </data>
+  <data name="ScrabbleScorer_Tooltip" xml:space="preserve">
+    <value>Spočítá hodnotu slova podle hodnot písmen — kameny Scrabble, pozice v abecedě, klávesnice telefonu nebo vlastní tabulka.</value>
+  </data>
+  <data name="ScrabbleMethodLabel" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
+  <data name="ScrabbleSystemEnglish" xml:space="preserve">
+    <value>Scrabble (angličtina)</value>
+  </data>
+  <data name="ScrabbleSystemDutch" xml:space="preserve">
+    <value>Scrabble (nizozemština)</value>
+  </data>
+  <data name="ScrabbleSystemGerman" xml:space="preserve">
+    <value>Scrabble (němčina)</value>
+  </data>
+  <data name="ScrabbleSystemFrench" xml:space="preserve">
+    <value>Scrabble (francouzština)</value>
+  </data>
+  <data name="ScrabbleSystemSpanish" xml:space="preserve">
+    <value>Scrabble (španělština)</value>
+  </data>
+  <data name="ScrabbleSystemItalian" xml:space="preserve">
+    <value>Scrabble (italština)</value>
+  </data>
+  <data name="ScrabbleSystemA1Z26" xml:space="preserve">
+    <value>Pozice v abecedě (A=1…Z=26)</value>
+  </data>
+  <data name="ScrabbleSystemA0Z25" xml:space="preserve">
+    <value>Pozice v abecedě (A=0…Z=25)</value>
+  </data>
+  <data name="ScrabbleSystemReversedA26Z1" xml:space="preserve">
+    <value>Obrácená pozice (A=26…Z=1)</value>
+  </data>
+  <data name="ScrabbleSystemReversedA25Z0" xml:space="preserve">
+    <value>Obrácená pozice (A=25…Z=0)</value>
+  </data>
+  <data name="ScrabbleSystemPhoneKeypad" xml:space="preserve">
+    <value>Klávesnice telefonu (A=2…Z=9)</value>
+  </data>
+  <data name="ScrabbleSystemCustom" xml:space="preserve">
+    <value>Vlastní tabulka…</value>
+  </data>
+  <data name="ScrabbleInputLabel" xml:space="preserve">
+    <value>Slova</value>
+  </data>
+  <data name="ScrabbleInputPlaceholder" xml:space="preserve">
+    <value>Zadejte jedno nebo více slov k ohodnocení…</value>
+  </data>
+  <data name="ScrabbleCustomTableLabel" xml:space="preserve">
+    <value>Vlastní hodnoty (A–Z, 26 čísel)</value>
+  </data>
+  <data name="ScrabbleCustomTablePlaceholder" xml:space="preserve">
+    <value>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</value>
+  </data>
+  <data name="ScrabbleCustomTableInvalid" xml:space="preserve">
+    <value>Zadejte přesně 26 celých čísel (A–Z) oddělených čárkami nebo mezerami.</value>
+  </data>
+  <data name="ScrabbleUnknownLetterNotice" xml:space="preserve">
+    <value>Některá písmena nejsou v aktivní tabulce — zobrazují se jako „?“ a počítají se jako 0.</value>
+  </data>
+  <data name="ScrabbleTotalLabel" xml:space="preserve">
+    <value>Celkem:</value>
+  </data>
+  <data name="ScrabbleReductionsLabel" xml:space="preserve">
+    <value>Redukce</value>
+  </data>
+  <data name="ScrabbleDigitalRootLabel" xml:space="preserve">
+    <value>Ciferný kořen</value>
+  </data>
+  <data name="ScrabbleDigitSumLabel" xml:space="preserve">
+    <value>Ciferný součet</value>
+  </data>
+  <data name="ScrabbleMod26Label" xml:space="preserve">
+    <value>Modulo 26</value>
+  </data>
+  <data name="ScrabbleMod10Label" xml:space="preserve">
+    <value>Modulo 10</value>
+  </data>
+  <data name="ScrabbleReversedTotalLabel" xml:space="preserve">
+    <value>Obrácený součet</value>
+  </data>
+  <data name="ScrabbleWordResultsLabel" xml:space="preserve">
+    <value>Skóre podle slov</value>
+  </data>
+  <data name="ScrabbleReferenceLabel" xml:space="preserve">
+    <value>Přehled hodnot</value>
+  </data>
+  <data name="ScrabbleCopyTotal" xml:space="preserve">
+    <value>Kopírovat součet</value>
+  </data>
+  <data name="ScrabbleCopyWords" xml:space="preserve">
+    <value>Kopírovat po slovech</value>
+  </data>
+  <data name="ScrabbleCopyRow" xml:space="preserve">
+    <value>Kopírovat toto slovo</value>
+  </data>
+  <data name="ScrabbleShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="ScrabbleClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
 </root>

@@ -770,4 +770,110 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Shuffle again</value>
   </data>
+  <!-- Scrabble scorer -->
+  <data name="ScrabbleScorer_Name" xml:space="preserve">
+    <value>Scrabble scorer</value>
+  </data>
+  <data name="ScrabbleScorer_Tooltip" xml:space="preserve">
+    <value>Score a word by its letter values — Scrabble tiles, alphabet position, phone keypad or a custom table.</value>
+  </data>
+  <data name="ScrabbleMethodLabel" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="ScrabbleSystemEnglish" xml:space="preserve">
+    <value>Scrabble (English)</value>
+  </data>
+  <data name="ScrabbleSystemDutch" xml:space="preserve">
+    <value>Scrabble (Dutch)</value>
+  </data>
+  <data name="ScrabbleSystemGerman" xml:space="preserve">
+    <value>Scrabble (German)</value>
+  </data>
+  <data name="ScrabbleSystemFrench" xml:space="preserve">
+    <value>Scrabble (French)</value>
+  </data>
+  <data name="ScrabbleSystemSpanish" xml:space="preserve">
+    <value>Scrabble (Spanish)</value>
+  </data>
+  <data name="ScrabbleSystemItalian" xml:space="preserve">
+    <value>Scrabble (Italian)</value>
+  </data>
+  <data name="ScrabbleSystemA1Z26" xml:space="preserve">
+    <value>Alphabet position (A=1…Z=26)</value>
+  </data>
+  <data name="ScrabbleSystemA0Z25" xml:space="preserve">
+    <value>Alphabet position (A=0…Z=25)</value>
+  </data>
+  <data name="ScrabbleSystemReversedA26Z1" xml:space="preserve">
+    <value>Reversed position (A=26…Z=1)</value>
+  </data>
+  <data name="ScrabbleSystemReversedA25Z0" xml:space="preserve">
+    <value>Reversed position (A=25…Z=0)</value>
+  </data>
+  <data name="ScrabbleSystemPhoneKeypad" xml:space="preserve">
+    <value>Phone keypad (A=2…Z=9)</value>
+  </data>
+  <data name="ScrabbleSystemCustom" xml:space="preserve">
+    <value>Custom table…</value>
+  </data>
+  <data name="ScrabbleInputLabel" xml:space="preserve">
+    <value>Words</value>
+  </data>
+  <data name="ScrabbleInputPlaceholder" xml:space="preserve">
+    <value>Type one or more words to score…</value>
+  </data>
+  <data name="ScrabbleCustomTableLabel" xml:space="preserve">
+    <value>Custom values (A–Z, 26 numbers)</value>
+  </data>
+  <data name="ScrabbleCustomTablePlaceholder" xml:space="preserve">
+    <value>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</value>
+  </data>
+  <data name="ScrabbleCustomTableInvalid" xml:space="preserve">
+    <value>Enter exactly 26 whole numbers (A–Z), separated by commas or spaces.</value>
+  </data>
+  <data name="ScrabbleUnknownLetterNotice" xml:space="preserve">
+    <value>Some letters aren't in the active table — they're shown with “?” and count as 0.</value>
+  </data>
+  <data name="ScrabbleTotalLabel" xml:space="preserve">
+    <value>Total:</value>
+  </data>
+  <data name="ScrabbleReductionsLabel" xml:space="preserve">
+    <value>Reductions</value>
+  </data>
+  <data name="ScrabbleDigitalRootLabel" xml:space="preserve">
+    <value>Digital root</value>
+  </data>
+  <data name="ScrabbleDigitSumLabel" xml:space="preserve">
+    <value>Digit sum</value>
+  </data>
+  <data name="ScrabbleMod26Label" xml:space="preserve">
+    <value>Mod 26</value>
+  </data>
+  <data name="ScrabbleMod10Label" xml:space="preserve">
+    <value>Mod 10</value>
+  </data>
+  <data name="ScrabbleReversedTotalLabel" xml:space="preserve">
+    <value>Reversed total</value>
+  </data>
+  <data name="ScrabbleWordResultsLabel" xml:space="preserve">
+    <value>Per-word scores</value>
+  </data>
+  <data name="ScrabbleReferenceLabel" xml:space="preserve">
+    <value>Value reference</value>
+  </data>
+  <data name="ScrabbleCopyTotal" xml:space="preserve">
+    <value>Copy total</value>
+  </data>
+  <data name="ScrabbleCopyWords" xml:space="preserve">
+    <value>Copy per-word</value>
+  </data>
+  <data name="ScrabbleCopyRow" xml:space="preserve">
+    <value>Copy this word</value>
+  </data>
+  <data name="ScrabbleShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ScrabbleClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
 </root>
