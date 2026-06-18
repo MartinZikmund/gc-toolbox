@@ -380,6 +380,103 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Gray code -->
+  <data name="GrayCode_Name" xml:space="preserve">
+    <value>Gray code</value>
+  </data>
+  <data name="GrayCode_Tooltip" xml:space="preserve">
+    <value>Convert numbers to and from reflected binary (Gray) code.</value>
+  </data>
+  <data name="GrayValueToGray" xml:space="preserve">
+    <value>Value → Gray</value>
+  </data>
+  <data name="GrayGrayToValue" xml:space="preserve">
+    <value>Gray → Value</value>
+  </data>
+  <data name="GrayInputBaseLabel" xml:space="preserve">
+    <value>Input base</value>
+  </data>
+  <data name="GrayOutputBaseLabel" xml:space="preserve">
+    <value>Output base</value>
+  </data>
+  <data name="GrayBaseDecimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="GrayBaseBinary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="GrayBaseOctal" xml:space="preserve">
+    <value>Octal</value>
+  </data>
+  <data name="GrayBaseHex" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="GrayBitWidthLabel" xml:space="preserve">
+    <value>Bit width</value>
+  </data>
+  <data name="GrayWidthAuto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="GrayLetterMode" xml:space="preserve">
+    <value>Letter mode (A–Z)</value>
+  </data>
+  <data name="GrayInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="GrayInputPlaceholder" xml:space="preserve">
+    <value>Type a value (one per line for batch)…</value>
+  </data>
+  <data name="GrayResultGrayLabel" xml:space="preserve">
+    <value>Gray code</value>
+  </data>
+  <data name="GrayResultValueLabel" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="GrayExample" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="GrayClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="GrayCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="GrayShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="GrayInvalidNotice" xml:space="preserve">
+    <value>Some lines couldn't be converted and are shown as ?.</value>
+  </data>
+  <data name="GrayCascadeLabel" xml:space="preserve">
+    <value>XOR cascade</value>
+  </data>
+  <data name="GrayCascadeValue" xml:space="preserve">
+    <value>value     </value>
+  </data>
+  <data name="GrayCascadeShift" xml:space="preserve">
+    <value>value » 1 </value>
+  </data>
+  <data name="GrayCascadeGray" xml:space="preserve">
+    <value>gray (XOR)</value>
+  </data>
+  <data name="GrayReferenceLabel" xml:space="preserve">
+    <value>First 16 Gray codes</value>
+  </data>
+  <data name="GrayReferenceDecimal" xml:space="preserve">
+    <value>Dec</value>
+  </data>
+  <data name="GrayReferenceBinary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="GrayReferenceGray" xml:space="preserve">
+    <value>Gray</value>
+  </data>
+  <data name="GrayAboutLabel" xml:space="preserve">
+    <value>About Gray code</value>
+  </data>
+  <data name="GrayAboutText" xml:space="preserve">
+    <value>Reflected binary code, also called Gray code, is an ordering of binary where two successive values differ in only one bit. Encode with gray = value XOR (value » 1); decode with cumulative XOR.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

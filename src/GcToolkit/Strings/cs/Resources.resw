@@ -380,6 +380,103 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Gray code -->
+  <data name="GrayCode_Name" xml:space="preserve">
+    <value>Grayův kód</value>
+  </data>
+  <data name="GrayCode_Tooltip" xml:space="preserve">
+    <value>Převádějte čísla do reflexního binárního (Grayova) kódu a zpět.</value>
+  </data>
+  <data name="GrayValueToGray" xml:space="preserve">
+    <value>Hodnota → Gray</value>
+  </data>
+  <data name="GrayGrayToValue" xml:space="preserve">
+    <value>Gray → Hodnota</value>
+  </data>
+  <data name="GrayInputBaseLabel" xml:space="preserve">
+    <value>Vstupní soustava</value>
+  </data>
+  <data name="GrayOutputBaseLabel" xml:space="preserve">
+    <value>Výstupní soustava</value>
+  </data>
+  <data name="GrayBaseDecimal" xml:space="preserve">
+    <value>Desítková</value>
+  </data>
+  <data name="GrayBaseBinary" xml:space="preserve">
+    <value>Dvojková</value>
+  </data>
+  <data name="GrayBaseOctal" xml:space="preserve">
+    <value>Osmičková</value>
+  </data>
+  <data name="GrayBaseHex" xml:space="preserve">
+    <value>Šestnáctková</value>
+  </data>
+  <data name="GrayBitWidthLabel" xml:space="preserve">
+    <value>Počet bitů</value>
+  </data>
+  <data name="GrayWidthAuto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="GrayLetterMode" xml:space="preserve">
+    <value>Režim písmen (A–Z)</value>
+  </data>
+  <data name="GrayInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="GrayInputPlaceholder" xml:space="preserve">
+    <value>Zadejte hodnotu (pro dávku jednu na řádek)…</value>
+  </data>
+  <data name="GrayResultGrayLabel" xml:space="preserve">
+    <value>Grayův kód</value>
+  </data>
+  <data name="GrayResultValueLabel" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="GrayExample" xml:space="preserve">
+    <value>Příklad</value>
+  </data>
+  <data name="GrayClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="GrayCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="GrayShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="GrayInvalidNotice" xml:space="preserve">
+    <value>Některé řádky se nepodařilo převést a jsou zobrazeny jako ?.</value>
+  </data>
+  <data name="GrayCascadeLabel" xml:space="preserve">
+    <value>Kaskáda XOR</value>
+  </data>
+  <data name="GrayCascadeValue" xml:space="preserve">
+    <value>hodnota   </value>
+  </data>
+  <data name="GrayCascadeShift" xml:space="preserve">
+    <value>hodnota » 1</value>
+  </data>
+  <data name="GrayCascadeGray" xml:space="preserve">
+    <value>gray (XOR)</value>
+  </data>
+  <data name="GrayReferenceLabel" xml:space="preserve">
+    <value>Prvních 16 Grayových kódů</value>
+  </data>
+  <data name="GrayReferenceDecimal" xml:space="preserve">
+    <value>Des</value>
+  </data>
+  <data name="GrayReferenceBinary" xml:space="preserve">
+    <value>Dvojkově</value>
+  </data>
+  <data name="GrayReferenceGray" xml:space="preserve">
+    <value>Gray</value>
+  </data>
+  <data name="GrayAboutLabel" xml:space="preserve">
+    <value>O Grayově kódu</value>
+  </data>
+  <data name="GrayAboutText" xml:space="preserve">
+    <value>Reflexní binární kód, nazývaný také Grayův kód, je uspořádání dvojkové soustavy, ve kterém se dvě po sobě jdoucí hodnoty liší jen v jediném bitu. Kódování: gray = hodnota XOR (hodnota » 1); dekódování pomocí kumulativního XOR.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
