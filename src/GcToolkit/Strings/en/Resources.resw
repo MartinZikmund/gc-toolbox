@@ -217,6 +217,48 @@
   <data name="CoordinateProjection_Tooltip" xml:space="preserve">
     <value>Project a waypoint from a point, bearing and distance.</value>
   </data>
+  <data name="Antipodes_Name" xml:space="preserve">
+    <value>Antipodes</value>
+  </data>
+  <data name="Antipodes_Tooltip" xml:space="preserve">
+    <value>Find the point diametrically opposite on Earth.</value>
+  </data>
+  <data name="Antipodes_InputLabel" xml:space="preserve">
+    <value>Coordinate</value>
+  </data>
+  <data name="Antipodes_InputPlaceholder" xml:space="preserve">
+    <value>e.g. N50 25.123 E005 45.123</value>
+  </data>
+  <data name="Antipodes_ResultLabel" xml:space="preserve">
+    <value>Antipode</value>
+  </data>
+  <data name="Antipodes_FormatDdm" xml:space="preserve">
+    <value>Degrees &amp; decimal minutes (DDM)</value>
+  </data>
+  <data name="Antipodes_FormatDd" xml:space="preserve">
+    <value>Decimal degrees (DD)</value>
+  </data>
+  <data name="Antipodes_FormatDms" xml:space="preserve">
+    <value>Degrees, minutes &amp; seconds (DMS)</value>
+  </data>
+  <data name="Antipodes_InvalidInput" xml:space="preserve">
+    <value>That isn't a coordinate we can read. Try a format like N50 25.123 E005 45.123, or decimal degrees, UTM or MGRS.</value>
+  </data>
+  <data name="Antipodes_DistanceFormat" xml:space="preserve">
+    <value>About {0} km away — the farthest point on Earth.</value>
+  </data>
+  <data name="Antipodes_OceanNote" xml:space="preserve">
+    <value>Most antipodes land in the ocean — a handy sanity check.</value>
+  </data>
+  <data name="Antipodes_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Antipodes_Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Antipodes_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="CaesarCipher_Name" xml:space="preserve">
     <value>Caesar cipher</value>
   </data>

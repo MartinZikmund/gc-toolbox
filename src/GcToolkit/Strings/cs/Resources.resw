@@ -217,6 +217,48 @@
   <data name="CoordinateProjection_Tooltip" xml:space="preserve">
     <value>Vypočítejte bod z výchozího bodu, azimutu a vzdálenosti.</value>
   </data>
+  <data name="Antipodes_Name" xml:space="preserve">
+    <value>Protinožci</value>
+  </data>
+  <data name="Antipodes_Tooltip" xml:space="preserve">
+    <value>Najděte bod přesně na opačné straně Země.</value>
+  </data>
+  <data name="Antipodes_InputLabel" xml:space="preserve">
+    <value>Souřadnice</value>
+  </data>
+  <data name="Antipodes_InputPlaceholder" xml:space="preserve">
+    <value>např. N50 25.123 E005 45.123</value>
+  </data>
+  <data name="Antipodes_ResultLabel" xml:space="preserve">
+    <value>Protinožní bod</value>
+  </data>
+  <data name="Antipodes_FormatDdm" xml:space="preserve">
+    <value>Stupně a desetinné minuty (DDM)</value>
+  </data>
+  <data name="Antipodes_FormatDd" xml:space="preserve">
+    <value>Desetinné stupně (DD)</value>
+  </data>
+  <data name="Antipodes_FormatDms" xml:space="preserve">
+    <value>Stupně, minuty a vteřiny (DMS)</value>
+  </data>
+  <data name="Antipodes_InvalidInput" xml:space="preserve">
+    <value>Tohle neumíme přečíst jako souřadnici. Zkuste formát N50 25.123 E005 45.123, desetinné stupně, UTM nebo MGRS.</value>
+  </data>
+  <data name="Antipodes_DistanceFormat" xml:space="preserve">
+    <value>Přibližně {0} km daleko — nejvzdálenější bod na Zemi.</value>
+  </data>
+  <data name="Antipodes_OceanNote" xml:space="preserve">
+    <value>Většina protinožních bodů padne do oceánu — šikovná kontrola.</value>
+  </data>
+  <data name="Antipodes_Copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="Antipodes_Share" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="Antipodes_Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
   <data name="CaesarCipher_Name" xml:space="preserve">
     <value>Caesarova šifra</value>
   </data>
