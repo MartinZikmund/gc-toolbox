@@ -280,6 +280,96 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Každý symbol v horním řádku odpovídá symbolu pod ním.</value>
   </data>
+  <data name="HillCipher_Name" xml:space="preserve">
+    <value>Hillova šifra</value>
+  </data>
+  <data name="HillCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte text maticovým klíčem (2×2 nebo 3×3) modulo 26.</value>
+  </data>
+  <data name="HillDirection" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="HillEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="HillDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="HillMatrixSize" xml:space="preserve">
+    <value>Velikost matice</value>
+  </data>
+  <data name="HillSize2" xml:space="preserve">
+    <value>2 × 2</value>
+  </data>
+  <data name="HillSize3" xml:space="preserve">
+    <value>3 × 3</value>
+  </data>
+  <data name="HillKeyMode" xml:space="preserve">
+    <value>Typ klíče</value>
+  </data>
+  <data name="HillKeyNumeric" xml:space="preserve">
+    <value>Čísla</value>
+  </data>
+  <data name="HillKeyKeyword" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="HillMatrixLabel" xml:space="preserve">
+    <value>Maticový klíč</value>
+  </data>
+  <data name="HillKeywordLabel" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="HillKeywordPlaceholder" xml:space="preserve">
+    <value>Písmena vyplní matici po řádcích (A=0…Z=25)</value>
+  </data>
+  <data name="HillCellLabel" xml:space="preserve">
+    <value>Řádek {0}, sloupec {1}</value>
+  </data>
+  <data name="HillPadLabel" xml:space="preserve">
+    <value>Doplňkový znak</value>
+  </data>
+  <data name="HillInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="HillInputPlaceholder" xml:space="preserve">
+    <value>Napište nebo vložte zprávu…</value>
+  </data>
+  <data name="HillOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="HillSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="HillCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="HillShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="HillClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="HillInverseLabel" xml:space="preserve">
+    <value>Inverzní matice (mod 26)</value>
+  </data>
+  <data name="HillDeterminantFormat" xml:space="preserve">
+    <value>Determinant (mod 26): {0}</value>
+  </data>
+  <data name="HillNotInvertible" xml:space="preserve">
+    <value>Tento maticový klíč nemá inverzi modulo 26, takže nelze dešifrovat. Zvolte matici, jejíž determinant je nesoudělný s 26.</value>
+  </data>
+  <data name="HillInvalidKey" xml:space="preserve">
+    <value>Do každé buňky matice zadejte celé číslo.</value>
+  </data>
+  <data name="HillKeywordTooShort" xml:space="preserve">
+    <value>Klíčové slovo musí mít dost písmen na vyplnění celé matice.</value>
+  </data>
+  <data name="HillNoLetters" xml:space="preserve">
+    <value>Zadejte nějaká písmena k převedení.</value>
+  </data>
+  <data name="HillHint" xml:space="preserve">
+    <value>Písmena se mapují A=0…Z=25 a zpracovávají po blocích; mezery, číslice a interpunkce procházejí beze změny.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

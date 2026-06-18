@@ -280,6 +280,96 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Each symbol in the top row maps to the one beneath it.</value>
   </data>
+  <data name="HillCipher_Name" xml:space="preserve">
+    <value>Hill cipher</value>
+  </data>
+  <data name="HillCipher_Tooltip" xml:space="preserve">
+    <value>Encrypt and decrypt text with a matrix key (2×2 or 3×3) modulo 26.</value>
+  </data>
+  <data name="HillDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="HillEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="HillDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="HillMatrixSize" xml:space="preserve">
+    <value>Matrix size</value>
+  </data>
+  <data name="HillSize2" xml:space="preserve">
+    <value>2 × 2</value>
+  </data>
+  <data name="HillSize3" xml:space="preserve">
+    <value>3 × 3</value>
+  </data>
+  <data name="HillKeyMode" xml:space="preserve">
+    <value>Key type</value>
+  </data>
+  <data name="HillKeyNumeric" xml:space="preserve">
+    <value>Numbers</value>
+  </data>
+  <data name="HillKeyKeyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="HillMatrixLabel" xml:space="preserve">
+    <value>Key matrix</value>
+  </data>
+  <data name="HillKeywordLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="HillKeywordPlaceholder" xml:space="preserve">
+    <value>Letters fill the matrix row by row (A=0…Z=25)</value>
+  </data>
+  <data name="HillCellLabel" xml:space="preserve">
+    <value>Row {0}, column {1}</value>
+  </data>
+  <data name="HillPadLabel" xml:space="preserve">
+    <value>Pad character</value>
+  </data>
+  <data name="HillInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="HillInputPlaceholder" xml:space="preserve">
+    <value>Type or paste the message…</value>
+  </data>
+  <data name="HillOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="HillSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="HillCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="HillShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="HillClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="HillInverseLabel" xml:space="preserve">
+    <value>Inverse matrix (mod 26)</value>
+  </data>
+  <data name="HillDeterminantFormat" xml:space="preserve">
+    <value>Determinant (mod 26): {0}</value>
+  </data>
+  <data name="HillNotInvertible" xml:space="preserve">
+    <value>This key matrix has no inverse modulo 26, so it cannot decrypt. Choose a matrix whose determinant is coprime with 26.</value>
+  </data>
+  <data name="HillInvalidKey" xml:space="preserve">
+    <value>Enter a whole number in every matrix cell.</value>
+  </data>
+  <data name="HillKeywordTooShort" xml:space="preserve">
+    <value>The keyword needs enough letters to fill the whole matrix.</value>
+  </data>
+  <data name="HillNoLetters" xml:space="preserve">
+    <value>Enter some letters to transform.</value>
+  </data>
+  <data name="HillHint" xml:space="preserve">
+    <value>Letters are mapped A=0…Z=25 and processed in blocks; spaces, digits and punctuation pass through unchanged.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
