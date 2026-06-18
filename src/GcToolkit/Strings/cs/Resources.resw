@@ -534,6 +534,70 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
+  <!-- Tool: keyboard cipher -->
+  <data name="KeyboardCipher_Name" xml:space="preserve">
+    <value>Klávesnicová šifra</value>
+  </data>
+  <data name="KeyboardCipher_Tooltip" xml:space="preserve">
+    <value>Nahrazuje písmena podle jejich pozice v rozložení klávesnice (QWERTY, AZERTY, QWERTZ, Dvorak, Colemak…).</value>
+  </data>
+  <data name="KeyboardDirectionLabel" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="KeyboardEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="KeyboardDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="KeyboardLayoutLabel" xml:space="preserve">
+    <value>Rozložení</value>
+  </data>
+  <data name="KeyboardCustomLayout" xml:space="preserve">
+    <value>Vlastní…</value>
+  </data>
+  <data name="KeyboardCustomLayoutLabel" xml:space="preserve">
+    <value>Vlastní pořadí kláves (A–Z)</value>
+  </data>
+  <data name="KeyboardCustomLayoutPlaceholder" xml:space="preserve">
+    <value>Vložte 26 kláves v pořadí čtení, např. QWERTYUIOPASDFGHJKLZXCVBNM</value>
+  </data>
+  <data name="KeyboardInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="KeyboardInputPlaceholder" xml:space="preserve">
+    <value>Napište nebo vložte text — pro dávkové dekódování jednu hádanku na řádek…</value>
+  </data>
+  <data name="KeyboardOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="KeyboardSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="KeyboardClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="KeyboardCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="KeyboardShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="KeyboardInvalidLayoutNotice" xml:space="preserve">
+    <value>Vlastní rozložení musí obsahovat každé z 26 písmen A–Z právě jednou.</value>
+  </data>
+  <data name="KeyboardMappingTitle" xml:space="preserve">
+    <value>Převod A–Z ⇄ klávesnice</value>
+  </data>
+  <data name="KeyboardMappingHint" xml:space="preserve">
+    <value>Každé písmeno abecedy (nahoře) se při šifrování mapuje na písmeno podle pozice na klávesnici (dole).</value>
+  </data>
+  <data name="KeyboardAboutTitle" xml:space="preserve">
+    <value>O této šifře</value>
+  </data>
+  <data name="KeyboardAboutBody" xml:space="preserve">
+    <value>26 písmen A–Z se namapuje na klávesy zvolené klávesnice čtené řádek po řádku, zleva doprava, shora dolů. U QWERTY tak vzniká A↔Q, B↔W, C↔E a tak dále. Číslice, mezery a interpunkce procházejí beze změny a velikost písmen zůstává zachována. Vše běží offline.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signální vlajky</value>

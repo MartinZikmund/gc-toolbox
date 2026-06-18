@@ -534,6 +534,70 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
   </data>
+  <!-- Tool: keyboard cipher -->
+  <data name="KeyboardCipher_Name" xml:space="preserve">
+    <value>Keyboard cipher</value>
+  </data>
+  <data name="KeyboardCipher_Tooltip" xml:space="preserve">
+    <value>Substitute letters by their position on a keyboard layout (QWERTY, AZERTY, QWERTZ, Dvorak, Colemak…).</value>
+  </data>
+  <data name="KeyboardDirectionLabel" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="KeyboardEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="KeyboardDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="KeyboardLayoutLabel" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="KeyboardCustomLayout" xml:space="preserve">
+    <value>Custom…</value>
+  </data>
+  <data name="KeyboardCustomLayoutLabel" xml:space="preserve">
+    <value>Custom key order (A–Z)</value>
+  </data>
+  <data name="KeyboardCustomLayoutPlaceholder" xml:space="preserve">
+    <value>Paste the 26 keys in reading order, e.g. QWERTYUIOPASDFGHJKLZXCVBNM</value>
+  </data>
+  <data name="KeyboardInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="KeyboardInputPlaceholder" xml:space="preserve">
+    <value>Type or paste text — one puzzle per line for batch decoding…</value>
+  </data>
+  <data name="KeyboardOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="KeyboardSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="KeyboardClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="KeyboardCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="KeyboardShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="KeyboardInvalidLayoutNotice" xml:space="preserve">
+    <value>The custom layout must contain each of the 26 letters A–Z exactly once.</value>
+  </data>
+  <data name="KeyboardMappingTitle" xml:space="preserve">
+    <value>A–Z ⇄ keyboard mapping</value>
+  </data>
+  <data name="KeyboardMappingHint" xml:space="preserve">
+    <value>Each alphabet letter (top) maps to a keyboard-position letter (bottom) when encrypting.</value>
+  </data>
+  <data name="KeyboardAboutTitle" xml:space="preserve">
+    <value>About this cipher</value>
+  </data>
+  <data name="KeyboardAboutBody" xml:space="preserve">
+    <value>The 26 letters A–Z are mapped onto the keys of the chosen keyboard read row by row, left to right, top to bottom. On QWERTY that makes A↔Q, B↔W, C↔E and so on. Digits, spaces and punctuation pass through unchanged, and letter case is preserved. Everything runs offline.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signal flags</value>
