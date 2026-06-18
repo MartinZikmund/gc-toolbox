@@ -770,4 +770,88 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Shuffle again</value>
   </data>
+  <data name="BifidCipher_Name" xml:space="preserve">
+    <value>Bifid cipher</value>
+  </data>
+  <data name="BifidCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the Delastelle Bifid cipher using a 5×5 Polybius key square.</value>
+  </data>
+  <data name="BifidEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="BifidDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="BifidSquareHeader" xml:space="preserve">
+    <value>Key square</value>
+  </data>
+  <data name="BifidSquareKeyword" xml:space="preserve">
+    <value>From keyword</value>
+  </data>
+  <data name="BifidSquareManual" xml:space="preserve">
+    <value>Manual square</value>
+  </data>
+  <data name="BifidKeywordLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="BifidKeywordPlaceholder" xml:space="preserve">
+    <value>e.g. GEOCACHE (leave empty for plain alphabet)</value>
+  </data>
+  <data name="BifidManualLabel" xml:space="preserve">
+    <value>25-letter square</value>
+  </data>
+  <data name="BifidManualPlaceholder" xml:space="preserve">
+    <value>25 distinct letters, read row by row</value>
+  </data>
+  <data name="BifidReplaceLetter" xml:space="preserve">
+    <value>Replace a letter</value>
+  </data>
+  <data name="BifidSkipLetter" xml:space="preserve">
+    <value>Skip a letter</value>
+  </data>
+  <data name="BifidFitFromLabel" xml:space="preserve">
+    <value>Letter</value>
+  </data>
+  <data name="BifidFitIntoLabel" xml:space="preserve">
+    <value>Into</value>
+  </data>
+  <data name="BifidResetSquare" xml:space="preserve">
+    <value>Reset square</value>
+  </data>
+  <data name="BifidPeriodLabel" xml:space="preserve">
+    <value>Period (block length)</value>
+  </data>
+  <data name="BifidPeriodHint" xml:space="preserve">
+    <value>0 fractionates the whole message at once; a higher value groups it into blocks.</value>
+  </data>
+  <data name="BifidInputLabel" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="BifidInputPlaceholder" xml:space="preserve">
+    <value>Type the text to encode or decode…</value>
+  </data>
+  <data name="BifidOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BifidSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="BifidClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BifidCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BifidShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BifidInvalidSquareNotice" xml:space="preserve">
+    <value>The square must contain exactly 25 distinct letters.</value>
+  </data>
+  <data name="BifidNoLettersNotice" xml:space="preserve">
+    <value>The message has no letters that fit the square.</value>
+  </data>
+  <data name="BifidIgnoredNotice" xml:space="preserve">
+    <value>Characters that are not on the square (spaces, digits, punctuation) were ignored.</value>
+  </data>
 </root>

@@ -1,0 +1,217 @@
+﻿<local:BifidCipherViewBase
+    x:Class="GcToolkit.Views.BifidCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:BifidCipherViewBase.Resources>
+        <!--  One cell of the rendered 5×5 key square  -->
+        <DataTemplate x:Key="BifidSquareCellTemplate" x:DataType="tools:BifidSquareCell">
+            <Border
+                Width="48"
+                Height="48"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Consolas"
+                    FontSize="22"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                    Text="{x:Bind Glyph}" />
+            </Border>
+        </DataTemplate>
+    </local:BifidCipherViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=BifidEncrypt}" />
+                    <RadioButton Content="{markup:Localize Key=BifidDecrypt}" />
+                </RadioButtons>
+
+                <!--  Key square setup  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BifidSquareHeader}" />
+
+                        <!--  Square source mode  -->
+                        <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.SquareModeIndex, Mode=TwoWay}">
+                            <RadioButton Content="{markup:Localize Key=BifidSquareKeyword}" />
+                            <RadioButton Content="{markup:Localize Key=BifidSquareManual}" />
+                        </RadioButtons>
+
+                        <TextBox
+                            Header="{markup:Localize Key=BifidKeywordLabel}"
+                            PlaceholderText="{markup:Localize Key=BifidKeywordPlaceholder}"
+                            Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{x:Bind ViewModel.IsKeywordMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <TextBox
+                            FontFamily="Consolas"
+                            Header="{markup:Localize Key=BifidManualLabel}"
+                            PlaceholderText="{markup:Localize Key=BifidManualPlaceholder}"
+                            Text="{x:Bind ViewModel.ManualSquare, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{x:Bind ViewModel.IsKeywordMode, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+
+                        <!--  Letter reduction (26 → 25)  -->
+                        <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.FitModeIndex, Mode=TwoWay}">
+                            <RadioButton Content="{markup:Localize Key=BifidReplaceLetter}" />
+                            <RadioButton Content="{markup:Localize Key=BifidSkipLetter}" />
+                        </RadioButtons>
+
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <ComboBox
+                                MinWidth="80"
+                                Header="{markup:Localize Key=BifidFitFromLabel}"
+                                ItemsSource="{x:Bind ViewModel.AlphabetChoices}"
+                                SelectedItem="{x:Bind ViewModel.FitFromLetter, Mode=TwoWay}" />
+                            <ComboBox
+                                MinWidth="80"
+                                Header="{markup:Localize Key=BifidFitIntoLabel}"
+                                ItemsSource="{x:Bind ViewModel.AlphabetChoices}"
+                                SelectedItem="{x:Bind ViewModel.FitIntoLetter, Mode=TwoWay}"
+                                Visibility="{x:Bind ViewModel.IsMergeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </StackPanel>
+
+                        <!--  Rendered square  -->
+                        <ItemsRepeater
+                            HorizontalAlignment="Left"
+                            ItemTemplate="{StaticResource BifidSquareCellTemplate}"
+                            ItemsSource="{x:Bind ViewModel.SquareCells, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    MaximumRowsOrColumns="5"
+                                    MinColumnSpacing="6"
+                                    MinRowSpacing="6"
+                                    Orientation="Horizontal" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+
+                        <Button
+                            HorizontalAlignment="Left"
+                            Command="{x:Bind ViewModel.ResetSquareCommand}"
+                            Content="{markup:Localize Key=BifidResetSquare}" />
+                    </StackPanel>
+                </Border>
+
+                <!--  Period  -->
+                <NumberBox
+                    MaxWidth="240"
+                    HorizontalAlignment="Left"
+                    Header="{markup:Localize Key=BifidPeriodLabel}"
+                    Minimum="0"
+                    PlaceholderText="0"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{x:Bind ViewModel.Period, Mode=TwoWay}" />
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{markup:Localize Key=BifidPeriodHint}"
+                    TextWrapping="Wrap" />
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="80"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=BifidInputLabel}"
+                    PlaceholderText="{markup:Localize Key=BifidInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <!--  Input actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.SwapCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                            <TextBlock Text="{markup:Localize Key=BifidSwap}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BifidClear}" />
+                </StackPanel>
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BifidOutputLabel}" />
+                <TextBox
+                    MinHeight="80"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Validation / ignored-character notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasWarning, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.WarningMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=BifidCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=BifidShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:BifidCipherViewBase>
