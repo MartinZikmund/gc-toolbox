@@ -380,6 +380,121 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Polybius square -->
+  <data name="PolybiusSquare_Name" xml:space="preserve">
+    <value>Polybiův čtverec</value>
+  </data>
+  <data name="PolybiusSquare_Tooltip" xml:space="preserve">
+    <value>Převádí písmena na dvojice souřadnic v mřížce a zpět.</value>
+  </data>
+  <data name="PolybiusPlaintextLabel" xml:space="preserve">
+    <value>Otevřený text</value>
+  </data>
+  <data name="PolybiusPlaintextPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování…</value>
+  </data>
+  <data name="PolybiusCiphertextLabel" xml:space="preserve">
+    <value>Dvojice souřadnic</value>
+  </data>
+  <data name="PolybiusCiphertextPlaceholder" xml:space="preserve">
+    <value>Vložte dvojice k dešifrování…</value>
+  </data>
+  <data name="PolybiusCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PolybiusShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PolybiusExample" xml:space="preserve">
+    <value>Příklad</value>
+  </data>
+  <data name="PolybiusClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="PolybiusReset" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="PolybiusSquareLabel" xml:space="preserve">
+    <value>Čtverec</value>
+  </data>
+  <data name="PolybiusTapHint" xml:space="preserve">
+    <value>Klepnutím na buňku přidáte její písmeno. Buňka posledního napsaného písmena je zvýrazněna.</value>
+  </data>
+  <data name="PolybiusOptionsLabel" xml:space="preserve">
+    <value>Nastavení čtverce</value>
+  </data>
+  <data name="PolybiusGridSizeLabel" xml:space="preserve">
+    <value>Velikost mřížky</value>
+  </data>
+  <data name="PolybiusGrid5" xml:space="preserve">
+    <value>5 × 5 (25 písmen)</value>
+  </data>
+  <data name="PolybiusGrid6" xml:space="preserve">
+    <value>6 × 6 (písmena + číslice)</value>
+  </data>
+  <data name="PolybiusLabelsLabel" xml:space="preserve">
+    <value>Popisky souřadnic</value>
+  </data>
+  <data name="PolybiusLabelsDigits" xml:space="preserve">
+    <value>Číslice (1–5)</value>
+  </data>
+  <data name="PolybiusLabelsAdfgx" xml:space="preserve">
+    <value>Písmena ADFGX</value>
+  </data>
+  <data name="PolybiusLabelsCustom" xml:space="preserve">
+    <value>Vlastní</value>
+  </data>
+  <data name="PolybiusCustomLabelsLabel" xml:space="preserve">
+    <value>Vlastní popisky (jeden na řádek/sloupec)</value>
+  </data>
+  <data name="PolybiusKeywordLabel" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="PolybiusKeywordPlaceholder" xml:space="preserve">
+    <value>Volitelné klíčové slovo pro sestavení čtverce…</value>
+  </data>
+  <data name="PolybiusReverseKeyword" xml:space="preserve">
+    <value>Obrátit klíčové slovo</value>
+  </data>
+  <data name="PolybiusUseLastInstance" xml:space="preserve">
+    <value>Použít poslední výskyt písmen klíčového slova</value>
+  </data>
+  <data name="PolybiusMergePairLabel" xml:space="preserve">
+    <value>Sloučená dvojice (5 × 5)</value>
+  </data>
+  <data name="PolybiusSeparatorLabel" xml:space="preserve">
+    <value>Oddělovač</value>
+  </data>
+  <data name="PolybiusSeparatorSpace" xml:space="preserve">
+    <value>Mezera</value>
+  </data>
+  <data name="PolybiusSeparatorComma" xml:space="preserve">
+    <value>Čárka</value>
+  </data>
+  <data name="PolybiusSeparatorNone" xml:space="preserve">
+    <value>Žádný</value>
+  </data>
+  <data name="PolybiusSeparatorCustom" xml:space="preserve">
+    <value>Vlastní</value>
+  </data>
+  <data name="PolybiusCustomSeparatorLabel" xml:space="preserve">
+    <value>Vlastní oddělovač</value>
+  </data>
+  <data name="PolybiusColumnThenRow" xml:space="preserve">
+    <value>Číst sloupec před řádkem</value>
+  </data>
+  <data name="PolybiusSquareInvalidOptions" xml:space="preserve">
+    <value>Tento čtverec nelze sestavit — zkontrolujte popisky a sloučenou dvojici.</value>
+  </data>
+  <data name="PolybiusDecodeInvalidWarning" xml:space="preserve">
+    <value>Některé dvojice nelze dešifrovat: {0}</value>
+  </data>
+  <data name="PolybiusDecodeLeftoverWarning" xml:space="preserve">
+    <value>Zbyla jedna číslice souřadnice — dvojice vypadají neúplně.</value>
+  </data>
+  <data name="PolybiusDecodeMixedWarning" xml:space="preserve">
+    <value>Některé dvojice byly neplatné a jedna souřadnice zbyla.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

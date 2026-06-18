@@ -380,6 +380,121 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Polybius square -->
+  <data name="PolybiusSquare_Name" xml:space="preserve">
+    <value>Polybius square</value>
+  </data>
+  <data name="PolybiusSquare_Tooltip" xml:space="preserve">
+    <value>Turn letters into grid coordinate pairs, and back again.</value>
+  </data>
+  <data name="PolybiusPlaintextLabel" xml:space="preserve">
+    <value>Plaintext</value>
+  </data>
+  <data name="PolybiusPlaintextPlaceholder" xml:space="preserve">
+    <value>Type text to encode…</value>
+  </data>
+  <data name="PolybiusCiphertextLabel" xml:space="preserve">
+    <value>Coordinate pairs</value>
+  </data>
+  <data name="PolybiusCiphertextPlaceholder" xml:space="preserve">
+    <value>Paste pairs to decode…</value>
+  </data>
+  <data name="PolybiusCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PolybiusShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PolybiusExample" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="PolybiusClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="PolybiusReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="PolybiusSquareLabel" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="PolybiusTapHint" xml:space="preserve">
+    <value>Tap a cell to add its letter. The cell for the last letter typed is highlighted.</value>
+  </data>
+  <data name="PolybiusOptionsLabel" xml:space="preserve">
+    <value>Square options</value>
+  </data>
+  <data name="PolybiusGridSizeLabel" xml:space="preserve">
+    <value>Grid size</value>
+  </data>
+  <data name="PolybiusGrid5" xml:space="preserve">
+    <value>5 × 5 (25 letters)</value>
+  </data>
+  <data name="PolybiusGrid6" xml:space="preserve">
+    <value>6 × 6 (letters + digits)</value>
+  </data>
+  <data name="PolybiusLabelsLabel" xml:space="preserve">
+    <value>Coordinate labels</value>
+  </data>
+  <data name="PolybiusLabelsDigits" xml:space="preserve">
+    <value>Digits (1–5)</value>
+  </data>
+  <data name="PolybiusLabelsAdfgx" xml:space="preserve">
+    <value>ADFGX letters</value>
+  </data>
+  <data name="PolybiusLabelsCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="PolybiusCustomLabelsLabel" xml:space="preserve">
+    <value>Custom labels (one per row/column)</value>
+  </data>
+  <data name="PolybiusKeywordLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="PolybiusKeywordPlaceholder" xml:space="preserve">
+    <value>Optional keyword to seed the square…</value>
+  </data>
+  <data name="PolybiusReverseKeyword" xml:space="preserve">
+    <value>Reverse keyword</value>
+  </data>
+  <data name="PolybiusUseLastInstance" xml:space="preserve">
+    <value>Use last instance of keyword letters</value>
+  </data>
+  <data name="PolybiusMergePairLabel" xml:space="preserve">
+    <value>Merge pair (5 × 5)</value>
+  </data>
+  <data name="PolybiusSeparatorLabel" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="PolybiusSeparatorSpace" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="PolybiusSeparatorComma" xml:space="preserve">
+    <value>Comma</value>
+  </data>
+  <data name="PolybiusSeparatorNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PolybiusSeparatorCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="PolybiusCustomSeparatorLabel" xml:space="preserve">
+    <value>Custom separator</value>
+  </data>
+  <data name="PolybiusColumnThenRow" xml:space="preserve">
+    <value>Read column before row</value>
+  </data>
+  <data name="PolybiusSquareInvalidOptions" xml:space="preserve">
+    <value>This square can't be built — check the labels and merge pair.</value>
+  </data>
+  <data name="PolybiusDecodeInvalidWarning" xml:space="preserve">
+    <value>Some pairs couldn't be decoded: {0}</value>
+  </data>
+  <data name="PolybiusDecodeLeftoverWarning" xml:space="preserve">
+    <value>A coordinate digit was left over — the pairs look incomplete.</value>
+  </data>
+  <data name="PolybiusDecodeMixedWarning" xml:space="preserve">
+    <value>Some pairs were invalid and a coordinate was left over.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
