@@ -1,0 +1,300 @@
+﻿<local:FourSquareCipherViewBase
+    x:Class="GcToolkit.Views.FourSquareCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:toolkitConverters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:FourSquareCipherViewBase.Resources>
+        <toolkitConverters:BoolToObjectConverter
+            x:Key="HighlightBrushConverter"
+            FalseValue="{ThemeResource SubtleFillColorSecondaryBrush}"
+            TrueValue="{ThemeResource AccentFillColorDefaultBrush}" />
+        <toolkitConverters:BoolToObjectConverter
+            x:Key="HighlightForegroundConverter"
+            FalseValue="{ThemeResource TextFillColorPrimaryBrush}"
+            TrueValue="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+
+        <DataTemplate x:Key="FourSquareCellTemplate" x:DataType="tools:FourSquareCellItem">
+            <Border
+                Width="34"
+                Height="34"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                Background="{x:Bind IsHighlighted, Mode=OneWay, Converter={StaticResource HighlightBrushConverter}}"
+                CornerRadius="4">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Consolas"
+                    FontSize="16"
+                    Foreground="{x:Bind IsHighlighted, Mode=OneWay, Converter={StaticResource HighlightForegroundConverter}}"
+                    Text="{x:Bind Letter}" />
+            </Border>
+        </DataTemplate>
+
+        <Style x:Key="FourSquareGridStyle" TargetType="ItemsRepeater">
+            <Setter Property="ItemTemplate" Value="{StaticResource FourSquareCellTemplate}" />
+        </Style>
+
+        <Style x:Key="FourSquareLabelStyle" TargetType="TextBlock">
+            <Setter Property="Style" Value="{ThemeResource CaptionTextBlockStyle}" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+    </local:FourSquareCipherViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=FourSquareEncrypt}" />
+                    <RadioButton Content="{markup:Localize Key=FourSquareDecrypt}" />
+                </RadioButtons>
+
+                <!--  Keywords  -->
+                <Grid ColumnSpacing="12" RowSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        Header="{markup:Localize Key=FourSquareTopRightKey}"
+                        Text="{x:Bind ViewModel.TopRightKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Header="{markup:Localize Key=FourSquareBottomLeftKey}"
+                        Text="{x:Bind ViewModel.BottomLeftKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <!--  Alphabet / filler options  -->
+                <Grid ColumnSpacing="12" RowSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=FourSquareAlphabetMode}"
+                        SelectedIndex="{x:Bind ViewModel.AlphabetModeIndex, Mode=TwoWay}">
+                        <ComboBoxItem Content="{markup:Localize Key=FourSquareMergeMode}" />
+                        <ComboBoxItem Content="{markup:Localize Key=FourSquareSkipMode}" />
+                    </ComboBox>
+
+                    <TextBox
+                        Grid.Column="1"
+                        Header="{markup:Localize Key=FourSquareSkipLetter}"
+                        IsEnabled="{x:Bind ViewModel.IsSkipMode, Mode=OneWay}"
+                        MaxLength="1"
+                        Text="{x:Bind ViewModel.SkipLetter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox
+                        Grid.Column="2"
+                        Header="{markup:Localize Key=FourSquareFiller}"
+                        MaxLength="1"
+                        Text="{x:Bind ViewModel.Filler, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=FourSquareInputLabel}"
+                    PlaceholderText="{markup:Localize Key=FourSquareInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.SwapCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                            <TextBlock Text="{markup:Localize Key=FourSquareSwap}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=FourSquareClear}" />
+                </StackPanel>
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FourSquareOutputLabel}" />
+                <TextBox
+                    MinHeight="72"
+                    AcceptsReturn="True"
+                    AutomationProperties.Name="{markup:Localize Key=FourSquareOutputLabel}"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Odd-length padding notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.PaddingApplied, Mode=OneWay}"
+                    Message="{markup:Localize Key=FourSquarePaddingNotice}"
+                    Severity="Informational" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=FourSquareCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=FourSquareShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  The four squares, laid out as a 2×2 board  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FourSquareSquaresLabel}" />
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <Grid ColumnSpacing="20" RowSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Top-left: plain  -->
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Spacing="6">
+                            <TextBlock Style="{StaticResource FourSquareLabelStyle}" Text="{markup:Localize Key=FourSquarePlainSquareLabel}" />
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.PlainSquare}" Style="{StaticResource FourSquareGridStyle}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="5"
+                                        MinColumnSpacing="4"
+                                        MinRowSpacing="4" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+
+                        <!--  Top-right: keyword  -->
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Spacing="6">
+                            <TextBlock Style="{StaticResource FourSquareLabelStyle}" Text="{markup:Localize Key=FourSquareTopRightSquareLabel}" />
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.TopRightSquare}" Style="{StaticResource FourSquareGridStyle}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="5"
+                                        MinColumnSpacing="4"
+                                        MinRowSpacing="4" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+
+                        <!--  Bottom-left: keyword  -->
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Spacing="6">
+                            <TextBlock Style="{StaticResource FourSquareLabelStyle}" Text="{markup:Localize Key=FourSquareBottomLeftSquareLabel}" />
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.BottomLeftSquare}" Style="{StaticResource FourSquareGridStyle}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="5"
+                                        MinColumnSpacing="4"
+                                        MinRowSpacing="4" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+
+                        <!--  Bottom-right: plain  -->
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Spacing="6">
+                            <TextBlock Style="{StaticResource FourSquareLabelStyle}" Text="{markup:Localize Key=FourSquarePlainSquareLabel}" />
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.PlainSquare}" Style="{StaticResource FourSquareGridStyle}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="5"
+                                        MinColumnSpacing="4"
+                                        MinRowSpacing="4" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!--  How it works  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FourSquareAboutTitle}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{markup:Localize Key=FourSquareAboutBody}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:FourSquareCipherViewBase>

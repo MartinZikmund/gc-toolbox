@@ -280,6 +280,84 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Každý symbol v horním řádku odpovídá symbolu pod ním.</value>
   </data>
+  <data name="FourSquareCipher_Name" xml:space="preserve">
+    <value>Čtyřčtvercová šifra</value>
+  </data>
+  <data name="FourSquareCipher_Tooltip" xml:space="preserve">
+    <value>Šifrujte a dešifrujte text po dvojicích písmen pomocí čtyř klíčovaných čtverců 5×5.</value>
+  </data>
+  <data name="FourSquareDirection" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="FourSquareEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="FourSquareDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="FourSquareTopRightKey" xml:space="preserve">
+    <value>Klíčové slovo (pravý horní čtverec)</value>
+  </data>
+  <data name="FourSquareBottomLeftKey" xml:space="preserve">
+    <value>Klíčové slovo (levý dolní čtverec)</value>
+  </data>
+  <data name="FourSquareAlphabetMode" xml:space="preserve">
+    <value>Abeceda o 25 písmenech</value>
+  </data>
+  <data name="FourSquareMergeMode" xml:space="preserve">
+    <value>Sloučit J do I</value>
+  </data>
+  <data name="FourSquareSkipMode" xml:space="preserve">
+    <value>Vynechat písmeno</value>
+  </data>
+  <data name="FourSquareSkipLetter" xml:space="preserve">
+    <value>Vynechané písmeno</value>
+  </data>
+  <data name="FourSquareFiller" xml:space="preserve">
+    <value>Výplňové písmeno</value>
+  </data>
+  <data name="FourSquareInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="FourSquareInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="FourSquareOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="FourSquareSwap" xml:space="preserve">
+    <value>Prohodit směr</value>
+  </data>
+  <data name="FourSquareCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="FourSquareShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="FourSquareClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="FourSquarePaddingNotice" xml:space="preserve">
+    <value>Vstup měl lichý počet písmen, proto bylo pro doplnění poslední dvojice přidáno výplňové písmeno.</value>
+  </data>
+  <data name="FourSquareSquaresLabel" xml:space="preserve">
+    <value>Klíčové čtverce</value>
+  </data>
+  <data name="FourSquarePlainSquareLabel" xml:space="preserve">
+    <value>Otevřený text (levý horní / pravý dolní)</value>
+  </data>
+  <data name="FourSquareTopRightSquareLabel" xml:space="preserve">
+    <value>Šifra (pravý horní)</value>
+  </data>
+  <data name="FourSquareBottomLeftSquareLabel" xml:space="preserve">
+    <value>Šifra (levý dolní)</value>
+  </data>
+  <data name="FourSquareAboutTitle" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="FourSquareAboutBody" xml:space="preserve">
+    <value>Čtyřčtvercová šifra šifruje vždy dvě písmena najednou. Každé písmeno otevřeného textu se najde v jednom z otevřených čtverců; dvě šifrová písmena se odečtou na křížících se řádcích a sloupcích klíčových čtverců. Písmena se převedou na velká a nepísmenné znaky se odeberou. Abeceda o 26 písmenech se zmenší na 25 sloučením J do I nebo vynecháním zvoleného písmene.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

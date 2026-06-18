@@ -280,6 +280,84 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Each symbol in the top row maps to the one beneath it.</value>
   </data>
+  <data name="FourSquareCipher_Name" xml:space="preserve">
+    <value>Four-square cipher</value>
+  </data>
+  <data name="FourSquareCipher_Tooltip" xml:space="preserve">
+    <value>Encrypt and decrypt text in pairs of letters using four keyed 5×5 squares.</value>
+  </data>
+  <data name="FourSquareDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="FourSquareEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="FourSquareDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="FourSquareTopRightKey" xml:space="preserve">
+    <value>Keyword (top-right square)</value>
+  </data>
+  <data name="FourSquareBottomLeftKey" xml:space="preserve">
+    <value>Keyword (bottom-left square)</value>
+  </data>
+  <data name="FourSquareAlphabetMode" xml:space="preserve">
+    <value>25-letter alphabet</value>
+  </data>
+  <data name="FourSquareMergeMode" xml:space="preserve">
+    <value>Merge J into I</value>
+  </data>
+  <data name="FourSquareSkipMode" xml:space="preserve">
+    <value>Skip a letter</value>
+  </data>
+  <data name="FourSquareSkipLetter" xml:space="preserve">
+    <value>Letter to skip</value>
+  </data>
+  <data name="FourSquareFiller" xml:space="preserve">
+    <value>Filler letter</value>
+  </data>
+  <data name="FourSquareInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="FourSquareInputPlaceholder" xml:space="preserve">
+    <value>Type text to encrypt or decrypt…</value>
+  </data>
+  <data name="FourSquareOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="FourSquareSwap" xml:space="preserve">
+    <value>Swap direction</value>
+  </data>
+  <data name="FourSquareCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="FourSquareShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="FourSquareClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="FourSquarePaddingNotice" xml:space="preserve">
+    <value>The input had an odd number of letters, so a filler was added to complete the last pair.</value>
+  </data>
+  <data name="FourSquareSquaresLabel" xml:space="preserve">
+    <value>Key squares</value>
+  </data>
+  <data name="FourSquarePlainSquareLabel" xml:space="preserve">
+    <value>Plain (top-left / bottom-right)</value>
+  </data>
+  <data name="FourSquareTopRightSquareLabel" xml:space="preserve">
+    <value>Cipher (top-right)</value>
+  </data>
+  <data name="FourSquareBottomLeftSquareLabel" xml:space="preserve">
+    <value>Cipher (bottom-left)</value>
+  </data>
+  <data name="FourSquareAboutTitle" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="FourSquareAboutBody" xml:space="preserve">
+    <value>The four-square cipher encrypts two letters at a time. Each plaintext letter is found in a plain square; the two cipher letters are read at the crossing rows and columns of the keyword squares. Letters are upper-cased and non-letters are removed, and the 26-letter alphabet is reduced to 25 by merging J into I or skipping a chosen letter.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
