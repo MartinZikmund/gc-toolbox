@@ -534,6 +534,100 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
   </data>
+  <!-- Tool: Segment display -->
+  <data name="SegmentDisplay_Name" xml:space="preserve">
+    <value>Segment display</value>
+  </data>
+  <data name="SegmentDisplay_Tooltip" xml:space="preserve">
+    <value>Read 7-, 9-, 14- and 16-segment LCD/calculator displays and turn text into their lit-segment codes.</value>
+  </data>
+  <data name="SegmentDisplayType" xml:space="preserve">
+    <value>Display type</value>
+  </data>
+  <data name="SegmentTextToDisplay" xml:space="preserve">
+    <value>Text → Display</value>
+  </data>
+  <data name="SegmentDisplayToText" xml:space="preserve">
+    <value>Display → Text</value>
+  </data>
+  <data name="SegmentSwap" xml:space="preserve">
+    <value>Swap direction</value>
+  </data>
+  <data name="SegmentNotation" xml:space="preserve">
+    <value>Code notation</value>
+  </data>
+  <data name="SegmentNotationAuto" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="SegmentNotationLabels" xml:space="preserve">
+    <value>Segment labels</value>
+  </data>
+  <data name="SegmentNotationBinary" xml:space="preserve">
+    <value>Binary mask</value>
+  </data>
+  <data name="SegmentNotationDecimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="SegmentInvert" xml:space="preserve">
+    <value>Polarity</value>
+  </data>
+  <data name="SegmentAnode" xml:space="preserve">
+    <value>Common anode (lit = 1)</value>
+  </data>
+  <data name="SegmentCathode" xml:space="preserve">
+    <value>Common cathode (lit = 0)</value>
+  </data>
+  <data name="SegmentBitOrder" xml:space="preserve">
+    <value>Bit order</value>
+  </data>
+  <data name="SegmentBitNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="SegmentBitReversed" xml:space="preserve">
+    <value>Reversed</value>
+  </data>
+  <data name="SegmentInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="SegmentInputPlaceholder" xml:space="preserve">
+    <value>Type text, or paste segment codes separated by commas (e.g. "a b c d e f, b c")…</value>
+  </data>
+  <data name="SegmentClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SegmentPreviewLabel" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SegmentOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="SegmentCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="SegmentShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="SegmentChartTitle" xml:space="preserve">
+    <value>Reference chart</value>
+  </data>
+  <data name="SegmentChartHint" xml:space="preserve">
+    <value>Click a character to add it.</value>
+  </data>
+  <data name="SegmentUnmappedNotice" xml:space="preserve">
+    <value>Some characters have no glyph on this display type and are shown as “?”.</value>
+  </data>
+  <data name="SegmentUnparsedNotice" xml:space="preserve">
+    <value>Some codes couldn't be read. Check the notation, range and separators.</value>
+  </data>
+  <data name="SegmentApproximateNotice" xml:space="preserve">
+    <value>Some codes had no exact match, so the closest character is shown.</value>
+  </data>
+  <data name="SegmentAboutTitle" xml:space="preserve">
+    <value>About this conversion</value>
+  </data>
+  <data name="SegmentAboutBody" xml:space="preserve">
+    <value>A character's code is the set of lit segments, written as labels (a b c …), a binary mask or a decimal value. These mappings are the most common conventions and are not universal, so a real display may differ. Codes are separated by commas; an unknown mask is decoded to its closest matching character.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signal flags</value>

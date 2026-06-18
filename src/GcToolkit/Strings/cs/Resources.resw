@@ -534,6 +534,100 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
+  <!-- Tool: Segmentový displej -->
+  <data name="SegmentDisplay_Name" xml:space="preserve">
+    <value>Segmentový displej</value>
+  </data>
+  <data name="SegmentDisplay_Tooltip" xml:space="preserve">
+    <value>Přečtěte 7-, 9-, 14- a 16segmentové LCD/kalkulačkové displeje a převeďte text na kódy rozsvícených segmentů.</value>
+  </data>
+  <data name="SegmentDisplayType" xml:space="preserve">
+    <value>Typ displeje</value>
+  </data>
+  <data name="SegmentTextToDisplay" xml:space="preserve">
+    <value>Text → Displej</value>
+  </data>
+  <data name="SegmentDisplayToText" xml:space="preserve">
+    <value>Displej → Text</value>
+  </data>
+  <data name="SegmentSwap" xml:space="preserve">
+    <value>Prohodit směr</value>
+  </data>
+  <data name="SegmentNotation" xml:space="preserve">
+    <value>Zápis kódu</value>
+  </data>
+  <data name="SegmentNotationAuto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="SegmentNotationLabels" xml:space="preserve">
+    <value>Názvy segmentů</value>
+  </data>
+  <data name="SegmentNotationBinary" xml:space="preserve">
+    <value>Binární maska</value>
+  </data>
+  <data name="SegmentNotationDecimal" xml:space="preserve">
+    <value>Desítkově</value>
+  </data>
+  <data name="SegmentInvert" xml:space="preserve">
+    <value>Polarita</value>
+  </data>
+  <data name="SegmentAnode" xml:space="preserve">
+    <value>Společná anoda (svítí = 1)</value>
+  </data>
+  <data name="SegmentCathode" xml:space="preserve">
+    <value>Společná katoda (svítí = 0)</value>
+  </data>
+  <data name="SegmentBitOrder" xml:space="preserve">
+    <value>Pořadí bitů</value>
+  </data>
+  <data name="SegmentBitNormal" xml:space="preserve">
+    <value>Normální</value>
+  </data>
+  <data name="SegmentBitReversed" xml:space="preserve">
+    <value>Obrácené</value>
+  </data>
+  <data name="SegmentInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="SegmentInputPlaceholder" xml:space="preserve">
+    <value>Napište text nebo vložte kódy segmentů oddělené čárkami (např. „a b c d e f, b c“)…</value>
+  </data>
+  <data name="SegmentClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="SegmentPreviewLabel" xml:space="preserve">
+    <value>Displej</value>
+  </data>
+  <data name="SegmentOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="SegmentCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="SegmentShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="SegmentChartTitle" xml:space="preserve">
+    <value>Referenční tabulka</value>
+  </data>
+  <data name="SegmentChartHint" xml:space="preserve">
+    <value>Kliknutím na znak jej přidáte.</value>
+  </data>
+  <data name="SegmentUnmappedNotice" xml:space="preserve">
+    <value>Některé znaky nemají na tomto typu displeje svůj tvar a zobrazují se jako „?“.</value>
+  </data>
+  <data name="SegmentUnparsedNotice" xml:space="preserve">
+    <value>Některé kódy se nepodařilo přečíst. Zkontrolujte zápis, rozsah a oddělovače.</value>
+  </data>
+  <data name="SegmentApproximateNotice" xml:space="preserve">
+    <value>Některé kódy neměly přesnou shodu, proto se zobrazuje nejbližší znak.</value>
+  </data>
+  <data name="SegmentAboutTitle" xml:space="preserve">
+    <value>O tomto převodu</value>
+  </data>
+  <data name="SegmentAboutBody" xml:space="preserve">
+    <value>Kód znaku je množina rozsvícených segmentů zapsaná jako názvy (a b c …), binární maska nebo desítková hodnota. Tato přiřazení jsou nejběžnější konvence a nejsou univerzální, takže se skutečný displej může lišit. Kódy se oddělují čárkami; neznámá maska se dekóduje na nejbližší odpovídající znak.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signální vlajky</value>
