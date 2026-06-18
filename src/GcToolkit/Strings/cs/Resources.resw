@@ -280,6 +280,111 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Každý symbol v horním řádku odpovídá symbolu pod ním.</value>
   </data>
+  <data name="PlayfairCipher_Name" xml:space="preserve">
+    <value>Playfairova šifra</value>
+  </data>
+  <data name="PlayfairCipher_Tooltip" xml:space="preserve">
+    <value>Šifrujte a dešifrujte Playfairovou šifrou dvojic písmen s klíčovým čtvercem podle klíčového slova.</value>
+  </data>
+  <data name="PlayfairEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="PlayfairDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="PlayfairKeywordLabel" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="PlayfairKeywordPlaceholder" xml:space="preserve">
+    <value>Zadejte klíčové slovo pro sestavení čtverce…</value>
+  </data>
+  <data name="PlayfairKeySquareLabel" xml:space="preserve">
+    <value>Klíčový čtverec</value>
+  </data>
+  <data name="PlayfairSquareSourceStandard" xml:space="preserve">
+    <value>Čtverec z klíče</value>
+  </data>
+  <data name="PlayfairSquareSourceManual" xml:space="preserve">
+    <value>Ruční čtverec</value>
+  </data>
+  <data name="PlayfairManualSquareLabel" xml:space="preserve">
+    <value>Ruční čtverec (25 písmen)</value>
+  </data>
+  <data name="PlayfairManualSquarePlaceholder" xml:space="preserve">
+    <value>Zadejte 25 různých písmen…</value>
+  </data>
+  <data name="PlayfairOptionsLabel" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="PlayfairFitMerge" xml:space="preserve">
+    <value>Sloučit písmeno</value>
+  </data>
+  <data name="PlayfairFitSkip" xml:space="preserve">
+    <value>Vynechat písmeno</value>
+  </data>
+  <data name="PlayfairMergeFromLabel" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="PlayfairMergeToLabel" xml:space="preserve">
+    <value>Na</value>
+  </data>
+  <data name="PlayfairSkipLetterLabel" xml:space="preserve">
+    <value>Vynechat</value>
+  </data>
+  <data name="PlayfairFillerLabel" xml:space="preserve">
+    <value>Výplň</value>
+  </data>
+  <data name="PlayfairFillOrderRow" xml:space="preserve">
+    <value>Po řádcích</value>
+  </data>
+  <data name="PlayfairFillOrderColumn" xml:space="preserve">
+    <value>Po sloupcích</value>
+  </data>
+  <data name="PlayfairSplitDoubles" xml:space="preserve">
+    <value>Oddělit opakovaná písmena výplní</value>
+  </data>
+  <data name="PlayfairGroupOutput" xml:space="preserve">
+    <value>Seskupit výstup do pětic písmen</value>
+  </data>
+  <data name="PlayfairBatchMode" xml:space="preserve">
+    <value>Dávkově: převést každý řádek zvlášť</value>
+  </data>
+  <data name="PlayfairInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="PlayfairInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="PlayfairOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="PlayfairCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PlayfairShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PlayfairSwap" xml:space="preserve">
+    <value>Prohodit směr</value>
+  </data>
+  <data name="PlayfairClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="PlayfairStrippedNotice" xml:space="preserve">
+    <value>Bylo ignorováno {0} znaků mimo abecedu.</value>
+  </data>
+  <data name="PlayfairErrorManualSquare" xml:space="preserve">
+    <value>Ruční čtverec musí obsahovat přesně 25 různých písmen.</value>
+  </data>
+  <data name="PlayfairErrorOddCiphertext" xml:space="preserve">
+    <value>Šifrový text musí mít pro dešifrování sudý počet písmen.</value>
+  </data>
+  <data name="PlayfairDescription" xml:space="preserve">
+    <value>Playfairova šifra (Charles Wheatstone, 1854; prosazoval ji lord Playfair) šifruje dvojice písmen pomocí čtverce 5×5. Dvojice ve stejném řádku se posouvají vpravo, ve stejném sloupci dolů a v obdélníku si vymění sloupce.</value>
+  </data>
+  <data name="PlayfairCellName" xml:space="preserve">
+    <value>Řádek {0}, sloupec {1}: {2}</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

@@ -280,6 +280,111 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Each symbol in the top row maps to the one beneath it.</value>
   </data>
+  <data name="PlayfairCipher_Name" xml:space="preserve">
+    <value>Playfair cipher</value>
+  </data>
+  <data name="PlayfairCipher_Tooltip" xml:space="preserve">
+    <value>Encrypt and decrypt with the Playfair digraph cipher and a keyword-built key square.</value>
+  </data>
+  <data name="PlayfairEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="PlayfairDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="PlayfairKeywordLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="PlayfairKeywordPlaceholder" xml:space="preserve">
+    <value>Type a keyword to build the square…</value>
+  </data>
+  <data name="PlayfairKeySquareLabel" xml:space="preserve">
+    <value>Key square</value>
+  </data>
+  <data name="PlayfairSquareSourceStandard" xml:space="preserve">
+    <value>Keyword square</value>
+  </data>
+  <data name="PlayfairSquareSourceManual" xml:space="preserve">
+    <value>Manual square</value>
+  </data>
+  <data name="PlayfairManualSquareLabel" xml:space="preserve">
+    <value>Manual square (25 letters)</value>
+  </data>
+  <data name="PlayfairManualSquarePlaceholder" xml:space="preserve">
+    <value>Enter 25 distinct letters…</value>
+  </data>
+  <data name="PlayfairOptionsLabel" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="PlayfairFitMerge" xml:space="preserve">
+    <value>Merge a letter</value>
+  </data>
+  <data name="PlayfairFitSkip" xml:space="preserve">
+    <value>Skip a letter</value>
+  </data>
+  <data name="PlayfairMergeFromLabel" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="PlayfairMergeToLabel" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="PlayfairSkipLetterLabel" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="PlayfairFillerLabel" xml:space="preserve">
+    <value>Filler</value>
+  </data>
+  <data name="PlayfairFillOrderRow" xml:space="preserve">
+    <value>Row-major</value>
+  </data>
+  <data name="PlayfairFillOrderColumn" xml:space="preserve">
+    <value>Column-major</value>
+  </data>
+  <data name="PlayfairSplitDoubles" xml:space="preserve">
+    <value>Split repeated letters with the filler</value>
+  </data>
+  <data name="PlayfairGroupOutput" xml:space="preserve">
+    <value>Group output in 5-letter blocks</value>
+  </data>
+  <data name="PlayfairBatchMode" xml:space="preserve">
+    <value>Batch: transform each line separately</value>
+  </data>
+  <data name="PlayfairInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="PlayfairInputPlaceholder" xml:space="preserve">
+    <value>Type text to encrypt or decrypt…</value>
+  </data>
+  <data name="PlayfairOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="PlayfairCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PlayfairShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PlayfairSwap" xml:space="preserve">
+    <value>Swap direction</value>
+  </data>
+  <data name="PlayfairClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="PlayfairStrippedNotice" xml:space="preserve">
+    <value>{0} character(s) outside the alphabet were ignored.</value>
+  </data>
+  <data name="PlayfairErrorManualSquare" xml:space="preserve">
+    <value>The manual square must contain exactly 25 distinct letters.</value>
+  </data>
+  <data name="PlayfairErrorOddCiphertext" xml:space="preserve">
+    <value>Ciphertext must have an even number of letters to decrypt.</value>
+  </data>
+  <data name="PlayfairDescription" xml:space="preserve">
+    <value>The Playfair cipher (Charles Wheatstone, 1854; promoted by Lord Playfair) encrypts letter pairs using a 5×5 key square. Same-row pairs shift right, same-column pairs shift down, and rectangle pairs swap columns.</value>
+  </data>
+  <data name="PlayfairCellName" xml:space="preserve">
+    <value>Row {0}, column {1}: {2}</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
