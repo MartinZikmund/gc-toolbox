@@ -380,6 +380,73 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Numerology -->
+  <data name="Numerology_Name" xml:space="preserve">
+    <value>Numerologie</value>
+  </data>
+  <data name="Numerology_Tooltip" xml:space="preserve">
+    <value>Převeďte slova na čísla pomocí pythagorejské, chaldejské a pořadové tabulky a zredukujte je na ciferný kořen.</value>
+  </data>
+  <data name="Numerology_System_Pythagorean1To9" xml:space="preserve">
+    <value>Pythagorejská (1–9)</value>
+  </data>
+  <data name="Numerology_System_Pythagorean1To0" xml:space="preserve">
+    <value>Pythagorejská (1–0)</value>
+  </data>
+  <data name="Numerology_System_Chaldean" xml:space="preserve">
+    <value>Chaldejská</value>
+  </data>
+  <data name="Numerology_System_Simple" xml:space="preserve">
+    <value>Jednoduchá (A=1…Z=26)</value>
+  </data>
+  <data name="NumerologyInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="NumerologyInputPlaceholder" xml:space="preserve">
+    <value>Zadejte slovo, jméno nebo větu…</value>
+  </data>
+  <data name="NumerologyAllSystemsLabel" xml:space="preserve">
+    <value>Všechny systémy</value>
+  </data>
+  <data name="NumerologyTotalLabel" xml:space="preserve">
+    <value>Součet</value>
+  </data>
+  <data name="NumerologyReducedLabel" xml:space="preserve">
+    <value>Zredukováno</value>
+  </data>
+  <data name="NumerologyReductionLabel" xml:space="preserve">
+    <value>Redukce</value>
+  </data>
+  <data name="NumerologyReductionFull" xml:space="preserve">
+    <value>Ciferný kořen</value>
+  </data>
+  <data name="NumerologyReductionSingle" xml:space="preserve">
+    <value>Jeden krok</value>
+  </data>
+  <data name="NumerologyReductionRaw" xml:space="preserve">
+    <value>Hrubý součet</value>
+  </data>
+  <data name="NumerologyPreserveMaster" xml:space="preserve">
+    <value>Zachovat mistrovská čísla (11, 22, 33)</value>
+  </data>
+  <data name="NumerologyBreakdownLabel" xml:space="preserve">
+    <value>Rozklad po písmenech</value>
+  </data>
+  <data name="NumerologyWordTotalsLabel" xml:space="preserve">
+    <value>Součty po slovech</value>
+  </data>
+  <data name="NumerologyEmptyNotice" xml:space="preserve">
+    <value>Nenalezena žádná písmena — zadejte slovo, jméno nebo větu k převodu.</value>
+  </data>
+  <data name="NumerologyCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="NumerologyShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="NumerologyClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

@@ -380,6 +380,73 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Numerology -->
+  <data name="Numerology_Name" xml:space="preserve">
+    <value>Numerology</value>
+  </data>
+  <data name="Numerology_Tooltip" xml:space="preserve">
+    <value>Turn words into numbers with Pythagorean, Chaldean and ordinal tables, then reduce to a digital root.</value>
+  </data>
+  <data name="Numerology_System_Pythagorean1To9" xml:space="preserve">
+    <value>Pythagorean (1–9)</value>
+  </data>
+  <data name="Numerology_System_Pythagorean1To0" xml:space="preserve">
+    <value>Pythagorean (1–0)</value>
+  </data>
+  <data name="Numerology_System_Chaldean" xml:space="preserve">
+    <value>Chaldean</value>
+  </data>
+  <data name="Numerology_System_Simple" xml:space="preserve">
+    <value>Simple (A=1…Z=26)</value>
+  </data>
+  <data name="NumerologyInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="NumerologyInputPlaceholder" xml:space="preserve">
+    <value>Type a word, name or phrase…</value>
+  </data>
+  <data name="NumerologyAllSystemsLabel" xml:space="preserve">
+    <value>All systems</value>
+  </data>
+  <data name="NumerologyTotalLabel" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="NumerologyReducedLabel" xml:space="preserve">
+    <value>Reduced</value>
+  </data>
+  <data name="NumerologyReductionLabel" xml:space="preserve">
+    <value>Reduction</value>
+  </data>
+  <data name="NumerologyReductionFull" xml:space="preserve">
+    <value>Digital root</value>
+  </data>
+  <data name="NumerologyReductionSingle" xml:space="preserve">
+    <value>Single step</value>
+  </data>
+  <data name="NumerologyReductionRaw" xml:space="preserve">
+    <value>Raw total</value>
+  </data>
+  <data name="NumerologyPreserveMaster" xml:space="preserve">
+    <value>Keep master numbers (11, 22, 33)</value>
+  </data>
+  <data name="NumerologyBreakdownLabel" xml:space="preserve">
+    <value>Per-letter breakdown</value>
+  </data>
+  <data name="NumerologyWordTotalsLabel" xml:space="preserve">
+    <value>Per-word totals</value>
+  </data>
+  <data name="NumerologyEmptyNotice" xml:space="preserve">
+    <value>No letters found — enter a word, name or phrase to convert.</value>
+  </data>
+  <data name="NumerologyCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NumerologyShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="NumerologyClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
