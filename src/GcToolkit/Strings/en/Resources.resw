@@ -380,6 +380,127 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Book cipher (Ottendorf) -->
+  <data name="BookCipher_Name" xml:space="preserve">
+    <value>Book cipher</value>
+  </data>
+  <data name="BookCipher_Tooltip" xml:space="preserve">
+    <value>Decode (and encode) Ottendorf book ciphers using a source text.</value>
+  </data>
+  <data name="BookCipherDecode" xml:space="preserve">
+    <value>Decode (codes → text)</value>
+  </data>
+  <data name="BookCipherEncode" xml:space="preserve">
+    <value>Encode (text → codes)</value>
+  </data>
+  <data name="BookCipherBookLabel" xml:space="preserve">
+    <value>Book / source text</value>
+  </data>
+  <data name="BookCipherBookPlaceholder" xml:space="preserve">
+    <value>Paste the key book here. Separate pages with ---PAGE---</value>
+  </data>
+  <data name="BookCipherCodesLabel" xml:space="preserve">
+    <value>Reference codes</value>
+  </data>
+  <data name="BookCipherCodesPlaceholder" xml:space="preserve">
+    <value>e.g. 14:3 8:2 5:1 (separate parts with : - . , or /)</value>
+  </data>
+  <data name="BookCipherPlaintextLabel" xml:space="preserve">
+    <value>Message to encode</value>
+  </data>
+  <data name="BookCipherPlaintextPlaceholder" xml:space="preserve">
+    <value>Type the message; each word (or letter) is matched in the book.</value>
+  </data>
+  <data name="BookCipherOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BookCipherFormatHeader" xml:space="preserve">
+    <value>Reference format</value>
+  </data>
+  <data name="BookCipherPart1" xml:space="preserve">
+    <value>First part</value>
+  </data>
+  <data name="BookCipherPart2" xml:space="preserve">
+    <value>Second part</value>
+  </data>
+  <data name="BookCipherPart3" xml:space="preserve">
+    <value>Third part</value>
+  </data>
+  <data name="BookCipherPartNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="BookCipherPartPage" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="BookCipherPartLine" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="BookCipherPartWord" xml:space="preserve">
+    <value>Word</value>
+  </data>
+  <data name="BookCipherPartCharacter" xml:space="preserve">
+    <value>Character</value>
+  </data>
+  <data name="BookCipherNumberingLabel" xml:space="preserve">
+    <value>Numbering starts at</value>
+  </data>
+  <data name="BookCipherNumbering1" xml:space="preserve">
+    <value>1 (one-based)</value>
+  </data>
+  <data name="BookCipherNumbering0" xml:space="preserve">
+    <value>0 (zero-based)</value>
+  </data>
+  <data name="BookCipherExtractionLabel" xml:space="preserve">
+    <value>Take from each word</value>
+  </data>
+  <data name="BookCipherExtractionWhole" xml:space="preserve">
+    <value>Whole word</value>
+  </data>
+  <data name="BookCipherExtractionFirst" xml:space="preserve">
+    <value>First letter</value>
+  </data>
+  <data name="BookCipherExtractionNth" xml:space="preserve">
+    <value>Nth letter</value>
+  </data>
+  <data name="BookCipherLetterIndexLabel" xml:space="preserve">
+    <value>Letter number</value>
+  </data>
+  <data name="BookCipherIgnoreSymbolsLabel" xml:space="preserve">
+    <value>Ignore these symbols</value>
+  </data>
+  <data name="BookCipherIgnoreSymbolsPlaceholder" xml:space="preserve">
+    <value>e.g. .,!?;:'</value>
+  </data>
+  <data name="BookCipherIgnoreSpaces" xml:space="preserve">
+    <value>Join result without spaces</value>
+  </data>
+  <data name="BookCipherSwap" xml:space="preserve">
+    <value>Swap direction</value>
+  </data>
+  <data name="BookCipherClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BookCipherCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BookCipherShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BookCipherDecodeErrorFormat" xml:space="preserve">
+    <value>{0} reference(s) couldn't be resolved. First: "{1}" — {2}.</value>
+  </data>
+  <data name="BookCipherEncodeErrorFormat" xml:space="preserve">
+    <value>{0} item(s) weren't found in the book. First: "{1}" — {2}.</value>
+  </data>
+  <data name="BookCipherNoPartsWarning" xml:space="preserve">
+    <value>Set at least one reference part (Page, Line, Word or Character).</value>
+  </data>
+  <data name="BookCipherHelpHeader" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="BookCipherHelpText" xml:space="preserve">
+    <value>Each code points into the book. Choose what each number means (page, line, word or character) and the tool reads the matching position. Use ---PAGE--- to split pages. Switch to Encode to turn a message into codes.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

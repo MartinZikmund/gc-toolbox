@@ -380,6 +380,127 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Book cipher (Ottendorf) -->
+  <data name="BookCipher_Name" xml:space="preserve">
+    <value>Knižní šifra</value>
+  </data>
+  <data name="BookCipher_Tooltip" xml:space="preserve">
+    <value>Dekódujte (i zakódujte) Ottendorfovu knižní šifru pomocí zdrojového textu.</value>
+  </data>
+  <data name="BookCipherDecode" xml:space="preserve">
+    <value>Dekódovat (kódy → text)</value>
+  </data>
+  <data name="BookCipherEncode" xml:space="preserve">
+    <value>Zakódovat (text → kódy)</value>
+  </data>
+  <data name="BookCipherBookLabel" xml:space="preserve">
+    <value>Kniha / zdrojový text</value>
+  </data>
+  <data name="BookCipherBookPlaceholder" xml:space="preserve">
+    <value>Sem vložte klíčovou knihu. Stránky oddělte pomocí ---PAGE---</value>
+  </data>
+  <data name="BookCipherCodesLabel" xml:space="preserve">
+    <value>Referenční kódy</value>
+  </data>
+  <data name="BookCipherCodesPlaceholder" xml:space="preserve">
+    <value>např. 14:3 8:2 5:1 (části oddělte : - . , nebo /)</value>
+  </data>
+  <data name="BookCipherPlaintextLabel" xml:space="preserve">
+    <value>Zpráva k zakódování</value>
+  </data>
+  <data name="BookCipherPlaintextPlaceholder" xml:space="preserve">
+    <value>Napište zprávu; každé slovo (nebo písmeno) se vyhledá v knize.</value>
+  </data>
+  <data name="BookCipherOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BookCipherFormatHeader" xml:space="preserve">
+    <value>Formát odkazu</value>
+  </data>
+  <data name="BookCipherPart1" xml:space="preserve">
+    <value>První část</value>
+  </data>
+  <data name="BookCipherPart2" xml:space="preserve">
+    <value>Druhá část</value>
+  </data>
+  <data name="BookCipherPart3" xml:space="preserve">
+    <value>Třetí část</value>
+  </data>
+  <data name="BookCipherPartNone" xml:space="preserve">
+    <value>Žádná</value>
+  </data>
+  <data name="BookCipherPartPage" xml:space="preserve">
+    <value>Stránka</value>
+  </data>
+  <data name="BookCipherPartLine" xml:space="preserve">
+    <value>Řádek</value>
+  </data>
+  <data name="BookCipherPartWord" xml:space="preserve">
+    <value>Slovo</value>
+  </data>
+  <data name="BookCipherPartCharacter" xml:space="preserve">
+    <value>Znak</value>
+  </data>
+  <data name="BookCipherNumberingLabel" xml:space="preserve">
+    <value>Číslování začíná od</value>
+  </data>
+  <data name="BookCipherNumbering1" xml:space="preserve">
+    <value>1 (od jedné)</value>
+  </data>
+  <data name="BookCipherNumbering0" xml:space="preserve">
+    <value>0 (od nuly)</value>
+  </data>
+  <data name="BookCipherExtractionLabel" xml:space="preserve">
+    <value>Z každého slova vzít</value>
+  </data>
+  <data name="BookCipherExtractionWhole" xml:space="preserve">
+    <value>Celé slovo</value>
+  </data>
+  <data name="BookCipherExtractionFirst" xml:space="preserve">
+    <value>První písmeno</value>
+  </data>
+  <data name="BookCipherExtractionNth" xml:space="preserve">
+    <value>N-té písmeno</value>
+  </data>
+  <data name="BookCipherLetterIndexLabel" xml:space="preserve">
+    <value>Číslo písmene</value>
+  </data>
+  <data name="BookCipherIgnoreSymbolsLabel" xml:space="preserve">
+    <value>Ignorovat tyto symboly</value>
+  </data>
+  <data name="BookCipherIgnoreSymbolsPlaceholder" xml:space="preserve">
+    <value>např. .,!?;:'</value>
+  </data>
+  <data name="BookCipherIgnoreSpaces" xml:space="preserve">
+    <value>Spojit výsledek bez mezer</value>
+  </data>
+  <data name="BookCipherSwap" xml:space="preserve">
+    <value>Prohodit směr</value>
+  </data>
+  <data name="BookCipherClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BookCipherCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BookCipherShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BookCipherDecodeErrorFormat" xml:space="preserve">
+    <value>{0} odkaz(ů) se nepodařilo vyřešit. První: „{1}“ — {2}.</value>
+  </data>
+  <data name="BookCipherEncodeErrorFormat" xml:space="preserve">
+    <value>{0} položek se v knize nenašlo. První: „{1}“ — {2}.</value>
+  </data>
+  <data name="BookCipherNoPartsWarning" xml:space="preserve">
+    <value>Nastavte alespoň jednu část odkazu (stránka, řádek, slovo nebo znak).</value>
+  </data>
+  <data name="BookCipherHelpHeader" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="BookCipherHelpText" xml:space="preserve">
+    <value>Každý kód ukazuje do knihy. Zvolte, co jednotlivá čísla znamenají (stránka, řádek, slovo nebo znak), a nástroj přečte odpovídající pozici. Stránky oddělte pomocí ---PAGE---. Přepnutím na Zakódovat převedete zprávu na kódy.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
