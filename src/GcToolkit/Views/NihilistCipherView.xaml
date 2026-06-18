@@ -1,0 +1,239 @@
+﻿<local:NihilistCipherViewBase
+    x:Class="GcToolkit.Views.NihilistCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:NihilistCipherViewBase.Resources>
+        <Style x:Key="NihilistAxisLabelStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
+    </local:NihilistCipherViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=NihilistEncode}" />
+                    <RadioButton Content="{markup:Localize Key=NihilistDecode}" />
+                </RadioButtons>
+
+                <!--  Keywords  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        FontFamily="Consolas"
+                        Header="{markup:Localize Key=NihilistPolybiusKeyword}"
+                        PlaceholderText="{markup:Localize Key=NihilistPolybiusPlaceholder}"
+                        Text="{x:Bind ViewModel.PolybiusKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        Grid.Column="1"
+                        FontFamily="Consolas"
+                        Header="{markup:Localize Key=NihilistAdditiveKeyword}"
+                        PlaceholderText="{markup:Localize Key=NihilistAdditivePlaceholder}"
+                        Text="{x:Bind ViewModel.AdditiveKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <!--  Square / grid variants  -->
+                <StackPanel Spacing="8">
+                    <ComboBox Header="{markup:Localize Key=NihilistGridSize}" SelectedIndex="{x:Bind ViewModel.GridSizeIndex, Mode=TwoWay}">
+                        <ComboBoxItem Content="{markup:Localize Key=NihilistGrid5}" />
+                        <ComboBoxItem Content="{markup:Localize Key=NihilistGrid6}" />
+                    </ComboBox>
+                    <ComboBox Header="{markup:Localize Key=NihilistOrientation}" SelectedIndex="{x:Bind ViewModel.OrientationIndex, Mode=TwoWay}">
+                        <ComboBoxItem Content="{markup:Localize Key=NihilistOrientationRowCol}" />
+                        <ComboBoxItem Content="{markup:Localize Key=NihilistOrientationColRow}" />
+                    </ComboBox>
+                    <ToggleSwitch
+                        Header="{markup:Localize Key=NihilistZeroBased}"
+                        IsOn="{x:Bind ViewModel.IsZeroBased, Mode=TwoWay}"
+                        OffContent="{markup:Localize Key=NihilistBaseOne}"
+                        OnContent="{markup:Localize Key=NihilistBaseZero}" />
+                </StackPanel>
+
+                <!--  Rendered Polybius square  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NihilistSquareLabel}" />
+
+                        <!--  Column axis labels  -->
+                        <ItemsControl
+                            HorizontalAlignment="Center"
+                            AutomationProperties.AccessibilityView="Raw"
+                            ItemsSource="{x:Bind ViewModel.AxisLabels}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="x:Int32">
+                                    <Border Width="48" Height="20">
+                                        <TextBlock Style="{StaticResource NihilistAxisLabelStyle}" Text="{x:Bind}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!--  The square cells  -->
+                        <ItemsRepeater HorizontalAlignment="Center" ItemsSource="{x:Bind ViewModel.SquareCells}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    MaximumRowsOrColumns="{x:Bind ViewModel.SquareSize, Mode=OneWay}"
+                                    MinColumnSpacing="8"
+                                    MinItemHeight="48"
+                                    MinItemWidth="48"
+                                    MinRowSpacing="8"
+                                    Orientation="Horizontal" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="tools:NihilistSquareCell">
+                                    <Border
+                                        Width="48"
+                                        Height="48"
+                                        AutomationProperties.Name="{x:Bind AutomationName}"
+                                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                        CornerRadius="6">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                FontFamily="Consolas"
+                                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                                Text="{x:Bind Symbol}" />
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Text="{x:Bind Coordinate}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  Input  -->
+                <TextBox
+                    Header="{x:Bind ViewModel.InputLabel, Mode=OneWay}"
+                    PlaceholderText="{markup:Localize Key=NihilistInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.SwapDirectionCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                            <TextBlock Text="{markup:Localize Key=NihilistSwap}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=NihilistClear}" />
+                </StackPanel>
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{x:Bind ViewModel.OutputLabel, Mode=OneWay}" />
+                <TextBox
+                    FontFamily="Consolas"
+                    FontSize="20"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Validation  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                    Severity="Error" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=NihilistCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=NihilistShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Breakdown: plain + key = cipher  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=NihilistBreakdownLabel}"
+                    IsExpanded="False"
+                    Visibility="{x:Bind ViewModel.ShowBreakdown, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.BreakdownLines}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock
+                                    Margin="0,2"
+                                    FontFamily="Consolas"
+                                    FontSize="15"
+                                    Text="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:NihilistCipherViewBase>

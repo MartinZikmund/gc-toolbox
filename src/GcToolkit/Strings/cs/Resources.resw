@@ -280,6 +280,84 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Každý symbol v horním řádku odpovídá symbolu pod ním.</value>
   </data>
+  <data name="NihilistCipher_Name" xml:space="preserve">
+    <value>Nihilistická šifra</value>
+  </data>
+  <data name="NihilistCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte nihilistické číselné posloupnosti pomocí Polybiovy mřížky a aditivního klíče.</value>
+  </data>
+  <data name="NihilistEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="NihilistDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="NihilistPolybiusKeyword" xml:space="preserve">
+    <value>Klíč Polybiovy mřížky</value>
+  </data>
+  <data name="NihilistPolybiusPlaceholder" xml:space="preserve">
+    <value>např. ZEBRAS</value>
+  </data>
+  <data name="NihilistAdditiveKeyword" xml:space="preserve">
+    <value>Aditivní klíč</value>
+  </data>
+  <data name="NihilistAdditivePlaceholder" xml:space="preserve">
+    <value>např. RUSSIAN</value>
+  </data>
+  <data name="NihilistGridSize" xml:space="preserve">
+    <value>Velikost mřížky</value>
+  </data>
+  <data name="NihilistGrid5" xml:space="preserve">
+    <value>5×5 · písmena (I/J sloučeno)</value>
+  </data>
+  <data name="NihilistGrid6" xml:space="preserve">
+    <value>6×6 · písmena + číslice</value>
+  </data>
+  <data name="NihilistOrientation" xml:space="preserve">
+    <value>Pořadí souřadnic</value>
+  </data>
+  <data name="NihilistOrientationRowCol" xml:space="preserve">
+    <value>Řádek · sloupec</value>
+  </data>
+  <data name="NihilistOrientationColRow" xml:space="preserve">
+    <value>Sloupec · řádek</value>
+  </data>
+  <data name="NihilistZeroBased" xml:space="preserve">
+    <value>Číslování buněk</value>
+  </data>
+  <data name="NihilistBaseOne" xml:space="preserve">
+    <value>Začít od 1</value>
+  </data>
+  <data name="NihilistBaseZero" xml:space="preserve">
+    <value>Začít od 0</value>
+  </data>
+  <data name="NihilistSquareLabel" xml:space="preserve">
+    <value>Polybiova mřížka</value>
+  </data>
+  <data name="NihilistTextLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="NihilistNumbersLabel" xml:space="preserve">
+    <value>Čísla</value>
+  </data>
+  <data name="NihilistInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo číselnou posloupnost k dešifrování</value>
+  </data>
+  <data name="NihilistSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="NihilistClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="NihilistCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="NihilistShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="NihilistBreakdownLabel" xml:space="preserve">
+    <value>Otevřený text + klíč = šifra</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

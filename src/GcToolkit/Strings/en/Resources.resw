@@ -280,6 +280,84 @@
   <data name="CaesarKeyNote" xml:space="preserve">
     <value>Each symbol in the top row maps to the one beneath it.</value>
   </data>
+  <data name="NihilistCipher_Name" xml:space="preserve">
+    <value>Nihilist cipher</value>
+  </data>
+  <data name="NihilistCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode Nihilist number streams with a Polybius square and an additive keyword.</value>
+  </data>
+  <data name="NihilistEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="NihilistDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="NihilistPolybiusKeyword" xml:space="preserve">
+    <value>Polybius keyword</value>
+  </data>
+  <data name="NihilistPolybiusPlaceholder" xml:space="preserve">
+    <value>e.g. ZEBRAS</value>
+  </data>
+  <data name="NihilistAdditiveKeyword" xml:space="preserve">
+    <value>Additive keyword</value>
+  </data>
+  <data name="NihilistAdditivePlaceholder" xml:space="preserve">
+    <value>e.g. RUSSIAN</value>
+  </data>
+  <data name="NihilistGridSize" xml:space="preserve">
+    <value>Grid size</value>
+  </data>
+  <data name="NihilistGrid5" xml:space="preserve">
+    <value>5×5 · letters (I/J merged)</value>
+  </data>
+  <data name="NihilistGrid6" xml:space="preserve">
+    <value>6×6 · letters + digits</value>
+  </data>
+  <data name="NihilistOrientation" xml:space="preserve">
+    <value>Coordinate order</value>
+  </data>
+  <data name="NihilistOrientationRowCol" xml:space="preserve">
+    <value>Row · column</value>
+  </data>
+  <data name="NihilistOrientationColRow" xml:space="preserve">
+    <value>Column · row</value>
+  </data>
+  <data name="NihilistZeroBased" xml:space="preserve">
+    <value>Cell numbering</value>
+  </data>
+  <data name="NihilistBaseOne" xml:space="preserve">
+    <value>Start at 1</value>
+  </data>
+  <data name="NihilistBaseZero" xml:space="preserve">
+    <value>Start at 0</value>
+  </data>
+  <data name="NihilistSquareLabel" xml:space="preserve">
+    <value>Polybius square</value>
+  </data>
+  <data name="NihilistTextLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="NihilistNumbersLabel" xml:space="preserve">
+    <value>Numbers</value>
+  </data>
+  <data name="NihilistInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode, or a number stream to decode</value>
+  </data>
+  <data name="NihilistSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="NihilistClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="NihilistCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NihilistShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="NihilistBreakdownLabel" xml:space="preserve">
+    <value>Plain + key = cipher</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
