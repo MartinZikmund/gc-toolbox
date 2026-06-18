@@ -534,6 +534,70 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
   </data>
+  <!-- Tool: hexahue -->
+  <data name="Hexahue_Name" xml:space="preserve">
+    <value>Hexahue</value>
+  </data>
+  <data name="Hexahue_Tooltip" xml:space="preserve">
+    <value>Translate text to and from the Hexahue colour-block alphabet.</value>
+  </data>
+  <data name="HexahueTextToColours" xml:space="preserve">
+    <value>Text → Colours</value>
+  </data>
+  <data name="HexahueColoursToText" xml:space="preserve">
+    <value>Colours → Text</value>
+  </data>
+  <data name="HexahueInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="HexahueInputPlaceholder" xml:space="preserve">
+    <value>Type text (A–Z, 0–9, period, comma), or tap the chart below…</value>
+  </data>
+  <data name="HexahueClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="HexahueCopy" xml:space="preserve">
+    <value>Copy text</value>
+  </data>
+  <data name="HexahueShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="HexahuePurpleVariant" xml:space="preserve">
+    <value>Purple variant</value>
+  </data>
+  <data name="HexahueSkippedNotice" xml:space="preserve">
+    <value>Skipped {0} character(s) without a glyph: {1}</value>
+  </data>
+  <data name="HexahueGlyphsLabel" xml:space="preserve">
+    <value>Hexahue</value>
+  </data>
+  <data name="HexahueEmptyHint" xml:space="preserve">
+    <value>Coloured glyphs appear here as you type.</value>
+  </data>
+  <data name="HexahueOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="HexahueChartHeader" xml:space="preserve">
+    <value>Reference chart</value>
+  </data>
+  <data name="HexahueChartHint" xml:space="preserve">
+    <value>Tap a glyph to add its character to the text.</value>
+  </data>
+  <data name="HexahueLettersHeader" xml:space="preserve">
+    <value>Letters</value>
+  </data>
+  <data name="HexahueDigitsHeader" xml:space="preserve">
+    <value>Digits</value>
+  </data>
+  <data name="HexahuePunctuationHeader" xml:space="preserve">
+    <value>Punctuation and space</value>
+  </data>
+  <data name="HexahueAboutTitle" xml:space="preserve">
+    <value>About this conversion</value>
+  </data>
+  <data name="HexahueAboutBody" xml:space="preserve">
+    <value>Hexahue writes each character as a 2×3 grid of six coloured squares. The 26 letters use the six hues (red, green, blue, yellow, cyan and magenta — each once); the digits 0–9 use two squares each of white, grey and black; period and comma use a black-and-white checker; and a space is an all-white block. Accented letters fold to their base letter (Č → C) and unsupported characters are flagged rather than dropped.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signal flags</value>

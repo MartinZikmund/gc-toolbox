@@ -534,6 +534,70 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
+  <!-- Tool: hexahue -->
+  <data name="Hexahue_Name" xml:space="preserve">
+    <value>Hexahue</value>
+  </data>
+  <data name="Hexahue_Tooltip" xml:space="preserve">
+    <value>Převádí text do barevné abecedy Hexahue a zpět.</value>
+  </data>
+  <data name="HexahueTextToColours" xml:space="preserve">
+    <value>Text → Barvy</value>
+  </data>
+  <data name="HexahueColoursToText" xml:space="preserve">
+    <value>Barvy → Text</value>
+  </data>
+  <data name="HexahueInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="HexahueInputPlaceholder" xml:space="preserve">
+    <value>Napište text (A–Z, 0–9, tečka, čárka) nebo klepněte na tabulku níže…</value>
+  </data>
+  <data name="HexahueClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="HexahueCopy" xml:space="preserve">
+    <value>Kopírovat text</value>
+  </data>
+  <data name="HexahueShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="HexahuePurpleVariant" xml:space="preserve">
+    <value>Fialová varianta</value>
+  </data>
+  <data name="HexahueSkippedNotice" xml:space="preserve">
+    <value>Přeskočeno {0} znaků bez glyfu: {1}</value>
+  </data>
+  <data name="HexahueGlyphsLabel" xml:space="preserve">
+    <value>Hexahue</value>
+  </data>
+  <data name="HexahueEmptyHint" xml:space="preserve">
+    <value>Barevné glyfy se zobrazí během psaní.</value>
+  </data>
+  <data name="HexahueOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="HexahueChartHeader" xml:space="preserve">
+    <value>Referenční tabulka</value>
+  </data>
+  <data name="HexahueChartHint" xml:space="preserve">
+    <value>Klepnutím na glyf přidáte jeho znak do textu.</value>
+  </data>
+  <data name="HexahueLettersHeader" xml:space="preserve">
+    <value>Písmena</value>
+  </data>
+  <data name="HexahueDigitsHeader" xml:space="preserve">
+    <value>Číslice</value>
+  </data>
+  <data name="HexahuePunctuationHeader" xml:space="preserve">
+    <value>Interpunkce a mezera</value>
+  </data>
+  <data name="HexahueAboutTitle" xml:space="preserve">
+    <value>O tomto převodu</value>
+  </data>
+  <data name="HexahueAboutBody" xml:space="preserve">
+    <value>Hexahue zapisuje každý znak jako mřížku 2×3 šesti barevných čtverců. 26 písmen používá šest odstínů (červená, zelená, modrá, žlutá, azurová a purpurová – každý jednou); číslice 0–9 používají vždy dva čtverce bílé, šedé a černé; tečka a čárka používají černobílou šachovnici; mezera je celobílý blok. Písmena s diakritikou se převedou na základní písmeno (Č → C) a nepodporované znaky se označí, nikoli zahodí.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signální vlajky</value>

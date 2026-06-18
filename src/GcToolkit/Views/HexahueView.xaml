@@ -1,0 +1,248 @@
+﻿<local:HexahueViewBase
+    x:Class="GcToolkit.Views.HexahueView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:alphabets="using:GcToolkit.Core.Alphabets"
+    xmlns:controls="using:GcToolkit.Controls"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    x:Name="PageRoot"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:HexahueViewBase.Resources>
+        <!--  One glyph of the rendered output: a 2×3 colour grid with a screen-reader label  -->
+        <DataTemplate x:Key="HexahueSequenceTemplate" x:DataType="alphabets:HexahueGlyphItem">
+            <controls:HexahueGlyphPresenter
+                Width="44"
+                Height="66"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                Glyph="{x:Bind Glyph}"
+                ToolTipService.ToolTip="{x:Bind AutomationName}"
+                UsePurple="{Binding IsOn, ElementName=PurpleToggle}" />
+        </DataTemplate>
+
+        <!--  One clickable chart cell: tap to "type" the character  -->
+        <DataTemplate x:Key="HexahueChartTemplate" x:DataType="alphabets:HexahuePaletteEntry">
+            <Button
+                Padding="8"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                AutomationProperties.Name="{x:Bind Character}"
+                Command="{Binding ViewModel.InsertCommand, ElementName=PageRoot}"
+                CommandParameter="{x:Bind}"
+                ToolTipService.ToolTip="{x:Bind Character}">
+                <StackPanel HorizontalAlignment="Center" Spacing="6">
+                    <controls:HexahueGlyphPresenter
+                        Width="32"
+                        Height="48"
+                        Glyph="{x:Bind Glyph}"
+                        UsePurple="{Binding IsOn, ElementName=PurpleToggle}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontFamily="Consolas"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind Character}" />
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+    </local:HexahueViewBase.Resources>
+
+    <Grid
+        x:Name="Root"
+        MaxWidth="1000"
+        HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=HexahueTextToColours}" />
+                    <RadioButton Content="{markup:Localize Key=HexahueColoursToText}" />
+                </RadioButtons>
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="72"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=HexahueInputLabel}"
+                    PlaceholderText="{markup:Localize Key=HexahueInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <!--  Input actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=HexahueClear}" />
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=HexahueCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=HexahueShare}" />
+                        </StackPanel>
+                    </Button>
+                    <ToggleSwitch
+                        x:Name="PurpleToggle"
+                        MinWidth="0"
+                        VerticalAlignment="Center"
+                        Header="{markup:Localize Key=HexahuePurpleVariant}"
+                        OffContent=""
+                        OnContent="" />
+                </StackPanel>
+
+                <!--  Unsupported-character notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasWarning, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.WarningMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Rendered glyph row  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahueGlyphsLabel}" />
+
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{markup:Localize Key=HexahueEmptyHint}"
+                            Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+
+                        <ItemsRepeater ItemTemplate="{StaticResource HexahueSequenceTemplate}" ItemsSource="{x:Bind ViewModel.Glyphs, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="None"
+                                    MinColumnSpacing="6"
+                                    MinItemWidth="44"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  Plain-text result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahueOutputLabel}" />
+                <TextBox
+                    AutomationProperties.Name="{markup:Localize Key=HexahueOutputLabel}"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Clickable reference chart (geocachingtoolbox parity)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahueChartHeader}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=HexahueChartHint}"
+                            TextWrapping="Wrap" />
+
+                        <!--  Letters  -->
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahueLettersHeader}" />
+                        <ItemsRepeater ItemTemplate="{StaticResource HexahueChartTemplate}" ItemsSource="{x:Bind ViewModel.LetterChart}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="72"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+
+                        <!--  Digits  -->
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahueDigitsHeader}" />
+                        <ItemsRepeater ItemTemplate="{StaticResource HexahueChartTemplate}" ItemsSource="{x:Bind ViewModel.DigitChart}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="72"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+
+                        <!--  Punctuation and space  -->
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahuePunctuationHeader}" />
+                        <ItemsRepeater ItemTemplate="{StaticResource HexahueChartTemplate}" ItemsSource="{x:Bind ViewModel.PunctuationChart}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="72"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  How it works  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=HexahueAboutTitle}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{markup:Localize Key=HexahueAboutBody}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:HexahueViewBase>
