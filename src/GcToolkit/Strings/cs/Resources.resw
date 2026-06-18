@@ -380,6 +380,94 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- ASCII-85 / Base85 -->
+  <data name="Ascii85_Name" xml:space="preserve">
+    <value>ASCII-85 / Base85</value>
+  </data>
+  <data name="Ascii85_Tooltip" xml:space="preserve">
+    <value>Kódování a dekódování ASCII-85 / Base85 (Adobe, btoa, Z85, RFC 1924).</value>
+  </data>
+  <data name="Ascii85Encrypt" xml:space="preserve">
+    <value>Zašifrovat (text → ASCII-85)</value>
+  </data>
+  <data name="Ascii85Decrypt" xml:space="preserve">
+    <value>Dešifrovat (ASCII-85 → text)</value>
+  </data>
+  <data name="Ascii85Variant" xml:space="preserve">
+    <value>Varianta</value>
+  </data>
+  <data name="Ascii85VariantAdobe" xml:space="preserve">
+    <value>Adobe ASCII-85</value>
+  </data>
+  <data name="Ascii85VariantBtoa" xml:space="preserve">
+    <value>btoa / Usenet</value>
+  </data>
+  <data name="Ascii85VariantZ85" xml:space="preserve">
+    <value>Z85 (ZeroMQ)</value>
+  </data>
+  <data name="Ascii85VariantRfc1924" xml:space="preserve">
+    <value>RFC 1924</value>
+  </data>
+  <data name="Ascii85AutoDetect" xml:space="preserve">
+    <value>Rozpoznat automaticky</value>
+  </data>
+  <data name="Ascii85Delimiters" xml:space="preserve">
+    <value>Obalit oddělovači &lt;~ ~&gt;</value>
+  </data>
+  <data name="Ascii85InputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="Ascii85InputPlaceholderEncrypt" xml:space="preserve">
+    <value>Zadejte nebo vložte text ke kódování…</value>
+  </data>
+  <data name="Ascii85InputPlaceholderDecrypt" xml:space="preserve">
+    <value>Zadejte nebo vložte ASCII-85 k dekódování…</value>
+  </data>
+  <data name="Ascii85OutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="Ascii85HexLabel" xml:space="preserve">
+    <value>Dekódované bajty (hex)</value>
+  </data>
+  <data name="Ascii85UnitBytes" xml:space="preserve">
+    <value>bajtů</value>
+  </data>
+  <data name="Ascii85UnitChars" xml:space="preserve">
+    <value>znaků</value>
+  </data>
+  <data name="Ascii85IllegalChar" xml:space="preserve">
+    <value>Neplatný znak „{0}“ na pozici {1}.</value>
+  </data>
+  <data name="Ascii85MalformedGroup" xml:space="preserve">
+    <value>Poslední skupina je poškozená nebo neúplná.</value>
+  </data>
+  <data name="Ascii85InvalidInput" xml:space="preserve">
+    <value>Vstup se touto variantou nepodařilo dekódovat.</value>
+  </data>
+  <data name="Ascii85ShowAllVariants" xml:space="preserve">
+    <value>Vyzkoušet všechny varianty</value>
+  </data>
+  <data name="Ascii85DecodeOk" xml:space="preserve">
+    <value>Dekódováno</value>
+  </data>
+  <data name="Ascii85DecodeFailed" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="Ascii85Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="Ascii85Copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="Ascii85Share" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="Ascii85AboutLabel" xml:space="preserve">
+    <value>O variantách</value>
+  </data>
+  <data name="Ascii85AboutNote" xml:space="preserve">
+    <value>ASCII-85 zabalí každé 4 bajty do 5 tisknutelných znaků (přibližně o 25 % delší než vstup). Adobe a btoa sdílejí abecedu '!'..'u'; btoa navíc přidává zkratky „z“/„y“ pro skupiny samých nul/mezer. Z85 a RFC 1924 používají jiné abecedy — zvolte tu, kterou používá vaše šifra, nebo nechte rozpoznat automaticky.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

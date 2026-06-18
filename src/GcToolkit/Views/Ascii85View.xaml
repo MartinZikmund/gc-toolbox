@@ -1,0 +1,210 @@
+﻿<local:Ascii85ViewBase
+    x:Class="GcToolkit.Views.Ascii85View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=Ascii85Encrypt}" />
+                    <RadioButton Content="{markup:Localize Key=Ascii85Decrypt}" />
+                </RadioButtons>
+
+                <!--  Variant selector + auto-detect  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=Ascii85Variant}"
+                        SelectedIndex="{x:Bind ViewModel.VariantIndex, Mode=TwoWay}">
+                        <ComboBoxItem Content="{markup:Localize Key=Ascii85VariantAdobe}" />
+                        <ComboBoxItem Content="{markup:Localize Key=Ascii85VariantBtoa}" />
+                        <ComboBoxItem Content="{markup:Localize Key=Ascii85VariantZ85}" />
+                        <ComboBoxItem Content="{markup:Localize Key=Ascii85VariantRfc1924}" />
+                    </ComboBox>
+
+                    <Button
+                        Grid.Column="1"
+                        VerticalAlignment="Bottom"
+                        Command="{x:Bind ViewModel.AutoDetectCommand}"
+                        Content="{markup:Localize Key=Ascii85AutoDetect}" />
+                </Grid>
+
+                <!--  Adobe delimiter toggle (Adobe variant only)  -->
+                <CheckBox
+                    Content="{markup:Localize Key=Ascii85Delimiters}"
+                    IsChecked="{x:Bind ViewModel.UseAdobeDelimiters, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.IsAdobeVariant, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <!--  Input  -->
+                <TextBox
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=Ascii85InputLabel}"
+                    IsSpellCheckEnabled="False"
+                    PlaceholderText="{markup:Localize Key=Ascii85InputPlaceholderEncrypt}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <Button
+                    HorizontalAlignment="Left"
+                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Content="{markup:Localize Key=Ascii85Clear}" />
+
+                <!--  Validation  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                    Severity="Error" />
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Ascii85OutputLabel}" />
+                <TextBox
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Stats / expansion ratio  -->
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.Stats, Mode=OneWay}" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=Ascii85Copy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=Ascii85Share}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Hex view of decoded bytes  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowHexView, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Ascii85HexLabel}" />
+                    <TextBox
+                        FontFamily="Consolas"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.HexView, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!--  Try all variants  -->
+                <ToggleSwitch Header="{markup:Localize Key=Ascii85ShowAllVariants}" IsOn="{x:Bind ViewModel.ShowAllVariants, Mode=TwoWay}" />
+
+                <ItemsControl ItemsSource="{x:Bind ViewModel.AllVariantResults}" Visibility="{x:Bind ViewModel.ShowAllVariants, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="tools:Ascii85VariantRow">
+                            <Border
+                                Margin="0,4"
+                                Padding="12"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8">
+                                <StackPanel Spacing="4">
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind Variant}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{ThemeResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind Status}" />
+                                    </Grid>
+                                    <TextBlock
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Text}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        IsTextSelectionEnabled="True"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Hex}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--  About the variants  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=Ascii85AboutLabel}">
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=Ascii85AboutNote}"
+                        TextWrapping="Wrap" />
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:Ascii85ViewBase>
