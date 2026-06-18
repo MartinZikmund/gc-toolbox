@@ -380,6 +380,82 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- QWERTY (klávesnicový) posun -->
+  <data name="QwertyShifter_Name" xml:space="preserve">
+    <value>QWERTY posun</value>
+  </data>
+  <data name="QwertyShifter_Tooltip" xml:space="preserve">
+    <value>Posune písmena doleva nebo doprava po klávesách klávesnice.</value>
+  </data>
+  <data name="QwertyInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="QwertyInputPlaceholder" xml:space="preserve">
+    <value>Napište text k posunu po klávesnici…</value>
+  </data>
+  <data name="QwertyOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="QwertyDirectionLabel" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="QwertyDirectionRight" xml:space="preserve">
+    <value>Doprava →</value>
+  </data>
+  <data name="QwertyDirectionLeft" xml:space="preserve">
+    <value>← Doleva</value>
+  </data>
+  <data name="QwertyShiftLabel" xml:space="preserve">
+    <value>Velikost posunu</value>
+  </data>
+  <data name="QwertyAlphabetLabel" xml:space="preserve">
+    <value>Abeceda</value>
+  </data>
+  <data name="QwertyAlphabetLettersDigits" xml:space="preserve">
+    <value>A–Z a 0–9 (36)</value>
+  </data>
+  <data name="QwertyAlphabetExtended" xml:space="preserve">
+    <value>Včetně symbolů (47)</value>
+  </data>
+  <data name="QwertyLayoutLabel" xml:space="preserve">
+    <value>Rozložení</value>
+  </data>
+  <data name="QwertyModelLabel" xml:space="preserve">
+    <value>Způsob posunu</value>
+  </data>
+  <data name="QwertyModelLinear" xml:space="preserve">
+    <value>Celá klávesnice</value>
+  </data>
+  <data name="QwertyModelRowBounded" xml:space="preserve">
+    <value>V rámci řady</value>
+  </data>
+  <data name="QwertyFoldToUpper" xml:space="preserve">
+    <value>Převést na velká písmena</value>
+  </data>
+  <data name="QwertyBatchMode" xml:space="preserve">
+    <value>Posunout každý řádek zvlášť</value>
+  </data>
+  <data name="QwertyClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="QwertyCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="QwertyShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="QwertyKeyboardLabel" xml:space="preserve">
+    <value>Klávesnice na obrazovce</value>
+  </data>
+  <data name="QwertyKeyboardNote" xml:space="preserve">
+    <value>Každá klávesa zobrazuje pod původním písmenem svou posunutou náhradu.</value>
+  </data>
+  <data name="QwertyBruteForceLabel" xml:space="preserve">
+    <value>Všechny posuny (hrubá síla)</value>
+  </data>
+  <data name="QwertyBruteForceNote" xml:space="preserve">
+    <value>Každý možný posun prvního řádku — projděte je a najděte čitelný, abyste prolomili neznámý posun.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

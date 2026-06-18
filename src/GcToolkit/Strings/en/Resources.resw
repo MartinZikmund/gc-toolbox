@@ -380,6 +380,82 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- QWERTY (keyboard) shifter -->
+  <data name="QwertyShifter_Name" xml:space="preserve">
+    <value>QWERTY shifter</value>
+  </data>
+  <data name="QwertyShifter_Tooltip" xml:space="preserve">
+    <value>Shift letters left or right along the keyboard's keys.</value>
+  </data>
+  <data name="QwertyInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="QwertyInputPlaceholder" xml:space="preserve">
+    <value>Type text to shift along the keyboard…</value>
+  </data>
+  <data name="QwertyOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="QwertyDirectionLabel" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="QwertyDirectionRight" xml:space="preserve">
+    <value>Right →</value>
+  </data>
+  <data name="QwertyDirectionLeft" xml:space="preserve">
+    <value>← Left</value>
+  </data>
+  <data name="QwertyShiftLabel" xml:space="preserve">
+    <value>Shift amount</value>
+  </data>
+  <data name="QwertyAlphabetLabel" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="QwertyAlphabetLettersDigits" xml:space="preserve">
+    <value>A–Z and 0–9 (36)</value>
+  </data>
+  <data name="QwertyAlphabetExtended" xml:space="preserve">
+    <value>Include symbols (47)</value>
+  </data>
+  <data name="QwertyLayoutLabel" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="QwertyModelLabel" xml:space="preserve">
+    <value>Shift model</value>
+  </data>
+  <data name="QwertyModelLinear" xml:space="preserve">
+    <value>Whole keyboard</value>
+  </data>
+  <data name="QwertyModelRowBounded" xml:space="preserve">
+    <value>Within each row</value>
+  </data>
+  <data name="QwertyFoldToUpper" xml:space="preserve">
+    <value>Fold to uppercase</value>
+  </data>
+  <data name="QwertyBatchMode" xml:space="preserve">
+    <value>Shift each line separately</value>
+  </data>
+  <data name="QwertyClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="QwertyCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="QwertyShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="QwertyKeyboardLabel" xml:space="preserve">
+    <value>On-screen keyboard</value>
+  </data>
+  <data name="QwertyKeyboardNote" xml:space="preserve">
+    <value>Each key shows its shifted substitute below the plain letter.</value>
+  </data>
+  <data name="QwertyBruteForceLabel" xml:space="preserve">
+    <value>All shifts (brute force)</value>
+  </data>
+  <data name="QwertyBruteForceNote" xml:space="preserve">
+    <value>Every possible shift of the first line — scan for the readable one to crack an unknown shift.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
