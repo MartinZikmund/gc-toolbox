@@ -380,6 +380,70 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Numbers to words -->
+  <data name="NumbersToWords_Name" xml:space="preserve">
+    <value>Numbers to words</value>
+  </data>
+  <data name="NumbersToWords_Tooltip" xml:space="preserve">
+    <value>Spell a number into English (or Czech) words, and read words back into a number.</value>
+  </data>
+  <data name="NumbersToWordsModeLabel" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="NumbersToWordsModeCardinal" xml:space="preserve">
+    <value>Cardinal</value>
+  </data>
+  <data name="NumbersToWordsModeOrdinal" xml:space="preserve">
+    <value>Ordinal</value>
+  </data>
+  <data name="NumbersToWordsModeYear" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="NumbersToWordsCzechLabel" xml:space="preserve">
+    <value>Czech spelling</value>
+  </data>
+  <data name="NumbersToWordsAndLabel" xml:space="preserve">
+    <value>British "and"</value>
+  </data>
+  <data name="NumbersToWordsBatchLabel" xml:space="preserve">
+    <value>Batch (per line)</value>
+  </data>
+  <data name="NumbersToWordsInputLabel" xml:space="preserve">
+    <value>Number or words</value>
+  </data>
+  <data name="NumbersToWordsInputPlaceholder" xml:space="preserve">
+    <value>Type a number (e.g. 354) or its words (e.g. three hundred fifty-four)…</value>
+  </data>
+  <data name="NumbersToWordsOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="NumbersToWordsSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="NumbersToWordsClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="NumbersToWordsCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NumbersToWordsShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="NumbersToWordsInvalidNotice" xml:space="preserve">
+    <value>Some input couldn't be converted and is shown as ?.</value>
+  </data>
+  <data name="NumbersToWordsSolverLabel" xml:space="preserve">
+    <value>Puzzle helpers</value>
+  </data>
+  <data name="NumbersToWordsTotalLetters" xml:space="preserve">
+    <value>Total letters</value>
+  </data>
+  <data name="NumbersToWordsLettersPerWord" xml:space="preserve">
+    <value>Letters per word</value>
+  </data>
+  <data name="NumbersToWordsFirstLetters" xml:space="preserve">
+    <value>First letters</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

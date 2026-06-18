@@ -380,6 +380,70 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Numbers to words -->
+  <data name="NumbersToWords_Name" xml:space="preserve">
+    <value>Čísla slovy</value>
+  </data>
+  <data name="NumbersToWords_Tooltip" xml:space="preserve">
+    <value>Vypište číslo anglicky (nebo česky) slovy a slova zase převeďte zpět na číslo.</value>
+  </data>
+  <data name="NumbersToWordsModeLabel" xml:space="preserve">
+    <value>Styl</value>
+  </data>
+  <data name="NumbersToWordsModeCardinal" xml:space="preserve">
+    <value>Základní</value>
+  </data>
+  <data name="NumbersToWordsModeOrdinal" xml:space="preserve">
+    <value>Řadová</value>
+  </data>
+  <data name="NumbersToWordsModeYear" xml:space="preserve">
+    <value>Letopočet</value>
+  </data>
+  <data name="NumbersToWordsCzechLabel" xml:space="preserve">
+    <value>České slovo</value>
+  </data>
+  <data name="NumbersToWordsAndLabel" xml:space="preserve">
+    <value>Britské „and“</value>
+  </data>
+  <data name="NumbersToWordsBatchLabel" xml:space="preserve">
+    <value>Dávkově (po řádcích)</value>
+  </data>
+  <data name="NumbersToWordsInputLabel" xml:space="preserve">
+    <value>Číslo nebo slova</value>
+  </data>
+  <data name="NumbersToWordsInputPlaceholder" xml:space="preserve">
+    <value>Zadejte číslo (např. 354) nebo jeho slovní zápis (např. three hundred fifty-four)…</value>
+  </data>
+  <data name="NumbersToWordsOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="NumbersToWordsSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="NumbersToWordsClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="NumbersToWordsCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="NumbersToWordsShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="NumbersToWordsInvalidNotice" xml:space="preserve">
+    <value>Některý vstup nelze převést a je zobrazen jako ?.</value>
+  </data>
+  <data name="NumbersToWordsSolverLabel" xml:space="preserve">
+    <value>Pomocníci pro šifry</value>
+  </data>
+  <data name="NumbersToWordsTotalLetters" xml:space="preserve">
+    <value>Celkem písmen</value>
+  </data>
+  <data name="NumbersToWordsLettersPerWord" xml:space="preserve">
+    <value>Písmen ve slovech</value>
+  </data>
+  <data name="NumbersToWordsFirstLetters" xml:space="preserve">
+    <value>První písmena</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

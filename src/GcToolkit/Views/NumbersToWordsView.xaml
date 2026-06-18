@@ -1,0 +1,200 @@
+﻿<local:NumbersToWordsViewBase
+    x:Class="GcToolkit.Views.NumbersToWordsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Mode: cardinal / ordinal / year  -->
+                <StackPanel Spacing="6">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersToWordsModeLabel}" />
+                    <RadioButtons MaxColumns="3" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                        <RadioButton Content="{markup:Localize Key=NumbersToWordsModeCardinal}" />
+                        <RadioButton Content="{markup:Localize Key=NumbersToWordsModeOrdinal}" />
+                        <RadioButton Content="{markup:Localize Key=NumbersToWordsModeYear}" />
+                    </RadioButtons>
+                </StackPanel>
+
+                <!--  Options  -->
+                <Grid ColumnSpacing="24" RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ToggleSwitch
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Header="{markup:Localize Key=NumbersToWordsCzechLabel}"
+                        IsOn="{x:Bind ViewModel.UseCzech, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Header="{markup:Localize Key=NumbersToWordsAndLabel}"
+                        IsOn="{x:Bind ViewModel.UseBritishAnd, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Header="{markup:Localize Key=NumbersToWordsBatchLabel}"
+                        IsOn="{x:Bind ViewModel.IsBatchMode, Mode=TwoWay}" />
+                </Grid>
+
+                <!--  Input  -->
+                <TextBox
+                    AcceptsReturn="{x:Bind ViewModel.IsBatchMode, Mode=OneWay}"
+                    Header="{markup:Localize Key=NumbersToWordsInputLabel}"
+                    PlaceholderText="{markup:Localize Key=NumbersToWordsInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.SwapCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                            <TextBlock Text="{markup:Localize Key=NumbersToWordsSwap}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=NumbersToWordsClear}" />
+                </StackPanel>
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersToWordsOutputLabel}" />
+                <TextBox
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    FontSize="20"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Validation notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasWarning, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.WarningMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=NumbersToWordsCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=NumbersToWordsShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Solver helpers (single word result)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.ShowSolver, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersToWordsSolverLabel}" />
+
+                        <Grid ColumnSpacing="16" RowSpacing="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{markup:Localize Key=NumbersToWordsTotalLetters}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontFamily="Consolas"
+                                Text="{x:Bind ViewModel.TotalLetterCount, Mode=OneWay}" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{markup:Localize Key=NumbersToWordsLettersPerWord}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontFamily="Consolas"
+                                Text="{x:Bind ViewModel.LetterCountsText, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{markup:Localize Key=NumbersToWordsFirstLetters}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                FontFamily="Consolas"
+                                Text="{x:Bind ViewModel.FirstLetters, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:NumbersToWordsViewBase>
