@@ -386,6 +386,114 @@
   <data name="VigenereCipher_Tooltip" xml:space="preserve">
     <value>Encode and decode text with a Vigenère key.</value>
   </data>
+  <data name="TrifidCipher_Name" xml:space="preserve">
+    <value>Trifid cipher</value>
+  </data>
+  <data name="TrifidCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the Delastelle Trifid cipher — a keyword cube, period and reading order.</value>
+  </data>
+  <data name="TrifidDirectionLabel" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="TrifidEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="TrifidDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="TrifidKeyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="TrifidKeywordPlaceholder" xml:space="preserve">
+    <value>Optional — seeds the cube (leave empty for A–Z+)</value>
+  </data>
+  <data name="TrifidFillOrder" xml:space="preserve">
+    <value>Key fill order</value>
+  </data>
+  <data name="TrifidFillOrderSquareRow" xml:space="preserve">
+    <value>Square first, by row</value>
+  </data>
+  <data name="TrifidFillOrderSquareColumn" xml:space="preserve">
+    <value>Square first, by column</value>
+  </data>
+  <data name="TrifidFillOrderRow" xml:space="preserve">
+    <value>Row first</value>
+  </data>
+  <data name="TrifidFillOrderColumn" xml:space="preserve">
+    <value>Column first</value>
+  </data>
+  <data name="TrifidReadingOrder" xml:space="preserve">
+    <value>Reading order</value>
+  </data>
+  <data name="TrifidReadingSRC" xml:space="preserve">
+    <value>Square · Row · Column</value>
+  </data>
+  <data name="TrifidReadingSCR" xml:space="preserve">
+    <value>Square · Column · Row</value>
+  </data>
+  <data name="TrifidReadingRSC" xml:space="preserve">
+    <value>Row · Square · Column</value>
+  </data>
+  <data name="TrifidReadingRCS" xml:space="preserve">
+    <value>Row · Column · Square</value>
+  </data>
+  <data name="TrifidReadingCSR" xml:space="preserve">
+    <value>Column · Square · Row</value>
+  </data>
+  <data name="TrifidReadingCRS" xml:space="preserve">
+    <value>Column · Row · Square</value>
+  </data>
+  <data name="TrifidFiller" xml:space="preserve">
+    <value>27th symbol</value>
+  </data>
+  <data name="TrifidPeriod" xml:space="preserve">
+    <value>Period (block length)</value>
+  </data>
+  <data name="TrifidWholeMessage" xml:space="preserve">
+    <value>Whole message as one block</value>
+  </data>
+  <data name="TrifidCube" xml:space="preserve">
+    <value>Cube</value>
+  </data>
+  <data name="TrifidSquareLabel" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="TrifidResetCube" xml:space="preserve">
+    <value>Reset to A–Z+</value>
+  </data>
+  <data name="TrifidRandomCube" xml:space="preserve">
+    <value>Random cube</value>
+  </data>
+  <data name="TrifidInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="TrifidInputPlaceholder" xml:space="preserve">
+    <value>Type or paste text to convert…</value>
+  </data>
+  <data name="TrifidOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="TrifidSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="TrifidClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="TrifidCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="TrifidShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="TrifidDropNotice" xml:space="preserve">
+    <value>{0} character(s) outside the alphabet were dropped.</value>
+  </data>
+  <data name="TrifidHowItWorks" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="TrifidHowItWorksText" xml:space="preserve">
+    <value>Each letter maps to three cube coordinates (square, row, column). Within each period block the three coordinate streams are concatenated in the reading order, then re-read in triples back through the cube.</value>
+  </data>
   <data name="BaseConverter_Name" xml:space="preserve">
     <value>Base converter</value>
   </data>

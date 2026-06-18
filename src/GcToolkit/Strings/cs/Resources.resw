@@ -386,6 +386,114 @@
   <data name="VigenereCipher_Tooltip" xml:space="preserve">
     <value>Zašifrujte a dešifrujte text klíčem Vigenèrovy šifry.</value>
   </data>
+  <data name="TrifidCipher_Name" xml:space="preserve">
+    <value>Šifra Trifid</value>
+  </data>
+  <data name="TrifidCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte Delastellovu šifru Trifid — klíčová krychle, perioda a pořadí čtení.</value>
+  </data>
+  <data name="TrifidDirectionLabel" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="TrifidEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="TrifidDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="TrifidKeyword" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="TrifidKeywordPlaceholder" xml:space="preserve">
+    <value>Volitelné — naplní krychli (prázdné = A–Z+)</value>
+  </data>
+  <data name="TrifidFillOrder" xml:space="preserve">
+    <value>Pořadí plnění klíče</value>
+  </data>
+  <data name="TrifidFillOrderSquareRow" xml:space="preserve">
+    <value>Nejprve čtverec, po řádcích</value>
+  </data>
+  <data name="TrifidFillOrderSquareColumn" xml:space="preserve">
+    <value>Nejprve čtverec, po sloupcích</value>
+  </data>
+  <data name="TrifidFillOrderRow" xml:space="preserve">
+    <value>Nejprve řádky</value>
+  </data>
+  <data name="TrifidFillOrderColumn" xml:space="preserve">
+    <value>Nejprve sloupce</value>
+  </data>
+  <data name="TrifidReadingOrder" xml:space="preserve">
+    <value>Pořadí čtení</value>
+  </data>
+  <data name="TrifidReadingSRC" xml:space="preserve">
+    <value>Čtverec · Řádek · Sloupec</value>
+  </data>
+  <data name="TrifidReadingSCR" xml:space="preserve">
+    <value>Čtverec · Sloupec · Řádek</value>
+  </data>
+  <data name="TrifidReadingRSC" xml:space="preserve">
+    <value>Řádek · Čtverec · Sloupec</value>
+  </data>
+  <data name="TrifidReadingRCS" xml:space="preserve">
+    <value>Řádek · Sloupec · Čtverec</value>
+  </data>
+  <data name="TrifidReadingCSR" xml:space="preserve">
+    <value>Sloupec · Čtverec · Řádek</value>
+  </data>
+  <data name="TrifidReadingCRS" xml:space="preserve">
+    <value>Sloupec · Řádek · Čtverec</value>
+  </data>
+  <data name="TrifidFiller" xml:space="preserve">
+    <value>27. symbol</value>
+  </data>
+  <data name="TrifidPeriod" xml:space="preserve">
+    <value>Perioda (délka bloku)</value>
+  </data>
+  <data name="TrifidWholeMessage" xml:space="preserve">
+    <value>Celá zpráva jako jeden blok</value>
+  </data>
+  <data name="TrifidCube" xml:space="preserve">
+    <value>Krychle</value>
+  </data>
+  <data name="TrifidSquareLabel" xml:space="preserve">
+    <value>Čtverec</value>
+  </data>
+  <data name="TrifidResetCube" xml:space="preserve">
+    <value>Obnovit na A–Z+</value>
+  </data>
+  <data name="TrifidRandomCube" xml:space="preserve">
+    <value>Náhodná krychle</value>
+  </data>
+  <data name="TrifidInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="TrifidInputPlaceholder" xml:space="preserve">
+    <value>Napište nebo vložte text k převodu…</value>
+  </data>
+  <data name="TrifidOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="TrifidSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="TrifidClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="TrifidCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="TrifidShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="TrifidDropNotice" xml:space="preserve">
+    <value>Bylo vynecháno {0} znaků mimo abecedu.</value>
+  </data>
+  <data name="TrifidHowItWorks" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="TrifidHowItWorksText" xml:space="preserve">
+    <value>Každé písmeno se převede na tři souřadnice v krychli (čtverec, řádek, sloupec). V každém bloku periody se tři proudy souřadnic spojí podle pořadí čtení a poté se po trojicích znovu přečtou zpět přes krychli.</value>
+  </data>
   <data name="BaseConverter_Name" xml:space="preserve">
     <value>Převodník soustav</value>
   </data>

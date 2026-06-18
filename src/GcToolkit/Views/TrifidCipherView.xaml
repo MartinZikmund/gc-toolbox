@@ -1,0 +1,294 @@
+﻿<local:TrifidCipherViewBase
+    x:Class="GcToolkit.Views.TrifidCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:TrifidCipherViewBase.Resources>
+        <DataTemplate x:Key="TrifidCubeCellTemplate" x:DataType="tools:TrifidCubeCell">
+            <Border
+                Width="44"
+                Height="44"
+                AutomationProperties.Name="{x:Bind Coordinate}"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                CornerRadius="6">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Consolas"
+                    FontSize="20"
+                    Text="{x:Bind Display}" />
+            </Border>
+        </DataTemplate>
+    </local:TrifidCipherViewBase.Resources>
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="820"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Direction  -->
+            <RadioButtons
+                Header="{markup:Localize Key=TrifidDirectionLabel}"
+                MaxColumns="2"
+                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=TrifidEncrypt}" />
+                <RadioButton Content="{markup:Localize Key=TrifidDecrypt}" />
+            </RadioButtons>
+
+            <!--  Cube settings  -->
+            <Grid ColumnSpacing="12" RowSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Header="{markup:Localize Key=TrifidKeyword}"
+                    PlaceholderText="{markup:Localize Key=TrifidKeywordPlaceholder}"
+                    Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    MinWidth="120"
+                    Header="{markup:Localize Key=TrifidFiller}"
+                    SelectedIndex="{x:Bind ViewModel.FillerIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="+" />
+                    <ComboBoxItem Content="." />
+                    <ComboBoxItem Content="#" />
+                    <ComboBoxItem Content="@" />
+                </ComboBox>
+            </Grid>
+
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                Header="{markup:Localize Key=TrifidFillOrder}"
+                SelectedIndex="{x:Bind ViewModel.FillOrderIndex, Mode=TwoWay}">
+                <ComboBoxItem Content="{markup:Localize Key=TrifidFillOrderSquareRow}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidFillOrderSquareColumn}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidFillOrderRow}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidFillOrderColumn}" />
+            </ComboBox>
+
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                Header="{markup:Localize Key=TrifidReadingOrder}"
+                SelectedIndex="{x:Bind ViewModel.ReadingOrderIndex, Mode=TwoWay}">
+                <ComboBoxItem Content="{markup:Localize Key=TrifidReadingSRC}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidReadingSCR}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidReadingRSC}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidReadingRCS}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidReadingCSR}" />
+                <ComboBoxItem Content="{markup:Localize Key=TrifidReadingCRS}" />
+            </ComboBox>
+
+            <!--  Period  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <NumberBox
+                    Grid.Column="0"
+                    MinWidth="160"
+                    Header="{markup:Localize Key=TrifidPeriod}"
+                    IsEnabled="{x:Bind ViewModel.WholeMessage, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    Minimum="1"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{x:Bind ViewModel.PeriodValue, Mode=TwoWay}" />
+                <CheckBox
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Content="{markup:Localize Key=TrifidWholeMessage}"
+                    IsChecked="{x:Bind ViewModel.WholeMessage, Mode=TwoWay}" />
+            </Grid>
+
+            <!--  Cube: three labelled 3×3 squares  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <Grid>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="{markup:Localize Key=TrifidCube}" />
+                        <StackPanel
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <Button Command="{x:Bind ViewModel.ResetCubeCommand}" Content="{markup:Localize Key=TrifidResetCube}" />
+                            <Button Command="{x:Bind ViewModel.RandomCubeCommand}" Content="{markup:Localize Key=TrifidRandomCube}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Horizontal"
+                        Spacing="20">
+                        <StackPanel Spacing="6">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=TrifidSquareLabel}" />
+                            <ItemsRepeater ItemTemplate="{StaticResource TrifidCubeCellTemplate}" ItemsSource="{x:Bind ViewModel.SquareOne}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="3"
+                                        MinColumnSpacing="6"
+                                        MinRowSpacing="6"
+                                        Orientation="Horizontal" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=TrifidSquareLabel}" />
+                            <ItemsRepeater ItemTemplate="{StaticResource TrifidCubeCellTemplate}" ItemsSource="{x:Bind ViewModel.SquareTwo}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="3"
+                                        MinColumnSpacing="6"
+                                        MinRowSpacing="6"
+                                        Orientation="Horizontal" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=TrifidSquareLabel}" />
+                            <ItemsRepeater ItemTemplate="{StaticResource TrifidCubeCellTemplate}" ItemsSource="{x:Bind ViewModel.SquareThree}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout
+                                        MaximumRowsOrColumns="3"
+                                        MinColumnSpacing="6"
+                                        MinRowSpacing="6"
+                                        Orientation="Horizontal" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=TrifidInputLabel}"
+                PlaceholderText="{markup:Localize Key=TrifidInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Command="{x:Bind ViewModel.SwapCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                        <TextBlock Text="{markup:Localize Key=TrifidSwap}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=TrifidClear}" />
+            </StackPanel>
+
+            <!--  Result  -->
+            <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TrifidOutputLabel}" />
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                FontFamily="Consolas"
+                FontSize="18"
+                IsReadOnly="True"
+                IsSpellCheckEnabled="False"
+                Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                TextWrapping="Wrap" />
+
+            <!--  Dropped-character notice  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasDropNotice, Mode=OneWay}"
+                Message="{x:Bind ViewModel.DropNotice, Mode=OneWay}"
+                Severity="Informational" />
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=TrifidCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=TrifidShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  How it works  -->
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Header="{markup:Localize Key=TrifidHowItWorks}">
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{markup:Localize Key=TrifidHowItWorksText}"
+                    TextWrapping="Wrap" />
+            </Expander>
+
+        </StackPanel>
+    </ScrollViewer>
+</local:TrifidCipherViewBase>
