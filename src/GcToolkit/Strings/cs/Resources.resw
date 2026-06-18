@@ -534,6 +534,76 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Používá nezkrácené (1. stupeň) anglické Braillovo písmo. Znak velkého písmene (bod 6) označuje každé velké písmeno a číselný znak (body 3-4-5-6) zahajuje skupinu číslic, kde a–j znamenají 1–9 a 0. Výstupem je skutečné Unicode Braillovo písmo, takže jej můžete kdekoli zkopírovat a vložit.</value>
   </data>
+  <!-- Tool: Beghilos (calculator spelling) -->
+  <data name="Beghilos_Name" xml:space="preserve">
+    <value>Psaní na kalkulačce</value>
+  </data>
+  <data name="Beghilos_Tooltip" xml:space="preserve">
+    <value>Napište slova na obrácené kalkulačce a čtěte slova skrytá v číslech (BEGHILOS).</value>
+  </data>
+  <data name="BeghilosDirectionLabel" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="BeghilosDirectionAuto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="BeghilosDirectionEncode" xml:space="preserve">
+    <value>Slovo → Číslo</value>
+  </data>
+  <data name="BeghilosDirectionDecode" xml:space="preserve">
+    <value>Číslo → Slovo</value>
+  </data>
+  <data name="BeghilosProfileLabel" xml:space="preserve">
+    <value>Mapování</value>
+  </data>
+  <data name="BeghilosProfileStrict" xml:space="preserve">
+    <value>Striktní (BEGHILOS)</value>
+  </data>
+  <data name="BeghilosProfileExtended" xml:space="preserve">
+    <value>Rozšířené (+ 9 = G)</value>
+  </data>
+  <data name="BeghilosInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="BeghilosInputPlaceholder" xml:space="preserve">
+    <value>Zadejte slovo (např. HELLO) nebo číslo (např. 0.7734)…</value>
+  </data>
+  <data name="BeghilosClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BeghilosOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BeghilosResolvedEncode" xml:space="preserve">
+    <value>Slovo → Číslo</value>
+  </data>
+  <data name="BeghilosResolvedDecode" xml:space="preserve">
+    <value>Číslo → Slovo</value>
+  </data>
+  <data name="BeghilosUnsupportedNotice" xml:space="preserve">
+    <value>{0} znak(ů) nemá ekvivalent na kalkulačce a byly vynechány: {1}</value>
+  </data>
+  <data name="BeghilosCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BeghilosShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BeghilosDisplayLabel" xml:space="preserve">
+    <value>Displej kalkulačky</value>
+  </data>
+  <data name="BeghilosFlippedLabel" xml:space="preserve">
+    <value>Čtení vzhůru nohama</value>
+  </data>
+  <data name="BeghilosReferenceLabel" xml:space="preserve">
+    <value>Mapa písmeno ↔ číslice</value>
+  </data>
+  <data name="BeghilosAboutTitle" xml:space="preserve">
+    <value>O tomto triku</value>
+  </data>
+  <data name="BeghilosAboutBody" xml:space="preserve">
+    <value>Některé číslice na sedmisegmentovém displeji připomínají písmena, když kalkulačku otočíte vzhůru nohama, takže číslo může napsat slovo. Protože se displej čte obráceně, číslice jsou v opačném pořadí: 0.7734 vzhůru nohama dává „hELLO“. Čistě se převedou pouze písmena B, E, G, H, I, L, O, S (a Z).</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signální vlajky</value>

@@ -1,0 +1,242 @@
+﻿<local:BeghilosViewBase
+    x:Class="GcToolkit.Views.BeghilosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:alphabets="using:GcToolkit.Core.Alphabets"
+    xmlns:controls="using:GcToolkit.Controls"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:BeghilosViewBase.Resources>
+        <!--  One upright calculator digit  -->
+        <DataTemplate x:Key="BeghilosGlyphTemplate" x:DataType="alphabets:SevenSegmentGlyph">
+            <controls:SevenSegmentDisplay Margin="3,0" Glyph="{x:Bind}" />
+        </DataTemplate>
+
+        <!--  One upside-down (180°-rotated) digit  -->
+        <DataTemplate x:Key="BeghilosFlippedGlyphTemplate" x:DataType="alphabets:SevenSegmentGlyph">
+            <controls:SevenSegmentDisplay
+                Margin="3,0"
+                Flipped="True"
+                Glyph="{x:Bind}" />
+        </DataTemplate>
+
+        <Style x:Key="BeghilosMapCellStyle" TargetType="Border">
+            <Setter Property="MinWidth" Value="52" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
+    </local:BeghilosViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=BeghilosDirectionLabel}"
+                    MaxColumns="3"
+                    SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=BeghilosDirectionAuto}" />
+                    <RadioButton Content="{markup:Localize Key=BeghilosDirectionEncode}" />
+                    <RadioButton Content="{markup:Localize Key=BeghilosDirectionDecode}" />
+                </RadioButtons>
+
+                <!--  Mapping profile  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=BeghilosProfileLabel}"
+                    MaxColumns="2"
+                    SelectedIndex="{x:Bind ViewModel.ProfileIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=BeghilosProfileStrict}" />
+                    <RadioButton Content="{markup:Localize Key=BeghilosProfileExtended}" />
+                </RadioButtons>
+
+                <!--  Input  -->
+                <TextBox
+                    Header="{markup:Localize Key=BeghilosInputLabel}"
+                    PlaceholderText="{markup:Localize Key=BeghilosInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <Button
+                    HorizontalAlignment="Left"
+                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Content="{markup:Localize Key=BeghilosClear}" />
+
+                <!--  Result  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{markup:Localize Key=BeghilosOutputLabel}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ResolvedDirectionLabel, Mode=OneWay}" />
+                </Grid>
+                <TextBox
+                    AutomationProperties.Name="{markup:Localize Key=BeghilosOutputLabel}"
+                    FontFamily="Consolas"
+                    FontSize="20"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Unsupported-character notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasWarning, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.WarningMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=BeghilosCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=BeghilosShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Seven-segment display: upright + upside-down readings  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.HasGlyphs, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BeghilosDisplayLabel}" />
+                        <ItemsControl
+                            AutomationProperties.Name="{markup:Localize Key=BeghilosDisplayLabel}"
+                            ItemTemplate="{StaticResource BeghilosGlyphTemplate}"
+                            ItemsSource="{x:Bind ViewModel.Glyphs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="{markup:Localize Key=BeghilosFlippedLabel}" />
+                        <ItemsControl
+                            AutomationProperties.Name="{markup:Localize Key=BeghilosFlippedLabel}"
+                            ItemTemplate="{StaticResource BeghilosFlippedGlyphTemplate}"
+                            ItemsSource="{x:Bind ViewModel.FlippedGlyphs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!--  FlowDirection RightToLeft mirrors the digit order so the word reads left-to-right when flipped.  -->
+                                    <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!--  Letter ↔ digit reference  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BeghilosReferenceLabel}" />
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.MappingReference}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="64"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Border Style="{StaticResource BeghilosMapCellStyle}">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  About  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BeghilosAboutTitle}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{markup:Localize Key=BeghilosAboutBody}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:BeghilosViewBase>

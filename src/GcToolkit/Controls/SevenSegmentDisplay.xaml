@@ -1,0 +1,85 @@
+﻿<UserControl
+    x:Class="GcToolkit.Controls.SevenSegmentDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <!--  A lit segment uses the accent colour; an unlit one stays a faint outline so the cell shape reads.  -->
+        <Style x:Key="SegmentHorizontal" TargetType="Rectangle">
+            <Setter Property="Height" Value="6" />
+            <Setter Property="RadiusX" Value="3" />
+            <Setter Property="RadiusY" Value="3" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="SegmentVertical" TargetType="Rectangle">
+            <Setter Property="Width" Value="6" />
+            <Setter Property="RadiusX" Value="3" />
+            <Setter Property="RadiusY" Value="3" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid
+        Width="34"
+        Height="58"
+        ColumnSpacing="2"
+        RowSpacing="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="6" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6" />
+        </Grid.RowDefinitions>
+
+        <!--  a: top  -->
+        <Rectangle
+            x:Name="SegA"
+            Grid.Row="0"
+            Grid.Column="1"
+            Style="{StaticResource SegmentHorizontal}" />
+        <!--  f: top-left  -->
+        <Rectangle
+            x:Name="SegF"
+            Grid.Row="1"
+            Grid.Column="0"
+            Style="{StaticResource SegmentVertical}" />
+        <!--  b: top-right  -->
+        <Rectangle
+            x:Name="SegB"
+            Grid.Row="1"
+            Grid.Column="2"
+            Style="{StaticResource SegmentVertical}" />
+        <!--  g: middle  -->
+        <Rectangle
+            x:Name="SegG"
+            Grid.Row="2"
+            Grid.Column="1"
+            Style="{StaticResource SegmentHorizontal}" />
+        <!--  e: bottom-left  -->
+        <Rectangle
+            x:Name="SegE"
+            Grid.Row="3"
+            Grid.Column="0"
+            Style="{StaticResource SegmentVertical}" />
+        <!--  c: bottom-right  -->
+        <Rectangle
+            x:Name="SegC"
+            Grid.Row="3"
+            Grid.Column="2"
+            Style="{StaticResource SegmentVertical}" />
+        <!--  d: bottom  -->
+        <Rectangle
+            x:Name="SegD"
+            Grid.Row="4"
+            Grid.Column="1"
+            Style="{StaticResource SegmentHorizontal}" />
+    </Grid>
+</UserControl>

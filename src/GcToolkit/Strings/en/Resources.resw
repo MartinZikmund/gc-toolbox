@@ -534,6 +534,76 @@
   <data name="BrailleAboutBody" xml:space="preserve">
     <value>Uses uncontracted (Grade 1) English Braille. A capital sign (dot 6) marks each capital letter, and a number sign (dots 3-4-5-6) starts a run of digits, where a–j stand for 1–9 and 0. Output is real Unicode Braille, so you can copy and paste it anywhere.</value>
   </data>
+  <!-- Tool: Beghilos (calculator spelling) -->
+  <data name="Beghilos_Name" xml:space="preserve">
+    <value>Calculator spelling</value>
+  </data>
+  <data name="Beghilos_Tooltip" xml:space="preserve">
+    <value>Spell words on an upside-down calculator and read the words hidden in numbers (BEGHILOS).</value>
+  </data>
+  <data name="BeghilosDirectionLabel" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="BeghilosDirectionAuto" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="BeghilosDirectionEncode" xml:space="preserve">
+    <value>Word → Number</value>
+  </data>
+  <data name="BeghilosDirectionDecode" xml:space="preserve">
+    <value>Number → Word</value>
+  </data>
+  <data name="BeghilosProfileLabel" xml:space="preserve">
+    <value>Mapping</value>
+  </data>
+  <data name="BeghilosProfileStrict" xml:space="preserve">
+    <value>Strict (BEGHILOS)</value>
+  </data>
+  <data name="BeghilosProfileExtended" xml:space="preserve">
+    <value>Extended (+ 9 = G)</value>
+  </data>
+  <data name="BeghilosInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="BeghilosInputPlaceholder" xml:space="preserve">
+    <value>Type a word (e.g. HELLO) or a number (e.g. 0.7734)…</value>
+  </data>
+  <data name="BeghilosClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BeghilosOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BeghilosResolvedEncode" xml:space="preserve">
+    <value>Word → Number</value>
+  </data>
+  <data name="BeghilosResolvedDecode" xml:space="preserve">
+    <value>Number → Word</value>
+  </data>
+  <data name="BeghilosUnsupportedNotice" xml:space="preserve">
+    <value>{0} character(s) have no calculator equivalent and were skipped: {1}</value>
+  </data>
+  <data name="BeghilosCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BeghilosShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BeghilosDisplayLabel" xml:space="preserve">
+    <value>Calculator display</value>
+  </data>
+  <data name="BeghilosFlippedLabel" xml:space="preserve">
+    <value>Upside-down reading</value>
+  </data>
+  <data name="BeghilosReferenceLabel" xml:space="preserve">
+    <value>Letter ↔ digit map</value>
+  </data>
+  <data name="BeghilosAboutTitle" xml:space="preserve">
+    <value>About this trick</value>
+  </data>
+  <data name="BeghilosAboutBody" xml:space="preserve">
+    <value>Some seven-segment digits resemble letters when a calculator is turned upside down, so a number can spell a word. Because the display is read flipped, the digits are reversed: 0.7734 upside-down reads "hELLO". Only the letters B, E, G, H, I, L, O, S (and Z) convert cleanly.</value>
+  </data>
   <!-- Tool: signal flags -->
   <data name="SignalFlags_Name" xml:space="preserve">
     <value>Signal flags</value>
