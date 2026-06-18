@@ -1,0 +1,233 @@
+﻿<local:AdfgvxCipherViewBase
+    x:Class="GcToolkit.Views.AdfgvxCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:AdfgvxCipherViewBase.Resources>
+        <!--  One cell of the Polybius square  -->
+        <DataTemplate x:Key="AdfgvxSquareCellTemplate" x:DataType="tools:AdfgvxSquareCell">
+            <Border
+                MinWidth="40"
+                MinHeight="40"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                CornerRadius="6"
+                ToolTipService.ToolTip="{x:Bind AutomationName}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                    Text="{x:Bind Value, Mode=OneWay}" />
+            </Border>
+        </DataTemplate>
+
+        <!--  One substitution step (plain char -> coordinate pair)  -->
+        <DataTemplate x:Key="AdfgvxSubstitutionTemplate" x:DataType="tools:AdfgvxSubstitutionItem">
+            <Border
+                Padding="8,4"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                CornerRadius="6">
+                <StackPanel HorizontalAlignment="Center" Spacing="2">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontFamily="Consolas"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{x:Bind PlainChar}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontFamily="Consolas"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind Pair}" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </local:AdfgvxCipherViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Cipher type  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=AdfgvxVariantLabel}"
+                    MaxColumns="2"
+                    SelectedIndex="{x:Bind ViewModel.VariantIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=AdfgvxVariant5}" />
+                    <RadioButton Content="{markup:Localize Key=AdfgvxVariant6}" />
+                </RadioButtons>
+
+                <!--  Key square  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AdfgvxSquareLabel}" />
+
+                        <!--  Rendered square grid  -->
+                        <ItemsRepeater
+                            HorizontalAlignment="Left"
+                            AutomationProperties.Name="{markup:Localize Key=AdfgvxSquareLabel}"
+                            ItemTemplate="{StaticResource AdfgvxSquareCellTemplate}"
+                            ItemsSource="{x:Bind ViewModel.SquareCells, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    MaximumRowsOrColumns="{x:Bind ViewModel.SquareSize, Mode=OneWay}"
+                                    MinColumnSpacing="6"
+                                    MinRowSpacing="6"
+                                    Orientation="Horizontal" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+
+                        <!--  Square fill (editable / paste)  -->
+                        <TextBox
+                            FontFamily="Consolas"
+                            Header="{markup:Localize Key=AdfgvxSquareFillLabel}"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="{markup:Localize Key=AdfgvxSquareFillPlaceholder}"
+                            Text="{x:Bind ViewModel.SquareFill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+
+                        <!--  Square presets  -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Command="{x:Bind ViewModel.OrderedSquareCommand}" Content="{markup:Localize Key=AdfgvxOrderedSquare}" />
+                            <Button Command="{x:Bind ViewModel.KeywordSeededSquareCommand}" Content="{markup:Localize Key=AdfgvxKeywordSeededSquare}" />
+                            <Button Command="{x:Bind ViewModel.RandomSquareCommand}" Content="{markup:Localize Key=AdfgvxRandomSquare}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!--  Transposition keyword  -->
+                <TextBox
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=AdfgvxKeywordLabel}"
+                    IsSpellCheckEnabled="False"
+                    PlaceholderText="{markup:Localize Key=AdfgvxKeywordPlaceholder}"
+                    Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!--  Method  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=AdfgvxDirectionLabel}"
+                    MaxColumns="2"
+                    SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=AdfgvxEncrypt}" />
+                    <RadioButton Content="{markup:Localize Key=AdfgvxDecrypt}" />
+                </RadioButtons>
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="80"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=AdfgvxInputLabel}"
+                    PlaceholderText="{markup:Localize Key=AdfgvxInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <Button
+                    HorizontalAlignment="Left"
+                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Content="{markup:Localize Key=AdfgvxClear}" />
+
+                <!--  Notice (cleaning info or validation error)  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasNotice, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.NoticeMessage, Mode=OneWay}"
+                    Severity="{x:Bind ViewModel.NoticeSeverity, Mode=OneWay}" />
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AdfgvxOutputLabel}" />
+                <TextBox
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=AdfgvxCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=AdfgvxShare}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.SwapCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                            <TextBlock Text="{markup:Localize Key=AdfgvxSwap}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Substitution preview (encrypt only)  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=AdfgvxSubstitutionLabel}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind ViewModel.HasSubstitution, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ItemsRepeater ItemTemplate="{StaticResource AdfgvxSubstitutionTemplate}" ItemsSource="{x:Bind ViewModel.SubstitutionSteps, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                MinColumnSpacing="6"
+                                MinItemWidth="44"
+                                MinRowSpacing="6" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:AdfgvxCipherViewBase>

@@ -380,6 +380,103 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- ADFGX / ADFGVX cipher -->
+  <data name="AdfgvxCipher_Name" xml:space="preserve">
+    <value>Šifra ADFGX / ADFGVX</value>
+  </data>
+  <data name="AdfgvxCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte šifry ADFGX a ADFGVX z první světové války (frakcionalizace s transpozicí).</value>
+  </data>
+  <data name="AdfgvxVariantLabel" xml:space="preserve">
+    <value>Typ šifry</value>
+  </data>
+  <data name="AdfgvxVariant5" xml:space="preserve">
+    <value>ADFGX (5×5)</value>
+  </data>
+  <data name="AdfgvxVariant6" xml:space="preserve">
+    <value>ADFGVX (6×6)</value>
+  </data>
+  <data name="AdfgvxDirectionLabel" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
+  <data name="AdfgvxEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="AdfgvxDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="AdfgvxSquareLabel" xml:space="preserve">
+    <value>Klíčový čtverec</value>
+  </data>
+  <data name="AdfgvxSquareFillLabel" xml:space="preserve">
+    <value>Písmena čtverce</value>
+  </data>
+  <data name="AdfgvxSquareFillPlaceholder" xml:space="preserve">
+    <value>Napište nebo vložte písmena čtverce (řádek po řádku)…</value>
+  </data>
+  <data name="AdfgvxOrderedSquare" xml:space="preserve">
+    <value>Seřazený</value>
+  </data>
+  <data name="AdfgvxKeywordSeededSquare" xml:space="preserve">
+    <value>Z klíčového slova</value>
+  </data>
+  <data name="AdfgvxRandomSquare" xml:space="preserve">
+    <value>Náhodný</value>
+  </data>
+  <data name="AdfgvxKeywordLabel" xml:space="preserve">
+    <value>Klíčové slovo transpozice</value>
+  </data>
+  <data name="AdfgvxKeywordPlaceholder" xml:space="preserve">
+    <value>např. CARGO</value>
+  </data>
+  <data name="AdfgvxInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="AdfgvxInputPlaceholder" xml:space="preserve">
+    <value>Otevřený text k zašifrování nebo šifrový text k dešifrování…</value>
+  </data>
+  <data name="AdfgvxOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="AdfgvxCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="AdfgvxShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="AdfgvxSwap" xml:space="preserve">
+    <value>Vložit do vstupu a prohodit</value>
+  </data>
+  <data name="AdfgvxClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="AdfgvxSubstitutionLabel" xml:space="preserve">
+    <value>Náhled substituce</value>
+  </data>
+  <data name="AdfgvxCellLabel" xml:space="preserve">
+    <value>Řádek {0}, sloupec {1}: {2}</value>
+  </data>
+  <data name="AdfgvxNoteFoldedJ" xml:space="preserve">
+    <value>Písmeno J bylo nahrazeno za I (ADFGX nemá J).</value>
+  </data>
+  <data name="AdfgvxNoteDropped" xml:space="preserve">
+    <value>Znaky mimo abecedu čtverce byly ignorovány.</value>
+  </data>
+  <data name="AdfgvxErrorIncompleteSquare" xml:space="preserve">
+    <value>Čtverec je neúplný — každou buňku vyplňte právě jednou.</value>
+  </data>
+  <data name="AdfgvxErrorDuplicateCell" xml:space="preserve">
+    <value>Čtverec obsahuje duplicitní písmeno nebo číslici.</value>
+  </data>
+  <data name="AdfgvxErrorInvalidSquareChar" xml:space="preserve">
+    <value>Čtverec obsahuje znak, který tato šifra nepovoluje.</value>
+  </data>
+  <data name="AdfgvxErrorEmptyKeyword" xml:space="preserve">
+    <value>Zadejte klíčové slovo transpozice.</value>
+  </data>
+  <data name="AdfgvxErrorMalformedCiphertext" xml:space="preserve">
+    <value>Šifrový text smí obsahovat jen písmena záhlaví a musí mít sudou délku.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

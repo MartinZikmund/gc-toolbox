@@ -380,6 +380,103 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- ADFGX / ADFGVX cipher -->
+  <data name="AdfgvxCipher_Name" xml:space="preserve">
+    <value>ADFGX / ADFGVX cipher</value>
+  </data>
+  <data name="AdfgvxCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the WWI ADFGX and ADFGVX fractionating transposition ciphers.</value>
+  </data>
+  <data name="AdfgvxVariantLabel" xml:space="preserve">
+    <value>Cipher type</value>
+  </data>
+  <data name="AdfgvxVariant5" xml:space="preserve">
+    <value>ADFGX (5×5)</value>
+  </data>
+  <data name="AdfgvxVariant6" xml:space="preserve">
+    <value>ADFGVX (6×6)</value>
+  </data>
+  <data name="AdfgvxDirectionLabel" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="AdfgvxEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="AdfgvxDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="AdfgvxSquareLabel" xml:space="preserve">
+    <value>Key square</value>
+  </data>
+  <data name="AdfgvxSquareFillLabel" xml:space="preserve">
+    <value>Square letters</value>
+  </data>
+  <data name="AdfgvxSquareFillPlaceholder" xml:space="preserve">
+    <value>Type or paste the square letters (row by row)…</value>
+  </data>
+  <data name="AdfgvxOrderedSquare" xml:space="preserve">
+    <value>Ordered</value>
+  </data>
+  <data name="AdfgvxKeywordSeededSquare" xml:space="preserve">
+    <value>From keyword</value>
+  </data>
+  <data name="AdfgvxRandomSquare" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="AdfgvxKeywordLabel" xml:space="preserve">
+    <value>Transposition keyword</value>
+  </data>
+  <data name="AdfgvxKeywordPlaceholder" xml:space="preserve">
+    <value>e.g. CARGO</value>
+  </data>
+  <data name="AdfgvxInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="AdfgvxInputPlaceholder" xml:space="preserve">
+    <value>Plaintext to encrypt, or ciphertext to decrypt…</value>
+  </data>
+  <data name="AdfgvxOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="AdfgvxCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="AdfgvxShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="AdfgvxSwap" xml:space="preserve">
+    <value>Send to input &amp; swap</value>
+  </data>
+  <data name="AdfgvxClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AdfgvxSubstitutionLabel" xml:space="preserve">
+    <value>Substitution preview</value>
+  </data>
+  <data name="AdfgvxCellLabel" xml:space="preserve">
+    <value>Row {0}, column {1}: {2}</value>
+  </data>
+  <data name="AdfgvxNoteFoldedJ" xml:space="preserve">
+    <value>J was folded to I (ADFGX has no J).</value>
+  </data>
+  <data name="AdfgvxNoteDropped" xml:space="preserve">
+    <value>Characters outside the square's alphabet were ignored.</value>
+  </data>
+  <data name="AdfgvxErrorIncompleteSquare" xml:space="preserve">
+    <value>The square is incomplete — fill every cell exactly once.</value>
+  </data>
+  <data name="AdfgvxErrorDuplicateCell" xml:space="preserve">
+    <value>The square has a duplicate letter or digit.</value>
+  </data>
+  <data name="AdfgvxErrorInvalidSquareChar" xml:space="preserve">
+    <value>The square contains a character that isn't allowed for this cipher.</value>
+  </data>
+  <data name="AdfgvxErrorEmptyKeyword" xml:space="preserve">
+    <value>Enter a transposition keyword.</value>
+  </data>
+  <data name="AdfgvxErrorMalformedCiphertext" xml:space="preserve">
+    <value>The ciphertext must use only the header letters and have an even length.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
