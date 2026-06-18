@@ -1,0 +1,247 @@
+﻿<local:Base32ViewBase
+    x:Class="GcToolkit.Views.Base32View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="820"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Direction  -->
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=Base32Encode}" />
+                <RadioButton Content="{markup:Localize Key=Base32Decode}" />
+            </RadioButtons>
+
+            <!--  Options: variant + text encoding  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    AutomationProperties.Name="{markup:Localize Key=Base32VariantLabel}"
+                    Header="{markup:Localize Key=Base32VariantLabel}"
+                    ItemsSource="{x:Bind ViewModel.Variants}"
+                    SelectedIndex="{x:Bind ViewModel.VariantIndex, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    AutomationProperties.Name="{markup:Localize Key=Base32EncodingLabel}"
+                    Header="{markup:Localize Key=Base32EncodingLabel}"
+                    ItemsSource="{x:Bind ViewModel.TextEncodings}"
+                    SelectedIndex="{x:Bind ViewModel.TextEncodingIndex, Mode=TwoWay}" />
+            </Grid>
+
+            <!--  Custom alphabet (shown only for the custom variant)  -->
+            <TextBox
+                FontFamily="Consolas"
+                Header="{markup:Localize Key=Base32CustomAlphabetLabel}"
+                PlaceholderText="{markup:Localize Key=Base32CustomAlphabetPlaceholder}"
+                Text="{x:Bind ViewModel.CustomAlphabet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsCustomVariant, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <!--  Padding + grouping toggles  -->
+            <StackPanel Orientation="Horizontal" Spacing="24">
+                <ToggleSwitch Header="{markup:Localize Key=Base32Padding}" IsOn="{x:Bind ViewModel.UsePadding, Mode=TwoWay}" />
+                <ToggleSwitch Header="{markup:Localize Key=Base32Group}" IsOn="{x:Bind ViewModel.GroupOutput, Mode=TwoWay}" />
+                <NumberBox
+                    MinWidth="120"
+                    VerticalAlignment="Bottom"
+                    AutomationProperties.Name="{markup:Localize Key=Base32GroupSize}"
+                    Header="{markup:Localize Key=Base32GroupSize}"
+                    Minimum="1"
+                    SpinButtonPlacementMode="Compact"
+                    Visibility="{x:Bind ViewModel.GroupOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Value="{x:Bind ViewModel.GroupSize, Mode=TwoWay}" />
+            </StackPanel>
+
+            <!--  Plaintext side  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=Base32PlainLabel}"
+                PlaceholderText="{markup:Localize Key=Base32PlainPlaceholder}"
+                Text="{x:Bind ViewModel.PlainText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <!--  Swap  -->
+            <Button
+                HorizontalAlignment="Center"
+                AutomationProperties.Name="{markup:Localize Key=Base32Swap}"
+                Command="{x:Bind ViewModel.SwapCommand}"
+                ToolTipService.ToolTip="{markup:Localize Key=Base32Swap}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                    <TextBlock Text="{markup:Localize Key=Base32Swap}" />
+                </StackPanel>
+            </Button>
+
+            <!--  Base32 side  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                FontFamily="Consolas"
+                FontSize="16"
+                Header="{markup:Localize Key=Base32CodeLabel}"
+                IsSpellCheckEnabled="False"
+                PlaceholderText="{markup:Localize Key=Base32CodePlaceholder}"
+                Text="{x:Bind ViewModel.Base32Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <!--  Error state  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Byte stats + hex view  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Base32Bytes}" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ViewModel.ByteCount, Mode=OneWay}" />
+                    </StackPanel>
+                    <TextBlock
+                        FontFamily="Consolas"
+                        FontSize="14"
+                        IsTextSelectionEnabled="True"
+                        Text="{x:Bind ViewModel.HexView, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!--  Actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=Base32Copy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=Base32Share}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ExampleCommand}" Content="{markup:Localize Key=Base32Example}" />
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=Base32Clear}" />
+            </StackPanel>
+
+            <!--  Try-all-variants solver (decode only)  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Visibility="{x:Bind ViewModel.ShowSolver, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Base32SolverLabel}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=Base32SolverNote}"
+                        TextWrapping="Wrap" />
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.AllVariantResults}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="tools:Base32VariantPreview">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="8,6"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind VariantName}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Preview}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!--  About Base32  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="6">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Base32AboutLabel}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=Base32AboutText}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</local:Base32ViewBase>

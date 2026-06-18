@@ -380,6 +380,117 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <data name="Base32_Name" xml:space="preserve">
+    <value>Base32 Encoder / Decoder</value>
+  </data>
+  <data name="Base32_Tooltip" xml:space="preserve">
+    <value>Encode and decode Base32 (RFC 4648, base32hex, Crockford, z-base-32) with lenient decoding.</value>
+  </data>
+  <data name="Base32Encode" xml:space="preserve">
+    <value>Encode (text → Base32)</value>
+  </data>
+  <data name="Base32Decode" xml:space="preserve">
+    <value>Decode (Base32 → text)</value>
+  </data>
+  <data name="Base32VariantLabel" xml:space="preserve">
+    <value>Alphabet variant</value>
+  </data>
+  <data name="Base32EncodingLabel" xml:space="preserve">
+    <value>Text encoding</value>
+  </data>
+  <data name="Base32Variant_Rfc4648" xml:space="preserve">
+    <value>RFC 4648 (A–Z 2–7)</value>
+  </data>
+  <data name="Base32Variant_Base32Hex" xml:space="preserve">
+    <value>base32hex (0–9 A–V)</value>
+  </data>
+  <data name="Base32Variant_Crockford" xml:space="preserve">
+    <value>Crockford</value>
+  </data>
+  <data name="Base32Variant_ZBase32" xml:space="preserve">
+    <value>z-base-32</value>
+  </data>
+  <data name="Base32Variant_Custom" xml:space="preserve">
+    <value>Custom alphabet</value>
+  </data>
+  <data name="Base32Encoding_Utf8" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="Base32Encoding_Ascii" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="Base32Encoding_Latin1" xml:space="preserve">
+    <value>Latin-1</value>
+  </data>
+  <data name="Base32CustomAlphabetLabel" xml:space="preserve">
+    <value>Custom alphabet (32 distinct symbols)</value>
+  </data>
+  <data name="Base32CustomAlphabetPlaceholder" xml:space="preserve">
+    <value>e.g. ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</value>
+  </data>
+  <data name="Base32CustomAlphabetInvalid" xml:space="preserve">
+    <value>The custom alphabet must contain exactly 32 distinct symbols.</value>
+  </data>
+  <data name="Base32Padding" xml:space="preserve">
+    <value>Padding (=)</value>
+  </data>
+  <data name="Base32Group" xml:space="preserve">
+    <value>Group output</value>
+  </data>
+  <data name="Base32GroupSize" xml:space="preserve">
+    <value>Group size</value>
+  </data>
+  <data name="Base32PlainLabel" xml:space="preserve">
+    <value>Plain text</value>
+  </data>
+  <data name="Base32PlainPlaceholder" xml:space="preserve">
+    <value>Type text to encode…</value>
+  </data>
+  <data name="Base32CodeLabel" xml:space="preserve">
+    <value>Base32</value>
+  </data>
+  <data name="Base32CodePlaceholder" xml:space="preserve">
+    <value>Paste Base32 to decode…</value>
+  </data>
+  <data name="Base32Swap" xml:space="preserve">
+    <value>Swap direction</value>
+  </data>
+  <data name="Base32Bytes" xml:space="preserve">
+    <value>Bytes:</value>
+  </data>
+  <data name="Base32Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Base32Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Base32Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="Base32Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Base32InvalidCharFormat" xml:space="preserve">
+    <value>Invalid character '{0}' at position {1}.</value>
+  </data>
+  <data name="Base32DecodeFailed" xml:space="preserve">
+    <value>The input could not be decoded.</value>
+  </data>
+  <data name="Base32SolverLabel" xml:space="preserve">
+    <value>Try all variants</value>
+  </data>
+  <data name="Base32SolverNote" xml:space="preserve">
+    <value>Decodes the Base32 above under every alphabet so you can spot the readable one.</value>
+  </data>
+  <data name="Base32SolverInvalid" xml:space="preserve">
+    <value>(invalid)</value>
+  </data>
+  <data name="Base32AboutLabel" xml:space="preserve">
+    <value>About Base32</value>
+  </data>
+  <data name="Base32AboutText" xml:space="preserve">
+    <value>Base32 turns arbitrary bytes into an ASCII-safe string. Every group of 5 input bytes becomes 8 symbols, padded with '=' when the length isn't a multiple of 5. Common in geocaching puzzles to hide coordinates or clues.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

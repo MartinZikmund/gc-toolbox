@@ -380,6 +380,117 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <data name="Base32_Name" xml:space="preserve">
+    <value>Kodér / dekodér Base32</value>
+  </data>
+  <data name="Base32_Tooltip" xml:space="preserve">
+    <value>Kódování a dekódování Base32 (RFC 4648, base32hex, Crockford, z-base-32) s tolerantním dekódováním.</value>
+  </data>
+  <data name="Base32Encode" xml:space="preserve">
+    <value>Kódovat (text → Base32)</value>
+  </data>
+  <data name="Base32Decode" xml:space="preserve">
+    <value>Dekódovat (Base32 → text)</value>
+  </data>
+  <data name="Base32VariantLabel" xml:space="preserve">
+    <value>Varianta abecedy</value>
+  </data>
+  <data name="Base32EncodingLabel" xml:space="preserve">
+    <value>Kódování textu</value>
+  </data>
+  <data name="Base32Variant_Rfc4648" xml:space="preserve">
+    <value>RFC 4648 (A–Z 2–7)</value>
+  </data>
+  <data name="Base32Variant_Base32Hex" xml:space="preserve">
+    <value>base32hex (0–9 A–V)</value>
+  </data>
+  <data name="Base32Variant_Crockford" xml:space="preserve">
+    <value>Crockford</value>
+  </data>
+  <data name="Base32Variant_ZBase32" xml:space="preserve">
+    <value>z-base-32</value>
+  </data>
+  <data name="Base32Variant_Custom" xml:space="preserve">
+    <value>Vlastní abeceda</value>
+  </data>
+  <data name="Base32Encoding_Utf8" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="Base32Encoding_Ascii" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="Base32Encoding_Latin1" xml:space="preserve">
+    <value>Latin-1</value>
+  </data>
+  <data name="Base32CustomAlphabetLabel" xml:space="preserve">
+    <value>Vlastní abeceda (32 odlišných symbolů)</value>
+  </data>
+  <data name="Base32CustomAlphabetPlaceholder" xml:space="preserve">
+    <value>např. ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</value>
+  </data>
+  <data name="Base32CustomAlphabetInvalid" xml:space="preserve">
+    <value>Vlastní abeceda musí obsahovat přesně 32 odlišných symbolů.</value>
+  </data>
+  <data name="Base32Padding" xml:space="preserve">
+    <value>Vycpávka (=)</value>
+  </data>
+  <data name="Base32Group" xml:space="preserve">
+    <value>Seskupit výstup</value>
+  </data>
+  <data name="Base32GroupSize" xml:space="preserve">
+    <value>Velikost skupiny</value>
+  </data>
+  <data name="Base32PlainLabel" xml:space="preserve">
+    <value>Prostý text</value>
+  </data>
+  <data name="Base32PlainPlaceholder" xml:space="preserve">
+    <value>Zadejte text ke kódování…</value>
+  </data>
+  <data name="Base32CodeLabel" xml:space="preserve">
+    <value>Base32</value>
+  </data>
+  <data name="Base32CodePlaceholder" xml:space="preserve">
+    <value>Vložte Base32 k dekódování…</value>
+  </data>
+  <data name="Base32Swap" xml:space="preserve">
+    <value>Prohodit směr</value>
+  </data>
+  <data name="Base32Bytes" xml:space="preserve">
+    <value>Bajtů:</value>
+  </data>
+  <data name="Base32Copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="Base32Share" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="Base32Example" xml:space="preserve">
+    <value>Příklad</value>
+  </data>
+  <data name="Base32Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="Base32InvalidCharFormat" xml:space="preserve">
+    <value>Neplatný znak '{0}' na pozici {1}.</value>
+  </data>
+  <data name="Base32DecodeFailed" xml:space="preserve">
+    <value>Vstup se nepodařilo dekódovat.</value>
+  </data>
+  <data name="Base32SolverLabel" xml:space="preserve">
+    <value>Vyzkoušet všechny varianty</value>
+  </data>
+  <data name="Base32SolverNote" xml:space="preserve">
+    <value>Dekóduje výše uvedený Base32 podle všech abeced, abyste snadno našli tu čitelnou.</value>
+  </data>
+  <data name="Base32SolverInvalid" xml:space="preserve">
+    <value>(neplatné)</value>
+  </data>
+  <data name="Base32AboutLabel" xml:space="preserve">
+    <value>O Base32</value>
+  </data>
+  <data name="Base32AboutText" xml:space="preserve">
+    <value>Base32 převádí libovolné bajty na řetězec bezpečný pro ASCII. Každá skupina 5 vstupních bajtů se stane 8 symboly, doplněnými znakem '=', pokud délka není násobkem 5. V geocachingových hádankách se používá ke skrytí souřadnic nebo nápověd.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
