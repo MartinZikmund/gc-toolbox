@@ -380,6 +380,78 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <data name="ColumnarTransposition_Name" xml:space="preserve">
+    <value>Sloupcová transpozice</value>
+  </data>
+  <data name="ColumnarTransposition_Tooltip" xml:space="preserve">
+    <value>Zamíchá text čtením sloupců mřížky v pořadí podle klíčového slova.</value>
+  </data>
+  <data name="ColumnarEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="ColumnarDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="ColumnarInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="ColumnarInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k převedení…</value>
+  </data>
+  <data name="ColumnarKeyLabel" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="ColumnarKeyPlaceholder" xml:space="preserve">
+    <value>Klíčové slovo (ZEBRAS) nebo číselné pořadí (3 1 4 2)</value>
+  </data>
+  <data name="ColumnarKeyHelp" xml:space="preserve">
+    <value>Klíčové slovo se seřadí podle abecedy; nebo zadejte pořadí sloupců čísly.</value>
+  </data>
+  <data name="ColumnarOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="ColumnarOptionsLabel" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="ColumnarDoubleTransposition" xml:space="preserve">
+    <value>Dvojitá transpozice (druhý klíč)</value>
+  </data>
+  <data name="ColumnarSecondKeyLabel" xml:space="preserve">
+    <value>Druhý klíč</value>
+  </data>
+  <data name="ColumnarSecondKeyPlaceholder" xml:space="preserve">
+    <value>Klíčové slovo nebo číselné pořadí</value>
+  </data>
+  <data name="ColumnarPadToRectangle" xml:space="preserve">
+    <value>Doplnit na úplný obdélník</value>
+  </data>
+  <data name="ColumnarPadCharLabel" xml:space="preserve">
+    <value>Výplňový znak</value>
+  </data>
+  <data name="ColumnarStripPadding" xml:space="preserve">
+    <value>Odstranit výplň při dešifrování</value>
+  </data>
+  <data name="ColumnarSwap" xml:space="preserve">
+    <value>Prohodit směr</value>
+  </data>
+  <data name="ColumnarClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="ColumnarCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="ColumnarShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="ColumnarGridLabel" xml:space="preserve">
+    <value>Náhled mřížky</value>
+  </data>
+  <data name="ColumnarGridHint" xml:space="preserve">
+    <value>Čísla nad sloupci určují pořadí čtení; text se zapisuje po řádcích.</value>
+  </data>
+  <data name="ColumnarKeyEmptyError" xml:space="preserve">
+    <value>Zadejte klíčové slovo nebo číselné pořadí sloupců.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>

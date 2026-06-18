@@ -380,6 +380,78 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <data name="ColumnarTransposition_Name" xml:space="preserve">
+    <value>Columnar transposition</value>
+  </data>
+  <data name="ColumnarTransposition_Tooltip" xml:space="preserve">
+    <value>Scramble text by reading grid columns in keyword order.</value>
+  </data>
+  <data name="ColumnarEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ColumnarDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="ColumnarInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="ColumnarInputPlaceholder" xml:space="preserve">
+    <value>Type the text to transform…</value>
+  </data>
+  <data name="ColumnarKeyLabel" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="ColumnarKeyPlaceholder" xml:space="preserve">
+    <value>Keyword (ZEBRAS) or numeric order (3 1 4 2)</value>
+  </data>
+  <data name="ColumnarKeyHelp" xml:space="preserve">
+    <value>A keyword is ranked alphabetically; or enter the column order as numbers.</value>
+  </data>
+  <data name="ColumnarOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="ColumnarOptionsLabel" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ColumnarDoubleTransposition" xml:space="preserve">
+    <value>Double transposition (second key)</value>
+  </data>
+  <data name="ColumnarSecondKeyLabel" xml:space="preserve">
+    <value>Second key</value>
+  </data>
+  <data name="ColumnarSecondKeyPlaceholder" xml:space="preserve">
+    <value>Keyword or numeric order</value>
+  </data>
+  <data name="ColumnarPadToRectangle" xml:space="preserve">
+    <value>Pad to a complete rectangle</value>
+  </data>
+  <data name="ColumnarPadCharLabel" xml:space="preserve">
+    <value>Pad character</value>
+  </data>
+  <data name="ColumnarStripPadding" xml:space="preserve">
+    <value>Strip padding on decode</value>
+  </data>
+  <data name="ColumnarSwap" xml:space="preserve">
+    <value>Swap direction</value>
+  </data>
+  <data name="ColumnarClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ColumnarCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ColumnarShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ColumnarGridLabel" xml:space="preserve">
+    <value>Grid preview</value>
+  </data>
+  <data name="ColumnarGridHint" xml:space="preserve">
+    <value>Numbers above each column are the read order; the text is written into rows.</value>
+  </data>
+  <data name="ColumnarKeyEmptyError" xml:space="preserve">
+    <value>Enter a keyword or numeric column order.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
