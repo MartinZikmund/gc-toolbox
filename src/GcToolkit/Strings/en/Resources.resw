@@ -380,6 +380,103 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Base64 -->
+  <data name="Base64_Name" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="Base64_Tooltip" xml:space="preserve">
+    <value>Encode and decode Base64, including URL-safe and MIME variants.</value>
+  </data>
+  <data name="Base64Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Base64Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Base64Encode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="Base64Decode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="Base64Encoded" xml:space="preserve">
+    <value>Encoded</value>
+  </data>
+  <data name="Base64Decoded" xml:space="preserve">
+    <value>Decoded</value>
+  </data>
+  <data name="Base64Batch" xml:space="preserve">
+    <value>Batch</value>
+  </data>
+  <data name="Base64Variant" xml:space="preserve">
+    <value>Variant</value>
+  </data>
+  <data name="Base64VariantStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Base64VariantUrlSafe" xml:space="preserve">
+    <value>URL-safe</value>
+  </data>
+  <data name="Base64VariantMime" xml:space="preserve">
+    <value>MIME</value>
+  </data>
+  <data name="Base64Padding" xml:space="preserve">
+    <value>Padding (=)</value>
+  </data>
+  <data name="Base64BatchMode" xml:space="preserve">
+    <value>Batch (per line)</value>
+  </data>
+  <data name="Base64TextEncoding" xml:space="preserve">
+    <value>Text encoding</value>
+  </data>
+  <data name="Base64DecodeRender" xml:space="preserve">
+    <value>Show decoded as</value>
+  </data>
+  <data name="Base64RenderHex" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="Base64InputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="Base64InputPlaceholder" xml:space="preserve">
+    <value>Type or paste text or Base64…</value>
+  </data>
+  <data name="Base64OutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Base64ByteCount" xml:space="preserve">
+    <value>{0} bytes</value>
+  </data>
+  <data name="Base64Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Base64Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Base64Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Base64Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="Base64Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Base64TryAllVariants" xml:space="preserve">
+    <value>Try all variants</value>
+  </data>
+  <data name="Base64TryAllVariantsLabel" xml:space="preserve">
+    <value>Decoded under each variant</value>
+  </data>
+  <data name="Base64PrintableHint" xml:space="preserve">
+    <value>printable</value>
+  </data>
+  <data name="Base64InvalidNotice" xml:space="preserve">
+    <value>That isn't valid Base64 — check for stray characters, length, or padding.</value>
+  </data>
+  <data name="Base64BatchInvalidNotice" xml:space="preserve">
+    <value>Some lines couldn't be decoded and are shown as ?.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>

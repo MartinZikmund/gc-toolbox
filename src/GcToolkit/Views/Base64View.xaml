@@ -1,0 +1,241 @@
+﻿<local:Base64ViewBase
+    x:Class="GcToolkit.Views.Base64View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel
+            MaxWidth="760"
+            HorizontalAlignment="Stretch"
+            Spacing="16">
+
+            <!--  Header: tool name + favorite toggle  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock
+                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="44"
+                    Height="44"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                    <FontIcon FontSize="18" Glyph="&#xE734;" />
+                </ToggleButton>
+            </Grid>
+
+            <!--  Direction  -->
+            <RadioButtons
+                Header="{markup:Localize Key=Base64Direction}"
+                MaxColumns="3"
+                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=Base64Auto}" />
+                <RadioButton Content="{markup:Localize Key=Base64Encode}" />
+                <RadioButton Content="{markup:Localize Key=Base64Decode}" />
+            </RadioButtons>
+
+            <!--  Options: variant + text encoding + decoded rendering  -->
+            <Grid ColumnSpacing="12" RowSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=Base64Variant}"
+                    SelectedIndex="{x:Bind ViewModel.VariantIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="{markup:Localize Key=Base64VariantStandard}" />
+                    <ComboBoxItem Content="{markup:Localize Key=Base64VariantUrlSafe}" />
+                    <ComboBoxItem Content="{markup:Localize Key=Base64VariantMime}" />
+                </ComboBox>
+
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=Base64TextEncoding}"
+                    SelectedIndex="{x:Bind ViewModel.TextEncodingIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="UTF-8" />
+                    <ComboBoxItem Content="ASCII" />
+                    <ComboBoxItem Content="Latin-1" />
+                </ComboBox>
+
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=Base64DecodeRender}"
+                    SelectedIndex="{x:Bind ViewModel.DecodeRenderIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="UTF-8" />
+                    <ComboBoxItem Content="Latin-1" />
+                    <ComboBoxItem Content="{markup:Localize Key=Base64RenderHex}" />
+                </ComboBox>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Spacing="8">
+                    <ToggleSwitch
+                        Header="{markup:Localize Key=Base64Padding}"
+                        IsOn="{x:Bind ViewModel.UsePadding, Mode=TwoWay}"
+                        OffContent=""
+                        OnContent="" />
+                    <CheckBox Content="{markup:Localize Key=Base64BatchMode}" IsChecked="{x:Bind ViewModel.BatchMode, Mode=TwoWay}" />
+                </StackPanel>
+            </Grid>
+
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                FontFamily="Consolas"
+                Header="{markup:Localize Key=Base64InputLabel}"
+                IsSpellCheckEnabled="False"
+                PlaceholderText="{markup:Localize Key=Base64InputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <!--  Input actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.ExampleCommand}" Content="{markup:Localize Key=Base64Example}" />
+                <Button Command="{x:Bind ViewModel.ResetCommand}" Content="{markup:Localize Key=Base64Reset}" />
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=Base64Clear}" />
+            </StackPanel>
+
+            <!--  Result  -->
+            <StackPanel Spacing="8">
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{markup:Localize Key=Base64OutputLabel}" />
+                    <Border
+                        Grid.Column="1"
+                        Padding="8,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                        CornerRadius="4"
+                        Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{x:Bind ViewModel.DirectionLabel, Mode=OneWay}" />
+                    </Border>
+                    <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.ByteCountText, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.ShowByteCount, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    FontSize="16"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  Validation / error notice  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=Base64Copy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=Base64Share}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  Try all variants (nudge helper)  -->
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Header="{markup:Localize Key=Base64TryAllVariantsLabel}">
+                <StackPanel Spacing="12">
+                    <Button Command="{x:Bind ViewModel.TryAllVariantsCommand}" Content="{markup:Localize Key=Base64TryAllVariants}" />
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.VariantResults}" Visibility="{x:Bind ViewModel.ShowVariantResults, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="tools:Base64VariantRow">
+                                <Border
+                                    Margin="0,2"
+                                    Padding="12,8"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="6">
+                                    <StackPanel Spacing="4">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{x:Bind VariantName}" />
+                                            <Border
+                                                Padding="6,1"
+                                                Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+                                                CornerRadius="4"
+                                                Visibility="{x:Bind IsPrintable, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <TextBlock
+                                                    Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="{markup:Localize Key=Base64PrintableHint}" />
+                                            </Border>
+                                        </StackPanel>
+                                        <TextBlock
+                                            FontFamily="Consolas"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind Text}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Expander>
+
+        </StackPanel>
+    </ScrollViewer>
+</local:Base64ViewBase>

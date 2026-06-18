@@ -380,6 +380,103 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>Vodorovná čára nad symbolem jej násobí 1000 (např. V̅ = 5000), pro hodnoty až do 3 999 999.</value>
   </data>
+  <!-- Base64 -->
+  <data name="Base64_Name" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="Base64_Tooltip" xml:space="preserve">
+    <value>Kódujte a dekódujte Base64 včetně variant URL-safe a MIME.</value>
+  </data>
+  <data name="Base64Direction" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="Base64Auto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="Base64Encode" xml:space="preserve">
+    <value>Kódovat</value>
+  </data>
+  <data name="Base64Decode" xml:space="preserve">
+    <value>Dekódovat</value>
+  </data>
+  <data name="Base64Encoded" xml:space="preserve">
+    <value>Zakódováno</value>
+  </data>
+  <data name="Base64Decoded" xml:space="preserve">
+    <value>Dekódováno</value>
+  </data>
+  <data name="Base64Batch" xml:space="preserve">
+    <value>Dávka</value>
+  </data>
+  <data name="Base64Variant" xml:space="preserve">
+    <value>Varianta</value>
+  </data>
+  <data name="Base64VariantStandard" xml:space="preserve">
+    <value>Standardní</value>
+  </data>
+  <data name="Base64VariantUrlSafe" xml:space="preserve">
+    <value>URL-safe</value>
+  </data>
+  <data name="Base64VariantMime" xml:space="preserve">
+    <value>MIME</value>
+  </data>
+  <data name="Base64Padding" xml:space="preserve">
+    <value>Výplň (=)</value>
+  </data>
+  <data name="Base64BatchMode" xml:space="preserve">
+    <value>Dávkově (po řádcích)</value>
+  </data>
+  <data name="Base64TextEncoding" xml:space="preserve">
+    <value>Kódování textu</value>
+  </data>
+  <data name="Base64DecodeRender" xml:space="preserve">
+    <value>Zobrazit dekódované jako</value>
+  </data>
+  <data name="Base64RenderHex" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="Base64InputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="Base64InputPlaceholder" xml:space="preserve">
+    <value>Zadejte nebo vložte text či Base64…</value>
+  </data>
+  <data name="Base64OutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="Base64ByteCount" xml:space="preserve">
+    <value>{0} bajtů</value>
+  </data>
+  <data name="Base64Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="Base64Copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="Base64Share" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="Base64Example" xml:space="preserve">
+    <value>Příklad</value>
+  </data>
+  <data name="Base64Reset" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Base64TryAllVariants" xml:space="preserve">
+    <value>Vyzkoušet všechny varianty</value>
+  </data>
+  <data name="Base64TryAllVariantsLabel" xml:space="preserve">
+    <value>Dekódováno podle jednotlivých variant</value>
+  </data>
+  <data name="Base64PrintableHint" xml:space="preserve">
+    <value>čitelné</value>
+  </data>
+  <data name="Base64InvalidNotice" xml:space="preserve">
+    <value>Toto není platné Base64 — zkontrolujte přebytečné znaky, délku nebo výplň.</value>
+  </data>
+  <data name="Base64BatchInvalidNotice" xml:space="preserve">
+    <value>Některé řádky nelze dekódovat a jsou zobrazeny jako ?.</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenèrova šifra</value>
   </data>
