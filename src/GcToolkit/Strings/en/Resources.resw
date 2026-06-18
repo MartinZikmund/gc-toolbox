@@ -770,4 +770,143 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Shuffle again</value>
   </data>
+  <!-- Frequency analysis -->
+  <data name="FrequencyAnalysis_Name" xml:space="preserve">
+    <value>Frequency analysis</value>
+  </data>
+  <data name="FrequencyAnalysis_Tooltip" xml:space="preserve">
+    <value>Count letters, digits, symbols, words and n-grams to crack substitution ciphers.</value>
+  </data>
+  <data name="FrequencyInputLabel" xml:space="preserve">
+    <value>Text to analyze</value>
+  </data>
+  <data name="FrequencyInputPlaceholder" xml:space="preserve">
+    <value>Paste or type the puzzle text…</value>
+  </data>
+  <data name="FrequencyExample" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="FrequencyClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="FrequencyCopy" xml:space="preserve">
+    <value>Copy summary</value>
+  </data>
+  <data name="FrequencyCopyCsv" xml:space="preserve">
+    <value>Copy CSV</value>
+  </data>
+  <data name="FrequencyShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="FrequencyEmptyHint" xml:space="preserve">
+    <value>Enter some text above to see its character, word and n-gram frequencies.</value>
+  </data>
+  <data name="FrequencyOptionsHeader" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="FrequencyCaseSensitive" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="FrequencyStripAccents" xml:space="preserve">
+    <value>Strip accents</value>
+  </data>
+  <data name="FrequencySortLabel" xml:space="preserve">
+    <value>Sort order</value>
+  </data>
+  <data name="FrequencySortMostCommon" xml:space="preserve">
+    <value>Most common first</value>
+  </data>
+  <data name="FrequencySortLeastCommon" xml:space="preserve">
+    <value>Least common first</value>
+  </data>
+  <data name="FrequencySortAlphabetical" xml:space="preserve">
+    <value>Alphabetical</value>
+  </data>
+  <data name="FrequencyScopeLabel" xml:space="preserve">
+    <value>Include</value>
+  </data>
+  <data name="FrequencyScopeAll" xml:space="preserve">
+    <value>All characters</value>
+  </data>
+  <data name="FrequencyScopeLetters" xml:space="preserve">
+    <value>Letters only</value>
+  </data>
+  <data name="FrequencyScopeDigits" xml:space="preserve">
+    <value>Digits only</value>
+  </data>
+  <data name="FrequencyScopeSymbols" xml:space="preserve">
+    <value>Symbols only</value>
+  </data>
+  <data name="FrequencyReferenceLabel" xml:space="preserve">
+    <value>Compare against</value>
+  </data>
+  <data name="FrequencyReferenceEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="FrequencyReferenceCzech" xml:space="preserve">
+    <value>Czech</value>
+  </data>
+  <data name="FrequencyTotalsHeader" xml:space="preserve">
+    <value>Totals</value>
+  </data>
+  <data name="FrequencyWords" xml:space="preserve">
+    <value>Words</value>
+  </data>
+  <data name="FrequencyCharacters" xml:space="preserve">
+    <value>Characters</value>
+  </data>
+  <data name="FrequencyLetters" xml:space="preserve">
+    <value>Letters</value>
+  </data>
+  <data name="FrequencyDigits" xml:space="preserve">
+    <value>Digits</value>
+  </data>
+  <data name="FrequencySymbols" xml:space="preserve">
+    <value>Symbols</value>
+  </data>
+  <data name="FrequencySpaces" xml:space="preserve">
+    <value>Spaces</value>
+  </data>
+  <data name="FrequencyLines" xml:space="preserve">
+    <value>Lines</value>
+  </data>
+  <data name="FrequencyUnique" xml:space="preserve">
+    <value>Unique</value>
+  </data>
+  <data name="FrequencyTableHeader" xml:space="preserve">
+    <value>Character frequency</value>
+  </data>
+  <data name="FrequencyExpectedNote" xml:space="preserve">
+    <value>The dot marks the expected frequency for the chosen language.</value>
+  </data>
+  <data name="FrequencyBigramsHeader" xml:space="preserve">
+    <value>Bigrams</value>
+  </data>
+  <data name="FrequencyTrigramsHeader" xml:space="preserve">
+    <value>Trigrams</value>
+  </data>
+  <data name="FrequencyWordsHeader" xml:space="preserve">
+    <value>Most frequent words</value>
+  </data>
+  <data name="FrequencyCryptoHeader" xml:space="preserve">
+    <value>Cryptanalysis</value>
+  </data>
+  <data name="FrequencyIoC" xml:space="preserve">
+    <value>Index of Coincidence</value>
+  </data>
+  <data name="FrequencyKeyLength" xml:space="preserve">
+    <value>Estimated key length</value>
+  </data>
+  <data name="FrequencyHintMono" xml:space="preserve">
+    <value>High IoC — likely plain text or a monoalphabetic substitution (Caesar / Atbash).</value>
+  </data>
+  <data name="FrequencyHintPoly" xml:space="preserve">
+    <value>Low IoC — likely a polyalphabetic cipher such as Vigenère; try the estimated key length.</value>
+  </data>
+  <data name="FrequencyHintMixed" xml:space="preserve">
+    <value>Mid-range IoC — short text or a mixed cipher; gather more ciphertext to be sure.</value>
+  </data>
+  <data name="FrequencyMappingHeader" xml:space="preserve">
+    <value>Suggested substitution (cipher → plain)</value>
+  </data>
 </root>

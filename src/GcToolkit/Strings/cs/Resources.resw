@@ -770,4 +770,143 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Zamíchat znovu</value>
   </data>
+  <!-- Frequency analysis -->
+  <data name="FrequencyAnalysis_Name" xml:space="preserve">
+    <value>Frekvenční analýza</value>
+  </data>
+  <data name="FrequencyAnalysis_Tooltip" xml:space="preserve">
+    <value>Spočítá písmena, číslice, symboly, slova a n-gramy pro luštění substitučních šifer.</value>
+  </data>
+  <data name="FrequencyInputLabel" xml:space="preserve">
+    <value>Text k analýze</value>
+  </data>
+  <data name="FrequencyInputPlaceholder" xml:space="preserve">
+    <value>Vložte nebo napište text hádanky…</value>
+  </data>
+  <data name="FrequencyExample" xml:space="preserve">
+    <value>Příklad</value>
+  </data>
+  <data name="FrequencyClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="FrequencyCopy" xml:space="preserve">
+    <value>Kopírovat souhrn</value>
+  </data>
+  <data name="FrequencyCopyCsv" xml:space="preserve">
+    <value>Kopírovat CSV</value>
+  </data>
+  <data name="FrequencyShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="FrequencyEmptyHint" xml:space="preserve">
+    <value>Zadejte text výše a zobrazí se četnosti znaků, slov a n-gramů.</value>
+  </data>
+  <data name="FrequencyOptionsHeader" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="FrequencyCaseSensitive" xml:space="preserve">
+    <value>Rozlišovat velikost písmen</value>
+  </data>
+  <data name="FrequencyStripAccents" xml:space="preserve">
+    <value>Odstranit diakritiku</value>
+  </data>
+  <data name="FrequencySortLabel" xml:space="preserve">
+    <value>Řazení</value>
+  </data>
+  <data name="FrequencySortMostCommon" xml:space="preserve">
+    <value>Od nejčastějších</value>
+  </data>
+  <data name="FrequencySortLeastCommon" xml:space="preserve">
+    <value>Od nejméně častých</value>
+  </data>
+  <data name="FrequencySortAlphabetical" xml:space="preserve">
+    <value>Abecedně</value>
+  </data>
+  <data name="FrequencyScopeLabel" xml:space="preserve">
+    <value>Zahrnout</value>
+  </data>
+  <data name="FrequencyScopeAll" xml:space="preserve">
+    <value>Všechny znaky</value>
+  </data>
+  <data name="FrequencyScopeLetters" xml:space="preserve">
+    <value>Jen písmena</value>
+  </data>
+  <data name="FrequencyScopeDigits" xml:space="preserve">
+    <value>Jen číslice</value>
+  </data>
+  <data name="FrequencyScopeSymbols" xml:space="preserve">
+    <value>Jen symboly</value>
+  </data>
+  <data name="FrequencyReferenceLabel" xml:space="preserve">
+    <value>Porovnat s</value>
+  </data>
+  <data name="FrequencyReferenceEnglish" xml:space="preserve">
+    <value>Angličtinou</value>
+  </data>
+  <data name="FrequencyReferenceCzech" xml:space="preserve">
+    <value>Češtinou</value>
+  </data>
+  <data name="FrequencyTotalsHeader" xml:space="preserve">
+    <value>Souhrn</value>
+  </data>
+  <data name="FrequencyWords" xml:space="preserve">
+    <value>Slova</value>
+  </data>
+  <data name="FrequencyCharacters" xml:space="preserve">
+    <value>Znaky</value>
+  </data>
+  <data name="FrequencyLetters" xml:space="preserve">
+    <value>Písmena</value>
+  </data>
+  <data name="FrequencyDigits" xml:space="preserve">
+    <value>Číslice</value>
+  </data>
+  <data name="FrequencySymbols" xml:space="preserve">
+    <value>Symboly</value>
+  </data>
+  <data name="FrequencySpaces" xml:space="preserve">
+    <value>Mezery</value>
+  </data>
+  <data name="FrequencyLines" xml:space="preserve">
+    <value>Řádky</value>
+  </data>
+  <data name="FrequencyUnique" xml:space="preserve">
+    <value>Unikátní</value>
+  </data>
+  <data name="FrequencyTableHeader" xml:space="preserve">
+    <value>Četnost znaků</value>
+  </data>
+  <data name="FrequencyExpectedNote" xml:space="preserve">
+    <value>Tečka označuje očekávanou četnost pro zvolený jazyk.</value>
+  </data>
+  <data name="FrequencyBigramsHeader" xml:space="preserve">
+    <value>Bigramy</value>
+  </data>
+  <data name="FrequencyTrigramsHeader" xml:space="preserve">
+    <value>Trigramy</value>
+  </data>
+  <data name="FrequencyWordsHeader" xml:space="preserve">
+    <value>Nejčastější slova</value>
+  </data>
+  <data name="FrequencyCryptoHeader" xml:space="preserve">
+    <value>Kryptoanalýza</value>
+  </data>
+  <data name="FrequencyIoC" xml:space="preserve">
+    <value>Index koincidence</value>
+  </data>
+  <data name="FrequencyKeyLength" xml:space="preserve">
+    <value>Odhadovaná délka klíče</value>
+  </data>
+  <data name="FrequencyHintMono" xml:space="preserve">
+    <value>Vysoký index koincidence — pravděpodobně otevřený text nebo monoalfabetická substituce (Caesar / Atbash).</value>
+  </data>
+  <data name="FrequencyHintPoly" xml:space="preserve">
+    <value>Nízký index koincidence — pravděpodobně polyalfabetická šifra jako Vigenère; zkuste odhadovanou délku klíče.</value>
+  </data>
+  <data name="FrequencyHintMixed" xml:space="preserve">
+    <value>Střední index koincidence — krátký text nebo smíšená šifra; pro jistotu získejte více textu.</value>
+  </data>
+  <data name="FrequencyMappingHeader" xml:space="preserve">
+    <value>Navržená substituce (šifra → otevřený text)</value>
+  </data>
 </root>

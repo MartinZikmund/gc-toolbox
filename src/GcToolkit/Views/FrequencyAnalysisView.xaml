@@ -1,0 +1,403 @@
+﻿<local:FrequencyAnalysisViewBase
+    x:Class="GcToolkit.Views.FrequencyAnalysisView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:FrequencyAnalysisViewBase.Resources>
+        <!--  One histogram row: character, bar, count and percentage  -->
+        <DataTemplate x:Key="FrequencyBarTemplate" x:DataType="tools:FrequencyBarItem">
+            <Grid
+                Margin="0,2"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontFamily="Consolas"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                    Text="{x:Bind Display}"
+                    TextTrimming="CharacterEllipsis" />
+
+                <Border
+                    Grid.Column="1"
+                    Width="220"
+                    Height="20"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                    CornerRadius="4">
+                    <Rectangle
+                        Width="{x:Bind BarWidth}"
+                        HorizontalAlignment="Left"
+                        Fill="{ThemeResource AccentFillColorDefaultBrush}"
+                        RadiusX="4"
+                        RadiusY="4" />
+                </Border>
+
+                <StackPanel
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <TextBlock
+                        MinWidth="36"
+                        FontFamily="Consolas"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind Count}" />
+                    <TextBlock
+                        MinWidth="52"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind PercentageText}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ExpectedText}"
+                        Visibility="{x:Bind HasExpected, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <!--  Compact n-gram / word chip: sequence + count  -->
+        <DataTemplate x:Key="FrequencyChipTemplate" x:DataType="tools:FrequencyBarItem">
+            <Border
+                Padding="10,6"
+                AutomationProperties.Name="{x:Bind AutomationName}"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                CornerRadius="6"
+                ToolTipService.ToolTip="{x:Bind PercentageText}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock
+                        FontFamily="Consolas"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{x:Bind Display}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind Count}" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <Style x:Key="FrequencyCardStyle" TargetType="Border">
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+
+        <Style
+            x:Key="FrequencyTotalLabelStyle"
+            BasedOn="{StaticResource CaptionTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
+        <Style
+            x:Key="FrequencyTotalValueStyle"
+            BasedOn="{StaticResource SubtitleTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas" />
+        </Style>
+
+    </local:FrequencyAnalysisViewBase.Resources>
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=FrequencyInputLabel}"
+                    IsSpellCheckEnabled="False"
+                    PlaceholderText="{markup:Localize Key=FrequencyInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <!--  Input actions  -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    UseLayoutRounding="True">
+                    <Button Command="{x:Bind ViewModel.LoadExampleCommand}" Content="{markup:Localize Key=FrequencyExample}" />
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=FrequencyClear}" />
+                    <Button Command="{x:Bind ViewModel.CopyTableCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=FrequencyCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.CopyCsvCommand}" Content="{markup:Localize Key=FrequencyCopyCsv}" />
+                    <Button Command="{x:Bind ViewModel.ShareSummaryCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=FrequencyShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Empty hint  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasContent, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    Message="{markup:Localize Key=FrequencyEmptyHint}"
+                    Severity="Informational" />
+
+                <!--  Totals  -->
+                <Border Style="{StaticResource FrequencyCardStyle}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyTotalsHeader}" />
+                        <Grid ColumnSpacing="24" RowSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.WordCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyWords}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.CharacterCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyCharacters}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.LetterCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyLetters}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.DigitCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyDigits}" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.SymbolCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencySymbols}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.SpaceCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencySpaces}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.LineCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyLines}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.UniqueCount, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyUnique}" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!--  Options  -->
+                <Border Style="{StaticResource FrequencyCardStyle}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyOptionsHeader}" />
+
+                        <StackPanel Orientation="Horizontal" Spacing="24">
+                            <CheckBox Content="{markup:Localize Key=FrequencyCaseSensitive}" IsChecked="{x:Bind ViewModel.CaseSensitive, Mode=TwoWay}" />
+                            <CheckBox Content="{markup:Localize Key=FrequencyStripAccents}" IsChecked="{x:Bind ViewModel.StripAccents, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <ComboBox
+                                MinWidth="200"
+                                Header="{markup:Localize Key=FrequencySortLabel}"
+                                SelectedIndex="{x:Bind ViewModel.SortIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencySortMostCommon}" />
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencySortLeastCommon}" />
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencySortAlphabetical}" />
+                            </ComboBox>
+
+                            <ComboBox
+                                MinWidth="180"
+                                Header="{markup:Localize Key=FrequencyScopeLabel}"
+                                SelectedIndex="{x:Bind ViewModel.ScopeIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencyScopeAll}" />
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencyScopeLetters}" />
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencyScopeDigits}" />
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencyScopeSymbols}" />
+                            </ComboBox>
+
+                            <ComboBox
+                                MinWidth="180"
+                                Header="{markup:Localize Key=FrequencyReferenceLabel}"
+                                SelectedIndex="{x:Bind ViewModel.ReferenceIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencyReferenceEnglish}" />
+                                <ComboBoxItem Content="{markup:Localize Key=FrequencyReferenceCzech}" />
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!--  Character frequency histogram  -->
+                <Border Style="{StaticResource FrequencyCardStyle}" Visibility="{x:Bind ViewModel.HasContent, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyTableHeader}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=FrequencyExpectedNote}"
+                            TextWrapping="Wrap" />
+                        <ItemsControl ItemTemplate="{StaticResource FrequencyBarTemplate}" ItemsSource="{x:Bind ViewModel.CharacterBars, Mode=OneWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!--  Bigrams  -->
+                <Border Style="{StaticResource FrequencyCardStyle}" Visibility="{x:Bind ViewModel.HasContent, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyBigramsHeader}" />
+                        <muxc:ItemsRepeater ItemTemplate="{StaticResource FrequencyChipTemplate}" ItemsSource="{x:Bind ViewModel.Bigrams, Mode=OneWay}">
+                            <muxc:ItemsRepeater.Layout>
+                                <muxc:UniformGridLayout
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="96"
+                                    MinRowSpacing="8" />
+                            </muxc:ItemsRepeater.Layout>
+                        </muxc:ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  Trigrams  -->
+                <Border Style="{StaticResource FrequencyCardStyle}" Visibility="{x:Bind ViewModel.HasContent, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyTrigramsHeader}" />
+                        <muxc:ItemsRepeater ItemTemplate="{StaticResource FrequencyChipTemplate}" ItemsSource="{x:Bind ViewModel.Trigrams, Mode=OneWay}">
+                            <muxc:ItemsRepeater.Layout>
+                                <muxc:UniformGridLayout
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="110"
+                                    MinRowSpacing="8" />
+                            </muxc:ItemsRepeater.Layout>
+                        </muxc:ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  Most frequent words  -->
+                <Border Style="{StaticResource FrequencyCardStyle}" Visibility="{x:Bind ViewModel.HasContent, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyWordsHeader}" />
+                        <muxc:ItemsRepeater ItemTemplate="{StaticResource FrequencyChipTemplate}" ItemsSource="{x:Bind ViewModel.TopWords, Mode=OneWay}">
+                            <muxc:ItemsRepeater.Layout>
+                                <muxc:UniformGridLayout
+                                    MinColumnSpacing="8"
+                                    MinItemWidth="120"
+                                    MinRowSpacing="8" />
+                            </muxc:ItemsRepeater.Layout>
+                        </muxc:ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!--  Cryptanalysis  -->
+                <Border Style="{StaticResource FrequencyCardStyle}" Visibility="{x:Bind ViewModel.HasMapping, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyCryptoHeader}" />
+
+                        <StackPanel Orientation="Horizontal" Spacing="32">
+                            <StackPanel Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.IndexOfCoincidenceText, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyIoC}" />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Style="{StaticResource FrequencyTotalValueStyle}" Text="{x:Bind ViewModel.KeyLengthText, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource FrequencyTotalLabelStyle}" Text="{markup:Localize Key=FrequencyKeyLength}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.CipherHintText, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=FrequencyMappingHeader}" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            IsTextSelectionEnabled="True"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.SuggestedMappingText, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:FrequencyAnalysisViewBase>
