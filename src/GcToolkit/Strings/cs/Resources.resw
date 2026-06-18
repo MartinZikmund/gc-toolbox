@@ -223,6 +223,90 @@
   <data name="CaesarCipher_Tooltip" xml:space="preserve">
     <value>Zašifrujte a dešifrujte Caesarův posun (včetně ROT13) — nebo zobrazte všechny posuny najednou.</value>
   </data>
+  <data name="BeaufortCipher_Name" xml:space="preserve">
+    <value>Beaufortova šifra</value>
+  </data>
+  <data name="BeaufortCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte reciproční Beaufortovou šifrou — obrácenou Vigenèrovou šifrou.</value>
+  </data>
+  <data name="BeaufortVariantLabel" xml:space="preserve">
+    <value>Varianta</value>
+  </data>
+  <data name="BeaufortVariantStandard" xml:space="preserve">
+    <value>Standardní</value>
+  </data>
+  <data name="BeaufortVariantVariant" xml:space="preserve">
+    <value>Varianta · německá</value>
+  </data>
+  <data name="BeaufortVariantAutokey" xml:space="preserve">
+    <value>Autoklíč</value>
+  </data>
+  <data name="BeaufortExplainerStandard" xml:space="preserve">
+    <value>Standardní Beaufort (C = K − P) je reciproční — stejný krok šifruje i dešifruje.</value>
+  </data>
+  <data name="BeaufortExplainerVariant" xml:space="preserve">
+    <value>Varianta (německá) Beaufort (C = P − K) — zvolte Šifrovat nebo Dešifrovat; není reciproční.</value>
+  </data>
+  <data name="BeaufortExplainerAutokey" xml:space="preserve">
+    <value>Beaufort s autoklíčem rozšiřuje klíčové slovo o samotnou zprávu — zvolte Šifrovat nebo Dešifrovat.</value>
+  </data>
+  <data name="BeaufortDirectionLabel" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="BeaufortDirectionEncrypt" xml:space="preserve">
+    <value>Šifrovat</value>
+  </data>
+  <data name="BeaufortDirectionDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="BeaufortKeywordLabel" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="BeaufortKeywordPlaceholder" xml:space="preserve">
+    <value>např. CACHE (na velikosti písmen nezáleží)</value>
+  </data>
+  <data name="BeaufortInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="BeaufortInputPlaceholder" xml:space="preserve">
+    <value>Napište nebo vložte text k převedení</value>
+  </data>
+  <data name="BeaufortOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BeaufortCustomAlphabetLabel" xml:space="preserve">
+    <value>Vlastní abeceda (nepovinné)</value>
+  </data>
+  <data name="BeaufortCustomAlphabetPlaceholder" xml:space="preserve">
+    <value>Ponechte prázdné pro výchozí A–Z</value>
+  </data>
+  <data name="BeaufortEmptyKeyword" xml:space="preserve">
+    <value>Zadejte klíčové slovo pro šifrování nebo dešifrování.</value>
+  </data>
+  <data name="BeaufortInvalidKeyword" xml:space="preserve">
+    <value>Klíčové slovo obsahuje písmena, která nejsou v abecedě.</value>
+  </data>
+  <data name="BeaufortInvalidAlphabet" xml:space="preserve">
+    <value>Vlastní abeceda je prázdná nebo obsahuje duplicitní písmena.</value>
+  </data>
+  <data name="BeaufortCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BeaufortShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BeaufortClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BeaufortSwap" xml:space="preserve">
+    <value>Použít výsledek jako vstup</value>
+  </data>
+  <data name="BeaufortTableauLabel" xml:space="preserve">
+    <value>Tabula recta</value>
+  </data>
+  <data name="BeaufortTableauNote" xml:space="preserve">
+    <value>Šifrové písmeno najdete v řádku písmene klíče a sloupci písmene otevřeného textu.</value>
+  </data>
   <data name="CaesarMode" xml:space="preserve">
     <value>Abeceda</value>
   </data>

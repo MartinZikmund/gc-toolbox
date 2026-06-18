@@ -223,6 +223,90 @@
   <data name="CaesarCipher_Tooltip" xml:space="preserve">
     <value>Encode and decode Caesar shifts (including ROT13) — or show all shifts at once.</value>
   </data>
+  <data name="BeaufortCipher_Name" xml:space="preserve">
+    <value>Beaufort cipher</value>
+  </data>
+  <data name="BeaufortCipher_Tooltip" xml:space="preserve">
+    <value>Encipher and decipher with the reciprocal Beaufort cipher — a reversed Vigenère.</value>
+  </data>
+  <data name="BeaufortVariantLabel" xml:space="preserve">
+    <value>Variant</value>
+  </data>
+  <data name="BeaufortVariantStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="BeaufortVariantVariant" xml:space="preserve">
+    <value>Variant · German</value>
+  </data>
+  <data name="BeaufortVariantAutokey" xml:space="preserve">
+    <value>Autokey</value>
+  </data>
+  <data name="BeaufortExplainerStandard" xml:space="preserve">
+    <value>Standard Beaufort (C = K − P) is reciprocal — the same step both enciphers and deciphers.</value>
+  </data>
+  <data name="BeaufortExplainerVariant" xml:space="preserve">
+    <value>Variant (German) Beaufort (C = P − K) — choose Encrypt or Decrypt; it is not reciprocal.</value>
+  </data>
+  <data name="BeaufortExplainerAutokey" xml:space="preserve">
+    <value>Autokey Beaufort extends the keyword with the message itself — choose Encrypt or Decrypt.</value>
+  </data>
+  <data name="BeaufortDirectionLabel" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="BeaufortDirectionEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="BeaufortDirectionDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="BeaufortKeywordLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="BeaufortKeywordPlaceholder" xml:space="preserve">
+    <value>e.g. CACHE (case doesn't matter)</value>
+  </data>
+  <data name="BeaufortInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="BeaufortInputPlaceholder" xml:space="preserve">
+    <value>Type or paste text to transform</value>
+  </data>
+  <data name="BeaufortOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BeaufortCustomAlphabetLabel" xml:space="preserve">
+    <value>Custom alphabet (optional)</value>
+  </data>
+  <data name="BeaufortCustomAlphabetPlaceholder" xml:space="preserve">
+    <value>Leave blank for the default A–Z</value>
+  </data>
+  <data name="BeaufortEmptyKeyword" xml:space="preserve">
+    <value>Enter a keyword to encipher or decipher.</value>
+  </data>
+  <data name="BeaufortInvalidKeyword" xml:space="preserve">
+    <value>The keyword contains letters that aren't in the alphabet.</value>
+  </data>
+  <data name="BeaufortInvalidAlphabet" xml:space="preserve">
+    <value>The custom alphabet is empty or has duplicate letters.</value>
+  </data>
+  <data name="BeaufortCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BeaufortShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BeaufortClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BeaufortSwap" xml:space="preserve">
+    <value>Use result as input</value>
+  </data>
+  <data name="BeaufortTableauLabel" xml:space="preserve">
+    <value>Tabula recta</value>
+  </data>
+  <data name="BeaufortTableauNote" xml:space="preserve">
+    <value>Read the cipher letter at the row of the keyword letter and the column of the plaintext letter.</value>
+  </data>
   <data name="CaesarMode" xml:space="preserve">
     <value>Alphabet</value>
   </data>

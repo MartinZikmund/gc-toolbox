@@ -1,0 +1,187 @@
+﻿<local:BeaufortCipherViewBase
+    x:Class="GcToolkit.Views.BeaufortCipherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="1024" HorizontalAlignment="Center">
+        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Variant  -->
+                <StackPanel Spacing="4">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BeaufortVariantLabel}" />
+                    <RadioButtons MaxColumns="3" SelectedIndex="{x:Bind ViewModel.VariantIndex, Mode=TwoWay}">
+                        <RadioButton Content="{markup:Localize Key=BeaufortVariantStandard}" />
+                        <RadioButton Content="{markup:Localize Key=BeaufortVariantVariant}" />
+                        <RadioButton Content="{markup:Localize Key=BeaufortVariantAutokey}" />
+                    </RadioButtons>
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.VariantExplainer, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!--  Direction (hidden for the self-reciprocal Standard variant)  -->
+                <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.IsReciprocal, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BeaufortDirectionLabel}" />
+                    <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                        <RadioButton Content="{markup:Localize Key=BeaufortDirectionEncrypt}" />
+                        <RadioButton Content="{markup:Localize Key=BeaufortDirectionDecrypt}" />
+                    </RadioButtons>
+                </StackPanel>
+
+                <!--  Keyword  -->
+                <TextBox
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=BeaufortKeywordLabel}"
+                    PlaceholderText="{markup:Localize Key=BeaufortKeywordPlaceholder}"
+                    Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=BeaufortInputLabel}"
+                    PlaceholderText="{markup:Localize Key=BeaufortInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BeaufortClear}" />
+                    <Button
+                        Command="{x:Bind ViewModel.SwapInputOutputCommand}"
+                        Content="{markup:Localize Key=BeaufortSwap}"
+                        IsEnabled="{x:Bind ViewModel.HasOutput, Mode=OneWay}" />
+                </StackPanel>
+
+                <!--  Result  -->
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BeaufortOutputLabel}" />
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Validation / empty-key notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasWarning, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.WarningMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=BeaufortCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=BeaufortShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Custom alphabet (optional)  -->
+                <TextBox
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=BeaufortCustomAlphabetLabel}"
+                    PlaceholderText="{markup:Localize Key=BeaufortCustomAlphabetPlaceholder}"
+                    Text="{x:Bind ViewModel.CustomAlphabet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!--  Tabula recta  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="{markup:Localize Key=BeaufortTableauLabel}">
+                    <StackPanel Spacing="8">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=BeaufortTableauNote}"
+                            TextWrapping="Wrap" />
+                        <ScrollViewer
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Auto"
+                            VerticalScrollMode="Disabled">
+                            <StackPanel Spacing="2">
+                                <!--  Column header (plaintext letters)  -->
+                                <TextBlock
+                                    Margin="28,0,0,4"
+                                    FontFamily="Consolas"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                    Text="{x:Bind ViewModel.TableauHeader, Mode=OneWay}" />
+                                <ItemsControl ItemsSource="{x:Bind ViewModel.TableauRows}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="tools:TabulaRow">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <TextBlock
+                                                    MinWidth="20"
+                                                    FontFamily="Consolas"
+                                                    FontSize="15"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                    Text="{x:Bind Header}" />
+                                                <TextBlock
+                                                    FontFamily="Consolas"
+                                                    FontSize="15"
+                                                    Text="{x:Bind Letters}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:BeaufortCipherViewBase>
