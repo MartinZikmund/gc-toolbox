@@ -437,6 +437,97 @@
   <data name="RomanVinculumNote" xml:space="preserve">
     <value>An overline multiplies a symbol by 1000 (e.g. V̅ = 5000), for values up to 3,999,999.</value>
   </data>
+  <!-- Lucas numbers -->
+  <data name="LucasNumbers_Name" xml:space="preserve">
+    <value>Lucas numbers</value>
+  </data>
+  <data name="LucasNumbers_Tooltip" xml:space="preserve">
+    <value>Explore the Lucas sequence (2, 1, 3, 4, 7, …): look up by position, list a range, find an index by value, or filter by digit count.</value>
+  </data>
+  <data name="LucasModePosition" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="LucasModeRange" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="LucasModeByValue" xml:space="preserve">
+    <value>By value</value>
+  </data>
+  <data name="LucasModeByDigits" xml:space="preserve">
+    <value>By digit count</value>
+  </data>
+  <data name="LucasPositionLabel" xml:space="preserve">
+    <value>Index (n)</value>
+  </data>
+  <data name="LucasRangeStartLabel" xml:space="preserve">
+    <value>From index</value>
+  </data>
+  <data name="LucasRangeEndLabel" xml:space="preserve">
+    <value>To index</value>
+  </data>
+  <data name="LucasValueLabel" xml:space="preserve">
+    <value>Lucas number</value>
+  </data>
+  <data name="LucasDigitCountLabel" xml:space="preserve">
+    <value>Number of digits</value>
+  </data>
+  <data name="LucasPositionCaption" xml:space="preserve">
+    <value>L({0})</value>
+  </data>
+  <data name="LucasValueCaption" xml:space="preserve">
+    <value>Index of {0}</value>
+  </data>
+  <data name="LucasShowPosition" xml:space="preserve">
+    <value>Show index</value>
+  </data>
+  <data name="LucasShowDigitCount" xml:space="preserve">
+    <value>Show digit count</value>
+  </data>
+  <data name="LucasResultsLabel" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="LucasColumnIndex" xml:space="preserve">
+    <value>n</value>
+  </data>
+  <data name="LucasColumnValue" xml:space="preserve">
+    <value>L(n)</value>
+  </data>
+  <data name="LucasColumnDigits" xml:space="preserve">
+    <value>Digits</value>
+  </data>
+  <data name="LucasCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="LucasShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="LucasErrorInvalidIndex" xml:space="preserve">
+    <value>Enter a whole number from 0 to 200,000.</value>
+  </data>
+  <data name="LucasErrorStartAfterEnd" xml:space="preserve">
+    <value>The starting index must not be greater than the ending index.</value>
+  </data>
+  <data name="LucasErrorRangeTooLarge" xml:space="preserve">
+    <value>That range is too large to list — narrow it to 1,000 indices or fewer.</value>
+  </data>
+  <data name="LucasErrorInvalidValue" xml:space="preserve">
+    <value>Enter a whole number to look up.</value>
+  </data>
+  <data name="LucasErrorNotLucas" xml:space="preserve">
+    <value>That is not a Lucas number, so it has no index in the sequence.</value>
+  </data>
+  <data name="LucasErrorInvalidDigitCount" xml:space="preserve">
+    <value>Enter a positive whole number of digits.</value>
+  </data>
+  <data name="LucasErrorNoMatches" xml:space="preserve">
+    <value>No Lucas numbers have that many digits.</value>
+  </data>
+  <data name="LucasAboutLabel" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="LucasAboutText" xml:space="preserve">
+    <value>The Lucas sequence starts L(0) = 2, L(1) = 1, and each later term is the sum of the previous two — the same rule as Fibonacci, with different seeds. It begins 2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, …</value>
+  </data>
   <data name="VigenereCipher_Name" xml:space="preserve">
     <value>Vigenère cipher</value>
   </data>
