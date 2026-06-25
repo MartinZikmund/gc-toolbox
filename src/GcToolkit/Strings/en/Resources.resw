@@ -376,9 +376,6 @@
   <data name="BaconClear" xml:space="preserve">
     <value>Clear</value>
   </data>
-  <data name="BaconSwapDirection" xml:space="preserve">
-    <value>Swap</value>
-  </data>
   <data name="BaconOutputLabel" xml:space="preserve">
     <value>Result</value>
   </data>

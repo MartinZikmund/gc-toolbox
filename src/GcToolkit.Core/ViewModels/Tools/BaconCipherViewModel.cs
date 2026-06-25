@@ -41,6 +41,7 @@ public sealed partial class BaconCipherViewModel : ToolViewModelBase
     {
         _clipboard = clipboard;
         _share = share;
+        RefreshReferenceTable();
         Recompute();
     }
 
@@ -90,24 +91,37 @@ public sealed partial class BaconCipherViewModel : ToolViewModelBase
     {
         if (value is 0 or 1)
         {
+            RefreshReferenceTable();
             Recompute();
         }
     }
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        // Ignore re-entrant carries and the transient -1 a RadioButtons control can emit.
+        if (_suppressRecompute || value is not (0 or 1))
         {
-            Recompute();
+            return;
         }
+
+        // Switching direction carries the previous result into the input, so a round-trip is one tap.
+        _suppressRecompute = true;
+        InputText = OutputText;
+        _suppressRecompute = false;
+        Recompute();
     }
 
-    partial void OnSwapSymbolsChanged(bool value) => Recompute();
+    partial void OnSwapSymbolsChanged(bool value)
+    {
+        RefreshReferenceTable();
+        Recompute();
+    }
 
     partial void OnFirstSymbolChanged(string value)
     {
         if (!_suppressRecompute)
         {
+            RefreshReferenceTable();
             Recompute();
         }
     }
@@ -116,6 +130,7 @@ public sealed partial class BaconCipherViewModel : ToolViewModelBase
     {
         if (!_suppressRecompute)
         {
+            RefreshReferenceTable();
             Recompute();
         }
     }
@@ -136,8 +151,6 @@ public sealed partial class BaconCipherViewModel : ToolViewModelBase
 
     private void Recompute()
     {
-        RefreshReferenceTable();
-
         if (string.IsNullOrEmpty(InputText))
         {
             OutputText = string.Empty;
@@ -164,22 +177,10 @@ public sealed partial class BaconCipherViewModel : ToolViewModelBase
     private void RefreshReferenceTable()
     {
         ReferenceTable.Clear();
-        foreach (var row in _cipher.GetReferenceTable(Version))
+        foreach (var row in _cipher.GetReferenceTable(Options))
         {
             ReferenceTable.Add(row);
         }
-    }
-
-    /// <summary>Swaps encrypt↔decrypt and feeds the previous output back in as the new input.</summary>
-    [RelayCommand]
-    private void SwapDirection()
-    {
-        _suppressRecompute = true;
-        var previousOutput = OutputText;
-        DirectionIndex = IsDecrypt ? 0 : 1;
-        InputText = previousOutput;
-        _suppressRecompute = false;
-        Recompute();
     }
 
     [RelayCommand(CanExecute = nameof(HasOutput))]
@@ -200,6 +201,15 @@ public sealed partial class BaconCipherViewModel : ToolViewModelBase
 
     [RelayCommand]
     private void Clear() => InputText = string.Empty;
+
+    /// <summary>
+    /// Appends a reference-chart tile to the input so the chart doubles as an on-screen keypad:
+    /// the plain letter while encrypting, or its code group (plus a trailing space the lenient
+    /// decoder ignores) while decrypting.
+    /// </summary>
+    [RelayCommand]
+    private void AppendFromTable(BaconTableRow row) =>
+        InputText += IsDecrypt ? row.Code + " " : char.ToLowerInvariant(row.Letter).ToString();
 
     /// <summary>The first character of a symbol field, falling back to <paramref name="fallback"/> when blank.</summary>
     private static char FirstChar(string value, char fallback)

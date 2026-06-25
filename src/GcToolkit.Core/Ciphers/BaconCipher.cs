@@ -35,7 +35,11 @@ public readonly record struct BaconOptions(
     bool SwapSymbols = false);
 
 /// <summary>One row of the on-page reference chart: a <see cref="Letter"/> and the <see cref="Code"/> it maps to.</summary>
-public readonly record struct BaconTableRow(char Letter, string Code);
+public readonly record struct BaconTableRow(char Letter, string Code)
+{
+    /// <summary>Screen-reader label for the tile, e.g. <c>"A AAAAA"</c>.</summary>
+    public string AutomationName => $"{Letter} {Code}";
+}
 
 /// <summary>
 /// A pure, stateless Bacon (Baconian biliteral) cipher — the single source of truth for the transform.
@@ -193,12 +197,20 @@ public sealed class BaconCipher
 
     /// <summary>The full A→Z reference chart for <paramref name="version"/> in the default A/B symbols.</summary>
     public IReadOnlyList<BaconTableRow> GetReferenceTable(BaconVersion version)
+        => GetReferenceTable(new BaconOptions(version));
+
+    /// <summary>The full A→Z reference chart for <paramref name="options"/>, rendered in its active symbols.</summary>
+    public IReadOnlyList<BaconTableRow> GetReferenceTable(BaconOptions options)
     {
-        var codes = SelectCodes(version);
+        var (zero, one) = ActiveSymbols(options);
+        var codes = SelectCodes(options.Version);
         var rows = new List<BaconTableRow>(codes.Length);
+        var builder = new StringBuilder(GroupLength);
         for (var i = 0; i < codes.Length; i++)
         {
-            rows.Add(new BaconTableRow((char)('A' + i), codes[i]));
+            builder.Clear();
+            AppendGroup(builder, codes[i], zero, one);
+            rows.Add(new BaconTableRow((char)('A' + i), builder.ToString()));
         }
 
         return rows;

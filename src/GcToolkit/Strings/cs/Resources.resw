@@ -376,9 +376,6 @@
   <data name="BaconClear" xml:space="preserve">
     <value>Vymazat</value>
   </data>
-  <data name="BaconSwapDirection" xml:space="preserve">
-    <value>Prohodit</value>
-  </data>
   <data name="BaconOutputLabel" xml:space="preserve">
     <value>Výsledek</value>
   </data>
