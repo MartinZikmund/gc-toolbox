@@ -11,7 +11,11 @@ using Microsoft.Extensions.Localization;
 namespace GcToolkit.Core.ViewModels.Tools;
 
 /// <summary>One row of the on-page reference chart: the plain <see cref="Letter"/> and its <see cref="Trigram"/>.</summary>
-public readonly record struct KennyCodeTableRow(char Letter, string Trigram);
+public readonly record struct KennyCodeTableRow(char Letter, string Trigram)
+{
+    /// <summary>Screen-reader label for the tile, e.g. <c>"A mmm"</c>.</summary>
+    public string AutomationName => $"{Letter} {Trigram}";
+}
 
 /// <summary>
 /// Kenny code (issue #21) — the South Park <c>mmm/mpp/mpf</c> cipher: a fixed Bacon-style base-3
@@ -192,4 +196,13 @@ public sealed partial class KennyCodeViewModel : ToolViewModelBase
 
     [RelayCommand]
     private void Clear() => InputText = string.Empty;
+
+    /// <summary>
+    /// Appends a substitution-chart tile to the input so the chart doubles as an on-screen keypad:
+    /// the plain letter while encoding, or its trigram (plus a trailing space for readability — the
+    /// lenient decoder ignores it) while decoding.
+    /// </summary>
+    [RelayCommand]
+    private void AppendFromTable(KennyCodeTableRow row) =>
+        InputText += IsDecoding ? row.Trigram + " " : char.ToLowerInvariant(row.Letter).ToString();
 }
