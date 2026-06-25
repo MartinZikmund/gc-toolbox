@@ -337,6 +337,63 @@
   <data name="KennyCodeTableNote" xml:space="preserve">
     <value>Each letter maps to a fixed three-symbol group over m &lt; p &lt; f.</value>
   </data>
+  <data name="BaconCipher_Name" xml:space="preserve">
+    <value>Bacon cipher</value>
+  </data>
+  <data name="BaconCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the Baconian biliteral cipher — each letter as a five-symbol group of A and B.</value>
+  </data>
+  <data name="BaconVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="BaconVersionStandard" xml:space="preserve">
+    <value>Standard (I=J &amp; U=V)</value>
+  </data>
+  <data name="BaconVersionDistinct" xml:space="preserve">
+    <value>Distinct values</value>
+  </data>
+  <data name="BaconEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="BaconDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="BaconSwapSymbols" xml:space="preserve">
+    <value>Swap the two symbols</value>
+  </data>
+  <data name="BaconFirstSymbol" xml:space="preserve">
+    <value>Symbol A</value>
+  </data>
+  <data name="BaconSecondSymbol" xml:space="preserve">
+    <value>Symbol B</value>
+  </data>
+  <data name="BaconInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="BaconInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode, or A/B groups to decode…</value>
+  </data>
+  <data name="BaconClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BaconOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BaconDecodeWarning" xml:space="preserve">
+    <value>Some groups were not five valid symbols and appear as ?.</value>
+  </data>
+  <data name="BaconCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BaconShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BaconTableLabel" xml:space="preserve">
+    <value>Reference table</value>
+  </data>
+  <data name="BaconTableNote" xml:space="preserve">
+    <value>The code for each letter in the selected version. Decoding ignores spaces, punctuation and other noise.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
