@@ -460,6 +460,63 @@
   <data name="DvorakHistoryNote" xml:space="preserve">
     <value>The Dvorak Simplified Keyboard was designed by August Dvorak and William Dealey and patented in 1936 as a faster, lower-strain alternative to QWERTY.</value>
   </data>
+  <data name="AffineCipher_Name" xml:space="preserve">
+    <value>Affine cipher</value>
+  </data>
+  <data name="AffineCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the affine cipher E(x) = (a·x + b) mod 26 — or auto-solve an unknown key.</value>
+  </data>
+  <data name="AffineMultiplier" xml:space="preserve">
+    <value>Multiplier (a)</value>
+  </data>
+  <data name="AffineOffset" xml:space="preserve">
+    <value>Offset (b)</value>
+  </data>
+  <data name="AffineFormulaPrefix" xml:space="preserve">
+    <value>Formula:</value>
+  </data>
+  <data name="AffineEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="AffineDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="AffineInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="AffineInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="AffineClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AffineAutoSolve" xml:space="preserve">
+    <value>Auto-solve (try every key)</value>
+  </data>
+  <data name="AffineOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="AffineAutoSolveLabel" xml:space="preserve">
+    <value>All keys</value>
+  </data>
+  <data name="AffineCopyCandidate" xml:space="preserve">
+    <value>Copy this candidate</value>
+  </data>
+  <data name="AffineCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="AffineShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="AffineKeyLabel" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="AffineInverseLabel" xml:space="preserve">
+    <value>Modular inverse of a:</value>
+  </data>
+  <data name="AffineKeyNote" xml:space="preserve">
+    <value>Each letter in the top row maps to the one beneath it. The multiplier must be coprime to 26.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
