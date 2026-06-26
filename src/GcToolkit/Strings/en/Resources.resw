@@ -628,6 +628,90 @@
   <data name="RailFenceRailsTooMany" xml:space="preserve">
     <value>With this many rails every character is on its own rail, so decoding has no effect — use fewer rails than the text length.</value>
   </data>
+  <data name="SubstitutionCipher_Name" xml:space="preserve">
+    <value>Substitution cipher</value>
+  </data>
+  <data name="SubstitutionCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode with a custom 26-letter alphabet — or generate one from a keyword.</value>
+  </data>
+  <data name="SubstitutionCipherEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="SubstitutionCipherDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="SubstitutionCipherKeyLabel" xml:space="preserve">
+    <value>Substitution alphabet (key)</value>
+  </data>
+  <data name="SubstitutionCipherKeyPlaceholder" xml:space="preserve">
+    <value>26 letters, e.g. BYKWASLFXOCZTDHJUMIGPVENQR</value>
+  </data>
+  <data name="SubstitutionCipherAutoComplete" xml:space="preserve">
+    <value>Auto-complete</value>
+  </data>
+  <data name="SubstitutionCipherInvert" xml:space="preserve">
+    <value>Invert</value>
+  </data>
+  <data name="SubstitutionCipherResetKey" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="SubstitutionCipherKeyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="SubstitutionCipherKeywordPlaceholder" xml:space="preserve">
+    <value>Build a key from a keyword…</value>
+  </data>
+  <data name="SubstitutionCipherGenerate" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="SubstitutionCipherCaseSensitive" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="SubstitutionCipherUnknownLabel" xml:space="preserve">
+    <value>Unknown characters</value>
+  </data>
+  <data name="SubstitutionCipherUnknownPreserve" xml:space="preserve">
+    <value>Keep</value>
+  </data>
+  <data name="SubstitutionCipherUnknownRemove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SubstitutionCipherUnknownReplace" xml:space="preserve">
+    <value>Replace with *</value>
+  </data>
+  <data name="SubstitutionCipherInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="SubstitutionCipherInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="SubstitutionCipherClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SubstitutionCipherOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="SubstitutionCipherCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="SubstitutionCipherShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="SubstitutionCipherKeyMapLabel" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="SubstitutionCipherKeyNote" xml:space="preserve">
+    <value>Each letter in the top row maps to the one beneath it.</value>
+  </data>
+  <data name="SubstitutionCipherKeyErrorLength" xml:space="preserve">
+    <value>The key must contain exactly 26 letters (A–Z).</value>
+  </data>
+  <data name="SubstitutionCipherKeyErrorDuplicate" xml:space="preserve">
+    <value>The letter '{0}' appears more than once.</value>
+  </data>
+  <data name="SubstitutionCipherKeyErrorNonLetter" xml:space="preserve">
+    <value>'{0}' is not a letter — the key may only contain A–Z.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>

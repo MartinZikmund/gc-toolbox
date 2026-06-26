@@ -628,6 +628,90 @@
   <data name="RailFenceRailsTooMany" xml:space="preserve">
     <value>Při tolika řadách je každý znak na vlastní řadě, takže dešifrování nemá žádný účinek — použijte méně řad, než je délka textu.</value>
   </data>
+  <data name="SubstitutionCipher_Name" xml:space="preserve">
+    <value>Substituční šifra</value>
+  </data>
+  <data name="SubstitutionCipher_Tooltip" xml:space="preserve">
+    <value>Šifrujte a dešifrujte vlastní 26písmennou abecedou — nebo ji vytvořte z klíčového slova.</value>
+  </data>
+  <data name="SubstitutionCipherEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="SubstitutionCipherDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="SubstitutionCipherKeyLabel" xml:space="preserve">
+    <value>Substituční abeceda (klíč)</value>
+  </data>
+  <data name="SubstitutionCipherKeyPlaceholder" xml:space="preserve">
+    <value>26 písmen, např. BYKWASLFXOCZTDHJUMIGPVENQR</value>
+  </data>
+  <data name="SubstitutionCipherAutoComplete" xml:space="preserve">
+    <value>Doplnit</value>
+  </data>
+  <data name="SubstitutionCipherInvert" xml:space="preserve">
+    <value>Obrátit</value>
+  </data>
+  <data name="SubstitutionCipherResetKey" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="SubstitutionCipherKeyword" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="SubstitutionCipherKeywordPlaceholder" xml:space="preserve">
+    <value>Vytvořit klíč z klíčového slova…</value>
+  </data>
+  <data name="SubstitutionCipherGenerate" xml:space="preserve">
+    <value>Vytvořit</value>
+  </data>
+  <data name="SubstitutionCipherCaseSensitive" xml:space="preserve">
+    <value>Rozlišovat velikost písmen</value>
+  </data>
+  <data name="SubstitutionCipherUnknownLabel" xml:space="preserve">
+    <value>Neznámé znaky</value>
+  </data>
+  <data name="SubstitutionCipherUnknownPreserve" xml:space="preserve">
+    <value>Ponechat</value>
+  </data>
+  <data name="SubstitutionCipherUnknownRemove" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="SubstitutionCipherUnknownReplace" xml:space="preserve">
+    <value>Nahradit *</value>
+  </data>
+  <data name="SubstitutionCipherInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="SubstitutionCipherInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="SubstitutionCipherClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="SubstitutionCipherOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="SubstitutionCipherCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="SubstitutionCipherShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="SubstitutionCipherKeyMapLabel" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="SubstitutionCipherKeyNote" xml:space="preserve">
+    <value>Každé písmeno v horním řádku odpovídá písmenu pod ním.</value>
+  </data>
+  <data name="SubstitutionCipherKeyErrorLength" xml:space="preserve">
+    <value>Klíč musí obsahovat přesně 26 písmen (A–Z).</value>
+  </data>
+  <data name="SubstitutionCipherKeyErrorDuplicate" xml:space="preserve">
+    <value>Písmeno „{0}“ se vyskytuje více než jednou.</value>
+  </data>
+  <data name="SubstitutionCipherKeyErrorNonLetter" xml:space="preserve">
+    <value>„{0}“ není písmeno — klíč smí obsahovat pouze A–Z.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
