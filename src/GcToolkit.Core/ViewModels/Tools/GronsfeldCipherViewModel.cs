@@ -25,6 +25,8 @@ public sealed partial class GronsfeldCipherViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
 
+    private bool _suppressRecompute;
+
     public GronsfeldCipherViewModel(
         ICatalogService catalog,
         IRecentsService recents,
@@ -69,13 +71,26 @@ public sealed partial class GronsfeldCipherViewModel : ToolViewModelBase
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        // Ignore re-entrant carries and the transient -1 a RadioButtons control can emit.
+        if (_suppressRecompute || value is not (0 or 1))
+        {
+            return;
+        }
+
+        // Switching direction carries the previous result into the input, so a round-trip is one tap.
+        _suppressRecompute = true;
+        InputText = OutputText;
+        _suppressRecompute = false;
+        Recompute();
+    }
+
+    partial void OnInputTextChanged(string value)
+    {
+        if (!_suppressRecompute)
         {
             Recompute();
         }
     }
-
-    partial void OnInputTextChanged(string value) => Recompute();
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -97,10 +112,6 @@ public sealed partial class GronsfeldCipherViewModel : ToolViewModelBase
         OutputText = _cipher.Transform(InputText, Key, IsDecode);
         HasOutput = true;
     }
-
-    /// <summary>One-tap direction swap: flips encode⇄decode (the result recomputes via the change hook).</summary>
-    [RelayCommand]
-    private void SwapDirection() => DirectionIndex = IsDecode ? 0 : 1;
 
     [RelayCommand(CanExecute = nameof(HasOutput))]
     private void CopyOutput() => _clipboard.SetText(OutputText);

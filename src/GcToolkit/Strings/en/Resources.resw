@@ -538,9 +538,6 @@
   <data name="GronsfeldDecode" xml:space="preserve">
     <value>Decode</value>
   </data>
-  <data name="GronsfeldSwap" xml:space="preserve">
-    <value>Swap</value>
-  </data>
   <data name="GronsfeldInputLabel" xml:space="preserve">
     <value>Input</value>
   </data>

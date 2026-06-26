@@ -61,32 +61,11 @@
                     Visibility="{x:Bind ViewModel.HasKeyError, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             </StackPanel>
 
-            <!--  Direction + one-tap swap  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <RadioButtons
-                    Grid.Column="0"
-                    MaxColumns="2"
-                    SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                    <RadioButton Content="{markup:Localize Key=GronsfeldEncode}" />
-                    <RadioButton Content="{markup:Localize Key=GronsfeldDecode}" />
-                </RadioButtons>
-                <Button
-                    Grid.Column="1"
-                    Height="36"
-                    VerticalAlignment="Bottom"
-                    AutomationProperties.Name="{markup:Localize Key=GronsfeldSwap}"
-                    Command="{x:Bind ViewModel.SwapDirectionCommand}"
-                    ToolTipService.ToolTip="{markup:Localize Key=GronsfeldSwap}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="14" Glyph="&#xE8AB;" />
-                        <TextBlock Text="{markup:Localize Key=GronsfeldSwap}" />
-                    </StackPanel>
-                </Button>
-            </Grid>
+            <!--  Direction (toggling carries the result into the input for a one-tap round-trip)  -->
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=GronsfeldEncode}" />
+                <RadioButton Content="{markup:Localize Key=GronsfeldDecode}" />
+            </RadioButtons>
 
             <!--  Input  -->
             <TextBox
