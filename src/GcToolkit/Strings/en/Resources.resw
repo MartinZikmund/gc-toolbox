@@ -394,6 +394,72 @@
   <data name="BaconTableNote" xml:space="preserve">
     <value>The code for each letter in the selected version. Decoding ignores spaces, punctuation and other noise.</value>
   </data>
+  <data name="DvorakKeyboard_Name" xml:space="preserve">
+    <value>Dvorak keyboard</value>
+  </data>
+  <data name="DvorakKeyboard_Tooltip" xml:space="preserve">
+    <value>Re-type text from one keyboard layout to another (QWERTY ↔ Dvorak) by key position.</value>
+  </data>
+  <data name="DvorakInputLayout" xml:space="preserve">
+    <value>Input layout</value>
+  </data>
+  <data name="DvorakOutputLayout" xml:space="preserve">
+    <value>Output layout</value>
+  </data>
+  <data name="DvorakLayoutQwerty" xml:space="preserve">
+    <value>QWERTY</value>
+  </data>
+  <data name="DvorakLayoutTwoHands" xml:space="preserve">
+    <value>Dvorak (two hands)</value>
+  </data>
+  <data name="DvorakLayoutRightHand" xml:space="preserve">
+    <value>Dvorak (right hand)</value>
+  </data>
+  <data name="DvorakLayoutLeftHand" xml:space="preserve">
+    <value>Dvorak (left hand)</value>
+  </data>
+  <data name="DvorakSwap" xml:space="preserve">
+    <value>Swap layouts</value>
+  </data>
+  <data name="DvorakInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="DvorakInputPlaceholder" xml:space="preserve">
+    <value>Type text as it was entered on the input layout…</value>
+  </data>
+  <data name="DvorakClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="DvorakShowAllDirections" xml:space="preserve">
+    <value>Try all directions</value>
+  </data>
+  <data name="DvorakOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="DvorakIdentityNote" xml:space="preserve">
+    <value>The input and output layouts are the same, so the text is unchanged.</value>
+  </data>
+  <data name="DvorakAllDirectionsLabel" xml:space="preserve">
+    <value>All layout pairings</value>
+  </data>
+  <data name="DvorakCopyCandidate" xml:space="preserve">
+    <value>Copy this result</value>
+  </data>
+  <data name="DvorakCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="DvorakShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="DvorakHowLabel" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="DvorakHowNote" xml:space="preserve">
+    <value>Each character is read at its physical key on the input layout and re-emitted at that same key on the output layout. Characters with no key (spaces, accents) pass through unchanged.</value>
+  </data>
+  <data name="DvorakHistoryNote" xml:space="preserve">
+    <value>The Dvorak Simplified Keyboard was designed by August Dvorak and William Dealey and patented in 1936 as a faster, lower-strain alternative to QWERTY.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>

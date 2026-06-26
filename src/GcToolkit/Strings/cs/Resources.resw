@@ -394,6 +394,72 @@
   <data name="BaconTableNote" xml:space="preserve">
     <value>Kód každého písmene ve zvolené verzi. Dešifrování ignoruje mezery, interpunkci a další šum.</value>
   </data>
+  <data name="DvorakKeyboard_Name" xml:space="preserve">
+    <value>Klávesnice Dvorak</value>
+  </data>
+  <data name="DvorakKeyboard_Tooltip" xml:space="preserve">
+    <value>Přepište text z jednoho rozložení klávesnice do druhého (QWERTY ↔ Dvorak) podle polohy kláves.</value>
+  </data>
+  <data name="DvorakInputLayout" xml:space="preserve">
+    <value>Vstupní rozložení</value>
+  </data>
+  <data name="DvorakOutputLayout" xml:space="preserve">
+    <value>Výstupní rozložení</value>
+  </data>
+  <data name="DvorakLayoutQwerty" xml:space="preserve">
+    <value>QWERTY</value>
+  </data>
+  <data name="DvorakLayoutTwoHands" xml:space="preserve">
+    <value>Dvorak (obě ruce)</value>
+  </data>
+  <data name="DvorakLayoutRightHand" xml:space="preserve">
+    <value>Dvorak (pravá ruka)</value>
+  </data>
+  <data name="DvorakLayoutLeftHand" xml:space="preserve">
+    <value>Dvorak (levá ruka)</value>
+  </data>
+  <data name="DvorakSwap" xml:space="preserve">
+    <value>Prohodit rozložení</value>
+  </data>
+  <data name="DvorakInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="DvorakInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text tak, jak byl napsán na vstupním rozložení…</value>
+  </data>
+  <data name="DvorakClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="DvorakShowAllDirections" xml:space="preserve">
+    <value>Vyzkoušet všechny směry</value>
+  </data>
+  <data name="DvorakOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="DvorakIdentityNote" xml:space="preserve">
+    <value>Vstupní a výstupní rozložení jsou stejná, text proto zůstává beze změny.</value>
+  </data>
+  <data name="DvorakAllDirectionsLabel" xml:space="preserve">
+    <value>Všechny kombinace rozložení</value>
+  </data>
+  <data name="DvorakCopyCandidate" xml:space="preserve">
+    <value>Kopírovat tento výsledek</value>
+  </data>
+  <data name="DvorakCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="DvorakShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="DvorakHowLabel" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="DvorakHowNote" xml:space="preserve">
+    <value>Každý znak se přečte podle své fyzické klávesy na vstupním rozložení a vypíše se ze stejné klávesy na výstupním rozložení. Znaky bez klávesy (mezery, diakritika) projdou beze změny.</value>
+  </data>
+  <data name="DvorakHistoryNote" xml:space="preserve">
+    <value>Zjednodušené rozložení Dvorak navrhli August Dvorak a William Dealey a v roce 1936 si jej nechali patentovat jako rychlejší a méně namáhavou alternativu ke QWERTY.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
