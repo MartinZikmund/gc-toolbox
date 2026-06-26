@@ -195,6 +195,11 @@
                         Style="{ThemeResource BodyTextBlockStyle}"
                         Text="{markup:Localize Key=DvorakHowNote}"
                         TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=DvorakHistoryNote}"
+                        TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
 

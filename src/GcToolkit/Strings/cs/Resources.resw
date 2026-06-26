@@ -457,6 +457,9 @@
   <data name="DvorakHowNote" xml:space="preserve">
     <value>Každý znak se přečte podle své fyzické klávesy na vstupním rozložení a vypíše se ze stejné klávesy na výstupním rozložení. Znaky bez klávesy (mezery, diakritika) projdou beze změny.</value>
   </data>
+  <data name="DvorakHistoryNote" xml:space="preserve">
+    <value>Zjednodušené rozložení Dvorak navrhli August Dvorak a William Dealey a v roce 1936 si jej nechali patentovat jako rychlejší a méně namáhavou alternativu ke QWERTY.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

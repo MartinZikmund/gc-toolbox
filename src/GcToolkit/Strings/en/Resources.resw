@@ -457,6 +457,9 @@
   <data name="DvorakHowNote" xml:space="preserve">
     <value>Each character is read at its physical key on the input layout and re-emitted at that same key on the output layout. Characters with no key (spaces, accents) pass through unchanged.</value>
   </data>
+  <data name="DvorakHistoryNote" xml:space="preserve">
+    <value>The Dvorak Simplified Keyboard was designed by August Dvorak and William Dealey and patented in 1936 as a faster, lower-strain alternative to QWERTY.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
