@@ -7,6 +7,7 @@ using GcToolkit.Core.FavoriteTools;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -23,9 +24,12 @@ namespace GcToolkit.Core.ViewModels.Tools;
       Keywords = ["dvorak", "qwerty", "keyboard", "layout", "remap", "klávesnice", "rozložení", "rozlozeni", "klavesnice", "one-handed"])]
 public sealed partial class DvorakKeyboardViewModel : ToolViewModelBase
 {
+    private const int RecomputeDebounceMs = 200;
+
     private readonly DvorakCodec _codec = new();
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+    private readonly DispatcherQueueTimer? _debounceTimer;
 
     public DvorakKeyboardViewModel(
         ICatalogService catalog,
@@ -38,6 +42,17 @@ public sealed partial class DvorakKeyboardViewModel : ToolViewModelBase
     {
         _clipboard = clipboard;
         _share = share;
+
+        // A non-repeating UI-thread timer debounces the expensive "all directions" rebuild while
+        // typing. Null in unit tests (no DispatcherQueue), where the recompute then runs synchronously.
+        var dispatcher = DispatcherQueue.GetForCurrentThread();
+        if (dispatcher is not null)
+        {
+            _debounceTimer = dispatcher.CreateTimer();
+            _debounceTimer.Interval = TimeSpan.FromMilliseconds(RecomputeDebounceMs);
+            _debounceTimer.IsRepeating = false;
+            _debounceTimer.Tick += (_, _) => Recompute();
+        }
 
         LayoutNames =
         [
@@ -87,18 +102,40 @@ public sealed partial class DvorakKeyboardViewModel : ToolViewModelBase
 
     private static int Clamp(int index) => index < 0 || index >= DvorakCodec.Layouts.Count ? 0 : index;
 
-    partial void OnInputLayoutIndexChanged(int value) => Recompute();
+    partial void OnInputLayoutIndexChanged(int value) => RequestRecompute(immediate: true);
 
-    partial void OnOutputLayoutIndexChanged(int value) => Recompute();
+    partial void OnOutputLayoutIndexChanged(int value) => RequestRecompute(immediate: true);
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    // Typing in "try all directions" mode rebuilds 12 pairings synchronously, which freezes the UI
+    // while typing fast — debounce that path so it only recomputes once typing pauses. The cheap
+    // single-direction path stays instant.
+    partial void OnInputTextChanged(string value) => RequestRecompute(immediate: !ShowAllDirections);
 
-    partial void OnShowAllDirectionsChanged(bool value) => Recompute();
+    partial void OnShowAllDirectionsChanged(bool value) => RequestRecompute(immediate: true);
 
     partial void OnHasOutputChanged(bool value)
     {
         CopyOutputCommand.NotifyCanExecuteChanged();
         ShareOutputCommand.NotifyCanExecuteChanged();
+    }
+
+    /// <summary>
+    /// Requests a recompute. <paramref name="immediate"/> recomputes synchronously; otherwise it is
+    /// debounced via a UI-thread timer (used for typing in the expensive "all directions" mode) so a
+    /// burst of keystrokes coalesces into a single rebuild once the user pauses.
+    /// </summary>
+    private void RequestRecompute(bool immediate)
+    {
+        _debounceTimer?.Stop();
+
+        if (immediate || _debounceTimer is null)
+        {
+            Recompute();
+            return;
+        }
+
+        // Restart the idle window; the Tick handler runs Recompute on the UI thread when it elapses.
+        _debounceTimer.Start();
     }
 
     private void Recompute()
