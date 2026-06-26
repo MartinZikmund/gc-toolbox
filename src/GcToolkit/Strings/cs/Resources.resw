@@ -517,6 +517,51 @@
   <data name="AffineKeyNote" xml:space="preserve">
     <value>Každé písmeno v horním řádku odpovídá písmenu pod ním. Násobitel musí být nesoudělný s 26.</value>
   </data>
+  <data name="GronsfeldCipher_Name" xml:space="preserve">
+    <value>Gronsfeldova šifra</value>
+  </data>
+  <data name="GronsfeldCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte Gronsfeldovu šifru — variantu Vigenèrovy šifry s číselným klíčem.</value>
+  </data>
+  <data name="GronsfeldKeyLabel" xml:space="preserve">
+    <value>Číselný klíč</value>
+  </data>
+  <data name="GronsfeldKeyPlaceholder" xml:space="preserve">
+    <value>Číslice 0–9, např. 31415</value>
+  </data>
+  <data name="GronsfeldKeyError" xml:space="preserve">
+    <value>Klíč smí obsahovat pouze číslice 0–9.</value>
+  </data>
+  <data name="GronsfeldEncode" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="GronsfeldDecode" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="GronsfeldInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="GronsfeldInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="GronsfeldClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="GronsfeldOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="GronsfeldCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="GronsfeldShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="GronsfeldReferenceLabel" xml:space="preserve">
+    <value>Přehled číslic</value>
+  </data>
+  <data name="GronsfeldReferenceNote" xml:space="preserve">
+    <value>Každá číslice klíče posune následující písmeno o daný počet míst (0⇒A, 1⇒B … 9⇒J).</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
