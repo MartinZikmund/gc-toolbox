@@ -562,6 +562,72 @@
   <data name="GronsfeldReferenceNote" xml:space="preserve">
     <value>Each key digit shifts the next letter by that many places (0⇒A, 1⇒B … 9⇒J).</value>
   </data>
+  <data name="RailFenceCipher_Name" xml:space="preserve">
+    <value>Rail fence cipher</value>
+  </data>
+  <data name="RailFenceCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the zig-zag (rail fence) transposition — set the rails and offset, draw the fence, or auto-solve an unknown key.</value>
+  </data>
+  <data name="RailFenceEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="RailFenceDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="RailFenceRails" xml:space="preserve">
+    <value>Rails</value>
+  </data>
+  <data name="RailFenceOffset" xml:space="preserve">
+    <value>Offset</value>
+  </data>
+  <data name="RailFenceShowFence" xml:space="preserve">
+    <value>Show rail fence</value>
+  </data>
+  <data name="RailFenceDelimiter" xml:space="preserve">
+    <value>Empty cell</value>
+  </data>
+  <data name="RailFenceInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="RailFenceInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="RailFenceClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="RailFenceAutoSolve" xml:space="preserve">
+    <value>Auto-solve</value>
+  </data>
+  <data name="RailFenceOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="RailFenceCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="RailFenceShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="RailFenceDiagramLabel" xml:space="preserve">
+    <value>Rail fence</value>
+  </data>
+  <data name="RailFenceAutoSolveLabel" xml:space="preserve">
+    <value>Auto-solve candidates</value>
+  </data>
+  <data name="RailFenceAutoSolveNote" xml:space="preserve">
+    <value>Decoded at every rail count using the offset selected above (rails / offset shown on the left). One row holds the plaintext; if none match, try a different offset.</value>
+  </data>
+  <data name="RailFenceCopyCandidate" xml:space="preserve">
+    <value>Copy this candidate</value>
+  </data>
+  <data name="RailFenceRailsTooFew" xml:space="preserve">
+    <value>The rail fence needs at least 2 rails.</value>
+  </data>
+  <data name="RailFenceOffsetNegative" xml:space="preserve">
+    <value>The offset cannot be negative.</value>
+  </data>
+  <data name="RailFenceRailsTooMany" xml:space="preserve">
+    <value>With this many rails every character is on its own rail, so decoding has no effect — use fewer rails than the text length.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
