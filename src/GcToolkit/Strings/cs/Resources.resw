@@ -614,7 +614,7 @@
     <value>Návrhy automatického řešení</value>
   </data>
   <data name="RailFenceAutoSolveNote" xml:space="preserve">
-    <value>Dešifrováno pro každý počet řad s posunem 0 — jeden řádek obsahuje původní text (počet řad / posun vlevo). Nenulový posun je neobvyklá varianta; pokud žádný řádek nesedí, nastavte posun ručně výše.</value>
+    <value>Dešifrováno pro každý počet řad s posunem vybraným výše (počet řad / posun vlevo). Jeden řádek obsahuje původní text; pokud žádný nesedí, zkuste jiný posun.</value>
   </data>
   <data name="RailFenceCopyCandidate" xml:space="preserve">
     <value>Kopírovat tento návrh</value>

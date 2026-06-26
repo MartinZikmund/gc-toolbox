@@ -614,7 +614,7 @@
     <value>Auto-solve candidates</value>
   </data>
   <data name="RailFenceAutoSolveNote" xml:space="preserve">
-    <value>Decoded at every rail count using offset 0 — one row holds the plaintext (rails / offset shown on the left). A non-zero offset is an uncommon variant; if none match, set the offset manually above.</value>
+    <value>Decoded at every rail count using the offset selected above (rails / offset shown on the left). One row holds the plaintext; if none match, try a different offset.</value>
   </data>
   <data name="RailFenceCopyCandidate" xml:space="preserve">
     <value>Copy this candidate</value>

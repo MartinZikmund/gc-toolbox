@@ -161,6 +161,30 @@ public sealed class RailFenceCipher
     }
 
     /// <summary>
+    /// Brute-forces only the rail count: decrypts <paramref name="text"/> for every rail count
+    /// <c>2 … length</c> at the given <paramref name="offset"/> (the one the user selected), returning
+    /// one candidate per rail count. <see cref="RailPattern"/> wraps the offset within each rail
+    /// count's cycle, so any non-negative offset is valid.
+    /// </summary>
+    public IReadOnlyList<RailFenceSolveResult> AutoSolve(string? text, int offset)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return [];
+        }
+
+        var safeOffset = Math.Max(0, offset);
+        var results = new List<RailFenceSolveResult>();
+        var maxRails = text.Length;
+        for (var rails = 2; rails <= maxRails; rails++)
+        {
+            results.Add(new RailFenceSolveResult(rails, safeOffset, Decrypt(text, rails, safeOffset)));
+        }
+
+        return results;
+    }
+
+    /// <summary>
     /// The rail index each character lands on. The zig-zag walks <c>0 → rails-1 → 0</c> with cycle
     /// length <c>2·(rails−1)</c>; <paramref name="offset"/> advances the start within that cycle.
     /// </summary>

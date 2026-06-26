@@ -181,8 +181,20 @@
                     Style="{ThemeResource CaptionTextBlockStyle}"
                     Text="{markup:Localize Key=RailFenceAutoSolveNote}"
                     TextWrapping="Wrap" />
-                <ItemsControl ItemsSource="{x:Bind ViewModel.SolveResults}">
-                    <ItemsControl.ItemTemplate>
+                <!--  ListView virtualizes the brute-force rows so only visible ones are realized.  -->
+                <ListView
+                    MaxHeight="420"
+                    ItemsSource="{x:Bind ViewModel.SolveResults, Mode=OneWay}"
+                    SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="tools:RailFenceSolveItem">
                             <Grid
                                 Margin="0,2"
@@ -202,14 +214,11 @@
                                     HorizontalTextAlignment="Right"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{x:Bind Label}" />
-                                <TextBox
+                                <TextBlock
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    Background="Transparent"
-                                    BorderThickness="0"
                                     FontFamily="Consolas"
-                                    IsReadOnly="True"
-                                    IsSpellCheckEnabled="False"
+                                    IsTextSelectionEnabled="True"
                                     Text="{x:Bind Text}"
                                     TextWrapping="Wrap" />
                                 <Button
@@ -225,8 +234,8 @@
                                 </Button>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
 
         </StackPanel>

@@ -1,12 +1,13 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -27,6 +28,11 @@ public sealed partial class RailFenceCipherViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private int _solveGeneration;
+    private bool _suppressRecompute;
 
     public RailFenceCipherViewModel(
         ICatalogService catalog,
@@ -88,7 +94,8 @@ public sealed partial class RailFenceCipherViewModel : ToolViewModelBase
     public partial bool ShowAutoSolve { get; set; }
 
     /// <summary>The auto-solve candidates (each a distinct rails/offset decode of the input).</summary>
-    public ObservableCollection<RailFenceSolveItem> SolveResults { get; } = [];
+    [ObservableProperty]
+    public partial IReadOnlyList<RailFenceSolveItem> SolveResults { get; set; } = [];
 
     private bool IsDecode => DirectionIndex == 1;
 
@@ -96,23 +103,45 @@ public sealed partial class RailFenceCipherViewModel : ToolViewModelBase
 
     partial void OnRailsChanged(int value) => Recompute();
 
-    partial void OnOffsetChanged(int value) => Recompute();
+    partial void OnOffsetChanged(int value)
+    {
+        // Auto-solve now decodes at the selected offset, so it must refresh when the offset changes.
+        Recompute();
+        RefreshAutoSolve(immediate: true);
+    }
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        // Ignore re-entrant carries and the transient -1 a RadioButtons control can emit.
+        if (_suppressRecompute || value is not (0 or 1))
         {
-            Recompute();
+            return;
         }
+
+        // Switching direction carries the previous result into the input, so a round-trip is one tap.
+        _suppressRecompute = true;
+        InputText = OutputText;
+        _suppressRecompute = false;
+        Recompute();
+        RefreshAutoSolve(immediate: true);
     }
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    partial void OnInputTextChanged(string value)
+    {
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        Recompute();
+        RefreshAutoSolve(immediate: false); // debounced while typing — auto-solve is the expensive path
+    }
 
     partial void OnShowFenceChanged(bool value) => Recompute();
 
     partial void OnDelimiterChanged(string value) => Recompute();
 
-    partial void OnShowAutoSolveChanged(bool value) => Recompute();
+    partial void OnShowAutoSolveChanged(bool value) => RefreshAutoSolve(immediate: true);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -122,7 +151,6 @@ public sealed partial class RailFenceCipherViewModel : ToolViewModelBase
 
     private void Recompute()
     {
-        SolveResults.Clear();
         FenceDiagram = string.Empty;
 
         // Guard the invariants the codec asserts before calling it.
@@ -169,15 +197,65 @@ public sealed partial class RailFenceCipherViewModel : ToolViewModelBase
             var rows = _cipher.BuildFence(InputText, Rails, Offset, PlaceholderChar);
             FenceDiagram = string.Join(Environment.NewLine, rows);
         }
+    }
 
-        if (ShowAutoSolve)
+    /// <summary>
+    /// Refreshes the auto-solve candidate list. When shown, the brute force runs (debounced while
+    /// typing, else immediately) on a background thread and publishes on the UI thread — a generation
+    /// guard drops superseded results. When hidden, the list is just cleared.
+    /// </summary>
+    private void RefreshAutoSolve(bool immediate)
+    {
+        if (!ShowAutoSolve)
         {
-            foreach (var candidate in _cipher.AutoSolve(InputText))
-            {
-                SolveResults.Add(new RailFenceSolveItem(candidate.Rails, candidate.Offset, candidate.Text, _clipboard.SetText));
-            }
+            _solveGeneration++;
+            SolveResults = [];
+            return;
+        }
+
+        if (immediate)
+        {
+            _debouncer.RunNow(RunAutoSolve);
+        }
+        else
+        {
+            _debouncer.Debounce(RunAutoSolve);
         }
     }
+
+    private void RunAutoSolve()
+    {
+        var input = InputText;
+        var offset = Offset;
+        var generation = ++_solveGeneration;
+
+        if (string.IsNullOrEmpty(input))
+        {
+            SolveResults = [];
+            return;
+        }
+
+        if (_dispatcher is null)
+        {
+            SolveResults = BuildSolveResults(input, offset);
+            return;
+        }
+
+        _ = Task.Run(() =>
+        {
+            var results = BuildSolveResults(input, offset);
+            _dispatcher.TryEnqueue(() =>
+            {
+                if (generation == _solveGeneration)
+                {
+                    SolveResults = results;
+                }
+            });
+        });
+    }
+
+    private IReadOnlyList<RailFenceSolveItem> BuildSolveResults(string input, int offset)
+        => [.. _cipher.AutoSolve(input, offset).Select(c => new RailFenceSolveItem(c.Rails, c.Offset, c.Text, _clipboard.SetText))];
 
     private void ClearOutput()
     {
