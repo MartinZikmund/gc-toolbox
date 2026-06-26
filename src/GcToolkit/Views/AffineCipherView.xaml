@@ -119,8 +119,20 @@
             <!--  Auto-solve (brute-force) list — visible only in auto-solve mode  -->
             <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.AutoSolve, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineAutoSolveLabel}" />
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Candidates}">
-                    <ItemsControl.ItemTemplate>
+                <!--  ListView virtualizes the 324 brute-force rows so only visible ones are realized.  -->
+                <ListView
+                    MaxHeight="420"
+                    ItemsSource="{x:Bind ViewModel.Candidates, Mode=OneWay}"
+                    SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="tools:AffineCandidateItem">
                             <Grid
                                 Margin="0,2"
@@ -139,14 +151,11 @@
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{x:Bind Key}" />
-                                <TextBox
+                                <TextBlock
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    Background="Transparent"
-                                    BorderThickness="0"
                                     FontFamily="Consolas"
-                                    IsReadOnly="True"
-                                    IsSpellCheckEnabled="False"
+                                    IsTextSelectionEnabled="True"
                                     Text="{x:Bind Text}"
                                     TextWrapping="Wrap" />
                                 <Button
@@ -162,8 +171,8 @@
                                 </Button>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
 
             <!--  Output actions  -->

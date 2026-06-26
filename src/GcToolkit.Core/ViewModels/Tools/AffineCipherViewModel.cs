@@ -1,12 +1,13 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -26,6 +27,10 @@ public sealed partial class AffineCipherViewModel : ToolViewModelBase
     private readonly AffineCipher _cipher = new();
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private int _autoSolveGeneration;
 
     public AffineCipherViewModel(
         ICatalogService catalog,
@@ -84,25 +89,38 @@ public sealed partial class AffineCipherViewModel : ToolViewModelBase
     public partial string KeyCipher { get; set; } = string.Empty;
 
     /// <summary>The candidate decryptions shown in "auto-solve" mode (one per valid key).</summary>
-    public ObservableCollection<AffineCandidateItem> Candidates { get; } = [];
+    [ObservableProperty]
+    public partial IReadOnlyList<AffineCandidateItem> Candidates { get; set; } = [];
 
     private bool IsDecode => DirectionIndex == 1;
 
-    partial void OnMultiplierChanged(int value) => Recompute();
+    partial void OnMultiplierChanged(int value) => _debouncer.RunNow(Recompute);
 
-    partial void OnOffsetChanged(int value) => Recompute();
+    partial void OnOffsetChanged(int value) => _debouncer.RunNow(Recompute);
 
     partial void OnDirectionIndexChanged(int value)
     {
         if (value is 0 or 1)
         {
-            Recompute();
+            _debouncer.RunNow(Recompute);
         }
     }
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    // Typing while auto-solving brute-forces all 324 keys synchronously, which freezes the UI per
+    // keystroke — debounce that path so it recomputes once typing pauses. Single-key stays instant.
+    partial void OnInputTextChanged(string value)
+    {
+        if (AutoSolve)
+        {
+            _debouncer.Debounce(Recompute);
+        }
+        else
+        {
+            _debouncer.RunNow(Recompute);
+        }
+    }
 
-    partial void OnAutoSolveChanged(bool value) => Recompute();
+    partial void OnAutoSolveChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -124,10 +142,10 @@ public sealed partial class AffineCipherViewModel : ToolViewModelBase
         KeyPlain = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         KeyCipher = _cipher.SubstitutionAlphabet(Multiplier, Offset);
 
-        Candidates.Clear();
-
         if (string.IsNullOrEmpty(InputText))
         {
+            _autoSolveGeneration++; // discard any in-flight brute force
+            Candidates = [];
             OutputText = string.Empty;
             HasOutput = false;
             return;
@@ -135,20 +153,52 @@ public sealed partial class AffineCipherViewModel : ToolViewModelBase
 
         if (AutoSolve)
         {
-            foreach (var candidate in _cipher.BruteForce(InputText))
-            {
-                Candidates.Add(new AffineCandidateItem(candidate.A, candidate.B, candidate.Text, _clipboard.SetText));
-            }
-
             OutputText = string.Empty;
+            StartAutoSolve(InputText);
         }
         else
         {
+            _autoSolveGeneration++;
+            Candidates = [];
             OutputText = _cipher.Transform(InputText, Multiplier, Offset, IsDecode);
+            HasOutput = true;
+        }
+    }
+
+    /// <summary>
+    /// Brute-forces all 324 keys on a background thread (it also builds 324 rows), then publishes the
+    /// candidates back on the UI thread. A generation guard drops results a newer keystroke/key change
+    /// has already superseded. Runs synchronously when there is no dispatcher (unit tests).
+    /// </summary>
+    private void StartAutoSolve(string input)
+    {
+        var generation = ++_autoSolveGeneration;
+
+        if (_dispatcher is null)
+        {
+            Candidates = BuildCandidates(input);
+            HasOutput = Candidates.Count > 0;
+            return;
         }
 
-        HasOutput = true;
+        _ = Task.Run(() =>
+        {
+            var candidates = BuildCandidates(input);
+            _dispatcher.TryEnqueue(() =>
+            {
+                if (generation != _autoSolveGeneration)
+                {
+                    return; // a newer input already superseded this result
+                }
+
+                Candidates = candidates;
+                HasOutput = candidates.Count > 0;
+            });
+        });
     }
+
+    private IReadOnlyList<AffineCandidateItem> BuildCandidates(string input)
+        => [.. _cipher.BruteForce(input).Select(c => new AffineCandidateItem(c.A, c.B, c.Text, _clipboard.SetText))];
 
     /// <summary>The text the Copy/Share actions emit: the single result, or every candidate line in auto-solve mode.</summary>
     private string BuildResultText()
