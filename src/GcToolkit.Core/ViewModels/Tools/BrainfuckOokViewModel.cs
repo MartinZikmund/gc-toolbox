@@ -3,9 +3,11 @@ using GcToolkit.Core.Alphabets;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -25,6 +27,10 @@ public sealed partial class BrainfuckOokViewModel : ToolViewModelBase
     private readonly BrainfuckOok _codec = new();
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private int _executeGeneration;
 
     public BrainfuckOokViewModel(
         ICatalogService catalog,
@@ -103,16 +109,29 @@ public sealed partial class BrainfuckOokViewModel : ToolViewModelBase
             NotationIndex = FromNotation(_codec.Detect(InputText));
         }
 
-        Convert();
+        _debouncer.RunNow(Recompute);
     }
 
-    partial void OnNotationIndexChanged(int value) => Convert();
+    partial void OnNotationIndexChanged(int value) => _debouncer.RunNow(Recompute);
 
-    partial void OnTargetNotationIndexChanged(int value) => Convert();
+    partial void OnTargetNotationIndexChanged(int value) => _debouncer.RunNow(Recompute);
 
-    partial void OnInputTextChanged(string value) => Convert();
+    // Executing a program runs the interpreter (up to millions of steps) — debounce that path so a
+    // slow/near-infinite program recomputes once typing pauses, not on every keystroke. Encode/Convert
+    // are cheap linear passes, so they stay instant.
+    partial void OnInputTextChanged(string value)
+    {
+        if (IsExecuteMode)
+        {
+            _debouncer.Debounce(Recompute);
+        }
+        else
+        {
+            _debouncer.RunNow(Recompute);
+        }
+    }
 
-    partial void OnStdinTextChanged(string value) => Convert();
+    partial void OnStdinTextChanged(string value) => _debouncer.Debounce(Recompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -129,13 +148,14 @@ public sealed partial class BrainfuckOokViewModel : ToolViewModelBase
         _ => 0,
     };
 
-    private void Convert()
+    private void Recompute()
     {
         IsAborted = false;
         StatusMessage = string.Empty;
 
         if (string.IsNullOrEmpty(InputText))
         {
+            _executeGeneration++; // discard any in-flight run
             OutputText = string.Empty;
             HasOutput = false;
             HasStatus = false;
@@ -147,9 +167,11 @@ public sealed partial class BrainfuckOokViewModel : ToolViewModelBase
         switch (ModeIndex)
         {
             case 1:
+                _executeGeneration++;
                 OutputText = _codec.EncodeText(InputText, notation);
                 break;
             case 2:
+                _executeGeneration++;
                 try
                 {
                     OutputText = _codec.Transliterate(InputText, notation, ToNotation(TargetNotationIndex));
@@ -163,13 +185,46 @@ public sealed partial class BrainfuckOokViewModel : ToolViewModelBase
 
                 break;
             default:
-                var result = _codec.Execute(InputText, StdinText, notation);
-                OutputText = result.Output;
-                IsAborted = result.Aborted;
-                StatusMessage = result.HasError ? result.Error ?? string.Empty : string.Empty;
-                break;
+                StartExecute(InputText, StdinText, notation);
+                return;
         }
 
+        HasOutput = !string.IsNullOrEmpty(OutputText);
+        HasStatus = !string.IsNullOrEmpty(StatusMessage);
+    }
+
+    /// <summary>
+    /// Runs the interpreter off the UI thread and publishes the result back on it, so a slow or
+    /// near-infinite program can't freeze typing. A generation guard drops a result that a newer input
+    /// has already superseded. Runs synchronously when there is no dispatcher (unit tests).
+    /// </summary>
+    private void StartExecute(string program, string stdin, BrainfuckNotation notation)
+    {
+        var generation = ++_executeGeneration;
+
+        if (_dispatcher is null)
+        {
+            Publish(_codec.Execute(program, stdin, notation), generation);
+            return;
+        }
+
+        _ = Task.Run(() =>
+        {
+            var result = _codec.Execute(program, stdin, notation);
+            _dispatcher.TryEnqueue(() => Publish(result, generation));
+        });
+    }
+
+    private void Publish(BrainfuckResult result, int generation)
+    {
+        if (generation != _executeGeneration)
+        {
+            return; // a newer input already superseded this run
+        }
+
+        OutputText = result.Output;
+        IsAborted = result.Aborted;
+        StatusMessage = result.HasError ? result.Error ?? string.Empty : string.Empty;
         HasOutput = !string.IsNullOrEmpty(OutputText);
         HasStatus = !string.IsNullOrEmpty(StatusMessage);
     }
