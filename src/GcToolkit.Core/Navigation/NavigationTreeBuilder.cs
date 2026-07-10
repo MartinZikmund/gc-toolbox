@@ -5,15 +5,24 @@ namespace GcToolkit.Core.Navigation;
 
 /// <summary>
 /// Shapes the flat discovered catalog (categories + tools) into the hierarchical
-/// <see cref="NavigationTree"/> the pane renders. Group membership comes from the single source
+/// <see cref="NavigationTree"/> the pane renders. Group membership defaults to the single source
 /// of truth <see cref="ToolGrouping.CategoryGroups"/> (research R6); ordering is deterministic and
 /// empty categories/groups are omitted (FR-023/FR-024). Hand-written and unit-tested so the
 /// generator only emits data, not tree logic.
 /// </summary>
 public static class NavigationTreeBuilder
 {
-    public static NavigationTree Build(IReadOnlyList<Category> categories, IReadOnlyList<ToolDescriptor> tools)
+    /// <param name="grouping">
+    /// Category-to-group map; defaults to <see cref="ToolGrouping.CategoryGroups"/>, which is empty today
+    /// (flat navigation). Pass an explicit map to exercise or restore group headings.
+    /// </param>
+    public static NavigationTree Build(
+        IReadOnlyList<Category> categories,
+        IReadOnlyList<ToolDescriptor> tools,
+        IReadOnlyDictionary<ToolCategory, ToolGroup>? grouping = null)
     {
+        grouping ??= ToolGrouping.CategoryGroups;
+
         var toolsByCategory = tools
             .GroupBy(t => t.CategoryId, StringComparer.Ordinal)
             .ToDictionary(
@@ -41,7 +50,7 @@ public static class NavigationTreeBuilder
 
         foreach (var categoryNode in categoryNodes)
         {
-            if (TryGetGroup(categoryNode.CategoryId, out var group))
+            if (TryGetGroup(grouping, categoryNode.CategoryId, out var group))
             {
                 if (!grouped.TryGetValue(group, out var list))
                 {
@@ -80,10 +89,13 @@ public static class NavigationTreeBuilder
         return new NavigationTree(ordered);
     }
 
-    private static bool TryGetGroup(string categoryId, out ToolGroup group)
+    private static bool TryGetGroup(
+        IReadOnlyDictionary<ToolCategory, ToolGroup> grouping,
+        string categoryId,
+        out ToolGroup group)
     {
         if (Enum.TryParse<ToolCategory>(categoryId, out var category) &&
-            ToolGrouping.CategoryGroups.TryGetValue(category, out group))
+            grouping.TryGetValue(category, out group))
         {
             return true;
         }
