@@ -70,14 +70,6 @@ public sealed partial class ColourConversionViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial string SwatchArgb { get; set; } = "#FFFF8000";
 
-    /// <summary>The current colour as <c>#RRGGBB</c> (shown as a caption next to the swatch).</summary>
-    [ObservableProperty]
-    public partial string SwatchHex { get; set; } = "#FF8000";
-
-    /// <summary><see langword="true"/> when the swatch colour is dark (so the View can pick a light label).</summary>
-    [ObservableProperty]
-    public partial bool IsSwatchDark { get; set; }
-
     private ObservableCollection<ColourModelCard> BuildModels()
     {
         ColourField r = new("ColourConversionR"), g = new("ColourConversionG"), b = new("ColourConversionB");
@@ -168,9 +160,7 @@ public sealed partial class ColourConversionViewModel : ToolViewModelBase
         _suppress = true;
         try
         {
-            SwatchHex = colour.ToHex();
             SwatchArgb = $"#FF{colour.R:X2}{colour.G:X2}{colour.B:X2}";
-            IsSwatchDark = colour.ToHsl().L < 50.0;
 
             _hex.SetSilently(colour.ToHex());
             foreach (var model in Models)
