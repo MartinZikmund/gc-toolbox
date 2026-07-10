@@ -253,6 +253,9 @@
   <data name="CollatzShare" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="CollatzReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
   <data name="CollatzShareSummary" xml:space="preserve">
     <value>Collatz trace of {0}: {1} steps, peak {2}, length {3}.</value>
   </data>

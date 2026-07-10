@@ -181,6 +181,17 @@ public sealed partial class CollatzViewModel : ToolViewModelBase
         }
     }
 
+    /// <summary>Reset (cachesleuth.com parity): clears the starter and the search, restoring defaults.</summary>
+    [RelayCommand]
+    private void Reset()
+    {
+        StartInput = string.Empty;
+        LimitInput = "1000";
+        SearchResult = string.Empty;
+        HasSearchResult = false;
+        HasSearchError = false;
+    }
+
     [RelayCommand(CanExecute = nameof(HasTrace))]
     private void CopyTrace() => _clipboard.SetText(BuildShareText());
 

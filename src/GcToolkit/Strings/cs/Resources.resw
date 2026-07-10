@@ -253,6 +253,9 @@
   <data name="CollatzShare" xml:space="preserve">
     <value>Sdílet</value>
   </data>
+  <data name="CollatzReset" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
   <data name="CollatzShareSummary" xml:space="preserve">
     <value>Collatzova posloupnost čísla {0}: {1} kroků, vrchol {2}, délka {3}.</value>
   </data>
