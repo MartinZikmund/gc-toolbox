@@ -20,4 +20,7 @@ public sealed class SpellingAlphabetGuess
     public string Text { get; }
 
     public ICommand CopyCommand { get; }
+
+    /// <summary>A ListView item with no explicit automation name announces its ToString(), so make it the row.</summary>
+    public override string ToString() => $"{VariantName}: {Text}";
 }

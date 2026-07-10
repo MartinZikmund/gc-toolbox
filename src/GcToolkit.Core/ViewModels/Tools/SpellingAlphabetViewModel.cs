@@ -1,12 +1,13 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Alphabets;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -34,6 +35,11 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
     private readonly IStringLocalizer _localizer;
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private int _guessGeneration;
+    private bool _suppressRecompute;
 
     public SpellingAlphabetViewModel(
         ICatalogService catalog,
@@ -90,7 +96,8 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
     public partial IReadOnlyList<SpellingAlphabetChartItem> Chart { get; set; } = [];
 
     /// <summary>Per-variant best-guess decodings of the current input (beyond-parity brute force).</summary>
-    public ObservableCollection<SpellingAlphabetGuess> VariantGuesses { get; } = [];
+    [ObservableProperty]
+    public partial IReadOnlyList<SpellingAlphabetGuess> VariantGuesses { get; set; } = [];
 
     [ObservableProperty]
     public partial bool ShowAllVariants { get; set; }
@@ -107,17 +114,36 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        // Auto-detect drives this programmatically (suppressed); a manual flip is a one-tap round trip.
+        if (_suppressRecompute || value is not (0 or 1))
         {
-            Convert();
+            return;
         }
+
+        _suppressRecompute = true;
+        InputText = OutputText;
+        _suppressRecompute = false;
+        Convert();
     }
 
-    partial void OnAutoDetectDirectionChanged(bool value) => Convert();
+    partial void OnAutoDetectDirectionChanged(bool value)
+    {
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        Convert();
+    }
 
     partial void OnInputTextChanged(string value)
     {
-        Convert();
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        Convert(typing: true);
         // Copy/Share re-evaluate via OnHasOutputChanged; only Clear keys off the input directly.
         ClearCommand.NotifyCanExecuteChanged();
     }
@@ -132,17 +158,17 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
         // Tapping the chart is an encoding aid; switch out of decode so the appended letter converts.
         if (IsDecode && !AutoDetectDirection)
         {
+            _suppressRecompute = true;
             DirectionIndex = 0;
+            _suppressRecompute = false;
         }
 
         InputText += letter;
     }
 
-    private void Convert()
+    private void Convert(bool typing = false)
     {
         var variant = SelectedVariant.Variant;
-
-        VariantGuesses.Clear();
 
         if (string.IsNullOrEmpty(InputText))
         {
@@ -150,13 +176,16 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
             HasOutput = false;
             HasUnknown = false;
             UnknownNotice = string.Empty;
+            _debouncer.RunNow(() => SetGuesses([]));
             return;
         }
 
         // Auto-detect flips the direction when the input already reads as code words.
         if (AutoDetectDirection)
         {
+            _suppressRecompute = true;
             DirectionIndex = _codec.LooksLikeCodeWords(InputText, variant) ? 1 : 0;
+            _suppressRecompute = false;
         }
 
         if (IsDecode)
@@ -170,41 +199,93 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
                     _localizer["SpellingAlphabetUnknownNotice"].Value,
                     string.Join(", ", result.UnknownWords))
                 : string.Empty;
-
-            if (ShowAllVariants)
-            {
-                BuildVariantGuesses(decode: true);
-            }
         }
         else
         {
             OutputText = _codec.Encode(InputText, variant);
             HasUnknown = false;
             UnknownNotice = string.Empty;
-
-            if (ShowAllVariants)
-            {
-                BuildVariantGuesses(decode: false);
-            }
         }
 
         HasOutput = !string.IsNullOrEmpty(OutputText);
+
+        // The main conversion above is cheap and stays instant; only the all-variant brute force is
+        // debounced (while typing) and pushed off the UI thread so it can't freeze fast typing.
+        ScheduleGuesses(typing);
     }
 
-    private void BuildVariantGuesses(bool decode)
+    private void ScheduleGuesses(bool typing)
     {
-        foreach (var option in Variants)
+        if (!ShowAllVariants)
         {
-            var text = decode
-                ? _codec.Decode(InputText, option.Variant).Text
-                : _codec.Encode(InputText, option.Variant);
+            _debouncer.RunNow(() => SetGuesses([]));
+            return;
+        }
 
-            if (!string.IsNullOrEmpty(text))
-            {
-                VariantGuesses.Add(new(option.DisplayName, text, _clipboard.SetText));
-            }
+        if (typing)
+        {
+            _debouncer.Debounce(StartVariantGuesses);
+        }
+        else
+        {
+            _debouncer.RunNow(StartVariantGuesses);
         }
     }
+
+    /// <summary>
+    /// Builds the per-variant guesses on a background thread, then publishes them on the UI thread. A
+    /// generation guard drops results a newer input/toggle has superseded. Runs synchronously when there
+    /// is no dispatcher (unit tests).
+    /// </summary>
+    private void StartVariantGuesses()
+    {
+        var input = InputText;
+        var decode = IsDecode;
+        var generation = ++_guessGeneration;
+
+        if (string.IsNullOrEmpty(input))
+        {
+            VariantGuesses = [];
+            return;
+        }
+
+        if (_dispatcher is null)
+        {
+            VariantGuesses = BuildVariantGuesses(input, decode);
+            return;
+        }
+
+        _ = Task.Run(() =>
+        {
+            var guesses = BuildVariantGuesses(input, decode);
+            _dispatcher.TryEnqueue(() =>
+            {
+                if (generation != _guessGeneration)
+                {
+                    return; // a newer input already superseded this result
+                }
+
+                VariantGuesses = guesses;
+            });
+        });
+    }
+
+    private void SetGuesses(IReadOnlyList<SpellingAlphabetGuess> guesses)
+    {
+        _guessGeneration++; // discard any in-flight brute force
+        VariantGuesses = guesses;
+    }
+
+    private IReadOnlyList<SpellingAlphabetGuess> BuildVariantGuesses(string input, bool decode)
+        =>
+        [
+            .. Variants
+                .Select(o => (o.DisplayName, Text: decode
+                    ? _codec.Decode(input, o.Variant).Text
+                    : _codec.Encode(input, o.Variant)))
+                .Where(x => !string.IsNullOrEmpty(x.Text))
+                .Select(x => new SpellingAlphabetGuess(x.DisplayName, x.Text, _clipboard.SetText)),
+        ];
 
     [RelayCommand(CanExecute = nameof(HasInput))]
     private void Clear() => InputText = string.Empty;
@@ -213,10 +294,12 @@ public sealed partial class SpellingAlphabetViewModel : ToolViewModelBase
     private void Swap()
     {
         // Feed the current output back as input and flip direction (turn off auto so it sticks).
+        _suppressRecompute = true;
         AutoDetectDirection = false;
-        var output = OutputText;
+        InputText = OutputText;
         DirectionIndex = IsDecode ? 0 : 1;
-        InputText = output;
+        _suppressRecompute = false;
+        Convert();
     }
 
     [RelayCommand(CanExecute = nameof(HasOutput))]
