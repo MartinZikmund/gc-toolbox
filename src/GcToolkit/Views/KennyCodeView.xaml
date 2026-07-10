@@ -10,7 +10,7 @@
     <ScrollViewer x:Name="PageRoot" Padding="24">
         <StackPanel
             MaxWidth="760"
-            HorizontalAlignment="Stretch"
+            HorizontalAlignment="Center"
             Spacing="16">
 
             <!--  Header: tool name + favorite toggle  -->
