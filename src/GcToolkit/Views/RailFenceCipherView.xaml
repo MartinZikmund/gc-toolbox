@@ -8,236 +8,238 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Center"
-            Spacing="16">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
 
-            <!--  Direction  -->
-            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                <RadioButton Content="{markup:Localize Key=RailFenceEncode}" />
-                <RadioButton Content="{markup:Localize Key=RailFenceDecode}" />
-            </RadioButtons>
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=RailFenceEncode}" />
+                    <RadioButton Content="{markup:Localize Key=RailFenceDecode}" />
+                </RadioButtons>
 
-            <!--  Rails + offset  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <NumberBox
-                    Grid.Column="0"
-                    Header="{markup:Localize Key=RailFenceRails}"
-                    LargeChange="2"
-                    Minimum="2"
-                    SmallChange="1"
-                    SpinButtonPlacementMode="Inline"
-                    Value="{x:Bind ViewModel.Rails, Mode=TwoWay}" />
-                <NumberBox
-                    Grid.Column="1"
-                    Header="{markup:Localize Key=RailFenceOffset}"
-                    LargeChange="2"
-                    Minimum="0"
-                    SmallChange="1"
-                    SpinButtonPlacementMode="Inline"
-                    Value="{x:Bind ViewModel.Offset, Mode=TwoWay}" />
-            </Grid>
+                <!--  Rails + offset  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <NumberBox
+                        Grid.Column="0"
+                        Header="{markup:Localize Key=RailFenceRails}"
+                        LargeChange="2"
+                        Minimum="2"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Inline"
+                        Value="{x:Bind ViewModel.Rails, Mode=TwoWay}" />
+                    <NumberBox
+                        Grid.Column="1"
+                        Header="{markup:Localize Key=RailFenceOffset}"
+                        LargeChange="2"
+                        Minimum="0"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Inline"
+                        Value="{x:Bind ViewModel.Offset, Mode=TwoWay}" />
+                </Grid>
 
-            <!--  Show rail fence + delimiter  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <ToggleSwitch
-                    Grid.Column="0"
-                    VerticalAlignment="Bottom"
-                    Header="{markup:Localize Key=RailFenceShowFence}"
-                    IsOn="{x:Bind ViewModel.ShowFence, Mode=TwoWay}" />
-                <TextBox
-                    Grid.Column="1"
-                    Width="120"
-                    Header="{markup:Localize Key=RailFenceDelimiter}"
-                    IsSpellCheckEnabled="False"
-                    MaxLength="1"
-                    Text="{x:Bind ViewModel.Delimiter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            </Grid>
+                <!--  Show rail fence + delimiter  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch
+                        Grid.Column="0"
+                        VerticalAlignment="Bottom"
+                        Header="{markup:Localize Key=RailFenceShowFence}"
+                        IsOn="{x:Bind ViewModel.ShowFence, Mode=TwoWay}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Width="120"
+                        Header="{markup:Localize Key=RailFenceDelimiter}"
+                        IsSpellCheckEnabled="False"
+                        MaxLength="1"
+                        Text="{x:Bind ViewModel.Delimiter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
 
-            <!--  Input  -->
-            <TextBox
-                MinHeight="96"
-                AcceptsReturn="True"
-                Header="{markup:Localize Key=RailFenceInputLabel}"
-                PlaceholderText="{markup:Localize Key=RailFenceInputPlaceholder}"
-                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
-
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=RailFenceClear}" />
-                <ToggleSwitch
-                    VerticalAlignment="Center"
-                    Header="{markup:Localize Key=RailFenceAutoSolve}"
-                    IsOn="{x:Bind ViewModel.ShowAutoSolve, Mode=TwoWay}" />
-            </StackPanel>
-
-            <!--  Validation (non-blocking)  -->
-            <InfoBar
-                IsClosable="False"
-                IsOpen="{x:Bind ViewModel.HasValidationMessage, Mode=OneWay}"
-                Message="{x:Bind ViewModel.ValidationMessage, Mode=OneWay}"
-                Severity="Warning" />
-
-            <!--  Result  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RailFenceOutputLabel}" />
+                <!--  Input  -->
                 <TextBox
                     MinHeight="96"
                     AcceptsReturn="True"
-                    FontFamily="Consolas"
-                    FontSize="18"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    Header="{markup:Localize Key=RailFenceInputLabel}"
+                    PlaceholderText="{markup:Localize Key=RailFenceInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap" />
-            </StackPanel>
 
-            <!--  Output actions  -->
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=RailFenceCopy}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                        <TextBlock Text="{markup:Localize Key=RailFenceShare}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-
-            <!--  Rail fence diagram (monospace)  -->
-            <Border
-                Padding="16"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="8"
-                Visibility="{x:Bind ViewModel.ShowFence, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Spacing="8">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RailFenceDiagramLabel}" />
-                    <ScrollViewer
-                        HorizontalScrollBarVisibility="Auto"
-                        HorizontalScrollMode="Auto"
-                        VerticalScrollMode="Disabled">
-                        <TextBlock
-                            FontFamily="Consolas"
-                            FontSize="15"
-                            IsTextSelectionEnabled="True"
-                            Text="{x:Bind ViewModel.FenceDiagram, Mode=OneWay}" />
-                    </ScrollViewer>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=RailFenceClear}" />
+                    <ToggleSwitch
+                        VerticalAlignment="Center"
+                        Header="{markup:Localize Key=RailFenceAutoSolve}"
+                        IsOn="{x:Bind ViewModel.ShowAutoSolve, Mode=TwoWay}" />
                 </StackPanel>
-            </Border>
 
-            <!--  Auto-solve (brute-force list)  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAutoSolve, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RailFenceAutoSolveLabel}" />
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource CaptionTextBlockStyle}"
-                    Text="{markup:Localize Key=RailFenceAutoSolveNote}"
-                    TextWrapping="Wrap" />
-                <!--  ListView virtualizes the brute-force rows so only visible ones are realized.  -->
-                <ListView
-                    MaxHeight="420"
-                    ItemsSource="{x:Bind ViewModel.SolveResults, Mode=OneWay}"
-                    SelectionMode="None">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="MinHeight" Value="0" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="tools:RailFenceSolveItem">
-                            <Grid
-                                Margin="0,2"
-                                Padding="8,6"
-                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                ColumnSpacing="12"
-                                CornerRadius="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="56" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    HorizontalTextAlignment="Right"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind Label}" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Consolas"
-                                    IsTextSelectionEnabled="True"
-                                    Text="{x:Bind Text}"
-                                    TextWrapping="Wrap" />
-                                <Button
-                                    Grid.Column="2"
-                                    Width="36"
-                                    Height="36"
-                                    Padding="0"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="{markup:Localize Key=RailFenceCopyCandidate}"
-                                    Command="{x:Bind CopyCommand}"
-                                    ToolTipService.ToolTip="{markup:Localize Key=RailFenceCopyCandidate}">
-                                    <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <!--  Validation (non-blocking)  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasValidationMessage, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ValidationMessage, Mode=OneWay}"
+                    Severity="Warning" />
+
+                <!--  Result  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RailFenceOutputLabel}" />
+                    <TextBox
+                        MinHeight="96"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        FontSize="18"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=RailFenceCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=RailFenceShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Rail fence diagram (monospace)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.ShowFence, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RailFenceDiagramLabel}" />
+                        <ScrollViewer
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Auto"
+                            VerticalScrollMode="Disabled">
+                            <TextBlock
+                                FontFamily="Consolas"
+                                FontSize="15"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind ViewModel.FenceDiagram, Mode=OneWay}" />
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+                <!--  Auto-solve (brute-force list)  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAutoSolve, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=RailFenceAutoSolveLabel}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=RailFenceAutoSolveNote}"
+                        TextWrapping="Wrap" />
+                    <!--  ListView virtualizes the brute-force rows so only visible ones are realized.  -->
+                    <ListView
+                        MaxHeight="420"
+                        ItemsSource="{x:Bind ViewModel.SolveResults, Mode=OneWay}"
+                        SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:RailFenceSolveItem">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="8,6"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="56" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        HorizontalTextAlignment="Right"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Label}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Text}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{markup:Localize Key=RailFenceCopyCandidate}"
+                                        Command="{x:Bind CopyCommand}"
+                                        ToolTipService.ToolTip="{markup:Localize Key=RailFenceCopyCandidate}">
+                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
             </StackPanel>
-
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:RailFenceCipherViewBase>

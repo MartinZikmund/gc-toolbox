@@ -8,83 +8,85 @@
     NavigationCacheMode="Required">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="960"
-            HorizontalAlignment="Center"
-            Spacing="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="960"
+                HorizontalAlignment="Stretch"
+                Spacing="24">
 
-            <!--  Search entry  -->
-            <AutoSuggestBox
-                AutomationProperties.Name="{markup:Localize Key=SearchPlaceholder}"
-                PlaceholderText="{markup:Localize Key=SearchPlaceholder}"
-                QueryIcon="Find"
-                Text="{x:Bind ViewModel.Search.Query, Mode=TwoWay}" />
+                <!--  Search entry  -->
+                <AutoSuggestBox
+                    AutomationProperties.Name="{markup:Localize Key=SearchPlaceholder}"
+                    PlaceholderText="{markup:Localize Key=SearchPlaceholder}"
+                    QueryIcon="Find"
+                    Text="{x:Bind ViewModel.Search.Query, Mode=TwoWay}" />
 
-            <Button
-                Command="{x:Bind ViewModel.GoToCatalogCommand}"
-                Content="{markup:Localize Key=Catalog}"
-                Style="{ThemeResource AccentButtonStyle}" />
+                <Button
+                    Command="{x:Bind ViewModel.GoToCatalogCommand}"
+                    Content="{markup:Localize Key=Catalog}"
+                    Style="{ThemeResource AccentButtonStyle}" />
 
-            <!--  New & Updated  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasNewAndUpdatedTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=NewAndUpdated}" />
-                <ItemsRepeater ItemTemplate="{StaticResource ToolCardTemplate}" ItemsSource="{x:Bind ViewModel.NewAndUpdatedTools, Mode=OneWay}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="8"
-                            MinItemWidth="240"
-                            MinRowSpacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                <!--  New & Updated  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasNewAndUpdatedTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=NewAndUpdated}" />
+                    <ItemsRepeater ItemTemplate="{StaticResource ToolCardTemplate}" ItemsSource="{x:Bind ViewModel.NewAndUpdatedTools, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="240"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </StackPanel>
+
+                <!--  Favorite tools  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=FavoriteTools}" />
+                    <ItemsRepeater
+                        ItemTemplate="{StaticResource ToolCardTemplate}"
+                        ItemsSource="{x:Bind ViewModel.FavoriteTools, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="240"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=FavoriteToolsEmpty}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                </StackPanel>
+
+                <!--  Recently used  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=RecentlyUsed}" />
+                    <ItemsRepeater
+                        ItemTemplate="{StaticResource ToolCardTemplate}"
+                        ItemsSource="{x:Bind ViewModel.RecentTools, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasRecentTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="240"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=RecentsEmpty}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.HasRecentTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                </StackPanel>
+
             </StackPanel>
-
-            <!--  Favorite tools  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=FavoriteTools}" />
-                <ItemsRepeater
-                    ItemTemplate="{StaticResource ToolCardTemplate}"
-                    ItemsSource="{x:Bind ViewModel.FavoriteTools, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="8"
-                            MinItemWidth="240"
-                            MinRowSpacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="{markup:Localize Key=FavoriteToolsEmpty}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
-            </StackPanel>
-
-            <!--  Recently used  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=RecentlyUsed}" />
-                <ItemsRepeater
-                    ItemTemplate="{StaticResource ToolCardTemplate}"
-                    ItemsSource="{x:Bind ViewModel.RecentTools, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.HasRecentTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="8"
-                            MinItemWidth="240"
-                            MinRowSpacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="{markup:Localize Key=RecentsEmpty}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind ViewModel.HasRecentTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
-            </StackPanel>
-
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:HomeViewBase>

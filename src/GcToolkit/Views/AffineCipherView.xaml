@@ -8,225 +8,227 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Center"
-            Spacing="16">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
 
-            <!--  Key: multiplier (a) + offset (b)  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <ComboBox
-                    Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    Header="{markup:Localize Key=AffineMultiplier}"
-                    ItemsSource="{x:Bind ViewModel.Multipliers}"
-                    SelectedItem="{x:Bind ViewModel.Multiplier, Mode=TwoWay}" />
-                <ComboBox
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    Header="{markup:Localize Key=AffineOffset}"
-                    ItemsSource="{x:Bind ViewModel.Offsets}"
-                    SelectedItem="{x:Bind ViewModel.Offset, Mode=TwoWay}" />
-            </Grid>
+                <!--  Key: multiplier (a) + offset (b)  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=AffineMultiplier}"
+                        ItemsSource="{x:Bind ViewModel.Multipliers}"
+                        SelectedItem="{x:Bind ViewModel.Multiplier, Mode=TwoWay}" />
+                    <ComboBox
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=AffineOffset}"
+                        ItemsSource="{x:Bind ViewModel.Offsets}"
+                        SelectedItem="{x:Bind ViewModel.Offset, Mode=TwoWay}" />
+                </Grid>
 
-            <!--  Live formula hint  -->
-            <TextBlock
-                FontFamily="Consolas"
-                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                Style="{ThemeResource BodyTextBlockStyle}">
-                <Run Text="{markup:Localize Key=AffineFormulaPrefix}" />
-                <Run Text=" E(x) = (" />
-                <Run Text="{x:Bind ViewModel.Multiplier, Mode=OneWay}" />
-                <Run Text="x + " />
-                <Run Text="{x:Bind ViewModel.Offset, Mode=OneWay}" />
-                <Run Text=") mod 26" />
-            </TextBlock>
+                <!--  Live formula hint  -->
+                <TextBlock
+                    FontFamily="Consolas"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource BodyTextBlockStyle}">
+                    <Run Text="{markup:Localize Key=AffineFormulaPrefix}" />
+                    <Run Text=" E(x) = (" />
+                    <Run Text="{x:Bind ViewModel.Multiplier, Mode=OneWay}" />
+                    <Run Text="x + " />
+                    <Run Text="{x:Bind ViewModel.Offset, Mode=OneWay}" />
+                    <Run Text=") mod 26" />
+                </TextBlock>
 
-            <!--  Direction  -->
-            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                <RadioButton Content="{markup:Localize Key=AffineEncode}" />
-                <RadioButton Content="{markup:Localize Key=AffineDecode}" />
-            </RadioButtons>
+                <!--  Direction  -->
+                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=AffineEncode}" />
+                    <RadioButton Content="{markup:Localize Key=AffineDecode}" />
+                </RadioButtons>
 
-            <!--  Input  -->
-            <TextBox
-                MinHeight="96"
-                AcceptsReturn="True"
-                Header="{markup:Localize Key=AffineInputLabel}"
-                PlaceholderText="{markup:Localize Key=AffineInputPlaceholder}"
-                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
-
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=AffineClear}" />
-                <ToggleSwitch
-                    VerticalAlignment="Center"
-                    Header="{markup:Localize Key=AffineAutoSolve}"
-                    IsOn="{x:Bind ViewModel.AutoSolve, Mode=TwoWay}" />
-            </StackPanel>
-
-            <!--  Single result (hidden while auto-solving)  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.AutoSolve, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineOutputLabel}" />
+                <!--  Input  -->
                 <TextBox
                     MinHeight="96"
                     AcceptsReturn="True"
-                    FontFamily="Consolas"
-                    FontSize="18"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    Header="{markup:Localize Key=AffineInputLabel}"
+                    PlaceholderText="{markup:Localize Key=AffineInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap" />
-            </StackPanel>
 
-            <!--  Auto-solve (brute-force) list — visible only in auto-solve mode  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.AutoSolve, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineAutoSolveLabel}" />
-                <!--  ListView virtualizes the 324 brute-force rows so only visible ones are realized.  -->
-                <ListView
-                    MaxHeight="420"
-                    ItemsSource="{x:Bind ViewModel.Candidates, Mode=OneWay}"
-                    SelectionMode="None">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="MinHeight" Value="0" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="tools:AffineCandidateItem">
-                            <Grid
-                                Margin="0,2"
-                                Padding="8,6"
-                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                ColumnSpacing="12"
-                                CornerRadius="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind Key}" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Consolas"
-                                    IsTextSelectionEnabled="True"
-                                    Text="{x:Bind Text}"
-                                    TextWrapping="Wrap" />
-                                <Button
-                                    Grid.Column="2"
-                                    Width="36"
-                                    Height="36"
-                                    Padding="0"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="{markup:Localize Key=AffineCopyCandidate}"
-                                    Command="{x:Bind CopyCommand}"
-                                    ToolTipService.ToolTip="{markup:Localize Key=AffineCopyCandidate}">
-                                    <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=AffineClear}" />
+                    <ToggleSwitch
+                        VerticalAlignment="Center"
+                        Header="{markup:Localize Key=AffineAutoSolve}"
+                        IsOn="{x:Bind ViewModel.AutoSolve, Mode=TwoWay}" />
+                </StackPanel>
 
-            <!--  Output actions  -->
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=AffineCopy}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                        <TextBlock Text="{markup:Localize Key=AffineShare}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-
-            <!--  Substitution key card  -->
-            <Border
-                Padding="16"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="8">
-                <StackPanel Spacing="8">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineKeyLabel}" />
-                    <TextBlock
+                <!--  Single result (hidden while auto-solving)  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.AutoSolve, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineOutputLabel}" />
+                    <TextBox
+                        MinHeight="96"
+                        AcceptsReturn="True"
                         FontFamily="Consolas"
-                        FontSize="15"
-                        Text="{x:Bind ViewModel.KeyPlain, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        FontFamily="Consolas"
-                        FontSize="15"
-                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                        Text="{x:Bind ViewModel.KeyCipher, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        TextWrapping="Wrap">
-                        <Run Text="{markup:Localize Key=AffineInverseLabel}" />
-                        <Run Text=" " />
-                        <Run Text="{x:Bind ViewModel.ModularInverse, Mode=OneWay}" />
-                    </TextBlock>
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{markup:Localize Key=AffineKeyNote}"
+                        FontSize="18"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
                         TextWrapping="Wrap" />
                 </StackPanel>
-            </Border>
 
-        </StackPanel>
+                <!--  Auto-solve (brute-force) list — visible only in auto-solve mode  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.AutoSolve, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineAutoSolveLabel}" />
+                    <!--  ListView virtualizes the 324 brute-force rows so only visible ones are realized.  -->
+                    <ListView
+                        MaxHeight="420"
+                        ItemsSource="{x:Bind ViewModel.Candidates, Mode=OneWay}"
+                        SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:AffineCandidateItem">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="8,6"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Key}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Text}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{markup:Localize Key=AffineCopyCandidate}"
+                                        Command="{x:Bind CopyCommand}"
+                                        ToolTipService.ToolTip="{markup:Localize Key=AffineCopyCandidate}">
+                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=AffineCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=AffineShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Substitution key card  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AffineKeyLabel}" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="15"
+                            Text="{x:Bind ViewModel.KeyPlain, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="15"
+                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                            Text="{x:Bind ViewModel.KeyCipher, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            TextWrapping="Wrap">
+                            <Run Text="{markup:Localize Key=AffineInverseLabel}" />
+                            <Run Text=" " />
+                            <Run Text="{x:Bind ViewModel.ModularInverse, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=AffineKeyNote}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:AffineCipherViewBase>

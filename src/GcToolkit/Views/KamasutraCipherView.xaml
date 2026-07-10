@@ -9,185 +9,187 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Center"
-            Spacing="16">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
 
-            <!--  Key mode  -->
-            <RadioButtons
-                Header="{markup:Localize Key=KamasutraKeyMode}"
-                MaxColumns="4"
-                SelectedIndex="{x:Bind ViewModel.KeyModeIndex, Mode=TwoWay}">
-                <RadioButton Content="{markup:Localize Key=KamasutraModeDefault}" />
-                <RadioButton Content="{markup:Localize Key=KamasutraModeKeyword}" />
-                <RadioButton Content="{markup:Localize Key=KamasutraModeManual}" />
-                <RadioButton Content="{markup:Localize Key=KamasutraModeRandom}" />
-            </RadioButtons>
+                <!--  Key mode  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=KamasutraKeyMode}"
+                    MaxColumns="4"
+                    SelectedIndex="{x:Bind ViewModel.KeyModeIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=KamasutraModeDefault}" />
+                    <RadioButton Content="{markup:Localize Key=KamasutraModeKeyword}" />
+                    <RadioButton Content="{markup:Localize Key=KamasutraModeManual}" />
+                    <RadioButton Content="{markup:Localize Key=KamasutraModeRandom}" />
+                </RadioButtons>
 
-            <!--  Keyword seed (Keyword mode)  -->
-            <TextBox
-                Header="{markup:Localize Key=KamasutraKeywordLabel}"
-                PlaceholderText="{markup:Localize Key=KamasutraKeywordPlaceholder}"
-                Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Visibility="{x:Bind ViewModel.IsKeywordMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <!--  Keyword seed (Keyword mode)  -->
+                <TextBox
+                    Header="{markup:Localize Key=KamasutraKeywordLabel}"
+                    PlaceholderText="{markup:Localize Key=KamasutraKeywordPlaceholder}"
+                    Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsKeywordMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-            <!--  Pair list (editable in Manual mode, read-only otherwise)  -->
-            <TextBox
-                FontFamily="Consolas"
-                Header="{markup:Localize Key=KamasutraPairsLabel}"
-                IsReadOnly="{x:Bind ViewModel.IsManualMode, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                PlaceholderText="{markup:Localize Key=KamasutraPairsPlaceholder}"
-                Text="{x:Bind ViewModel.ManualPairs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                <!--  Pair list (editable in Manual mode, read-only otherwise)  -->
+                <TextBox
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=KamasutraPairsLabel}"
+                    IsReadOnly="{x:Bind ViewModel.IsManualMode, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    PlaceholderText="{markup:Localize Key=KamasutraPairsPlaceholder}"
+                    Text="{x:Bind ViewModel.ManualPairs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
 
-            <!--  Random re-roll  -->
-            <Button Command="{x:Bind ViewModel.RerollCommand}" Visibility="{x:Bind ViewModel.IsRandomMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon FontSize="16" Glyph="&#xE777;" />
-                    <TextBlock Text="{markup:Localize Key=KamasutraReroll}" />
-                </StackPanel>
-            </Button>
+                <!--  Random re-roll  -->
+                <Button Command="{x:Bind ViewModel.RerollCommand}" Visibility="{x:Bind ViewModel.IsRandomMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE777;" />
+                        <TextBlock Text="{markup:Localize Key=KamasutraReroll}" />
+                    </StackPanel>
+                </Button>
 
-            <!--  Validation error  -->
-            <InfoBar
-                IsClosable="False"
-                IsOpen="{x:Bind ViewModel.IsKeyValid, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                Message="{x:Bind ViewModel.KeyError, Mode=OneWay}"
-                Severity="Error" />
+                <!--  Validation error  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.IsKeyValid, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    Message="{x:Bind ViewModel.KeyError, Mode=OneWay}"
+                    Severity="Error" />
 
-            <!--  Input  -->
-            <TextBox
-                MinHeight="96"
-                AcceptsReturn="True"
-                Header="{markup:Localize Key=KamasutraInputLabel}"
-                PlaceholderText="{markup:Localize Key=KamasutraInputPlaceholder}"
-                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
-
-            <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=KamasutraClear}" />
-
-            <!--  Result (encode == decode — a single reciprocal convert)  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=KamasutraOutputLabel}" />
+                <!--  Input  -->
                 <TextBox
                     MinHeight="96"
                     AcceptsReturn="True"
-                    FontFamily="Consolas"
-                    FontSize="18"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    Header="{markup:Localize Key=KamasutraInputLabel}"
+                    PlaceholderText="{markup:Localize Key=KamasutraInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap" />
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="True"
-                    Message="{markup:Localize Key=KamasutraReciprocalNote}"
-                    Severity="Informational" />
-            </StackPanel>
 
-            <!--  Output actions  -->
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=KamasutraCopy}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                        <TextBlock Text="{markup:Localize Key=KamasutraShare}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=KamasutraClear}" />
 
-            <!--  Visual pairing grid (each letter over its swapped partner)  -->
-            <Border
-                Padding="16"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="8">
-                <StackPanel Spacing="12">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=KamasutraKeyLabel}" />
-                    <ItemsControl ItemsSource="{x:Bind ViewModel.PairGrid}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <controls:SignalFlagsWrapPanel ItemSpacing="6" LineSpacing="6" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="tools:KamasutraPairItem">
-                                <Grid
-                                    Width="36"
-                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                    CornerRadius="6"
-                                    RowSpacing="2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Margin="0,4,0,0"
-                                        HorizontalAlignment="Center"
-                                        FontFamily="Consolas"
-                                        FontSize="16"
-                                        Text="{x:Bind Top}" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Margin="0,0,0,4"
-                                        HorizontalAlignment="Center"
-                                        FontFamily="Consolas"
-                                        FontSize="16"
-                                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                        Text="{x:Bind Bottom}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{markup:Localize Key=KamasutraKeyNote}"
+                <!--  Result (encode == decode — a single reciprocal convert)  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=KamasutraOutputLabel}" />
+                    <TextBox
+                        MinHeight="96"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        FontSize="18"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
                         TextWrapping="Wrap" />
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="{markup:Localize Key=KamasutraReciprocalNote}"
+                        Severity="Informational" />
                 </StackPanel>
-            </Border>
 
-        </StackPanel>
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=KamasutraCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=KamasutraShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Visual pairing grid (each letter over its swapped partner)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=KamasutraKeyLabel}" />
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.PairGrid}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:SignalFlagsWrapPanel ItemSpacing="6" LineSpacing="6" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="tools:KamasutraPairItem">
+                                    <Grid
+                                        Width="36"
+                                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                        CornerRadius="6"
+                                        RowSpacing="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Margin="0,4,0,0"
+                                            HorizontalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            FontSize="16"
+                                            Text="{x:Bind Top}" />
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Margin="0,0,0,4"
+                                            HorizontalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            FontSize="16"
+                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                            Text="{x:Bind Bottom}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=KamasutraKeyNote}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:KamasutraCipherViewBase>

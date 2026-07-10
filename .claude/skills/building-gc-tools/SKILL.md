@@ -163,26 +163,40 @@ or set `DataContext` by hand. Build accessible, responsive XAML: Fluent styles +
 `AutomationProperties.Name` on icon-only controls, an `AdaptiveTrigger` for padding, a `MaxWidth` for
 readability. Run `/winui-design` for any layout/styling work.
 
-**Root layout — cap width with `HorizontalAlignment="Center"`, never `Stretch`.** The page root is a
-`ScrollViewer` whose single child is the content panel, capped with a `MaxWidth` (≈760 for forms) and
-**centered**:
+**Root layout — always `ScrollViewer > Grid > StackPanel(MaxWidth, Stretch)`.** Never make a
+`MaxWidth`-capped panel the `ScrollViewer`'s *direct* child, with **either** alignment:
 
 ```xml
 <ScrollViewer Padding="24">
-    <StackPanel MaxWidth="760" HorizontalAlignment="Center" Spacing="16">
-        …
-    </StackPanel>
+    <!--  Grid bed: full width, NO MaxWidth. Keeps DirectManipulation out of the centering.  -->
+    <Grid>
+        <StackPanel MaxWidth="760" HorizontalAlignment="Stretch" Spacing="16">
+            …
+        </StackPanel>
+    </Grid>
 </ScrollViewer>
 ```
 
-Do **not** put `HorizontalAlignment="Stretch"` on a `MaxWidth`-capped panel that is a `ScrollViewer`'s
-*direct* child. WinUI's old `ScrollViewer` (DirectManipulation) then centers the panel by its *desired*
-width but renders it at `MaxWidth`, so it sits off-centre and visibly **"jumps"** whenever the desired
-width changes — e.g. the moment you type the first character into a `TextBox`. This is the deliberately
-won't-fix WinUI bug [microsoft-ui-xaml#4619](https://github.com/microsoft/microsoft-ui-xaml/issues/4619)
-(does not repro in the newer `ScrollView` control). An outer `<Grid MaxWidth=… HorizontalAlignment="Center">`
-wrapper around the `ScrollViewer` is an equivalent older fix some views still use; new tools should prefer
-the single-attribute `HorizontalAlignment="Center"` form above.
+**Why** (verified against the WinUI C++ sources and measured live):
+
+- A `ScrollViewer`'s **direct child** is the DirectManipulation "primary content"; layout *skips*
+  `ComputeAlignmentOffset` for it (`framework.cpp:1915`) and lets DManip position it.
+- `HorizontalAlignment="Center"` (or any non-`Stretch`) arranges an element at its
+  **`unclippedDesiredSize.width`** (`framework.cpp:1788-1791`). A vertical `StackPanel`'s desired width is
+  the max of its children's, and a wrapping `TextBox`'s desired width **grows with its text** — so the
+  column resizes and re-centers **on every keystroke**. It also never reaches `MaxWidth`.
+- `HorizontalAlignment="Stretch"` + `MaxWidth` as the direct child renders at `MaxWidth` but DManip
+  centers it against the scroll *extent* (its desired width) → off-centre + a jump. This is the won't-fix
+  WinUI bug [microsoft-ui-xaml#4619](https://github.com/microsoft/microsoft-ui-xaml/issues/4619).
+- The **`Grid` bed** is full-viewport-width with no `MaxWidth`, so it hits the "stretch treated as near"
+  hatch (`framework.cpp:1925-1928`) — DManip does no centering at all. The inner panel is then an ordinary
+  (non-manipulated) child: `Stretch` + `MaxWidth` clamps its arranged width to a **constant** `MaxWidth`
+  (`framework.cpp:1806-1811`) and normal layout centers it. Width and offset depend on the **viewport**,
+  never the content ⇒ zero drift, full width, correctly centred, and it degrades to full-width on narrow
+  windows.
+
+Do **not** wrap the `ScrollViewer` in an outer `<Grid MaxWidth=… HorizontalAlignment="Center">` either —
+that outer element is itself content-hugging and drifts for the same reason.
 
 **Stub form** — to land a tool before its UI exists, give it just the `[Tool]` VM (a one-liner via a
 primary constructor) and **no view**. It shows in the gallery and opens the placeholder host:
