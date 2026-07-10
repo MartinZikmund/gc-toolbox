@@ -784,6 +784,78 @@
   <data name="KamasutraErrorDuplicate" xml:space="preserve">
     <value>A letter appears in more than one pair.</value>
   </data>
+  <data name="OneTimePad_Name" xml:space="preserve">
+    <value>One-time pad</value>
+  </data>
+  <data name="OneTimePad_Tooltip" xml:space="preserve">
+    <value>Encrypt and decrypt with a Vernam one-time pad — each letter shifted by the aligned key letter.</value>
+  </data>
+  <data name="OneTimePadEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="OneTimePadDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="OneTimePadVariant" xml:space="preserve">
+    <value>Variant</value>
+  </data>
+  <data name="OneTimePadVariantVigenere" xml:space="preserve">
+    <value>Vigenère</value>
+  </data>
+  <data name="OneTimePadVariantBeaufort" xml:space="preserve">
+    <value>Beaufort</value>
+  </data>
+  <data name="OneTimePadVariantVariantBeaufort" xml:space="preserve">
+    <value>Variant Beaufort</value>
+  </data>
+  <data name="OneTimePadCharset" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="OneTimePadCharsetLetters" xml:space="preserve">
+    <value>Letters · mod 26</value>
+  </data>
+  <data name="OneTimePadCharsetLettersDigits" xml:space="preserve">
+    <value>Letters + digits · mod 36</value>
+  </data>
+  <data name="OneTimePadCharsetAscii" xml:space="preserve">
+    <value>ASCII · mod 95</value>
+  </data>
+  <data name="OneTimePadKeyLabel" xml:space="preserve">
+    <value>Key (pad)</value>
+  </data>
+  <data name="OneTimePadKeyPlaceholder" xml:space="preserve">
+    <value>Type or generate the key pad…</value>
+  </data>
+  <data name="OneTimePadGeneratePad" xml:space="preserve">
+    <value>Generate pad</value>
+  </data>
+  <data name="OneTimePadKeyTooShort" xml:space="preserve">
+    <value>The key isn't usable as a true one-time pad: it's either shorter than the message (so it has to repeat) or has no usable characters (so the text is left unchanged). A true one-time pad needs a random key at least as long as the message, used only once.</value>
+  </data>
+  <data name="OneTimePadInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="OneTimePadInputPlaceholder" xml:space="preserve">
+    <value>Type text to encrypt or decrypt…</value>
+  </data>
+  <data name="OneTimePadClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="OneTimePadPreserve" xml:space="preserve">
+    <value>Keep case &amp; punctuation</value>
+  </data>
+  <data name="OneTimePadOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="OneTimePadCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="OneTimePadShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="OneTimePadNote" xml:space="preserve">
+    <value>A one-time pad is unbreakable only when the key is truly random, at least as long as the message, and never reused. The Beaufort variant is its own inverse: encrypting twice returns the plaintext.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
