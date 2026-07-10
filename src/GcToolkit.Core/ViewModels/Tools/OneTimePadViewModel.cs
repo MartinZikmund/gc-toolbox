@@ -28,6 +28,9 @@ public sealed partial class OneTimePadViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
 
+    /// <summary>Guards the input/output swap on a direction toggle from re-triggering a recompute mid-swap.</summary>
+    private bool _suppressRecompute;
+
     public OneTimePadViewModel(
         ICatalogService catalog,
         IRecentsService recents,
@@ -92,10 +95,16 @@ public sealed partial class OneTimePadViewModel : ToolViewModelBase
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        if (_suppressRecompute || value is not (0 or 1))
         {
-            Recompute();
+            return;
         }
+
+        // Carry the previous result into the input for a one-tap encrypt/decrypt round-trip.
+        _suppressRecompute = true;
+        InputText = OutputText;
+        _suppressRecompute = false;
+        Recompute();
     }
 
     partial void OnVariantIndexChanged(int value)
@@ -118,7 +127,15 @@ public sealed partial class OneTimePadViewModel : ToolViewModelBase
 
     partial void OnKeyTextChanged(string value) => Recompute();
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    partial void OnInputTextChanged(string value)
+    {
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        Recompute();
+    }
 
     partial void OnHasOutputChanged(bool value)
     {
