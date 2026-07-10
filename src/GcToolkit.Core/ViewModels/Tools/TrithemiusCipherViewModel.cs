@@ -4,9 +4,11 @@ using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -26,6 +28,11 @@ public sealed partial class TrithemiusCipherViewModel : ToolViewModelBase
     private readonly TrithemiusCipher _cipher = new();
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private bool _suppressRecompute;
+    private int _offsetGeneration;
 
     public TrithemiusCipherViewModel(
         ICatalogService catalog,
@@ -69,26 +76,55 @@ public sealed partial class TrithemiusCipherViewModel : ToolViewModelBase
     /// <summary>The 26 rows of the tabula recta, shown as a monospace reference card.</summary>
     public ObservableCollection<string> TabulaRecta { get; }
 
-    /// <summary>The decode candidates shown in "show all offsets" mode (one per starting row).</summary>
-    public ObservableCollection<TrithemiusOffsetItem> OffsetResults { get; } = [];
+    /// <summary>The decode candidates shown in "show all offsets" mode (one per starting row). Assigned wholesale so the virtualizing list gets a single notification.</summary>
+    [ObservableProperty]
+    public partial IReadOnlyList<TrithemiusOffsetItem> OffsetResults { get; set; } = [];
 
     private bool IsDecrypt => DirectionIndex == 1;
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        if (_suppressRecompute || value is not (0 or 1))
         {
-            Recompute();
+            return;
+        }
+
+        // Carry the previous result into the input for a one-tap round-trip. Show-all mode has no
+        // single result (and always decodes), so leave the input untouched there.
+        if (!ShowAllOffsets)
+        {
+            _suppressRecompute = true;
+            InputText = OutputText;
+            _suppressRecompute = false;
+        }
+
+        _debouncer.RunNow(Recompute);
+    }
+
+    // Typing while showing all offsets brute-forces 26 decodes and rebuilds 26 rows per keystroke;
+    // debounce that path so it recomputes once typing pauses. The single result stays instant.
+    partial void OnInputTextChanged(string value)
+    {
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        if (ShowAllOffsets)
+        {
+            _debouncer.Debounce(Recompute);
+        }
+        else
+        {
+            _debouncer.RunNow(Recompute);
         }
     }
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    partial void OnStartOffsetChanged(int value) => _debouncer.RunNow(Recompute);
 
-    partial void OnStartOffsetChanged(int value) => Recompute();
+    partial void OnStepChanged(int value) => _debouncer.RunNow(Recompute);
 
-    partial void OnStepChanged(int value) => Recompute();
-
-    partial void OnShowAllOffsetsChanged(bool value) => Recompute();
+    partial void OnShowAllOffsetsChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -98,10 +134,10 @@ public sealed partial class TrithemiusCipherViewModel : ToolViewModelBase
 
     private void Recompute()
     {
-        OffsetResults.Clear();
-
         if (string.IsNullOrEmpty(InputText))
         {
+            _offsetGeneration++; // discard any in-flight brute force
+            OffsetResults = [];
             OutputText = string.Empty;
             HasOutput = false;
             return;
@@ -109,20 +145,52 @@ public sealed partial class TrithemiusCipherViewModel : ToolViewModelBase
 
         if (ShowAllOffsets)
         {
-            foreach (var candidate in _cipher.AllOffsets(InputText, Step))
-            {
-                OffsetResults.Add(new TrithemiusOffsetItem(candidate.StartOffset, candidate.Text, _clipboard.SetText));
-            }
-
             OutputText = string.Empty;
+            StartShowAllOffsets(InputText);
         }
         else
         {
+            _offsetGeneration++;
+            OffsetResults = [];
             OutputText = _cipher.Transform(InputText, IsDecrypt, StartOffset, Step);
+            HasOutput = true;
+        }
+    }
+
+    /// <summary>
+    /// Decodes at every starting row on a background thread (also building the 26 rows), then publishes
+    /// the candidates back on the UI thread. A generation guard drops results a newer keystroke/toggle
+    /// has already superseded. Runs synchronously when there is no dispatcher (unit tests).
+    /// </summary>
+    private void StartShowAllOffsets(string input)
+    {
+        var generation = ++_offsetGeneration;
+
+        if (_dispatcher is null)
+        {
+            OffsetResults = BuildOffsets(input);
+            HasOutput = OffsetResults.Count > 0;
+            return;
         }
 
-        HasOutput = true;
+        _ = Task.Run(() =>
+        {
+            var results = BuildOffsets(input);
+            _dispatcher.TryEnqueue(() =>
+            {
+                if (generation != _offsetGeneration)
+                {
+                    return; // a newer input already superseded this result
+                }
+
+                OffsetResults = results;
+                HasOutput = results.Count > 0;
+            });
+        });
     }
+
+    private IReadOnlyList<TrithemiusOffsetItem> BuildOffsets(string input)
+        => [.. _cipher.AllOffsets(input, Step).Select(c => new TrithemiusOffsetItem(c.StartOffset, c.Text, _clipboard.SetText))];
 
     /// <summary>The text Copy/Share emit: the single result, or every offset line in "show all" mode.</summary>
     private string BuildResultText()
