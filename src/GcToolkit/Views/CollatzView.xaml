@@ -1,4 +1,4 @@
-﻿<local:CollatzViewBase
+<local:CollatzViewBase
     x:Class="GcToolkit.Views.CollatzView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -76,6 +76,14 @@
                     PlaceholderText="{markup:Localize Key=CollatzStartPlaceholder}"
                     Text="{x:Bind ViewModel.StartInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                <!--  Reset: always available (clears the starter and the search)  -->
+                <Button HorizontalAlignment="Left" Command="{x:Bind ViewModel.ResetCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE777;" />
+                        <TextBlock Text="{markup:Localize Key=CollatzReset}" />
+                    </StackPanel>
+                </Button>
+
                 <!--  Invalid-input notice  -->
                 <InfoBar
                     IsClosable="False"
@@ -145,12 +153,6 @@
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon FontSize="16" Glyph="&#xE72D;" />
                                 <TextBlock Text="{markup:Localize Key=CollatzShare}" />
-                            </StackPanel>
-                        </Button>
-                        <Button Command="{x:Bind ViewModel.ResetCommand}">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon FontSize="16" Glyph="&#xE777;" />
-                                <TextBlock Text="{markup:Localize Key=CollatzReset}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
