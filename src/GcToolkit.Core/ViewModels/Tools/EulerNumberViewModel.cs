@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Numbers;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
@@ -28,6 +28,9 @@ public sealed partial class EulerNumberViewModel : ToolViewModelBase
     private readonly IStringLocalizer _localizer;
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+
+    // Coalesce fast typing so a 1M-digit lookup/search doesn't fire on every keystroke.
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
 
     private int _computeVersion;
 
@@ -118,7 +121,8 @@ public sealed partial class EulerNumberViewModel : ToolViewModelBase
     public partial bool HasOccurrenceSummary { get; set; }
 
     /// <summary>The found occurrences (search mode), capped at <see cref="MaxDisplayedMatches"/>.</summary>
-    public ObservableCollection<EulerNumberOccurrenceItem> Occurrences { get; } = [];
+    [ObservableProperty]
+    public partial IReadOnlyList<EulerNumberOccurrenceItem> Occurrences { get; set; } = [];
 
     partial void OnModeIndexChanged(int value)
     {
@@ -133,22 +137,22 @@ public sealed partial class EulerNumberViewModel : ToolViewModelBase
         IsRangeMode = value == 2;
         IsSearchMode = value == 3;
         ShowFormattingOptions = IsFirstMode || IsRangeMode;
-        Recompute();
+        _debouncer.RunNow(Recompute);
     }
 
-    partial void OnFirstCountTextChanged(string value) => Recompute();
+    partial void OnFirstCountTextChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnPositionTextChanged(string value) => Recompute();
+    partial void OnPositionTextChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnRangeFromTextChanged(string value) => Recompute();
+    partial void OnRangeFromTextChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnRangeToTextChanged(string value) => Recompute();
+    partial void OnRangeToTextChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnSearchTextChanged(string value) => Recompute();
+    partial void OnSearchTextChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnGroupDigitsChanged(bool value) => Recompute();
+    partial void OnGroupDigitsChanged(bool value) => _debouncer.RunNow(Recompute);
 
-    partial void OnShowPositionsChanged(bool value) => Recompute();
+    partial void OnShowPositionsChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnHasOutputChanged(bool value) => NotifyActionCommands();
 
@@ -304,11 +308,8 @@ public sealed partial class EulerNumberViewModel : ToolViewModelBase
         OccurrenceSummary = result.OccurrenceSummary;
         HasOccurrenceSummary = result.OccurrenceSummary.Length > 0;
 
-        Occurrences.Clear();
-        foreach (var match in result.Matches)
-        {
-            Occurrences.Add(new EulerNumberOccurrenceItem(match, _clipboard.SetText));
-        }
+        // Assign wholesale (one notification) so the virtualizing list rebinds once, not per row.
+        Occurrences = [.. result.Matches.Select(match => new EulerNumberOccurrenceItem(match, _clipboard.SetText))];
     }
 
     /// <summary>The text the Copy/Share actions emit for the active mode.</summary>

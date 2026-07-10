@@ -30,4 +30,7 @@ public sealed class EulerNumberOccurrenceItem
     public string ContextText => $"{Before}{Match}{After}";
 
     public ICommand CopyCommand { get; }
+
+    // A ListView row with no AutomationProperties.Name announces ToString() to screen readers.
+    public override string ToString() => $"{Position}: {ContextText}";
 }
