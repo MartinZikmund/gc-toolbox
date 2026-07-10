@@ -1912,4 +1912,116 @@
   <data name="AngleCopyUnit" xml:space="preserve">
     <value>Copy this value</value>
   </data>
+  <!-- Tool: Colour conversion -->
+  <data name="ColourConversion_Name" xml:space="preserve">
+    <value>Colour conversion</value>
+  </data>
+  <data name="ColourConversion_Tooltip" xml:space="preserve">
+    <value>Convert a colour between hex, RGB, CMY, CMYK, HSL, HSV, HSI, YIQ, YUV and YCbCr.</value>
+  </data>
+  <data name="ColourConversionIntro" xml:space="preserve">
+    <value>Colours can be written in many notations. Type a value into any model and every other model updates instantly.</value>
+  </data>
+  <data name="ColourConversionPreview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="ColourConversionDeviceNote" xml:space="preserve">
+    <value>Some conversions (for example CMYK → RGB) are not standardised and are device-specific in real colour-management systems, so results may differ between devices.</value>
+  </data>
+  <data name="ColourConversionCopyHex" xml:space="preserve">
+    <value>Copy hex</value>
+  </data>
+  <data name="ColourConversionCopyAll" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="ColourConversionShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ColourConversionHexLabel" xml:space="preserve">
+    <value>Hexadecimal</value>
+  </data>
+  <data name="ColourConversionRgb" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ColourConversionCmy" xml:space="preserve">
+    <value>CMY</value>
+  </data>
+  <data name="ColourConversionCmyk" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ColourConversionHsl" xml:space="preserve">
+    <value>HSL</value>
+  </data>
+  <data name="ColourConversionHsv" xml:space="preserve">
+    <value>HSB / HSV</value>
+  </data>
+  <data name="ColourConversionHsi" xml:space="preserve">
+    <value>HSI</value>
+  </data>
+  <data name="ColourConversionYiq" xml:space="preserve">
+    <value>YIQ</value>
+  </data>
+  <data name="ColourConversionYuv" xml:space="preserve">
+    <value>YUV</value>
+  </data>
+  <data name="ColourConversionYCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ColourConversionR" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="ColourConversionG" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="ColourConversionB" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="ColourConversionCyan" xml:space="preserve">
+    <value>Cyan</value>
+  </data>
+  <data name="ColourConversionMagenta" xml:space="preserve">
+    <value>Magenta</value>
+  </data>
+  <data name="ColourConversionYellow" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="ColourConversionKey" xml:space="preserve">
+    <value>Key (black)</value>
+  </data>
+  <data name="ColourConversionHue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="ColourConversionSaturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="ColourConversionLightness" xml:space="preserve">
+    <value>Lightness</value>
+  </data>
+  <data name="ColourConversionBrightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="ColourConversionIntensity" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="ColourConversionLuma" xml:space="preserve">
+    <value>Luma (Y)</value>
+  </data>
+  <data name="ColourConversionChromaI" xml:space="preserve">
+    <value>Chrominance I</value>
+  </data>
+  <data name="ColourConversionChromaQ" xml:space="preserve">
+    <value>Chrominance Q</value>
+  </data>
+  <data name="ColourConversionChromaU" xml:space="preserve">
+    <value>Chrominance U</value>
+  </data>
+  <data name="ColourConversionChromaV" xml:space="preserve">
+    <value>Chrominance V</value>
+  </data>
+  <data name="ColourConversionChromaCb" xml:space="preserve">
+    <value>Chrominance Cb</value>
+  </data>
+  <data name="ColourConversionChromaCr" xml:space="preserve">
+    <value>Chrominance Cr</value>
+  </data>
 </root>
