@@ -27,4 +27,7 @@ public sealed class RailFenceSolveItem
     public string Label => $"{Rails} / {Offset}";
 
     public ICommand CopyCommand { get; }
+
+    /// <summary>A ListView item with no explicit automation name announces its ToString(), so make it the row.</summary>
+    public override string ToString() => $"{Label}: {Text}";
 }
