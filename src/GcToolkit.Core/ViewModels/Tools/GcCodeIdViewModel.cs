@@ -30,6 +30,9 @@ public sealed partial class GcCodeIdViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
 
+    private int _previousDirectionIndex;
+    private bool _suppressRecompute;
+
     public GcCodeIdViewModel(
         ICatalogService catalog,
         IRecentsService recents,
@@ -75,15 +78,36 @@ public sealed partial class GcCodeIdViewModel : ToolViewModelBase
         _ => Direction.Auto,
     };
 
-    partial void OnInputTextChanged(string value) => Convert();
+    partial void OnInputTextChanged(string value)
+    {
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
+        Convert();
+    }
 
     partial void OnDirectionIndexChanged(int value)
     {
         // Ignore the transient -1 a RadioButtons control can emit while re-templating.
-        if (value is 0 or 1 or 2)
+        if (value is not (0 or 1 or 2))
         {
-            Convert();
+            return;
         }
+
+        // Auto-swap: flipping between the two explicit directions carries the previous result into
+        // the input for a one-tap round-trip. Skipped for the Auto mode, which detects per token.
+        if (_previousDirectionIndex is 1 or 2 && value is 1 or 2 && value != _previousDirectionIndex
+            && !string.IsNullOrEmpty(OutputText))
+        {
+            _suppressRecompute = true;
+            InputText = OutputText;
+            _suppressRecompute = false;
+        }
+
+        _previousDirectionIndex = value;
+        Convert();
     }
 
     partial void OnHasOutputChanged(bool value)

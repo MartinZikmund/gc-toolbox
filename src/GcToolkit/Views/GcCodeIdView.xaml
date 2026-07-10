@@ -8,177 +8,188 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Stretch"
-            Spacing="16">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Direction (auto-detect / code→ID / ID→code)  -->
+                <RadioButtons
+                    Header="{markup:Localize Key=GcCodeIdDirection}"
+                    MaxColumns="3"
+                    SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=GcCodeIdDirectionAuto}" />
+                    <RadioButton Content="{markup:Localize Key=GcCodeIdDirectionCodeToId}" />
+                    <RadioButton Content="{markup:Localize Key=GcCodeIdDirectionIdToCode}" />
+                </RadioButtons>
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=GcCodeIdInputLabel}"
+                    IsSpellCheckEnabled="False"
+                    PlaceholderText="{markup:Localize Key=GcCodeIdInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=GcCodeIdClear}" />
+                </StackPanel>
+
+                <!--  Single result (hidden in batch mode)  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=GcCodeIdResultLabel}" />
+                    <TextBox
+                        FontFamily="Consolas"
+                        FontSize="18"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
                         TextWrapping="Wrap" />
                 </StackPanel>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
+                <!--  Batch per-row results — visible only when more than one value was entered  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=GcCodeIdBatchLabel}" />
+                    <!--  ListView virtualizes the batch rows so a large paste realizes only visible ones.  -->
+                    <ListView
+                        MaxHeight="420"
+                        ItemsSource="{x:Bind ViewModel.Results}"
+                        SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:GcCodeIdResultItem">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="8,6"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind Input}"
+                                        TextWrapping="Wrap" />
+                                    <FontIcon
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Glyph="&#xE72A;" />
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Output}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="3"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{markup:Localize Key=GcCodeIdCopyRow}"
+                                        Command="{x:Bind CopyCommand}"
+                                        ToolTipService.ToolTip="{markup:Localize Key=GcCodeIdCopyRow}">
+                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
 
-            <!--  Direction (auto-detect / code→ID / ID→code)  -->
-            <RadioButtons
-                Header="{markup:Localize Key=GcCodeIdDirection}"
-                MaxColumns="3"
-                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                <RadioButton Content="{markup:Localize Key=GcCodeIdDirectionAuto}" />
-                <RadioButton Content="{markup:Localize Key=GcCodeIdDirectionCodeToId}" />
-                <RadioButton Content="{markup:Localize Key=GcCodeIdDirectionIdToCode}" />
-            </RadioButtons>
+                <!--  Invalid-input notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasInvalid, Mode=OneWay}"
+                    Message="{markup:Localize Key=GcCodeIdInvalidNote}"
+                    Severity="Warning" />
 
-            <!--  Input  -->
-            <TextBox
-                MinHeight="96"
-                AcceptsReturn="True"
-                FontFamily="Consolas"
-                Header="{markup:Localize Key=GcCodeIdInputLabel}"
-                IsSpellCheckEnabled="False"
-                PlaceholderText="{markup:Localize Key=GcCodeIdInputPlaceholder}"
-                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=GcCodeIdCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.CopyAllCommand}" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=GcCodeIdCopyAll}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=GcCodeIdShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=GcCodeIdClear}" />
+                <!--  How it works  -->
+                <Expander HorizontalAlignment="Stretch" Header="{markup:Localize Key=GcCodeIdHowItWorksHeader}">
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=GcCodeIdHowItWorksBody}"
+                        TextWrapping="Wrap" />
+                </Expander>
+
             </StackPanel>
-
-            <!--  Single result (hidden in batch mode)  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=GcCodeIdResultLabel}" />
-                <TextBox
-                    FontFamily="Consolas"
-                    FontSize="18"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-            </StackPanel>
-
-            <!--  Batch per-row results — visible only when more than one value was entered  -->
-            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=GcCodeIdBatchLabel}" />
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Results}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="tools:GcCodeIdResultItem">
-                            <Grid
-                                Margin="0,2"
-                                Padding="8,6"
-                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                ColumnSpacing="12"
-                                CornerRadius="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Consolas"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Text="{x:Bind Input}"
-                                    TextWrapping="Wrap" />
-                                <FontIcon
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Glyph="&#xE72A;" />
-                                <TextBox
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    FontFamily="Consolas"
-                                    IsReadOnly="True"
-                                    IsSpellCheckEnabled="False"
-                                    Text="{x:Bind Output}"
-                                    TextWrapping="Wrap" />
-                                <Button
-                                    Grid.Column="3"
-                                    Width="36"
-                                    Height="36"
-                                    Padding="0"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="{markup:Localize Key=GcCodeIdCopyRow}"
-                                    Command="{x:Bind CopyCommand}"
-                                    ToolTipService.ToolTip="{markup:Localize Key=GcCodeIdCopyRow}">
-                                    <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-
-            <!--  Invalid-input notice  -->
-            <InfoBar
-                IsClosable="False"
-                IsOpen="{x:Bind ViewModel.HasInvalid, Mode=OneWay}"
-                Message="{markup:Localize Key=GcCodeIdInvalidNote}"
-                Severity="Warning" />
-
-            <!--  Output actions  -->
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=GcCodeIdCopy}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.CopyAllCommand}" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=GcCodeIdCopyAll}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                        <TextBlock Text="{markup:Localize Key=GcCodeIdShare}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-
-            <!--  How it works  -->
-            <Expander HorizontalAlignment="Stretch" Header="{markup:Localize Key=GcCodeIdHowItWorksHeader}">
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="{markup:Localize Key=GcCodeIdHowItWorksBody}"
-                    TextWrapping="Wrap" />
-            </Expander>
-
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:GcCodeIdViewBase>
