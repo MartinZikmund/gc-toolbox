@@ -217,6 +217,72 @@
   <data name="CoordinateProjection_Tooltip" xml:space="preserve">
     <value>Vypočítejte bod z výchozího bodu, azimutu a vzdálenosti.</value>
   </data>
+  <data name="Collatz_Name" xml:space="preserve">
+    <value>Collatzova domněnka</value>
+  </data>
+  <data name="Collatz_Tooltip" xml:space="preserve">
+    <value>Sledujte posloupnost 3n+1 (kroupy) libovolného čísla nebo najděte nejtvrdošíjnější výchozí číslo do daného limitu.</value>
+  </data>
+  <data name="CollatzStartLabel" xml:space="preserve">
+    <value>Výchozí číslo</value>
+  </data>
+  <data name="CollatzStartPlaceholder" xml:space="preserve">
+    <value>Zadejte celé číslo ≥ 1</value>
+  </data>
+  <data name="CollatzInvalidNotice" xml:space="preserve">
+    <value>Zadejte celé číslo větší nebo rovné 1.</value>
+  </data>
+  <data name="CollatzStepsLabel" xml:space="preserve">
+    <value>Kroky</value>
+  </data>
+  <data name="CollatzPeakLabel" xml:space="preserve">
+    <value>Nejvyšší hodnota</value>
+  </data>
+  <data name="CollatzLengthLabel" xml:space="preserve">
+    <value>Délka</value>
+  </data>
+  <data name="CollatzEvenOddSplit" xml:space="preserve">
+    <value>{0:N0} kroků dělení · {1:N0} kroků 3n+1</value>
+  </data>
+  <data name="CollatzSequenceLabel" xml:space="preserve">
+    <value>Posloupnost (kroupy)</value>
+  </data>
+  <data name="CollatzCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="CollatzShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="CollatzReset" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="CollatzShareSummary" xml:space="preserve">
+    <value>Collatzova posloupnost čísla {0}: {1} kroků, vrchol {2}, délka {3}.</value>
+  </data>
+  <data name="CollatzSearchTitle" xml:space="preserve">
+    <value>Nejtvrdošíjnější číslo</value>
+  </data>
+  <data name="CollatzSearchHint" xml:space="preserve">
+    <value>Najde výchozí číslo do zadaného limitu s nejdelší posloupností. Omezeno na 1 000 000 kvůli rychlosti.</value>
+  </data>
+  <data name="CollatzLimitLabel" xml:space="preserve">
+    <value>Horní limit</value>
+  </data>
+  <data name="CollatzLimitPlaceholder" xml:space="preserve">
+    <value>1 až 1 000 000</value>
+  </data>
+  <data name="CollatzSearchButton" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="CollatzSearchInvalidNotice" xml:space="preserve">
+    <value>Zadejte limit mezi 1 a 1 000 000.</value>
+  </data>
+  <data name="CollatzSearchResult" xml:space="preserve">
+    <value>{0} má nejdelší posloupnost do {2} — {1} kroků.</value>
+  </data>
+  <data name="CollatzAbout" xml:space="preserve">
+    <value>Collatzova domněnka se ptá, zda opakované dělení sudých čísel dvěma a použití 3n+1 na lichá vždy dospěje k 1. Není dokázána, ale platí pro každé dosud otestované číslo.</value>
+  </data>
   <data name="CaesarCipher_Name" xml:space="preserve">
     <value>Caesarova šifra</value>
   </data>
