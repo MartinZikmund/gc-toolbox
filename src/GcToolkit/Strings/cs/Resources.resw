@@ -712,6 +712,78 @@
   <data name="SubstitutionCipherKeyErrorNonLetter" xml:space="preserve">
     <value>„{0}“ není písmeno — klíč smí obsahovat pouze A–Z.</value>
   </data>
+  <data name="KamasutraCipher_Name" xml:space="preserve">
+    <value>Kámasútra šifra</value>
+  </data>
+  <data name="KamasutraCipher_Tooltip" xml:space="preserve">
+    <value>Zaměňte každé písmeno za jeho párového partnera — reciproční šifra, která stejným klíčem šifruje i dešifruje.</value>
+  </data>
+  <data name="KamasutraKeyMode" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="KamasutraModeDefault" xml:space="preserve">
+    <value>Rozdělení A–Z</value>
+  </data>
+  <data name="KamasutraModeKeyword" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="KamasutraModeManual" xml:space="preserve">
+    <value>Ručně</value>
+  </data>
+  <data name="KamasutraModeRandom" xml:space="preserve">
+    <value>Náhodně</value>
+  </data>
+  <data name="KamasutraKeywordLabel" xml:space="preserve">
+    <value>Klíčové slovo</value>
+  </data>
+  <data name="KamasutraKeywordPlaceholder" xml:space="preserve">
+    <value>Naplňte abecedu klíčovým slovem…</value>
+  </data>
+  <data name="KamasutraPairsLabel" xml:space="preserve">
+    <value>Páry</value>
+  </data>
+  <data name="KamasutraPairsPlaceholder" xml:space="preserve">
+    <value>Zadejte 13 párů písmen, např. AN BO CP…</value>
+  </data>
+  <data name="KamasutraReroll" xml:space="preserve">
+    <value>Přelosovat</value>
+  </data>
+  <data name="KamasutraInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="KamasutraInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="KamasutraClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="KamasutraOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="KamasutraReciprocalNote" xml:space="preserve">
+    <value>Tato šifra je reciproční — stejný klíč šifruje i dešifruje.</value>
+  </data>
+  <data name="KamasutraCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="KamasutraShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="KamasutraKeyLabel" xml:space="preserve">
+    <value>Párování</value>
+  </data>
+  <data name="KamasutraKeyNote" xml:space="preserve">
+    <value>Každé písmeno se zamění s partnerem pod ním — dvojí použití šifry obnoví původní text.</value>
+  </data>
+  <data name="KamasutraErrorInvalidChar" xml:space="preserve">
+    <value>Páry mohou obsahovat pouze písmena.</value>
+  </data>
+  <data name="KamasutraErrorOddCount" xml:space="preserve">
+    <value>Některému písmenu chybí partner.</value>
+  </data>
+  <data name="KamasutraErrorDuplicate" xml:space="preserve">
+    <value>Některé písmeno se vyskytuje ve více párech.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>
