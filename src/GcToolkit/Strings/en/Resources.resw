@@ -2263,4 +2263,92 @@
   <data name="PiErrorPattern" xml:space="preserve">
     <value>Enter a sequence of 1 to 50 digits.</value>
   </data>
+  <!-- Prime numbers -->
+  <data name="PrimeNumbers_Name" xml:space="preserve">
+    <value>Prime numbers</value>
+  </data>
+  <data name="PrimeNumbers_Tooltip" xml:space="preserve">
+    <value>Test primality, find the n-th prime, a prime's position, the nearest prime, and prime factorizations.</value>
+  </data>
+  <data name="PrimeModeLabel" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="PrimeModePrimality" xml:space="preserve">
+    <value>Primality test</value>
+  </data>
+  <data name="PrimeModeNthPrime" xml:space="preserve">
+    <value>N-th prime</value>
+  </data>
+  <data name="PrimeModePosition" xml:space="preserve">
+    <value>Position of a prime</value>
+  </data>
+  <data name="PrimeModeNearest" xml:space="preserve">
+    <value>Nearest prime</value>
+  </data>
+  <data name="PrimeModeFactorization" xml:space="preserve">
+    <value>Prime factorization</value>
+  </data>
+  <data name="PrimeInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="PrimeInputPlaceholder" xml:space="preserve">
+    <value>Enter a whole number…</value>
+  </data>
+  <data name="PrimeRangeHint" xml:space="preserve">
+    <value>Valid range: {0} – {1}</value>
+  </data>
+  <data name="PrimeClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="PrimeResultLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="PrimeCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PrimeShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PrimeInvalidNumber" xml:space="preserve">
+    <value>Enter a whole number.</value>
+  </data>
+  <data name="PrimeOutOfRange" xml:space="preserve">
+    <value>Enter a number between {0} and {1}.</value>
+  </data>
+  <data name="PrimeIsPrime" xml:space="preserve">
+    <value>{0} is a prime number.</value>
+  </data>
+  <data name="PrimeIsNotPrime" xml:space="preserve">
+    <value>{0} is not a prime number — it is divisible by {1}.</value>
+  </data>
+  <data name="PrimeIsNotPrimeSimple" xml:space="preserve">
+    <value>{0} is not a prime number.</value>
+  </data>
+  <data name="PrimeNthResult" xml:space="preserve">
+    <value>Prime #{0} is {1}.</value>
+  </data>
+  <data name="PrimePositionResult" xml:space="preserve">
+    <value>{0} is prime #{1}.</value>
+  </data>
+  <data name="PrimePositionNotPrime" xml:space="preserve">
+    <value>{0} is not a prime number — there are {1} primes below it.</value>
+  </data>
+  <data name="PrimeNearestResult" xml:space="preserve">
+    <value>The nearest prime to {0} is {1}.</value>
+  </data>
+  <data name="PrimeNearestSelf" xml:space="preserve">
+    <value>{0} is itself a prime number.</value>
+  </data>
+  <data name="PrimePrevious" xml:space="preserve">
+    <value>Previous prime</value>
+  </data>
+  <data name="PrimeNext" xml:space="preserve">
+    <value>Next prime</value>
+  </data>
+  <data name="PrimeFactorizationPrime" xml:space="preserve">
+    <value>{0} is a prime number — it has no smaller factors.</value>
+  </data>
+  <data name="PrimePreparing" xml:space="preserve">
+    <value>Preparing the prime table…</value>
+  </data>
 </root>
