@@ -1,12 +1,13 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -29,6 +30,11 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly Random _random = new();
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private int _autoSolveGeneration;
+    private bool _suppressRecompute;
 
     public ScytaleCipherViewModel(
         ICatalogService catalog,
@@ -80,8 +86,9 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial bool HasColumnError { get; set; }
 
-    /// <summary>The candidates shown in auto-solve mode (one per plausible column count).</summary>
-    public ObservableCollection<ScytaleSolveItem> SolveResults { get; } = [];
+    /// <summary>The candidates shown in auto-solve mode (one per plausible column count), assigned wholesale.</summary>
+    [ObservableProperty]
+    public partial IReadOnlyList<ScytaleSolveItem> SolveResults { get; set; } = [];
 
     private bool IsDecode => DirectionIndex == 1;
 
@@ -94,19 +101,31 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
         Recompute();
     }
 
-    partial void OnColumnsChanged(int value) => Recompute();
+    partial void OnColumnsChanged(int value) => _debouncer.RunNow(Recompute);
 
     partial void OnDirectionIndexChanged(int value)
     {
-        if (value is 0 or 1)
+        // Ignore re-entrant carries and the transient -1 a RadioButtons control can emit.
+        if (_suppressRecompute || value is not (0 or 1))
         {
-            Recompute();
+            return;
         }
+
+        // Switching direction carries the previous result into the input, so a round-trip is one tap.
+        // Auto-solve has no single output to carry, so the swap only applies to the encode/decode view.
+        if (!AutoSolve && OutputText.Length > 0)
+        {
+            _suppressRecompute = true;
+            InputText = OutputText;
+            _suppressRecompute = false;
+        }
+
+        _debouncer.RunNow(Recompute);
     }
 
-    partial void OnIgnoreSpacesChanged(bool value) => Recompute();
+    partial void OnIgnoreSpacesChanged(bool value) => _debouncer.RunNow(Recompute);
 
-    partial void OnUsePadCharacterChanged(bool value) => Recompute();
+    partial void OnUsePadCharacterChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnPadCharacterChanged(string value)
     {
@@ -117,12 +136,29 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
             return;
         }
 
-        Recompute();
+        _debouncer.RunNow(Recompute);
     }
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    // Typing while auto-solving brute-forces every column count, which freezes the UI per keystroke —
+    // debounce that path so it recomputes once typing pauses. The single encode/decode stays instant.
+    partial void OnInputTextChanged(string value)
+    {
+        if (_suppressRecompute)
+        {
+            return;
+        }
 
-    partial void OnAutoSolveChanged(bool value) => Recompute();
+        if (AutoSolve)
+        {
+            _debouncer.Debounce(Recompute);
+        }
+        else
+        {
+            _debouncer.RunNow(Recompute);
+        }
+    }
+
+    partial void OnAutoSolveChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -132,11 +168,12 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
 
     private void Recompute()
     {
-        SolveResults.Clear();
         HasColumnError = Columns < ScytaleCipher.MinColumns;
 
         if (HasColumnError || string.IsNullOrEmpty(InputText))
         {
+            _autoSolveGeneration++; // discard any in-flight brute force
+            SolveResults = [];
             OutputText = string.Empty;
             HasOutput = false;
             return;
@@ -144,21 +181,53 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
 
         if (AutoSolve)
         {
-            foreach (var candidate in _cipher.AutoSolve(InputText))
-            {
-                SolveResults.Add(new ScytaleSolveItem(candidate.Columns, candidate.Text, _clipboard.SetText));
-            }
-
             OutputText = string.Empty;
-            HasOutput = SolveResults.Count > 0;
+            StartAutoSolve(InputText);
             return;
         }
 
+        _autoSolveGeneration++;
+        SolveResults = [];
         OutputText = IsDecode
             ? _cipher.Decrypt(InputText, Columns, IgnoreSpaces)
             : _cipher.Encrypt(InputText, Columns, IgnoreSpaces, PadChar);
         HasOutput = OutputText.Length > 0;
     }
+
+    /// <summary>
+    /// Brute-forces every plausible column count on a background thread, then publishes the candidate
+    /// rows back on the UI thread. A generation guard drops results a newer keystroke has superseded.
+    /// Runs synchronously when there is no dispatcher (unit tests).
+    /// </summary>
+    private void StartAutoSolve(string input)
+    {
+        var generation = ++_autoSolveGeneration;
+
+        if (_dispatcher is null)
+        {
+            SolveResults = BuildCandidates(input);
+            HasOutput = SolveResults.Count > 0;
+            return;
+        }
+
+        _ = Task.Run(() =>
+        {
+            var candidates = BuildCandidates(input);
+            _dispatcher.TryEnqueue(() =>
+            {
+                if (generation != _autoSolveGeneration)
+                {
+                    return; // a newer input already superseded this result
+                }
+
+                SolveResults = candidates;
+                HasOutput = candidates.Count > 0;
+            });
+        });
+    }
+
+    private IReadOnlyList<ScytaleSolveItem> BuildCandidates(string input)
+        => [.. _cipher.AutoSolve(input).Select(c => new ScytaleSolveItem(c.Columns, c.Text, _clipboard.SetText))];
 
     /// <summary>Picks a random column count in a useful range (2 … 12) and re-runs the transform.</summary>
     [RelayCommand]
