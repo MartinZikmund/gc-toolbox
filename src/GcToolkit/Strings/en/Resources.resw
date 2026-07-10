@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1226,6 +1226,9 @@
   </data>
   <data name="KaprekarShare" xml:space="preserve">
     <value>Share</value>
+  </data>
+  <data name="KaprekarErrorPositive" xml:space="preserve">
+    <value>Enter a whole number greater than zero.</value>
   </data>
   <data name="KaprekarErrorNumeric" xml:space="preserve">
     <value>Enter a whole, non-negative number.</value>

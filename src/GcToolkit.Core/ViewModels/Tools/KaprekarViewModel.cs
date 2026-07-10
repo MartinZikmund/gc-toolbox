@@ -193,7 +193,7 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
 
         if (!TryParseNonNegative(CheckerInput, out var number) || number < 1)
         {
-            CheckerResult = _localizer["KaprekarErrorNumeric"].Value;
+            CheckerResult = _localizer["KaprekarErrorPositive"].Value;
             HasCheckerResult = true;
             return;
         }
@@ -231,7 +231,7 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
         if (!TryParseNonNegative(ListerInput, out var limit) || limit < 1)
         {
             _listGeneration++;
-            ListerResult = _localizer["KaprekarErrorNumeric"].Value;
+            ListerResult = _localizer["KaprekarErrorPositive"].Value;
             HasListerResult = true;
             return;
         }
