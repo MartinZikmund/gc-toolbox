@@ -973,6 +973,69 @@
   <data name="TrithemiusTabulaNote" xml:space="preserve">
     <value>1. písmeno používá řádek 0, 2. řádek 1, 3. řádek 2 a tak dále.</value>
   </data>
+  <data name="ScytaleCipher_Name" xml:space="preserve">
+    <value>Skytalé</value>
+  </data>
+  <data name="ScytaleCipher_Tooltip" xml:space="preserve">
+    <value>Zašifrujte a dešifrujte starověkou transpozici na tyči — nebo automaticky vyřešte všechny počty sloupců najednou.</value>
+  </data>
+  <data name="ScytaleEncrypt" xml:space="preserve">
+    <value>Zašifrovat</value>
+  </data>
+  <data name="ScytaleDecrypt" xml:space="preserve">
+    <value>Dešifrovat</value>
+  </data>
+  <data name="ScytaleColumns" xml:space="preserve">
+    <value>Sloupce (průměr tyče)</value>
+  </data>
+  <data name="ScytaleRandomColumns" xml:space="preserve">
+    <value>Náhodně</value>
+  </data>
+  <data name="ScytaleColumnError" xml:space="preserve">
+    <value>Počet sloupců musí být alespoň 2.</value>
+  </data>
+  <data name="ScytaleIgnoreSpaces" xml:space="preserve">
+    <value>Ignorovat mezery</value>
+  </data>
+  <data name="ScytaleUsePadCharacter" xml:space="preserve">
+    <value>Doplňkový znak</value>
+  </data>
+  <data name="ScytalePadCharacter" xml:space="preserve">
+    <value>Znak</value>
+  </data>
+  <data name="ScytaleInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="ScytaleInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text k zašifrování nebo dešifrování…</value>
+  </data>
+  <data name="ScytaleClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="ScytaleAutoSolve" xml:space="preserve">
+    <value>Automatické řešení</value>
+  </data>
+  <data name="ScytaleOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="ScytaleAutoSolveLabel" xml:space="preserve">
+    <value>Kandidáti podle počtu sloupců</value>
+  </data>
+  <data name="ScytaleCopyCandidate" xml:space="preserve">
+    <value>Kopírovat tohoto kandidáta</value>
+  </data>
+  <data name="ScytaleCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="ScytaleShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="ScytaleAboutLabel" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="ScytaleAboutNote" xml:space="preserve">
+    <value>Text se zapíše po řádcích přes sloupce a poté se čte po sloupcích — počet sloupců je průměr tyče, váš tajný klíč.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morseova abeceda</value>
   </data>

@@ -973,6 +973,69 @@
   <data name="TrithemiusTabulaNote" xml:space="preserve">
     <value>The 1st letter uses row 0, the 2nd row 1, the 3rd row 2, and so on.</value>
   </data>
+  <data name="ScytaleCipher_Name" xml:space="preserve">
+    <value>Scytale cipher</value>
+  </data>
+  <data name="ScytaleCipher_Tooltip" xml:space="preserve">
+    <value>Encode and decode the ancient rod transposition — or auto-solve every column count at once.</value>
+  </data>
+  <data name="ScytaleEncrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ScytaleDecrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="ScytaleColumns" xml:space="preserve">
+    <value>Columns (rod diameter)</value>
+  </data>
+  <data name="ScytaleRandomColumns" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="ScytaleColumnError" xml:space="preserve">
+    <value>Columns must be at least 2.</value>
+  </data>
+  <data name="ScytaleIgnoreSpaces" xml:space="preserve">
+    <value>Ignore spaces</value>
+  </data>
+  <data name="ScytaleUsePadCharacter" xml:space="preserve">
+    <value>Extra character</value>
+  </data>
+  <data name="ScytalePadCharacter" xml:space="preserve">
+    <value>Pad</value>
+  </data>
+  <data name="ScytaleInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="ScytaleInputPlaceholder" xml:space="preserve">
+    <value>Type text to encrypt or decrypt…</value>
+  </data>
+  <data name="ScytaleClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ScytaleAutoSolve" xml:space="preserve">
+    <value>Auto-solve</value>
+  </data>
+  <data name="ScytaleOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="ScytaleAutoSolveLabel" xml:space="preserve">
+    <value>Candidates by column count</value>
+  </data>
+  <data name="ScytaleCopyCandidate" xml:space="preserve">
+    <value>Copy this candidate</value>
+  </data>
+  <data name="ScytaleCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ScytaleShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ScytaleAboutLabel" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="ScytaleAboutNote" xml:space="preserve">
+    <value>The text is written across the columns row by row, then read off column by column — the number of columns is the rod's diameter, your secret key.</value>
+  </data>
   <data name="MorseCode_Name" xml:space="preserve">
     <value>Morse code</value>
   </data>
