@@ -6,12 +6,12 @@
     xmlns:markup="using:GcToolkit.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid MaxWidth="1024" HorizontalAlignment="Center">
-        <ScrollViewer
-            x:Name="RootScrollViewer"
-            Padding="24"
-            HorizontalContentAlignment="Center">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+    <ScrollViewer x:Name="RootScrollViewer" Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="1024"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
                 <!--  Header: tool name + favorite toggle  -->
                 <Grid ColumnSpacing="12">
@@ -191,23 +191,23 @@
                 </Expander>
 
             </StackPanel>
-        </ScrollViewer>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootScrollViewer.Padding" Value="12" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="WideState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="641" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="RootScrollViewer.Padding" Value="12" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ScrollViewer>
 </local:PiViewBase>
