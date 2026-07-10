@@ -21,8 +21,8 @@ public static class ToolGrouping
     public static IReadOnlyDictionary<ToolCategory, ToolGroup> CategoryGroups { get; } =
         new Dictionary<ToolCategory, ToolGroup>
         {
-            [ToolCategory.Coordinates] = ToolGroup.Conversion,
-            [ToolCategory.Numbers] = ToolGroup.Conversion,
-            // Ciphers, Field stand alone (absent ⇒ no group).
+            // Flat navigation: every category is its own top-level section with no super-group
+            // heading — matching how geocachingtoolbox.com and CacheSleuth present their tools.
+            // Add an entry here to put a category back under a ToolGroup heading.
         };
 }
