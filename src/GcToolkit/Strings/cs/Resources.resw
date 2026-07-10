@@ -1777,4 +1777,58 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Zamíchat znovu</value>
   </data>
+  <data name="GcCodeId_Name" xml:space="preserve">
+    <value>GC kód ↔ ID</value>
+  </data>
+  <data name="GcCodeId_Tooltip" xml:space="preserve">
+    <value>Převeďte veřejný GC kód (např. GC16XYD) na interní číselné ID a zpět.</value>
+  </data>
+  <data name="GcCodeIdDirection" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="GcCodeIdDirectionAuto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="GcCodeIdDirectionCodeToId" xml:space="preserve">
+    <value>GC kód → ID</value>
+  </data>
+  <data name="GcCodeIdDirectionIdToCode" xml:space="preserve">
+    <value>ID → GC kód</value>
+  </data>
+  <data name="GcCodeIdInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="GcCodeIdInputPlaceholder" xml:space="preserve">
+    <value>Zadejte GC kód nebo ID — více hodnot oddělte čárkami, mezerami nebo novými řádky…</value>
+  </data>
+  <data name="GcCodeIdClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="GcCodeIdResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="GcCodeIdBatchLabel" xml:space="preserve">
+    <value>Výsledky</value>
+  </data>
+  <data name="GcCodeIdCopyRow" xml:space="preserve">
+    <value>Kopírovat tento výsledek</value>
+  </data>
+  <data name="GcCodeIdInvalidNote" xml:space="preserve">
+    <value>Některé hodnoty nelze převést a jsou zobrazeny jako „?“.</value>
+  </data>
+  <data name="GcCodeIdCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="GcCodeIdCopyAll" xml:space="preserve">
+    <value>Kopírovat vše (CSV)</value>
+  </data>
+  <data name="GcCodeIdShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="GcCodeIdHowItWorksHeader" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="GcCodeIdHowItWorksBody" xml:space="preserve">
+    <value>Každá keš má veřejný kód (GC…) a interní číselné ID. Kódy do GCFFFF jsou jednoduchá šestnáctková čísla (GCFFFF = 65535). Od GCG000 výše je kód číslo o základu 31 nad znaky 0-9 a A-Z bez nejednoznačných I, L, O, S a U, s pevným posunem. Předpona „GC“ je nepovinná a na velikosti písmen nezáleží.</value>
+  </data>
 </root>

@@ -1777,4 +1777,58 @@
   <data name="TextReverseReroll" xml:space="preserve">
     <value>Shuffle again</value>
   </data>
+  <data name="GcCodeId_Name" xml:space="preserve">
+    <value>GC code ↔ ID</value>
+  </data>
+  <data name="GcCodeId_Tooltip" xml:space="preserve">
+    <value>Convert a public GC code (e.g. GC16XYD) to and from its internal numeric ID.</value>
+  </data>
+  <data name="GcCodeIdDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="GcCodeIdDirectionAuto" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="GcCodeIdDirectionCodeToId" xml:space="preserve">
+    <value>GC code → ID</value>
+  </data>
+  <data name="GcCodeIdDirectionIdToCode" xml:space="preserve">
+    <value>ID → GC code</value>
+  </data>
+  <data name="GcCodeIdInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="GcCodeIdInputPlaceholder" xml:space="preserve">
+    <value>Enter a GC code or ID — separate several with commas, spaces or new lines…</value>
+  </data>
+  <data name="GcCodeIdClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="GcCodeIdResultLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="GcCodeIdBatchLabel" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="GcCodeIdCopyRow" xml:space="preserve">
+    <value>Copy this result</value>
+  </data>
+  <data name="GcCodeIdInvalidNote" xml:space="preserve">
+    <value>Some values could not be converted and are shown as “?”.</value>
+  </data>
+  <data name="GcCodeIdCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="GcCodeIdCopyAll" xml:space="preserve">
+    <value>Copy all (CSV)</value>
+  </data>
+  <data name="GcCodeIdShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="GcCodeIdHowItWorksHeader" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="GcCodeIdHowItWorksBody" xml:space="preserve">
+    <value>Each cache has a public code (GC…) and an internal numeric ID. Codes up to GCFFFF are simple hexadecimal (GCFFFF = 65535). From GCG000 onward the code is a base-31 number over the characters 0-9 and A-Z without the ambiguous I, L, O, S and U, with a fixed offset applied. The “GC” prefix is optional and input is case-insensitive.</value>
+  </data>
 </root>
