@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Numbers.GoldenRatio;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
@@ -31,6 +32,10 @@ public sealed partial class GoldenRatioViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
+
+    // Search scans the 1,000,000-digit string; debounce the typing path so it recomputes once
+    // typing pauses instead of spawning a scan per keystroke. The other modes are cheap (RunNow).
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
 
     /// <summary>Stamps each computation; results from a superseded run are dropped.</summary>
     private int _computeVersion;
@@ -135,23 +140,26 @@ public sealed partial class GoldenRatioViewModel : ToolViewModelBase
         // Ignore the transient -1 a RadioButtons control can emit during template changes.
         if (value is >= 0 and <= 3)
         {
-            ComputeCommand.Execute(null);
+            _debouncer.RunNow(TriggerCompute);
         }
     }
 
-    partial void OnCountTextChanged(string value) => ComputeCommand.Execute(null);
+    private void TriggerCompute() => ComputeCommand.Execute(null);
 
-    partial void OnPositionTextChanged(string value) => ComputeCommand.Execute(null);
+    partial void OnCountTextChanged(string value) => _debouncer.RunNow(TriggerCompute);
 
-    partial void OnRangeFromTextChanged(string value) => ComputeCommand.Execute(null);
+    partial void OnPositionTextChanged(string value) => _debouncer.RunNow(TriggerCompute);
 
-    partial void OnRangeToTextChanged(string value) => ComputeCommand.Execute(null);
+    partial void OnRangeFromTextChanged(string value) => _debouncer.RunNow(TriggerCompute);
 
-    partial void OnSearchTextChanged(string value) => ComputeCommand.Execute(null);
+    partial void OnRangeToTextChanged(string value) => _debouncer.RunNow(TriggerCompute);
 
-    partial void OnGroupDigitsChanged(bool value) => ComputeCommand.Execute(null);
+    // Debounced: each keystroke would otherwise brute-force-scan all 1,000,000 digits.
+    partial void OnSearchTextChanged(string value) => _debouncer.Debounce(TriggerCompute);
 
-    partial void OnShowLineNumbersChanged(bool value) => ComputeCommand.Execute(null);
+    partial void OnGroupDigitsChanged(bool value) => _debouncer.RunNow(TriggerCompute);
+
+    partial void OnShowLineNumbersChanged(bool value) => _debouncer.RunNow(TriggerCompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -449,4 +457,9 @@ public sealed partial class GoldenRatioViewModel : ToolViewModelBase
 }
 
 /// <summary>One displayed search match; plain strings so the item template binds directly.</summary>
-public sealed record GoldenRatioOccurrenceItem(string Position, string Before, string Match, string After);
+public sealed record GoldenRatioOccurrenceItem(string Position, string Before, string Match, string After)
+{
+    // ListView rows with no AutomationProperties.Name announce the item's ToString to screen
+    // readers; return the match content instead of the generated record form.
+    public override string ToString() => $"{Position}: {Before}{Match}{After}";
+}

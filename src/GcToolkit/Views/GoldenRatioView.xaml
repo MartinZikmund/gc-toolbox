@@ -7,12 +7,12 @@
     xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid MaxWidth="1024" HorizontalAlignment="Center">
-        <ScrollViewer
-            x:Name="RootScroll"
-            Padding="24"
-            HorizontalContentAlignment="Center">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+    <ScrollViewer x:Name="RootScroll" Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="1024"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
                 <!--  Header: tool name + favorite toggle  -->
                 <Grid ColumnSpacing="12">
@@ -134,15 +134,28 @@
                         TextWrapping="Wrap" />
                 </StackPanel>
 
-                <!--  Occurrences (search mode)  -->
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Occurrences}" Visibility="{x:Bind ViewModel.ShowOccurrences, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ItemsControl.ItemTemplate>
+                <!--  Occurrences (search mode) — ListView virtualizes up to 200 match rows  -->
+                <ListView
+                    MaxHeight="420"
+                    ItemsSource="{x:Bind ViewModel.Occurrences}"
+                    SelectionMode="None"
+                    Visibility="{x:Bind ViewModel.ShowOccurrences, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="tools:GoldenRatioOccurrenceItem">
                             <!--  {Binding} on Runs: x:Bind on Run.Text inside a DataTemplate crashes the XAML compiler  -->
                             <TextBlock
                                 Margin="0,2"
                                 FontFamily="Consolas"
                                 FontSize="14"
+                                IsTextSelectionEnabled="True"
                                 TextWrapping="Wrap">
                                 <Run FontWeight="SemiBold" Text="{Binding Position}" /><Run Text=":  " /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding Before}" /><Run
                                     FontWeight="Bold"
@@ -150,8 +163,8 @@
                                     Text="{Binding Match}" /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding After}" />
                             </TextBlock>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListView.ItemTemplate>
+                </ListView>
 
                 <!--  Actions  -->
                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -177,26 +190,27 @@
                     TextWrapping="Wrap" />
 
             </StackPanel>
-        </ScrollViewer>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootScroll.Padding" Value="24" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootScroll.Padding" Value="12" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="WideState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="641" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="RootScroll.Padding" Value="24" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="RootScroll.Padding" Value="12" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ScrollViewer>
 </local:GoldenRatioViewBase>
