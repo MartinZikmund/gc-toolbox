@@ -68,7 +68,7 @@
     <ScrollViewer Padding="24">
         <StackPanel
             MaxWidth="900"
-            HorizontalAlignment="Stretch"
+            HorizontalAlignment="Center"
             Spacing="16">
 
             <!--  Header: tool name + favorite toggle  -->

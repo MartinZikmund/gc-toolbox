@@ -163,6 +163,27 @@ or set `DataContext` by hand. Build accessible, responsive XAML: Fluent styles +
 `AutomationProperties.Name` on icon-only controls, an `AdaptiveTrigger` for padding, a `MaxWidth` for
 readability. Run `/winui-design` for any layout/styling work.
 
+**Root layout — cap width with `HorizontalAlignment="Center"`, never `Stretch`.** The page root is a
+`ScrollViewer` whose single child is the content panel, capped with a `MaxWidth` (≈760 for forms) and
+**centered**:
+
+```xml
+<ScrollViewer Padding="24">
+    <StackPanel MaxWidth="760" HorizontalAlignment="Center" Spacing="16">
+        …
+    </StackPanel>
+</ScrollViewer>
+```
+
+Do **not** put `HorizontalAlignment="Stretch"` on a `MaxWidth`-capped panel that is a `ScrollViewer`'s
+*direct* child. WinUI's old `ScrollViewer` (DirectManipulation) then centers the panel by its *desired*
+width but renders it at `MaxWidth`, so it sits off-centre and visibly **"jumps"** whenever the desired
+width changes — e.g. the moment you type the first character into a `TextBox`. This is the deliberately
+won't-fix WinUI bug [microsoft-ui-xaml#4619](https://github.com/microsoft/microsoft-ui-xaml/issues/4619)
+(does not repro in the newer `ScrollView` control). An outer `<Grid MaxWidth=… HorizontalAlignment="Center">`
+wrapper around the `ScrollViewer` is an equivalent older fix some views still use; new tools should prefer
+the single-attribute `HorizontalAlignment="Center"` form above.
+
 **Stub form** — to land a tool before its UI exists, give it just the `[Tool]` VM (a one-liner via a
 primary constructor) and **no view**. It shows in the gallery and opens the placeholder host:
 
