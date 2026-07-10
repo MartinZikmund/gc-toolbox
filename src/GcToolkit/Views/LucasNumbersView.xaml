@@ -8,9 +8,12 @@
     x:Name="RootView"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid MaxWidth="1024" HorizontalAlignment="Center">
-        <ScrollViewer Padding="24" HorizontalContentAlignment="Center">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+    <ScrollViewer Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="1024"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
                 <!--  Header: tool name + favorite toggle  -->
                 <Grid ColumnSpacing="12">
@@ -238,6 +241,6 @@
                 </Expander>
 
             </StackPanel>
-        </ScrollViewer>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </local:LucasNumbersViewBase>

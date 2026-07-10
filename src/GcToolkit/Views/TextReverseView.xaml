@@ -7,124 +7,126 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Center"
-            Spacing="16">
-
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
-
-            <!--  Mode selector (the seven reorderings)  -->
-            <ComboBox
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
                 HorizontalAlignment="Stretch"
-                Header="{markup:Localize Key=TextReverseMode}"
-                SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeText}" />
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeTextPerLine}" />
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeWordOrder}" />
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeWordOrderPerLine}" />
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeCharsPerWord}" />
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeRandomPerWord}" />
-                <ComboBoxItem Content="{markup:Localize Key=TextReverseModeUpsideDown}" />
-            </ComboBox>
+                Spacing="16">
 
-            <!--  Input  -->
-            <TextBox
-                MinHeight="96"
-                AcceptsReturn="True"
-                Header="{markup:Localize Key=TextReverseInputLabel}"
-                PlaceholderText="{markup:Localize Key=TextReverseInputPlaceholder}"
-                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-            <!--  Modifiers  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TextReverseModifiers}" />
-                <CheckBox Content="{markup:Localize Key=TextReverseKeepCaseLocation}" IsChecked="{x:Bind ViewModel.KeepUpperCaseLocation, Mode=TwoWay}" />
-                <CheckBox Content="{markup:Localize Key=TextReverseKeepFirstLast}" IsChecked="{x:Bind ViewModel.KeepFirstAndLastCharacter, Mode=TwoWay}" />
-                <CheckBox Content="{markup:Localize Key=TextReverseSwapCase}" IsChecked="{x:Bind ViewModel.SwapCase, Mode=TwoWay}" />
-                <CheckBox Content="{markup:Localize Key=TextReverseToUpper}" IsChecked="{x:Bind ViewModel.ToUpperCase, Mode=TwoWay}" />
-                <CheckBox Content="{markup:Localize Key=TextReverseToLower}" IsChecked="{x:Bind ViewModel.ToLowerCase, Mode=TwoWay}" />
-
-                <!--  Upside-down only: reverse sub-option + remove-unknown  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsUpsideDownMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <CheckBox Content="{markup:Localize Key=TextReverseReverseUpsideDown}" IsChecked="{x:Bind ViewModel.ReverseUpsideDown, Mode=TwoWay}" />
-                    <CheckBox Content="{markup:Localize Key=TextReverseRemoveUnknown}" IsChecked="{x:Bind ViewModel.RemoveUnknownCharacters, Mode=TwoWay}" />
-                </StackPanel>
-            </StackPanel>
-
-            <!--  Actions: clear + re-roll (random mode only)  -->
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=TextReverseClear}" />
-                <Button Command="{x:Bind ViewModel.RerollCommand}" Visibility="{x:Bind ViewModel.IsRandomMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72C;" />
-                        <TextBlock Text="{markup:Localize Key=TextReverseReroll}" />
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
                     </StackPanel>
-                </Button>
-            </StackPanel>
 
-            <!--  Result  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TextReverseOutputLabel}" />
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Mode selector (the seven reorderings)  -->
+                <ComboBox
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=TextReverseMode}"
+                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeText}" />
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeTextPerLine}" />
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeWordOrder}" />
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeWordOrderPerLine}" />
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeCharsPerWord}" />
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeRandomPerWord}" />
+                    <ComboBoxItem Content="{markup:Localize Key=TextReverseModeUpsideDown}" />
+                </ComboBox>
+
+                <!--  Input  -->
                 <TextBox
                     MinHeight="96"
                     AcceptsReturn="True"
-                    FontFamily="Consolas"
-                    FontSize="18"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    Header="{markup:Localize Key=TextReverseInputLabel}"
+                    PlaceholderText="{markup:Localize Key=TextReverseInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap" />
-            </StackPanel>
 
-            <!--  Output actions  -->
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=TextReverseCopy}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                        <TextBlock Text="{markup:Localize Key=TextReverseShare}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
+                <!--  Modifiers  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TextReverseModifiers}" />
+                    <CheckBox Content="{markup:Localize Key=TextReverseKeepCaseLocation}" IsChecked="{x:Bind ViewModel.KeepUpperCaseLocation, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=TextReverseKeepFirstLast}" IsChecked="{x:Bind ViewModel.KeepFirstAndLastCharacter, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=TextReverseSwapCase}" IsChecked="{x:Bind ViewModel.SwapCase, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=TextReverseToUpper}" IsChecked="{x:Bind ViewModel.ToUpperCase, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=TextReverseToLower}" IsChecked="{x:Bind ViewModel.ToLowerCase, Mode=TwoWay}" />
 
-        </StackPanel>
+                    <!--  Upside-down only: reverse sub-option + remove-unknown  -->
+                    <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsUpsideDownMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <CheckBox Content="{markup:Localize Key=TextReverseReverseUpsideDown}" IsChecked="{x:Bind ViewModel.ReverseUpsideDown, Mode=TwoWay}" />
+                        <CheckBox Content="{markup:Localize Key=TextReverseRemoveUnknown}" IsChecked="{x:Bind ViewModel.RemoveUnknownCharacters, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  Actions: clear + re-roll (random mode only)  -->
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=TextReverseClear}" />
+                    <Button Command="{x:Bind ViewModel.RerollCommand}" Visibility="{x:Bind ViewModel.IsRandomMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                            <TextBlock Text="{markup:Localize Key=TextReverseReroll}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Result  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=TextReverseOutputLabel}" />
+                    <TextBox
+                        MinHeight="96"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        FontSize="18"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=TextReverseCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=TextReverseShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:TextReverseViewBase>
