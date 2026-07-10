@@ -1194,6 +1194,9 @@
   <data name="KaprekarClear" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="KaprekarExample" xml:space="preserve">
+    <value>Example</value>
+  </data>
   <data name="KaprekarStepColumn" xml:space="preserve">
     <value>#</value>
   </data>

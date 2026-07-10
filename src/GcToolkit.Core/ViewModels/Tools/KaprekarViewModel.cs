@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Numbers;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.UI.Dispatching;
 
 namespace GcToolkit.Core.ViewModels.Tools;
 
@@ -34,6 +36,10 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
+    private readonly UiDebouncer _listDebouncer = new(TimeSpan.FromMilliseconds(200));
+    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+    private int _listGeneration;
 
     public KaprekarViewModel(
         ICatalogService catalog,
@@ -111,7 +117,9 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
 
     partial void OnCheckerInputChanged(string value) => RunCheck();
 
-    partial void OnListerInputChanged(string value) => RunList();
+    // Listing brute-forces up to 1,000,000 Kaprekar candidates; debounce so it fires once typing
+    // pauses rather than on every keystroke, then compute off the UI thread (see RunList).
+    partial void OnListerInputChanged(string value) => _listDebouncer.Debounce(RunList);
 
     partial void OnHasRoutineChanged(bool value)
     {
@@ -216,17 +224,43 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
 
         if (string.IsNullOrWhiteSpace(ListerInput))
         {
+            _listGeneration++; // discard any in-flight enumeration
             return;
         }
 
         if (!TryParseNonNegative(ListerInput, out var limit) || limit < 1)
         {
+            _listGeneration++;
             ListerResult = _localizer["KaprekarErrorNumeric"].Value;
             HasListerResult = true;
             return;
         }
 
-        var list = _calculator.ListKaprekar(limit);
+        // Enumerating up to 1,000,000 would freeze the UI thread; run it on a background thread and
+        // publish back on the UI thread, dropping results a newer input has already superseded.
+        // Runs synchronously when there is no dispatcher (unit tests).
+        var generation = ++_listGeneration;
+        if (_dispatcher is null)
+        {
+            PublishList(_calculator.ListKaprekar(limit));
+            return;
+        }
+
+        _ = Task.Run(() =>
+        {
+            var list = _calculator.ListKaprekar(limit);
+            _dispatcher.TryEnqueue(() =>
+            {
+                if (generation == _listGeneration)
+                {
+                    PublishList(list);
+                }
+            });
+        });
+    }
+
+    private void PublishList(IReadOnlyList<long> list)
+    {
         ListerResult = string.Join(", ", list.Select(n => n.ToString(CultureInfo.CurrentCulture)));
         HasListerResult = true;
     }
@@ -284,4 +318,12 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
 
     [RelayCommand]
     private void Clear() => RoutineInput = string.Empty;
+
+    /// <summary>Pre-fills a sample seed (parity with cachesleuth's "Example" button) that reaches 6174.</summary>
+    [RelayCommand]
+    private void Example()
+    {
+        DigitWidthIndex = 0;
+        RoutineInput = "3524";
+    }
 }
