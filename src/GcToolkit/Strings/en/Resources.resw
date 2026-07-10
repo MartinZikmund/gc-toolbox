@@ -2091,4 +2091,91 @@
   <data name="BrainfuckOokAboutBody" xml:space="preserve">
     <value>Brainfuck is a minimalist language of eight commands (&gt; &lt; + - . , [ ]) operating on a byte-cell tape. Ook! and Ook! short are exact rewrites of the same commands. Run a program to see its output, generate a program that prints your text, or convert freely between the three notations. Loops that never end are stopped automatically.</value>
   </data>
+  <data name="SpellingAlphabet_Name" xml:space="preserve">
+    <value>Spelling alphabet</value>
+  </data>
+  <data name="SpellingAlphabet_Tooltip" xml:space="preserve">
+    <value>Spell text in NATO phonetic code words (and ten historical variants) — and read them back.</value>
+  </data>
+  <data name="SpellingAlphabetVariantLabel" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Nato" xml:space="preserve">
+    <value>NATO / ICAO (international)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Itu1932" xml:space="preserve">
+    <value>ITU 1932 (international)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_WesternUnion" xml:space="preserve">
+    <value>Western Union</value>
+  </data>
+  <data name="SpellingAlphabetVariant_AbleBaker" xml:space="preserve">
+    <value>US Joint Army/Navy (Able Baker)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Raf1924" xml:space="preserve">
+    <value>RAF 1924</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Apco" xml:space="preserve">
+    <value>APCO / Police</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Dutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="SpellingAlphabetVariant_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Swedish" xml:space="preserve">
+    <value>Swedish</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianOfficial" xml:space="preserve">
+    <value>Russian (official)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianUnofficial" xml:space="preserve">
+    <value>Russian (unofficial)</value>
+  </data>
+  <data name="SpellingAlphabetEncode" xml:space="preserve">
+    <value>Text to code words</value>
+  </data>
+  <data name="SpellingAlphabetDecode" xml:space="preserve">
+    <value>Code words to text</value>
+  </data>
+  <data name="SpellingAlphabetAutoDetect" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="SpellingAlphabetInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="SpellingAlphabetInputPlaceholder" xml:space="preserve">
+    <value>Type text, or paste code words to read back</value>
+  </data>
+  <data name="SpellingAlphabetClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SpellingAlphabetSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="SpellingAlphabetShowAllVariants" xml:space="preserve">
+    <value>Show all alphabets</value>
+  </data>
+  <data name="SpellingAlphabetOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="SpellingAlphabetUnknownNotice" xml:space="preserve">
+    <value>Unrecognised code words: {0}</value>
+  </data>
+  <data name="SpellingAlphabetCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="SpellingAlphabetShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="SpellingAlphabetAllVariantsLabel" xml:space="preserve">
+    <value>Every alphabet</value>
+  </data>
+  <data name="SpellingAlphabetChartTitle" xml:space="preserve">
+    <value>Code-word chart</value>
+  </data>
+  <data name="SpellingAlphabetChartHint" xml:space="preserve">
+    <value>Tap a letter to add it to the input.</value>
+  </data>
 </root>
