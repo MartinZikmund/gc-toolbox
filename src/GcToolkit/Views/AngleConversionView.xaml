@@ -8,192 +8,194 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer Padding="24">
-        <StackPanel
-            MaxWidth="760"
-            HorizontalAlignment="Stretch"
-            Spacing="16">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
-            <!--  Header: tool name + favorite toggle  -->
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Angle input  -->
+                <TextBox
+                    Header="{markup:Localize Key=AngleInputLabel}"
+                    PlaceholderText="{markup:Localize Key=AngleInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!--  From / Swap / To  -->
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=AngleFromLabel}"
+                        ItemsSource="{x:Bind ViewModel.UnitNames}"
+                        SelectedIndex="{x:Bind ViewModel.FromUnitIndex, Mode=TwoWay}" />
+
+                    <Button
+                        Grid.Column="1"
+                        Width="40"
+                        Height="32"
+                        Padding="0"
+                        VerticalAlignment="Bottom"
+                        AutomationProperties.Name="{markup:Localize Key=AngleSwap}"
+                        Command="{x:Bind ViewModel.SwapCommand}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AngleSwap}">
+                        <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                    </Button>
+
+                    <ComboBox
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=AngleToLabel}"
+                        ItemsSource="{x:Bind ViewModel.UnitNames}"
+                        SelectedIndex="{x:Bind ViewModel.ToUnitIndex, Mode=TwoWay}" />
+                </Grid>
+
+                <!--  Decimals selector (0–15)  -->
+                <NumberBox
+                    Header="{markup:Localize Key=AngleDecimalsLabel}"
+                    Maximum="{x:Bind ViewModel.MaxDecimalsValue}"
+                    Minimum="{x:Bind ViewModel.MinDecimalsValue}"
+                    SmallChange="1"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{x:Bind ViewModel.Decimals, Mode=TwoWay}" />
+
+                <!--  Single target result  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AngleResultLabel}" />
+                    <TextBox
+                        FontFamily="Consolas"
+                        FontSize="20"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.ResultText, Mode=OneWay}"
                         TextWrapping="Wrap" />
                     <TextBlock
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                        TextWrapping="Wrap" />
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.DmsText, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasDms, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </StackPanel>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    Width="44"
-                    Height="44"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                    Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                    IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                    <FontIcon FontSize="18" Glyph="&#xE734;" />
-                </ToggleButton>
-            </Grid>
+                <!--  Invalid input notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{markup:Localize Key=AngleInvalidNotice}"
+                    Severity="Warning" />
 
-            <!--  Angle input  -->
-            <TextBox
-                Header="{markup:Localize Key=AngleInputLabel}"
-                PlaceholderText="{markup:Localize Key=AngleInputPlaceholder}"
-                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-            <!--  From / Swap / To  -->
-            <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <ComboBox
-                    Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    Header="{markup:Localize Key=AngleFromLabel}"
-                    ItemsSource="{x:Bind ViewModel.UnitNames}"
-                    SelectedIndex="{x:Bind ViewModel.FromUnitIndex, Mode=TwoWay}" />
-
-                <Button
-                    Grid.Column="1"
-                    Width="40"
-                    Height="32"
-                    Padding="0"
-                    VerticalAlignment="Bottom"
-                    AutomationProperties.Name="{markup:Localize Key=AngleSwap}"
-                    Command="{x:Bind ViewModel.SwapCommand}"
-                    ToolTipService.ToolTip="{markup:Localize Key=AngleSwap}">
-                    <FontIcon FontSize="16" Glyph="&#xE8AB;" />
-                </Button>
-
-                <ComboBox
-                    Grid.Column="2"
-                    HorizontalAlignment="Stretch"
-                    Header="{markup:Localize Key=AngleToLabel}"
-                    ItemsSource="{x:Bind ViewModel.UnitNames}"
-                    SelectedIndex="{x:Bind ViewModel.ToUnitIndex, Mode=TwoWay}" />
-            </Grid>
-
-            <!--  Decimals selector (0–15)  -->
-            <NumberBox
-                Header="{markup:Localize Key=AngleDecimalsLabel}"
-                Maximum="{x:Bind ViewModel.MaxDecimalsValue}"
-                Minimum="{x:Bind ViewModel.MinDecimalsValue}"
-                SmallChange="1"
-                SpinButtonPlacementMode="Inline"
-                Value="{x:Bind ViewModel.Decimals, Mode=TwoWay}" />
-
-            <!--  Single target result  -->
-            <StackPanel Spacing="8">
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AngleResultLabel}" />
-                <TextBox
-                    FontFamily="Consolas"
-                    FontSize="20"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.ResultText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource CaptionTextBlockStyle}"
-                    Text="{x:Bind ViewModel.DmsText, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.HasDms, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-            </StackPanel>
-
-            <!--  Invalid input notice  -->
-            <InfoBar
-                IsClosable="False"
-                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
-                Message="{markup:Localize Key=AngleInvalidNotice}"
-                Severity="Warning" />
-
-            <!--  Output actions  -->
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=AngleClear}" />
-                <Button Command="{x:Bind ViewModel.CopyResultCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                        <TextBlock Text="{markup:Localize Key=AngleCopy}" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{x:Bind ViewModel.ShareResultCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                        <TextBlock Text="{markup:Localize Key=AngleShare}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-
-            <!--  All units table (every unit at once, per-row copy)  -->
-            <Border
-                Padding="16"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="8">
-                <StackPanel Spacing="12">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AngleAllUnitsLabel}" />
-                    <ItemsControl ItemsSource="{x:Bind ViewModel.AllUnits}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="tools:AngleUnitResult">
-                                <Grid
-                                    Margin="0,2"
-                                    Padding="8,6"
-                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                    ColumnSpacing="12"
-                                    CornerRadius="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Style="{ThemeResource BodyTextBlockStyle}"
-                                        Text="{x:Bind Name}"
-                                        TextWrapping="Wrap" />
-                                    <TextBox
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        FontFamily="Consolas"
-                                        IsReadOnly="True"
-                                        IsSpellCheckEnabled="False"
-                                        Text="{x:Bind Value}"
-                                        TextWrapping="Wrap" />
-                                    <Button
-                                        Grid.Column="2"
-                                        Width="36"
-                                        Height="36"
-                                        Padding="0"
-                                        VerticalAlignment="Center"
-                                        AutomationProperties.Name="{markup:Localize Key=AngleCopyUnit}"
-                                        Command="{x:Bind CopyCommand}"
-                                        ToolTipService.ToolTip="{markup:Localize Key=AngleCopyUnit}">
-                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=AngleClear}" />
+                    <Button Command="{x:Bind ViewModel.CopyResultCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=AngleCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareResultCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=AngleShare}" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Border>
 
-        </StackPanel>
+                <!--  All units table (every unit at once, per-row copy)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=AngleAllUnitsLabel}" />
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.AllUnits}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="tools:AngleUnitResult">
+                                    <Grid
+                                        Margin="0,2"
+                                        Padding="8,6"
+                                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                        ColumnSpacing="12"
+                                        CornerRadius="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="{x:Bind Name}"
+                                            TextWrapping="Wrap" />
+                                        <TextBox
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            FontFamily="Consolas"
+                                            IsReadOnly="True"
+                                            IsSpellCheckEnabled="False"
+                                            Text="{x:Bind Value}"
+                                            TextWrapping="Wrap" />
+                                        <Button
+                                            Grid.Column="2"
+                                            Width="36"
+                                            Height="36"
+                                            Padding="0"
+                                            VerticalAlignment="Center"
+                                            AutomationProperties.Name="{markup:Localize Key=AngleCopyUnit}"
+                                            Command="{x:Bind CopyCommand}"
+                                            ToolTipService.ToolTip="{markup:Localize Key=AngleCopyUnit}">
+                                            <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Grid>
     </ScrollViewer>
 </local:AngleConversionViewBase>
