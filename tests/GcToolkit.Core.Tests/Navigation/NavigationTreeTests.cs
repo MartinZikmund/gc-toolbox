@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GcToolkit.Core.Catalog;
+using GcToolkit.Core.Discovery;
 using GcToolkit.Core.Navigation;
 
 namespace GcToolkit.Core.Tests.Navigation;
@@ -62,13 +63,18 @@ public class NavigationTreeTests
     }
 
     [TestMethod]
-    public void Build_CoordinatesAndNumbers_CollapseUnderSingleConversionGroup()
+    public void Build_WithGroupedCategories_CollapseUnderSingleGroup()
     {
         // Coordinates (0) and Numbers (2) both map to the Conversion group and must collapse
-        // into one NavGroupNode, before the standalone Ciphers (1).
+        // into one NavGroupNode, sorted at its earliest category — before the standalone Ciphers (1).
         NavigationTree tree = NavigationTreeBuilder.Build(
             [CategoryFor("Coordinates", 0), CategoryFor("Ciphers", 1), CategoryFor("Numbers", 2)],
-            [ToolFor("Coordinates.One", "Coordinates"), ToolFor("Ciphers.One", "Ciphers"), ToolFor("Numbers.One", "Numbers")]);
+            [ToolFor("Coordinates.One", "Coordinates"), ToolFor("Ciphers.One", "Ciphers"), ToolFor("Numbers.One", "Numbers")],
+            new Dictionary<ToolCategory, ToolGroup>
+            {
+                [ToolCategory.Coordinates] = ToolGroup.Conversion,
+                [ToolCategory.Numbers] = ToolGroup.Conversion,
+            });
 
         Assert.AreEqual(2, tree.Roots.Count);
 
@@ -82,6 +88,22 @@ public class NavigationTreeTests
         NavGroupNode standalone = tree.Roots[1];
         Assert.IsNull(standalone.GroupId);
         Assert.AreEqual("Ciphers", standalone.Categories.Single().CategoryId);
+    }
+
+    [TestMethod]
+    public void Build_WithProductionGrouping_KeepsEveryCategoryTopLevel()
+    {
+        // Navigation is flat today: ToolGrouping.CategoryGroups is empty, so no category is
+        // collapsed under a heading and each becomes its own groupless root, in category order.
+        NavigationTree tree = NavigationTreeBuilder.Build(
+            [CategoryFor("Coordinates", 0), CategoryFor("Ciphers", 1), CategoryFor("Numbers", 2)],
+            [ToolFor("Coordinates.One", "Coordinates"), ToolFor("Ciphers.One", "Ciphers"), ToolFor("Numbers.One", "Numbers")]);
+
+        Assert.AreEqual(3, tree.Roots.Count);
+        Assert.IsTrue(tree.Roots.All(r => r.GroupId is null && r.NameKey is null));
+        CollectionAssert.AreEqual(
+            new[] { "Coordinates", "Ciphers", "Numbers" },
+            tree.Roots.Select(r => r.Categories.Single().CategoryId).ToList());
     }
 
     [TestMethod]
