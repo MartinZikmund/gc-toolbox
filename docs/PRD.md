@@ -124,7 +124,7 @@ All deferred items are tracked in [`ideas.md`](../ideas.md):
   trademark-safe brand decision before store submission. The "Geocaching" / "Geocaching.com" marks
   (Groundspeak) MUST NOT appear in the app title; "for geocaching" is acceptable only as a plain
   descriptor.
-- **License & monetization:** MIT, free on all stores. A supporter/donation option (GitHub Sponsors
+- **License & monetization:** GPLv3, free on all stores. A supporter/donation option (GitHub Sponsors
   and/or a non-functional supporter purchase) is acceptable; no feature gating in the MVP. Cost
   recovery for the future AI is deferred (subscription / credits / bring-your-own-key — see `ideas.md`).
 - **Provider-agnostic:** no hard dependency on any single listing service in the MVP.
