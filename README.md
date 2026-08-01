@@ -83,4 +83,4 @@ This template uses Nerdbank.GitVersioning. `main` produces `0.X.0-dev.{height}` 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
