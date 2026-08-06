@@ -54,7 +54,7 @@ public sealed partial class CoordinateProjectionViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial string Distance { get; set; } = string.Empty;
 
-    /// <summary>0 = Meter, 1 = Kilometer, 2 = Feet, 3 = Mile (matches the unit picker order).</summary>
+    /// <summary>0 = Meter, 1 = Kilometer, 2 = Feet, 3 = Yard, 4 = Mile (matches the unit picker order).</summary>
     [ObservableProperty]
     public partial int DistanceUnitIndex { get; set; }
 
@@ -86,7 +86,8 @@ public sealed partial class CoordinateProjectionViewModel : ToolViewModelBase
     {
         1 => DistanceUnit.Kilometer,
         2 => DistanceUnit.Feet,
-        3 => DistanceUnit.Mile,
+        3 => DistanceUnit.Yard,
+        4 => DistanceUnit.Mile,
         _ => DistanceUnit.Meter,
     };
 
@@ -132,6 +133,13 @@ public sealed partial class CoordinateProjectionViewModel : ToolViewModelBase
         if (!TryParseInvariant(Distance, out var distanceValue))
         {
             Fail("CoordinateProjectionErrorDistance");
+            return;
+        }
+
+        // A negative leg would silently project the opposite way — call it out instead.
+        if (distanceValue < 0.0)
+        {
+            Fail("CoordinateProjectionErrorDistanceNegative");
             return;
         }
 
@@ -199,11 +207,13 @@ public sealed partial class CoordinateProjectionViewModel : ToolViewModelBase
         }
     }
 
+    /// <summary>"Reset fields" parity: clears every input, including the unit picker.</summary>
     [RelayCommand]
     private void Clear()
     {
         StartCoordinate = string.Empty;
         AngleDegrees = string.Empty;
         Distance = string.Empty;
+        DistanceUnitIndex = 0;
     }
 }

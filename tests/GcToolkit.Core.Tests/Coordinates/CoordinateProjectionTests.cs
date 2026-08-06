@@ -1,3 +1,4 @@
+using System.Globalization;
 using GcToolkit.Core.Coordinates;
 using GcToolkit.Core.FavoriteTools;
 using GcToolkit.Core.Recents;
@@ -20,8 +21,16 @@ public class CoordinateProjectionTests
         => Assert.AreEqual(2500.0, DistanceUnits.ToMeters(2.5, DistanceUnit.Kilometer), 1e-9);
 
     [TestMethod]
-    public void ToMeters_Feet_DividesByFeetPerMetre()
-        => Assert.AreEqual(304.8, DistanceUnits.ToMeters(1000.0, DistanceUnit.Feet), 1e-6);
+    public void ToMeters_Feet_UsesInternationalFoot()
+        => Assert.AreEqual(304.8, DistanceUnits.ToMeters(1000.0, DistanceUnit.Feet), 1e-9);
+
+    [TestMethod]
+    public void ToMeters_Yard_UsesInternationalYard()
+        => Assert.AreEqual(914.4, DistanceUnits.ToMeters(1000.0, DistanceUnit.Yard), 1e-9);
+
+    [TestMethod]
+    public void ToMeters_Yard_IsThreeFeet()
+        => Assert.AreEqual(DistanceUnits.ToMeters(3.0, DistanceUnit.Feet), DistanceUnits.ToMeters(1.0, DistanceUnit.Yard), 1e-12);
 
     [TestMethod]
     public void ToMeters_Mile_UsesInternationalMile()
@@ -150,6 +159,58 @@ public class CoordinateProjectionTests
         Assert.IsFalse(vm.HasResult);
     }
 
+    [DataRow(0, 1000.0, 1000.0)]      // metre
+    [DataRow(1, 1.0, 1000.0)]         // kilometre
+    [DataRow(2, 1000.0, 304.8)]       // foot
+    [DataRow(3, 1000.0, 914.4)]       // yard
+    [DataRow(4, 1.0, 1609.344)]       // mile
+    [TestMethod]
+    public void DistanceUnitIndex_MapsToTheSameUnitAsThePicker(int index, double value, double expectedMeters)
+    {
+        const string Start = "N 49 12.345 E 016 34.567";
+
+        var vm = CreateViewModel();
+        vm.StartCoordinate = Start;
+        vm.AngleDegrees = "45";
+        vm.DistanceUnitIndex = index;
+        vm.Distance = value.ToString(CultureInfo.InvariantCulture);
+
+        Assert.IsTrue(vm.HasResult);
+
+        // The projected point must match projecting the equivalent metre distance directly.
+        Assert.IsTrue(CoordinateParser.TryParse(Start, out var parsedStart, out _));
+        var direct = CoordinateProjection.Project(parsedStart, expectedMeters, 45.0);
+        Assert.AreEqual(direct.DegreesDecimalMinutes, vm.DegreesDecimalMinutes);
+    }
+
+    [TestMethod]
+    public void NegativeDistance_SetsErrorNoResult()
+    {
+        var vm = CreateViewModel();
+        vm.StartCoordinate = "N 00 00.000 E 010 00.000";
+        vm.AngleDegrees = "90";
+        vm.Distance = "-100";
+
+        Assert.IsTrue(vm.HasError);
+        Assert.IsFalse(vm.HasResult);
+    }
+
+    [TestMethod]
+    public void ZeroDistance_ProjectsToTheStartPoint()
+    {
+        var vm = CreateViewModel();
+        vm.StartCoordinate = "N 49 12.345 E 016 34.567";
+        vm.AngleDegrees = "90";
+        vm.Distance = "0";
+
+        Assert.IsTrue(vm.HasResult);
+        Assert.IsFalse(vm.HasError);
+        Assert.IsTrue(CoordinateParser.TryParse(vm.DecimalDegrees, out var dest, out _));
+        Assert.IsTrue(CoordinateParser.TryParse(vm.StartCoordinate, out var start, out _));
+        Assert.AreEqual(start.Latitude, dest.Latitude, 1e-6);
+        Assert.AreEqual(start.Longitude, dest.Longitude, 1e-6);
+    }
+
     [TestMethod]
     public void CopyOutput_PutsDefaultFormatOnClipboard()
     {
@@ -171,13 +232,16 @@ public class CoordinateProjectionTests
         var vm = CreateViewModel();
         vm.StartCoordinate = "N 00 00.000 E 010 00.000";
         vm.AngleDegrees = "90";
+        vm.DistanceUnitIndex = 4; // mile
         vm.Distance = "1000";
         Assert.IsTrue(vm.HasResult);
 
         vm.ClearCommand.Execute(null);
 
         Assert.AreEqual(string.Empty, vm.StartCoordinate);
+        Assert.AreEqual(string.Empty, vm.AngleDegrees);
         Assert.AreEqual(string.Empty, vm.Distance);
+        Assert.AreEqual(0, vm.DistanceUnitIndex);
         Assert.IsFalse(vm.HasResult);
         Assert.IsFalse(vm.HasError);
     }

@@ -4,14 +4,16 @@ namespace GcToolkit.Core.Coordinates;
 /// geodesy routines (e.g. <see cref="Geodesy.Destination"/>) operate in.</summary>
 public static class DistanceUnits
 {
-    private const double FeetPerMeter = 3.280839895; // 1 / 0.3048
+    private const double MetersPerFoot = 0.3048;     // international foot
+    private const double MetersPerYard = 0.9144;     // international yard (3 ft)
     private const double MetersPerMile = 1609.344;   // international mile
 
     /// <summary>Converts <paramref name="value"/> in <paramref name="unit"/> to metres.</summary>
     public static double ToMeters(double value, DistanceUnit unit) => unit switch
     {
         DistanceUnit.Kilometer => value * 1000.0,
-        DistanceUnit.Feet => value / FeetPerMeter,
+        DistanceUnit.Feet => value * MetersPerFoot,
+        DistanceUnit.Yard => value * MetersPerYard,
         DistanceUnit.Mile => value * MetersPerMile,
         _ => value,
     };

@@ -2894,6 +2894,9 @@
   <data name="CoordinateProjectionUnitFeet" xml:space="preserve">
     <value>Feet</value>
   </data>
+  <data name="CoordinateProjectionUnitYard" xml:space="preserve">
+    <value>Yard</value>
+  </data>
   <data name="CoordinateProjectionUnitMile" xml:space="preserve">
     <value>Mile</value>
   </data>
@@ -2926,5 +2929,8 @@
   </data>
   <data name="CoordinateProjectionErrorDistance" xml:space="preserve">
     <value>Enter the distance as a number.</value>
+  </data>
+  <data name="CoordinateProjectionErrorDistanceNegative" xml:space="preserve">
+    <value>The distance cannot be negative.</value>
   </data>
 </root>

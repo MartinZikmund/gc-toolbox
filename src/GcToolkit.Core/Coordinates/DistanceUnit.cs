@@ -12,6 +12,9 @@ public enum DistanceUnit
     /// <summary>International feet (1 ft = 0.3048 m).</summary>
     Feet,
 
+    /// <summary>International yards (1 yd = 0.9144 m).</summary>
+    Yard,
+
     /// <summary>International miles (1 mi = 1609.344 m).</summary>
     Mile,
 }
