@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ public sealed partial class KaprekarViewModel : ToolViewModelBase
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
     private readonly UiDebouncer _listDebouncer = new(TimeSpan.FromMilliseconds(200));
-    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+    private readonly DispatcherQueue? _dispatcher = UiDispatcher.TryGetForCurrentThread();
 
     private int _listGeneration;
 

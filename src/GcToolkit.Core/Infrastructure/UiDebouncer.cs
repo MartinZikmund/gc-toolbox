@@ -22,7 +22,7 @@ public sealed class UiDebouncer
 
     public UiDebouncer(TimeSpan interval)
     {
-        var dispatcher = DispatcherQueue.GetForCurrentThread();
+        var dispatcher = UiDispatcher.TryGetForCurrentThread();
         if (dispatcher is null)
         {
             return;
