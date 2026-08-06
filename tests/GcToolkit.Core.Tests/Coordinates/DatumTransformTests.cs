@@ -79,4 +79,22 @@ public class DatumTransformTests
         Assert.IsTrue(dLat is > 1e-6 and < 1e-2, $"dLat={dLat}");
         Assert.IsTrue(dLon is > 1e-6 and < 1e-2, $"dLon={dLon}");
     }
+
+    [DataTestMethod]
+    [DataRow("OGB-7")]
+    [DataRow("AME-7")]
+    [DataRow("WGC-7")]
+    public void RoundTrip_ScaledDatum_IsExactNotJustCentimetreClose(string code)
+    {
+        // A datum with a non-zero scale exposes an approximated (parameter-negating) inverse: the
+        // round trip must land back on the millimetre, not a couple of centimetres away.
+        var datum = DatumRegistry.Find(code)!.Value;
+        var wgs = new GeoCoordinate(52.65798, 1.71605);
+
+        var back = DatumTransform.ToWgs84(DatumTransform.FromWgs84(wgs, datum), datum);
+
+        // A few mm; the residual is the h=0 assumption, not the transform.
+        Assert.AreEqual(wgs.Latitude, back.Latitude, 5e-8, $"{code} lat");
+        Assert.AreEqual(wgs.Longitude, back.Longitude, 5e-8, $"{code} lon");
+    }
 }

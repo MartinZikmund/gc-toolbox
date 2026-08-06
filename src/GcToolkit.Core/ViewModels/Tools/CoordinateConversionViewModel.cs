@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Coordinates;
@@ -43,6 +42,10 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
         _localizer = localizer;
         _clipboard = clipboard;
         _share = share;
+
+        // WGS84 heads the registry, so the pickers start on the identity datum.
+        SelectedInputDatum = DatumOptions[0];
+        SelectedOutputDatum = DatumOptions[0];
     }
 
     [ObservableProperty]
@@ -68,8 +71,10 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial string DetectedFormatLabel { get; set; } = string.Empty;
 
-    /// <summary>The same point rendered in every supported notation, each row independently copyable.</summary>
-    public ObservableCollection<CoordinateFormatRow> Results { get; } = [];
+    /// <summary>The same point rendered in every supported notation, each row independently copyable.
+    /// Assigned wholesale so the virtualizing list rebuilds once per recompute, not once per row.</summary>
+    [ObservableProperty]
+    public partial IReadOnlyList<CoordinateFormatRow> Results { get; set; } = [];
 
     /// <summary>Every datum the tool can read from / write to (WGS84 first, then the full table).</summary>
     public IReadOnlyList<Datum> Datums { get; } = DatumRegistry.All;
@@ -85,11 +90,43 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial Datum OutputDatum { get; set; } = DatumRegistry.Wgs84;
 
+    /// <summary>Picker-facing mirror of <see cref="InputDatum"/>; a ComboBox binds items, not raw structs.</summary>
+    [ObservableProperty]
+    public partial DatumOption? SelectedInputDatum { get; set; }
+
+    /// <summary>Picker-facing mirror of <see cref="OutputDatum"/>.</summary>
+    [ObservableProperty]
+    public partial DatumOption? SelectedOutputDatum { get; set; }
+
     partial void OnInputTextChanged(string value) => Recompute();
 
-    partial void OnInputDatumChanged(Datum value) => Recompute();
+    partial void OnInputDatumChanged(Datum value)
+    {
+        SelectedInputDatum = OptionFor(value);
+        Recompute();
+    }
 
-    partial void OnOutputDatumChanged(Datum value) => Recompute();
+    partial void OnOutputDatumChanged(Datum value)
+    {
+        SelectedOutputDatum = OptionFor(value);
+        Recompute();
+    }
+
+    partial void OnSelectedInputDatumChanged(DatumOption? value)
+    {
+        if (value is not null)
+        {
+            InputDatum = value.Value;
+        }
+    }
+
+    partial void OnSelectedOutputDatumChanged(DatumOption? value)
+    {
+        if (value is not null)
+        {
+            OutputDatum = value.Value;
+        }
+    }
 
     partial void OnHasResultChanged(bool value)
     {
@@ -97,12 +134,14 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
         ShareCommand.NotifyCanExecuteChanged();
     }
 
+    private DatumOption OptionFor(Datum datum)
+        => DatumOptions.FirstOrDefault(o => o.Value.Equals(datum)) ?? new DatumOption(datum);
+
     private void Recompute()
     {
-        Results.Clear();
-
         if (string.IsNullOrWhiteSpace(InputText))
         {
+            Results = [];
             HasResult = false;
             HasError = false;
             DetectedFormatLabelKey = string.Empty;
@@ -112,6 +151,7 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
 
         if (!CoordinateParser.TryParse(InputText, out var coordinate, out var detected))
         {
+            Results = [];
             HasResult = false;
             HasError = true;
             DetectedFormatLabelKey = string.Empty;
@@ -127,15 +167,17 @@ public sealed partial class CoordinateConversionViewModel : ToolViewModelBase
         // their own intrinsic datum, so the parser already produced WGS84 for them.
         var wgs84 = IsAngular(detected) ? DatumTransform.ToWgs84(coordinate, InputDatum) : coordinate;
 
-        foreach (var result in CoordinateConversions.ToAllFormats(wgs84, OutputDatum))
-        {
-            var label = _localizer[CoordinateFormatResources.LabelKey(result.Format)].Value;
-            var copyName = string.Format(_localizer["CoordConvCopyFormat"].Value, label);
-            Results.Add(new CoordinateFormatRow(result.Format, label, result.Value, copyName, _clipboard.SetText));
-        }
+        Results = [.. CoordinateConversions.ToAllFormats(wgs84, OutputDatum).Select(BuildRow)];
 
         HasError = false;
         HasResult = true;
+    }
+
+    private CoordinateFormatRow BuildRow(CoordinateFormatResult result)
+    {
+        var label = _localizer[CoordinateFormatResources.LabelKey(result.Format)].Value;
+        var copyName = string.Format(_localizer["CoordConvCopyFormat"].Value, label);
+        return new CoordinateFormatRow(result.Format, label, result.Value, copyName, _clipboard.SetText);
     }
 
     /// <summary>The text Copy-all / Share emit: one <c>Label: value</c> line per format.</summary>

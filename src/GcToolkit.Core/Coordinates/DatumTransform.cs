@@ -42,20 +42,30 @@ public static class DatumTransform
 
     private static (double X, double Y, double Z) Helmert(double x, double y, double z, Datum d, bool inverse)
     {
-        // Parameters are local -> WGS84; negate every term for the WGS84 -> local inverse.
-        var sign = inverse ? -1.0 : 1.0;
-        var tx = sign * d.Dx;
-        var ty = sign * d.Dy;
-        var tz = sign * d.Dz;
-        var rx = sign * d.Rx * ArcSecToRad;
-        var ry = sign * d.Ry * ArcSecToRad;
-        var rz = sign * d.Rz * ArcSecToRad;
-        var m = sign * d.S / 1_000_000.0 + 1.0;
+        var rx = d.Rx * ArcSecToRad;
+        var ry = d.Ry * ArcSecToRad;
+        var rz = d.Rz * ArcSecToRad;
+        var m = 1.0 + d.S / 1_000_000.0;
 
-        var x2 = tx + m * (x - rz * y + ry * z);
-        var y2 = ty + m * (rz * x + y - rx * z);
-        var z2 = tz + m * (-ry * x + rx * y + z);
-        return (x2, y2, z2);
+        // Published parameters run local -> WGS84.
+        if (!inverse)
+        {
+            return (
+                d.Dx + m * (x - rz * y + ry * z),
+                d.Dy + m * (rz * x + y - rx * z),
+                d.Dz + m * (-ry * x + rx * y + z));
+        }
+
+        // WGS84 -> local is the true inverse (undo translation, then scale, then rotate back). Merely
+        // negating the parameters leaves a scale*translation residual of a couple of centimetres, which
+        // is enough to flip the last metre digit of a grid reference on a round trip.
+        var px = (x - d.Dx) / m;
+        var py = (y - d.Dy) / m;
+        var pz = (z - d.Dz) / m;
+        return (
+            px + rz * py - ry * pz,
+            -rz * px + py + rx * pz,
+            ry * px - rx * py + pz);
     }
 
     private static (double X, double Y, double Z) ToCartesian(GeoCoordinate c, Ellipsoid e)

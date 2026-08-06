@@ -66,6 +66,40 @@ public static partial class BritishGrid
         return true;
     }
 
+    /// <summary>Parses the all-numeric National Grid form geocachingtoolbox.com also accepts — absolute
+    /// easting/northing in metres, e.g. <c>651409 313177</c>. Guarded to the grid's extent and to the
+    /// Great Britain bounding box so an arbitrary numeric pair is not read as a grid reference.</summary>
+    public static bool TryParseNumeric(string? text, out GeoCoordinate c)
+    {
+        c = default;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return false;
+        }
+
+        var match = NumericPattern().Match(text.Trim());
+        if (!match.Success)
+        {
+            return false;
+        }
+
+        var easting = double.Parse(match.Groups["e"].Value, CultureInfo.InvariantCulture);
+        var northing = double.Parse(match.Groups["n"].Value, CultureInfo.InvariantCulture);
+        if (easting is < 0.0 or > 700_000.0 || northing is < 0.0 or > 1_300_000.0)
+        {
+            return false;
+        }
+
+        var candidate = DatumTransform.ToWgs84(ProjectInverse(easting, northing), DatumRegistry.Osgb36);
+        if (candidate.Latitude is < 49.0 or > 61.5 || candidate.Longitude is < -9.0 or > 2.5)
+        {
+            return false;
+        }
+
+        c = candidate;
+        return true;
+    }
+
     // ---- National Grid two-letter reference ----
 
     private static string ToGridReference(double easting, double northing, int digits)
@@ -253,6 +287,11 @@ public static partial class BritishGrid
 
     private static double Deg(double radians) => radians * 180.0 / Math.PI;
 
-    [GeneratedRegex(@"^(?<l1>[A-HJ-Z])(?<l2>[A-HJ-Z])(?<digits>\d*)$")]
+    // At least one digit per axis — a bare letter pair (or a stray word like "ab") is not a grid reference.
+    [GeneratedRegex(@"^(?<l1>[A-HJ-Z])(?<l2>[A-HJ-Z])(?<digits>\d{2,10})$")]
     private static partial Regex GridPattern();
+
+    // Absolute easting/northing in metres, space- or comma-separated (5–6 and 5–7 digits).
+    [GeneratedRegex(@"^(?<e>\d{5,6})\s*[,\s]\s*(?<n>\d{5,7})$")]
+    private static partial Regex NumericPattern();
 }

@@ -332,6 +332,47 @@ public class CoordinateConversionTests
         StringAssert.StartsWith(dd, "N 52.657570");
     }
 
+    [TestMethod]
+    public void Vm_SelectedDatumOptions_MirrorTheDatumProperties()
+    {
+        var vm = CreateViewModel();
+
+        Assert.AreEqual(DatumRegistry.Wgs84, vm.SelectedInputDatum!.Value);
+        Assert.AreEqual(DatumRegistry.Wgs84, vm.SelectedOutputDatum!.Value);
+
+        var ed50 = DatumRegistry.Find("EUR-7")!.Value;
+        vm.InputDatum = ed50;
+        Assert.AreEqual(ed50, vm.SelectedInputDatum!.Value);
+
+        // Picking an option (what the ComboBox does) drives the datum in the other direction.
+        vm.SelectedOutputDatum = vm.DatumOptions.First(o => o.Value.Equals(ed50));
+        Assert.AreEqual(ed50, vm.OutputDatum);
+    }
+
+    // ---- Rows ----
+
+    [TestMethod]
+    public void Vm_ResultRow_ToStringAnnouncesLabelAndValue()
+    {
+        var vm = CreateViewModel();
+        vm.InputText = GoldenDd;
+
+        // ListView rows without an explicit automation name are announced via ToString().
+        Assert.AreEqual($"{Row(vm, CoordinateFormat.Mgrs).Label}: {GoldenMgrs}", Row(vm, CoordinateFormat.Mgrs).ToString());
+    }
+
+    [TestMethod]
+    public void Vm_AllNumericBritishGridInput_IsDetectedAndConverted()
+    {
+        var vm = CreateViewModel();
+
+        vm.InputText = "651409 313177";
+
+        Assert.IsTrue(vm.HasResult);
+        Assert.AreEqual(CoordinateFormat.BritishGrid, vm.DetectedFormat);
+        Assert.AreEqual("TG 51409 13177", RowValue(vm, CoordinateFormat.BritishGrid));
+    }
+
     // ---- Helpers ----
 
     private static string ValueOf(IReadOnlyList<CoordinateFormatResult> rows, CoordinateFormat format)

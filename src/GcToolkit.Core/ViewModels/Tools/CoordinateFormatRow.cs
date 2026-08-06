@@ -29,4 +29,8 @@ public sealed class CoordinateFormatRow
     public string CopyAutomationName { get; }
 
     public ICommand CopyCommand { get; }
+
+    /// <summary>Screen readers announce a list item's <see cref="object.ToString"/> when the row template
+    /// carries no automation name — so read out the notation and its value, not the type name.</summary>
+    public override string ToString() => $"{Label}: {Value}";
 }

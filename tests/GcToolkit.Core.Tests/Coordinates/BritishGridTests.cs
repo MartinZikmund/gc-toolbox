@@ -67,8 +67,56 @@ public class BritishGridTests
     [DataRow("TG 5140 13177")]   // unequal digit groups
     [DataRow("II 12345 67890")]  // 'I' is not a valid grid letter
     [DataRow("49.20575 16.576117")]
+    [DataRow("TG")]              // a bare letter pair is not a grid reference
+    [DataRow("ab")]
     public void TryParse_Invalid_ReturnsFalse(string text)
         => Assert.IsFalse(BritishGrid.TryParse(text, out _));
+
+    // ---- All-numeric form (geocachingtoolbox.com parity) ----
+
+    [TestMethod]
+    public void TryParseNumeric_CaisterEastingNorthing_RecoversApproxLatLon()
+    {
+        // The site accepts the OSGB grid as "651409 313177" as well as "TG 51409 13177".
+        Assert.IsTrue(BritishGrid.TryParseNumeric("651409 313177", out var c));
+        Assert.AreEqual(52.65798, c.Latitude, 1e-3, "lat");
+        Assert.AreEqual(1.71605, c.Longitude, 1e-3, "lon");
+    }
+
+    [TestMethod]
+    public void TryParseNumeric_MatchesTheLetteredFormForTheSamePoint()
+    {
+        Assert.IsTrue(BritishGrid.TryParse("TG 51409 13177", out var lettered));
+        Assert.IsTrue(BritishGrid.TryParseNumeric("651409 313177", out var numeric));
+
+        Assert.AreEqual(lettered.Latitude, numeric.Latitude, 1e-5);
+        Assert.AreEqual(lettered.Longitude, numeric.Longitude, 1e-5);
+    }
+
+    [DataTestMethod]
+    [DataRow("")]
+    [DataRow("TG 51409 13177")]     // the lettered form is not the numeric form
+    [DataRow("49.20575 16.576117")] // plain lat/lon
+    [DataRow("999999 9999999")]     // outside the grid extent
+    [DataRow("1234 5678")]          // too few digits to be metric easting/northing
+    public void TryParseNumeric_Invalid_ReturnsFalse(string text)
+        => Assert.IsFalse(BritishGrid.TryParseNumeric(text, out _));
+
+    [TestMethod]
+    public void CoordinateParser_AllNumericBritishGrid_DetectsBritishGrid()
+    {
+        Assert.IsTrue(CoordinateParser.TryParse("651409 313177", out var c, out var detected));
+        Assert.AreEqual(CoordinateFormat.BritishGrid, detected);
+        Assert.AreEqual(52.65798, c.Latitude, 1e-3);
+    }
+
+    [TestMethod]
+    public void CoordinateParser_DutchRdExtentPair_StillDetectsDutchRd()
+    {
+        // A metric pair inside the Netherlands extent must keep reading as RD, not as an OSGB numeric.
+        Assert.IsTrue(CoordinateParser.TryParse("155000 463000", out _, out var detected));
+        Assert.AreEqual(CoordinateFormat.DutchRd, detected);
+    }
 
     // ---- Round trip ----
 

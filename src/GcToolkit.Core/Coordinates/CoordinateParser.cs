@@ -55,6 +55,14 @@ public static partial class CoordinateParser
             return true;
         }
 
+        // British National Grid, all-numeric form (e.g. "651409 313177"). Tried after the Dutch RD so an
+        // ambiguous metric pair inside the Netherlands extent still reads as RD, matching the reference site.
+        if (BritishGrid.TryParseNumeric(trimmed, out coordinate))
+        {
+            detected = CoordinateFormat.BritishGrid;
+            return true;
+        }
+
         // Angular: the per-axis numeric component count selects DD (1), DDM (2) or DMS (3).
         if (TryParseAngular(trimmed, out coordinate, out detected))
         {
@@ -92,7 +100,8 @@ public static partial class CoordinateParser
                 return Usng.TryParse(trimmed, out coordinate);
 
             case CoordinateFormat.BritishGrid:
-                return BritishGrid.TryParse(trimmed, out coordinate);
+                return BritishGrid.TryParse(trimmed, out coordinate)
+                    || BritishGrid.TryParseNumeric(trimmed, out coordinate);
 
             case CoordinateFormat.DutchRd:
                 if (DutchRd.TryParse(trimmed, out var rd))
