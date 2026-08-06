@@ -253,6 +253,9 @@
   <data name="CoordinateDistanceClear" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="CoordinateDistanceSwap" xml:space="preserve">
+    <value>Swap A / B</value>
+  </data>
   <data name="CoordinateProjection_Name" xml:space="preserve">
     <value>Waypoint projection</value>
   </data>

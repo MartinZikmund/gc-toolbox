@@ -1,3 +1,4 @@
+using System.Globalization;
 using GcToolkit.Core.Coordinates;
 using GcToolkit.Core.Tests.Fakes;
 using GcToolkit.Core.ViewModels.Tools;
@@ -168,9 +169,29 @@ public sealed class CoordinateDistanceViewModelTests
         sut.PointAText = ValidA;
         sut.PointBText = ValidB;
 
-        // ~54.97 km / ~34.16 mi for this pair — the formatted strings must carry those magnitudes.
-        StringAssert.Contains(sut.DistanceKilometersText, "54.97");
-        StringAssert.Contains(sut.DistanceMilesText, "34.1");
+        // ~54.97 km / ~34.16 mi for this pair. The VM formats in the current culture, so build the
+        // expected text the same way instead of hard-coding an en-US decimal point.
+        var expectedKm = CoordinateDistanceCalculator.MetersToKilometers(54972.271).ToString("N3", CultureInfo.CurrentCulture);
+        var expectedMi = CoordinateDistanceCalculator.MetersToMiles(54972.271).ToString("N3", CultureInfo.CurrentCulture);
+        Assert.AreEqual($"{expectedKm} km", sut.DistanceKilometersText);
+        Assert.AreEqual($"{expectedMi} mi", sut.DistanceMilesText);
+    }
+
+    [TestMethod]
+    public void SwapPoints_ExchangesInputsAndRecomputes()
+    {
+        var sut = CreateSut();
+        sut.PointAText = ValidA;
+        sut.PointBText = ValidB;
+        var initialBearing = sut.InitialBearingText;
+
+        sut.SwapPointsCommand.Execute(null);
+
+        Assert.AreEqual(ValidB, sut.PointAText);
+        Assert.AreEqual(ValidA, sut.PointBText);
+        Assert.IsTrue(sut.HasResult);
+        // Reversing the leg must change the initial bearing (~307° one way, ~127° back).
+        Assert.AreNotEqual(initialBearing, sut.InitialBearingText);
     }
 
     [TestMethod]

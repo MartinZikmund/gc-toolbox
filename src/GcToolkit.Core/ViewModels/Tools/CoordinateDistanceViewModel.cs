@@ -21,13 +21,16 @@ namespace GcToolkit.Core.ViewModels.Tools;
 /// <see cref="CoordinateDistanceCalculator"/> helper assembles the result, keeping this VM thin.
 /// </summary>
 [Tool("CoordinateDistance", ToolCategory.Coordinates,
-      Introduced = "2026-02-10", Updated = "2026-06-06",
+      Introduced = "2026-02-10", Updated = "2026-08-06",
       Keywords = ["distance", "vzdálenost", "azimuth", "bearing", "azimut", "midpoint", "střed", "heading", "kurz"])]
 public sealed partial class CoordinateDistanceViewModel : ToolViewModelBase
 {
     private readonly IStringLocalizer _localizer;
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
+
+    /// <summary>Guards the batch updates (swap/clear) so they recompute once, not per assignment.</summary>
+    private bool _suppressRecompute;
 
     public CoordinateDistanceViewModel(
         ICatalogService catalog,
@@ -93,6 +96,11 @@ public sealed partial class CoordinateDistanceViewModel : ToolViewModelBase
 
     private void Recompute()
     {
+        if (_suppressRecompute)
+        {
+            return;
+        }
+
         var aEntered = !string.IsNullOrWhiteSpace(PointAText);
         var bEntered = !string.IsNullOrWhiteSpace(PointBText);
 
@@ -129,10 +137,11 @@ public sealed partial class CoordinateDistanceViewModel : ToolViewModelBase
 
         var result = CoordinateDistanceCalculator.Calculate(a, b);
 
-        DistanceMetersText = $"{result.DistanceMeters.ToString("N2", CultureInfo.InvariantCulture)} m";
-        DistanceKilometersText = $"{result.DistanceKilometers.ToString("N3", CultureInfo.InvariantCulture)} km";
-        DistanceFeetText = $"{result.DistanceFeet.ToString("N0", CultureInfo.InvariantCulture)} ft";
-        DistanceMilesText = $"{result.DistanceMiles.ToString("N3", CultureInfo.InvariantCulture)} mi";
+        // Displayed numbers follow the user's locale (repo-wide convention for user-facing values).
+        DistanceMetersText = $"{result.DistanceMeters.ToString("N2", CultureInfo.CurrentCulture)} m";
+        DistanceKilometersText = $"{result.DistanceKilometers.ToString("N3", CultureInfo.CurrentCulture)} km";
+        DistanceFeetText = $"{result.DistanceFeet.ToString("N0", CultureInfo.CurrentCulture)} ft";
+        DistanceMilesText = $"{result.DistanceMiles.ToString("N3", CultureInfo.CurrentCulture)} mi";
         InitialBearingText = FormatBearing(result.InitialBearingDegrees);
         FinalBearingText = FormatBearing(result.FinalBearingDegrees);
         MidpointText = CoordinateDistanceCalculator.FormatMidpoint(result.Midpoint);
@@ -141,7 +150,7 @@ public sealed partial class CoordinateDistanceViewModel : ToolViewModelBase
     }
 
     private static string FormatBearing(double degrees)
-        => $"{degrees.ToString("N2", CultureInfo.InvariantCulture)}°";
+        => $"{degrees.ToString("N2", CultureInfo.CurrentCulture)}°";
 
     private void ClearOutputs()
     {
@@ -184,10 +193,25 @@ public sealed partial class CoordinateDistanceViewModel : ToolViewModelBase
         }
     }
 
+    /// <summary>Swaps A and B so the reverse leg (bearing back) is one tap away.</summary>
+    [RelayCommand]
+    private void SwapPoints()
+    {
+        var a = PointAText;
+        _suppressRecompute = true;
+        PointAText = PointBText;
+        PointBText = a;
+        _suppressRecompute = false;
+        Recompute();
+    }
+
     [RelayCommand]
     private void Clear()
     {
+        _suppressRecompute = true;
         PointAText = string.Empty;
         PointBText = string.Empty;
+        _suppressRecompute = false;
+        Recompute();
     }
 }

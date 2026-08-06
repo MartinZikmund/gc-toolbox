@@ -253,6 +253,9 @@
   <data name="CoordinateDistanceClear" xml:space="preserve">
     <value>Vymazat</value>
   </data>
+  <data name="CoordinateDistanceSwap" xml:space="preserve">
+    <value>Prohodit A / B</value>
+  </data>
   <data name="CoordinateProjection_Name" xml:space="preserve">
     <value>Projekce bodu</value>
   </data>
