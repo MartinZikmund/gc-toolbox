@@ -1,12 +1,12 @@
-<local:CatalogViewBase
+﻿<local:CatalogViewBase
     x:Class="GcToolkit.Views.CatalogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
     xmlns:vm="using:GcToolkit.Core.ViewModels"
-    NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    NavigationCacheMode="Required">
 
     <Grid>
         <!--  Categorized, search-filtered tool grid  -->
