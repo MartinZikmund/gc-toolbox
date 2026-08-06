@@ -12,11 +12,22 @@ public class FibonacciViewModelTests
     private readonly FakeClipboardService _clipboard = new();
     private readonly FakeShareService _share = new();
 
+    private static readonly Dictionary<string, string> _strings = new(StringComparer.Ordinal)
+    {
+        ["FibonacciIsMember"] = "{0} is F({1})",
+        ["FibonacciIsNotMember"] = "{0} is not a Fibonacci number",
+        ["FibonacciNearestBelow"] = "below: F({0}) = {1}",
+        ["FibonacciNearestAbove"] = "above: F({0}) = {1}",
+        ["FibonacciDigitsOne"] = "({0} digit)",
+        ["FibonacciDigitsFew"] = "({0} digits)",
+        ["FibonacciDigitsMany"] = "({0} digits)",
+    };
+
     private FibonacciViewModel CreateViewModel() => new(
         new StubCatalogService("Fibonacci"),
         new FakeRecentsService(),
         new FakeFavoriteToolsService(),
-        new FakeStringLocalizer(),
+        new FakeStringLocalizer(_strings),
         _clipboard,
         _share);
 
@@ -82,6 +93,108 @@ public class FibonacciViewModelTests
 
         StringAssert.Contains(_clipboard.LastText, "F(0) = 0");
         StringAssert.Contains(_clipboard.LastText, "F(2) = 1");
+    }
+
+    [TestMethod]
+    public async Task CheckMode_FibonacciValue_ReportsMembershipAndIndex()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 0;
+
+        vm.ValueInput = "6765";
+        await vm.Computation;
+
+        Assert.IsFalse(vm.HasError);
+        Assert.AreEqual(1, vm.ResultLines.Count);
+        Assert.AreEqual("6765 is F(20)", vm.ResultLines[0]);
+    }
+
+    [TestMethod]
+    public async Task CheckMode_NonFibonacciValue_ReportsNearestNeighbours()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 0;
+
+        vm.ValueInput = "100";
+        await vm.Computation;
+
+        Assert.IsFalse(vm.HasError);
+        CollectionAssert.AreEqual(
+            new[] { "100 is not a Fibonacci number", "below: F(11) = 89", "above: F(12) = 144" },
+            vm.ResultLines.ToArray());
+    }
+
+    [TestMethod]
+    public async Task CheckMode_NegativeValue_ReportsError()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 0;
+
+        vm.ValueInput = "-5";
+        await vm.Computation;
+
+        Assert.IsTrue(vm.HasError);
+        Assert.AreEqual(0, vm.ResultLines.Count);
+    }
+
+    [TestMethod]
+    public async Task AtIndexMode_WithDigitCounts_AnnotatesEachLine()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 1;
+        vm.ShowDigitCounts = true;
+
+        vm.IndexInput = "12";
+        await vm.Computation;
+
+        Assert.AreEqual(1, vm.ResultLines.Count);
+        Assert.AreEqual("F(12) = 144 (3 digits)", vm.ResultLines[0]);
+    }
+
+    [TestMethod]
+    public async Task AtIndexMode_IndexBeyondMaximum_ReportsError()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 1;
+
+        vm.IndexInput = "100001";
+        await vm.Computation;
+
+        Assert.IsTrue(vm.HasError);
+        Assert.IsFalse(vm.HasOutput);
+    }
+
+    [TestMethod]
+    public async Task ByDigitsMode_TwoDigits_ListsEveryTwoDigitMember()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 4;
+        vm.ShowPositions = false;
+        vm.ShowDigitCounts = false;
+
+        vm.DigitsInput = "2";
+        await vm.Computation;
+
+        CollectionAssert.AreEqual(new[] { "13", "21", "34", "55", "89" }, vm.ResultLines.ToArray());
+    }
+
+    [TestMethod]
+    public async Task Clear_ResetsInputsAndOutput()
+    {
+        var vm = CreateViewModel();
+        vm.ModeIndex = 2;
+        vm.FromInput = "0";
+        vm.ToInput = "5";
+        await vm.Computation;
+        Assert.IsTrue(vm.HasOutput);
+
+        vm.ClearCommand.Execute(null);
+        await vm.Computation;
+
+        Assert.AreEqual(string.Empty, vm.FromInput);
+        Assert.AreEqual(string.Empty, vm.ToInput);
+        Assert.IsFalse(vm.HasOutput);
+        Assert.IsFalse(vm.HasError);
     }
 
     private sealed class FakeClipboardService : IClipboardService

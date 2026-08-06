@@ -12,7 +12,7 @@ public class FibonacciCalculatorTests
 
     // ---- At: known values (zero-based: F(0) = 0, F(1) = 1) ----
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0, "0")]
     [DataRow(1, "1")]
     [DataRow(2, "1")]
@@ -213,7 +213,7 @@ public class FibonacciCalculatorTests
 
     // ---- GetDigitCount ----
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("0", 1)]
     [DataRow("9", 1)]
     [DataRow("10", 2)]

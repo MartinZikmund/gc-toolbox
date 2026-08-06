@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Numbers;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
@@ -29,6 +30,10 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
     public const int MaxRangeSpan = 10_000;
 
     private readonly FibonacciCalculator _calculator = new();
+
+    // Every keystroke would otherwise kick off a fresh big-integer run (a 10,000-row range or a
+    // binary search over F(100,000)); coalesce typing into one recompute.
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
@@ -108,22 +113,22 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
         OnPropertyChanged(nameof(IsIndexInputVisible));
         OnPropertyChanged(nameof(IsRangeInputVisible));
         OnPropertyChanged(nameof(IsDigitsInputVisible));
-        Recompute();
+        _debouncer.RunNow(Recompute);
     }
 
-    partial void OnValueInputChanged(string value) => Recompute();
+    partial void OnValueInputChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnIndexInputChanged(string value) => Recompute();
+    partial void OnIndexInputChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnFromInputChanged(string value) => Recompute();
+    partial void OnFromInputChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnToInputChanged(string value) => Recompute();
+    partial void OnToInputChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnDigitsInputChanged(string value) => Recompute();
+    partial void OnDigitsInputChanged(string value) => _debouncer.Debounce(Recompute);
 
-    partial void OnShowPositionsChanged(bool value) => Recompute();
+    partial void OnShowPositionsChanged(bool value) => _debouncer.RunNow(Recompute);
 
-    partial void OnShowDigitCountsChanged(bool value) => Recompute();
+    partial void OnShowDigitCountsChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -335,17 +340,20 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
 
     private string FormatEntry(FibonacciEntry entry)
     {
-        StringBuilder builder = new();
+        // One ToString per entry — rendering it costs O(digits²) and F(100,000) has ~20,900 digits.
+        var digits = entry.Value.ToString(CultureInfo.InvariantCulture);
+
+        StringBuilder builder = new(digits.Length + 32);
         if (ShowPositions)
         {
             builder.Append(CultureInfo.InvariantCulture, $"F({entry.Index}) = ");
         }
 
-        builder.Append(entry.Value);
+        builder.Append(digits);
 
         if (ShowDigitCounts)
         {
-            builder.Append(' ').Append(FormatDigitCount(FibonacciCalculator.GetDigitCount(entry.Value)));
+            builder.Append(' ').Append(FormatDigitCount(digits.Length));
         }
 
         return builder.ToString();
@@ -409,5 +417,6 @@ public sealed partial class FibonacciViewModel : ToolViewModelBase
         FromInput = string.Empty;
         ToInput = string.Empty;
         DigitsInput = string.Empty;
+        _debouncer.RunNow(Recompute);
     }
 }

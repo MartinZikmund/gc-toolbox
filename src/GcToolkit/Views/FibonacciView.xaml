@@ -6,12 +6,12 @@
     xmlns:markup="using:GcToolkit.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid MaxWidth="1024" HorizontalAlignment="Center">
-        <ScrollViewer
-            x:Name="RootScroll"
-            Padding="24"
-            HorizontalContentAlignment="Center">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+    <ScrollViewer Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
                 <!--  Header: tool name + favorite toggle  -->
                 <Grid ColumnSpacing="12">
@@ -139,10 +139,9 @@
                         IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
                 </Grid>
 
-                <!--  Results: a virtualized list of selectable lines (handles the full 10,000-position range)  -->
+                <!--  Results: a height-bounded ListView virtualizes the rows, so even a 10,000-position range stays responsive.  -->
                 <Border
                     MinHeight="56"
-                    MaxHeight="420"
                     Padding="12,8"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -156,19 +155,31 @@
                             Text="{markup:Localize Key=FibonacciResultPlaceholder}"
                             TextWrapping="Wrap"
                             Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <ItemsRepeater AutomationProperties.Name="{markup:Localize Key=FibonacciResultLabel}" ItemsSource="{x:Bind ViewModel.ResultLines, Mode=OneWay}">
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="x:String">
-                                        <TextBlock
-                                            FontFamily="Consolas"
-                                            IsTextSelectionEnabled="True"
-                                            Text="{x:Bind}"
-                                            TextWrapping="Wrap" />
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
-                        </ScrollViewer>
+                        <ListView
+                            MaxHeight="420"
+                            AutomationProperties.Name="{markup:Localize Key=FibonacciResultLabel}"
+                            ItemsSource="{x:Bind ViewModel.ResultLines, Mode=OneWay}"
+                            SelectionMode="None"
+                            Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="MinHeight" Value="0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <TextBlock
+                                        Margin="0,2"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind}"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Grid>
                 </Border>
 
@@ -196,23 +207,6 @@
                     TextWrapping="Wrap" />
 
             </StackPanel>
-        </ScrollViewer>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Wide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootScroll.Padding" Value="12" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </local:FibonacciViewBase>
