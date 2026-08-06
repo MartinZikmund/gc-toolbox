@@ -2521,4 +2521,125 @@
   <data name="GoldenRatioAboutNote" xml:space="preserve">
     <value>φ = (1+√5)/2 ≈ 1,6180339887… Všechna vyhledávání pracují offline nad prvními 1 000 000 desetinnými místy.</value>
   </data>
+  <!-- Tool: Fibonacci numbers -->
+  <data name="Fibonacci_Name" xml:space="preserve">
+    <value>Fibonacciho čísla</value>
+  </data>
+  <data name="Fibonacci_Tooltip" xml:space="preserve">
+    <value>Generujte Fibonacciho čísla, ověřte, zda číslo patří do posloupnosti, a vyhledejte hodnotu podle pozice nebo pozici podle hodnoty</value>
+  </data>
+  <data name="FibonacciFunctionLabel" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="FibonacciModeCheck" xml:space="preserve">
+    <value>Ověřit, zda je číslo Fibonacciho číslem</value>
+  </data>
+  <data name="FibonacciModeAtIndex" xml:space="preserve">
+    <value>Zobrazit Fibonacciho číslo na dané pozici</value>
+  </data>
+  <data name="FibonacciModeRange" xml:space="preserve">
+    <value>Zobrazit Fibonacciho čísla v rozsahu pozic</value>
+  </data>
+  <data name="FibonacciModeIndexOf" xml:space="preserve">
+    <value>Zobrazit pozici Fibonacciho čísla</value>
+  </data>
+  <data name="FibonacciModeByDigits" xml:space="preserve">
+    <value>Zobrazit všechna Fibonacciho čísla s daným počtem číslic</value>
+  </data>
+  <data name="FibonacciValueLabel" xml:space="preserve">
+    <value>Číslo</value>
+  </data>
+  <data name="FibonacciValuePlaceholder" xml:space="preserve">
+    <value>např. 89</value>
+  </data>
+  <data name="FibonacciIndexLabel" xml:space="preserve">
+    <value>Pozice (n)</value>
+  </data>
+  <data name="FibonacciIndexPlaceholder" xml:space="preserve">
+    <value>0 až 100 000</value>
+  </data>
+  <data name="FibonacciFromLabel" xml:space="preserve">
+    <value>Od pozice</value>
+  </data>
+  <data name="FibonacciToLabel" xml:space="preserve">
+    <value>Do pozice</value>
+  </data>
+  <data name="FibonacciDigitsLabel" xml:space="preserve">
+    <value>Počet číslic</value>
+  </data>
+  <data name="FibonacciDigitsPlaceholder" xml:space="preserve">
+    <value>např. 3</value>
+  </data>
+  <data name="FibonacciShowPositions" xml:space="preserve">
+    <value>Zobrazit pozice</value>
+  </data>
+  <data name="FibonacciShowDigitCounts" xml:space="preserve">
+    <value>Zobrazit počty číslic</value>
+  </data>
+  <data name="FibonacciClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="FibonacciCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="FibonacciShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="FibonacciResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="FibonacciResultPlaceholder" xml:space="preserve">
+    <value>Výsledek se zobrazí během psaní.</value>
+  </data>
+  <data name="FibonacciComputing" xml:space="preserve">
+    <value>Probíhá výpočet</value>
+  </data>
+  <data name="FibonacciZeroBasedNote" xml:space="preserve">
+    <value>Pozice se číslují od nuly: F(0) = 0, F(1) = 1, F(2) = 1. Hodnota 1 se uvádí na svém prvním výskytu, F(1). Podporovány jsou pozice až do 100 000.</value>
+  </data>
+  <data name="FibonacciIsMember" xml:space="preserve">
+    <value>{0} je Fibonacciho číslo F({1}).</value>
+  </data>
+  <data name="FibonacciIsNotMember" xml:space="preserve">
+    <value>{0} není Fibonacciho číslo.</value>
+  </data>
+  <data name="FibonacciNearestBelow" xml:space="preserve">
+    <value>Nejbližší nižší Fibonacciho číslo: F({0}) = {1}</value>
+  </data>
+  <data name="FibonacciNearestAbove" xml:space="preserve">
+    <value>Nejbližší vyšší Fibonacciho číslo: F({0}) = {1}</value>
+  </data>
+  <data name="FibonacciNoResults" xml:space="preserve">
+    <value>Žádná Fibonacciho čísla neodpovídají.</value>
+  </data>
+  <data name="FibonacciValueBeyondRange" xml:space="preserve">
+    <value>Číslo je větší než F(100 000), největší podporované Fibonacciho číslo.</value>
+  </data>
+  <data name="FibonacciDigitsOne" xml:space="preserve">
+    <value>(1 číslice)</value>
+  </data>
+  <data name="FibonacciDigitsFew" xml:space="preserve">
+    <value>({0} číslice)</value>
+  </data>
+  <data name="FibonacciDigitsMany" xml:space="preserve">
+    <value>({0} číslic)</value>
+  </data>
+  <data name="FibonacciErrorNotInteger" xml:space="preserve">
+    <value>Zadejte celé číslo.</value>
+  </data>
+  <data name="FibonacciErrorNegative" xml:space="preserve">
+    <value>Zadejte číslo větší nebo rovné nule.</value>
+  </data>
+  <data name="FibonacciErrorIndexRange" xml:space="preserve">
+    <value>Pozice musí být celá čísla mezi 0 a {0:N0}.</value>
+  </data>
+  <data name="FibonacciErrorRangeOrder" xml:space="preserve">
+    <value>Počáteční pozice nesmí být větší než koncová.</value>
+  </data>
+  <data name="FibonacciErrorRangeSpan" xml:space="preserve">
+    <value>Rozsah může zahrnovat nejvýše {0:N0} pozic.</value>
+  </data>
+  <data name="FibonacciErrorDigitsRange" xml:space="preserve">
+    <value>Počet číslic musí být mezi 1 a {0:N0}.</value>
+  </data>
 </root>
