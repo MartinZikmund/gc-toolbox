@@ -37,12 +37,10 @@ jobs:
       matrix:
         include:
           - { label: desktop,   os: ubuntu-latest,  tfm: net10.0-desktop,           workload: '' }
+          - { label: wasm,      os: ubuntu-latest,  tfm: net10.0-browserwasm,       workload: wasm-tools }
+          - { label: android,   os: ubuntu-latest,  tfm: net10.0-android,           workload: android }
           - { label: WinAppSDK, os: windows-latest, tfm: net10.0-windows10.0.26100, workload: '' }
-          # TEMP: heavy mobile/WASM legs disabled during the tool-PR merge spree to cut CI load.
-          # Restore these (revert this commit) once the spree is done.
-          # - { label: wasm,      os: ubuntu-latest,  tfm: net10.0-browserwasm,       workload: wasm-tools }
-          # - { label: android,   os: ubuntu-latest,  tfm: net10.0-android,           workload: android }
-          # - { label: iOS,       os: macos-26,       tfm: net10.0-ios,               workload: ios,                  args: '-p:UseInterpreter=true' }
+          - { label: iOS,       os: macos-26,       tfm: net10.0-ios,               workload: ios,                  args: '-p:UseInterpreter=true' }
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
     steps:
