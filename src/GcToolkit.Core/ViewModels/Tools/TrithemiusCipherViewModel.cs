@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
@@ -29,7 +29,7 @@ public sealed partial class TrithemiusCipherViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
-    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+    private readonly DispatcherQueue? _dispatcher = UiDispatcher.TryGetForCurrentThread();
 
     private bool _suppressRecompute;
     private int _offsetGeneration;

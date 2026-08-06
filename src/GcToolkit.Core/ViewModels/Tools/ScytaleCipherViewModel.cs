@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
 using GcToolkit.Core.Discovery;
@@ -31,7 +31,7 @@ public sealed partial class ScytaleCipherViewModel : ToolViewModelBase
     private readonly IShareService _share;
     private readonly Random _random = new();
     private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
-    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+    private readonly DispatcherQueue? _dispatcher = UiDispatcher.TryGetForCurrentThread();
 
     private int _autoSolveGeneration;
     private bool _suppressRecompute;

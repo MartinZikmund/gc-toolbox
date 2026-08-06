@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Ciphers;
 using GcToolkit.Core.Discovery;
@@ -29,7 +29,7 @@ public sealed partial class RailFenceCipherViewModel : ToolViewModelBase
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
     private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
-    private readonly DispatcherQueue? _dispatcher = DispatcherQueue.GetForCurrentThread();
+    private readonly DispatcherQueue? _dispatcher = UiDispatcher.TryGetForCurrentThread();
 
     private int _solveGeneration;
     private bool _suppressRecompute;

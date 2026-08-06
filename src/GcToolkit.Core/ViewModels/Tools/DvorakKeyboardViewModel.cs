@@ -1,9 +1,10 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GcToolkit.Core.Alphabets;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
@@ -45,7 +46,7 @@ public sealed partial class DvorakKeyboardViewModel : ToolViewModelBase
 
         // A non-repeating UI-thread timer debounces the expensive "all directions" rebuild while
         // typing. Null in unit tests (no DispatcherQueue), where the recompute then runs synchronously.
-        var dispatcher = DispatcherQueue.GetForCurrentThread();
+        var dispatcher = UiDispatcher.TryGetForCurrentThread();
         if (dispatcher is not null)
         {
             _debounceTimer = dispatcher.CreateTimer();
