@@ -19,5 +19,7 @@
         NotEmptyValue="Collapsed" />
     <converters:EnumLocalizationConverter x:Key="EnumLocalizationConverter" />
     <converters:IconKeyToImageSourceConverter x:Key="IconKeyToImageSourceConverter" />
+    <converters:HexToBrushConverter x:Key="HexToBrushConverter" />
+    <converters:LocalizationKeyConverter x:Key="LocalizationKeyConverter" />
 
 </ResourceDictionary>

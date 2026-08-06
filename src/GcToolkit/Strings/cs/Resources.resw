@@ -1912,4 +1912,531 @@
   <data name="AngleCopyUnit" xml:space="preserve">
     <value>Kopírovat tuto hodnotu</value>
   </data>
+  <!-- Tool: Colour conversion -->
+  <data name="ColourConversion_Name" xml:space="preserve">
+    <value>Převod barev</value>
+  </data>
+  <data name="ColourConversion_Tooltip" xml:space="preserve">
+    <value>Převádějte barvu mezi hex, RGB, CMY, CMYK, HSL, HSV, HSI, YIQ, YUV a YCbCr.</value>
+  </data>
+  <data name="ColourConversionIntro" xml:space="preserve">
+    <value>Barvy lze zapsat mnoha způsoby. Zadejte hodnotu do libovolného modelu a všechny ostatní modely se ihned přepočítají.</value>
+  </data>
+  <data name="ColourConversionPreview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="ColourConversionDeviceNote" xml:space="preserve">
+    <value>Některé převody (například CMYK → RGB) nejsou standardizované a v reálných systémech správy barev závisí na zařízení, takže výsledky se mohou mezi zařízeními lišit.</value>
+  </data>
+  <data name="ColourConversionCopyHex" xml:space="preserve">
+    <value>Kopírovat hex</value>
+  </data>
+  <data name="ColourConversionCopyAll" xml:space="preserve">
+    <value>Kopírovat vše</value>
+  </data>
+  <data name="ColourConversionShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="ColourConversionHexLabel" xml:space="preserve">
+    <value>Šestnáctkový</value>
+  </data>
+  <data name="ColourConversionRgb" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ColourConversionCmy" xml:space="preserve">
+    <value>CMY</value>
+  </data>
+  <data name="ColourConversionCmyk" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ColourConversionHsl" xml:space="preserve">
+    <value>HSL</value>
+  </data>
+  <data name="ColourConversionHsv" xml:space="preserve">
+    <value>HSB / HSV</value>
+  </data>
+  <data name="ColourConversionHsi" xml:space="preserve">
+    <value>HSI</value>
+  </data>
+  <data name="ColourConversionYiq" xml:space="preserve">
+    <value>YIQ</value>
+  </data>
+  <data name="ColourConversionYuv" xml:space="preserve">
+    <value>YUV</value>
+  </data>
+  <data name="ColourConversionYCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ColourConversionR" xml:space="preserve">
+    <value>Červená</value>
+  </data>
+  <data name="ColourConversionG" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="ColourConversionB" xml:space="preserve">
+    <value>Modrá</value>
+  </data>
+  <data name="ColourConversionCyan" xml:space="preserve">
+    <value>Azurová</value>
+  </data>
+  <data name="ColourConversionMagenta" xml:space="preserve">
+    <value>Purpurová</value>
+  </data>
+  <data name="ColourConversionYellow" xml:space="preserve">
+    <value>Žlutá</value>
+  </data>
+  <data name="ColourConversionKey" xml:space="preserve">
+    <value>Klíčová (černá)</value>
+  </data>
+  <data name="ColourConversionHue" xml:space="preserve">
+    <value>Odstín</value>
+  </data>
+  <data name="ColourConversionSaturation" xml:space="preserve">
+    <value>Sytost</value>
+  </data>
+  <data name="ColourConversionLightness" xml:space="preserve">
+    <value>Světlost</value>
+  </data>
+  <data name="ColourConversionBrightness" xml:space="preserve">
+    <value>Jas</value>
+  </data>
+  <data name="ColourConversionIntensity" xml:space="preserve">
+    <value>Intenzita</value>
+  </data>
+  <data name="ColourConversionLuma" xml:space="preserve">
+    <value>Jas (Y)</value>
+  </data>
+  <data name="ColourConversionChromaI" xml:space="preserve">
+    <value>Chrominance I</value>
+  </data>
+  <data name="ColourConversionChromaQ" xml:space="preserve">
+    <value>Chrominance Q</value>
+  </data>
+  <data name="ColourConversionChromaU" xml:space="preserve">
+    <value>Chrominance U</value>
+  </data>
+  <data name="ColourConversionChromaV" xml:space="preserve">
+    <value>Chrominance V</value>
+  </data>
+  <data name="ColourConversionChromaCb" xml:space="preserve">
+    <value>Chrominance Cb</value>
+  </data>
+  <data name="ColourConversionChromaCr" xml:space="preserve">
+    <value>Chrominance Cr</value>
+  </data>
+  <!-- Tool: Brainfuck & Ook! -->
+  <data name="BrainfuckOok_Name" xml:space="preserve">
+    <value>Brainfuck a Ook!</value>
+  </data>
+  <data name="BrainfuckOok_Tooltip" xml:space="preserve">
+    <value>Spusťte, vygenerujte a převádějte Brainfuck a jeho varianty Ook!.</value>
+  </data>
+  <data name="BrainfuckOokModeLabel" xml:space="preserve">
+    <value>Režim</value>
+  </data>
+  <data name="BrainfuckOokModeExecute" xml:space="preserve">
+    <value>Spustit kód → text</value>
+  </data>
+  <data name="BrainfuckOokModeEncode" xml:space="preserve">
+    <value>Text → kód</value>
+  </data>
+  <data name="BrainfuckOokModeConvert" xml:space="preserve">
+    <value>Převést notaci</value>
+  </data>
+  <data name="BrainfuckOokNotationLabel" xml:space="preserve">
+    <value>Notace</value>
+  </data>
+  <data name="BrainfuckOokTargetNotationLabel" xml:space="preserve">
+    <value>Na notaci</value>
+  </data>
+  <data name="BrainfuckOokNotationBrainfuck" xml:space="preserve">
+    <value>Brainfuck</value>
+  </data>
+  <data name="BrainfuckOokNotationOok" xml:space="preserve">
+    <value>Ook!</value>
+  </data>
+  <data name="BrainfuckOokNotationOokShort" xml:space="preserve">
+    <value>Ook! krátká</value>
+  </data>
+  <data name="BrainfuckOokInputLabel" xml:space="preserve">
+    <value>Kód</value>
+  </data>
+  <data name="BrainfuckOokInputPlaceholder" xml:space="preserve">
+    <value>Vložte program ke spuštění nebo napište text k zakódování…</value>
+  </data>
+  <data name="BrainfuckOokStdinLabel" xml:space="preserve">
+    <value>Vstup (stdin)</value>
+  </data>
+  <data name="BrainfuckOokStdinPlaceholder" xml:space="preserve">
+    <value>Bajty předané příkazu „,“…</value>
+  </data>
+  <data name="BrainfuckOokClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="BrainfuckOokOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="BrainfuckOokCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="BrainfuckOokShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="BrainfuckOokAbortedMessage" xml:space="preserve">
+    <value>Program byl zastaven: běžel příliš dlouho nebo vytvořil příliš mnoho výstupu (možná nekonečná smyčka).</value>
+  </data>
+  <data name="BrainfuckOokAboutTitle" xml:space="preserve">
+    <value>O jazyce Brainfuck a Ook!</value>
+  </data>
+  <data name="BrainfuckOokAboutBody" xml:space="preserve">
+    <value>Brainfuck je minimalistický jazyk osmi příkazů (&gt; &lt; + - . , [ ]) pracujících s páskou bajtových buněk. Ook! a Ook! krátká jsou přesné přepisy stejných příkazů. Spusťte program a uvidíte jeho výstup, vygenerujte program vypisující váš text nebo libovolně převádějte mezi třemi notacemi. Smyčky, které nikdy neskončí, se automaticky zastaví.</value>
+  </data>
+  <data name="SpellingAlphabet_Name" xml:space="preserve">
+    <value>Hláskovací abeceda</value>
+  </data>
+  <data name="SpellingAlphabet_Tooltip" xml:space="preserve">
+    <value>Vyhláskuje text pomocí kódových slov NATO (a deseti historických variant) — a přečte je zpět.</value>
+  </data>
+  <data name="SpellingAlphabetVariantLabel" xml:space="preserve">
+    <value>Abeceda</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Nato" xml:space="preserve">
+    <value>NATO / ICAO (mezinárodní)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Itu1932" xml:space="preserve">
+    <value>ITU 1932 (mezinárodní)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_WesternUnion" xml:space="preserve">
+    <value>Western Union</value>
+  </data>
+  <data name="SpellingAlphabetVariant_AbleBaker" xml:space="preserve">
+    <value>Armáda/námořnictvo USA (Able Baker)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Raf1924" xml:space="preserve">
+    <value>RAF 1924</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Apco" xml:space="preserve">
+    <value>APCO / policie</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Dutch" xml:space="preserve">
+    <value>Nizozemská</value>
+  </data>
+  <data name="SpellingAlphabetVariant_German" xml:space="preserve">
+    <value>Německá</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Swedish" xml:space="preserve">
+    <value>Švédská</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianOfficial" xml:space="preserve">
+    <value>Ruská (oficiální)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianUnofficial" xml:space="preserve">
+    <value>Ruská (neoficiální)</value>
+  </data>
+  <data name="SpellingAlphabetEncode" xml:space="preserve">
+    <value>Text na kódová slova</value>
+  </data>
+  <data name="SpellingAlphabetDecode" xml:space="preserve">
+    <value>Kódová slova na text</value>
+  </data>
+  <data name="SpellingAlphabetAutoDetect" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="SpellingAlphabetInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="SpellingAlphabetInputPlaceholder" xml:space="preserve">
+    <value>Zadejte text nebo vložte kódová slova k přečtení</value>
+  </data>
+  <data name="SpellingAlphabetClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="SpellingAlphabetSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="SpellingAlphabetShowAllVariants" xml:space="preserve">
+    <value>Zobrazit všechny abecedy</value>
+  </data>
+  <data name="SpellingAlphabetOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="SpellingAlphabetUnknownNotice" xml:space="preserve">
+    <value>Nerozpoznaná kódová slova: {0}</value>
+  </data>
+  <data name="SpellingAlphabetCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="SpellingAlphabetShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="SpellingAlphabetAllVariantsLabel" xml:space="preserve">
+    <value>Všechny abecedy</value>
+  </data>
+  <data name="SpellingAlphabetChartTitle" xml:space="preserve">
+    <value>Přehled kódových slov</value>
+  </data>
+  <data name="SpellingAlphabetChartHint" xml:space="preserve">
+    <value>Klepnutím na písmeno jej přidáte do vstupu.</value>
+  </data>
+  <!-- Pi (π) tool -->
+  <data name="Pi_Name" xml:space="preserve">
+    <value>Pi (π)</value>
+  </data>
+  <data name="Pi_Tooltip" xml:space="preserve">
+    <value>Vyhledávání desetinných číslic čísla π — prvních N číslic, číslice podle pozice, rozsahy a hledání posloupností.</value>
+  </data>
+  <data name="PiModeFirst" xml:space="preserve">
+    <value>Prvních N číslic</value>
+  </data>
+  <data name="PiModeDigitAt" xml:space="preserve">
+    <value>Číslice na pozici</value>
+  </data>
+  <data name="PiModeRange" xml:space="preserve">
+    <value>Rozsah pozic</value>
+  </data>
+  <data name="PiModeSearch" xml:space="preserve">
+    <value>Hledání posloupnosti</value>
+  </data>
+  <data name="PiCountLabel" xml:space="preserve">
+    <value>Počet desetinných číslic (1–1 000 000)</value>
+  </data>
+  <data name="PiPositionLabel" xml:space="preserve">
+    <value>Pozice (1–1 000 000)</value>
+  </data>
+  <data name="PiFromLabel" xml:space="preserve">
+    <value>Od pozice</value>
+  </data>
+  <data name="PiToLabel" xml:space="preserve">
+    <value>Do pozice (včetně)</value>
+  </data>
+  <data name="PiSearchLabel" xml:space="preserve">
+    <value>Posloupnost číslic</value>
+  </data>
+  <data name="PiSearchPlaceholder" xml:space="preserve">
+    <value>např. 1415</value>
+  </data>
+  <data name="PiPositionNote" xml:space="preserve">
+    <value>Pozice 1 je první číslice za desetinnou čárkou.</value>
+  </data>
+  <data name="PiShow" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="PiGroupDigits" xml:space="preserve">
+    <value>Seskupit číslice do bloků po 10</value>
+  </data>
+  <data name="PiLineNumbers" xml:space="preserve">
+    <value>Zobrazit pozice na začátku řádků</value>
+  </data>
+  <data name="PiResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="PiContextLabel" xml:space="preserve">
+    <value>V kontextu</value>
+  </data>
+  <data name="PiCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PiShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PiDigitAtSummary" xml:space="preserve">
+    <value>Desetinná číslice π na pozici {0}</value>
+  </data>
+  <data name="PiFoundSummary" xml:space="preserve">
+    <value>Nalezeno výskytů: {0}</value>
+  </data>
+  <data name="PiFoundTruncated" xml:space="preserve">
+    <value>Nalezeno výskytů: {0} (zobrazeno prvních {1} pozic)</value>
+  </data>
+  <data name="PiNoOccurrences" xml:space="preserve">
+    <value>Posloupnost se v prvním milionu desetinných číslic π nevyskytuje.</value>
+  </data>
+  <data name="PiErrorCount" xml:space="preserve">
+    <value>Zadejte počet desetinných číslic od 1 do 1 000 000.</value>
+  </data>
+  <data name="PiErrorPosition" xml:space="preserve">
+    <value>Zadejte pozici od 1 do 1 000 000.</value>
+  </data>
+  <data name="PiErrorRange" xml:space="preserve">
+    <value>Zadejte platný rozsah od 1 do 1 000 000 (od ≤ do).</value>
+  </data>
+  <data name="PiErrorPattern" xml:space="preserve">
+    <value>Zadejte posloupnost 1 až 50 číslic.</value>
+  </data>
+  <!-- Prime numbers -->
+  <data name="PrimeNumbers_Name" xml:space="preserve">
+    <value>Prvočísla</value>
+  </data>
+  <data name="PrimeNumbers_Tooltip" xml:space="preserve">
+    <value>Test prvočíselnosti, n-té prvočíslo, pořadí prvočísla, nejbližší prvočíslo a rozklad na prvočísla.</value>
+  </data>
+  <data name="PrimeModeLabel" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="PrimeModePrimality" xml:space="preserve">
+    <value>Test prvočíselnosti</value>
+  </data>
+  <data name="PrimeModeNthPrime" xml:space="preserve">
+    <value>N-té prvočíslo</value>
+  </data>
+  <data name="PrimeModePosition" xml:space="preserve">
+    <value>Pořadí prvočísla</value>
+  </data>
+  <data name="PrimeModeNearest" xml:space="preserve">
+    <value>Nejbližší prvočíslo</value>
+  </data>
+  <data name="PrimeModeFactorization" xml:space="preserve">
+    <value>Rozklad na prvočísla</value>
+  </data>
+  <data name="PrimeInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="PrimeInputPlaceholder" xml:space="preserve">
+    <value>Zadejte celé číslo…</value>
+  </data>
+  <data name="PrimeRangeHint" xml:space="preserve">
+    <value>Platný rozsah: {0} – {1}</value>
+  </data>
+  <data name="PrimeClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="PrimeResultLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="PrimeCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="PrimeShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="PrimeInvalidNumber" xml:space="preserve">
+    <value>Zadejte celé číslo.</value>
+  </data>
+  <data name="PrimeOutOfRange" xml:space="preserve">
+    <value>Zadejte číslo mezi {0} a {1}.</value>
+  </data>
+  <data name="PrimeIsPrime" xml:space="preserve">
+    <value>{0} je prvočíslo.</value>
+  </data>
+  <data name="PrimeIsNotPrime" xml:space="preserve">
+    <value>{0} není prvočíslo — je dělitelné číslem {1}.</value>
+  </data>
+  <data name="PrimeIsNotPrimeSimple" xml:space="preserve">
+    <value>{0} není prvočíslo.</value>
+  </data>
+  <data name="PrimeNthResult" xml:space="preserve">
+    <value>{0}. prvočíslo je {1}.</value>
+  </data>
+  <data name="PrimePositionResult" xml:space="preserve">
+    <value>{0} je {1}. prvočíslo.</value>
+  </data>
+  <data name="PrimePositionNotPrime" xml:space="preserve">
+    <value>{0} není prvočíslo — menších prvočísel je {1}.</value>
+  </data>
+  <data name="PrimeNearestResult" xml:space="preserve">
+    <value>Nejbližší prvočíslo k {0} je {1}.</value>
+  </data>
+  <data name="PrimeNearestSelf" xml:space="preserve">
+    <value>{0} je samo prvočíslo.</value>
+  </data>
+  <data name="PrimePrevious" xml:space="preserve">
+    <value>Předchozí prvočíslo</value>
+  </data>
+  <data name="PrimeNext" xml:space="preserve">
+    <value>Následující prvočíslo</value>
+  </data>
+  <data name="PrimeFactorizationPrime" xml:space="preserve">
+    <value>{0} je prvočíslo — nemá žádné menší činitele.</value>
+  </data>
+  <data name="PrimePreparing" xml:space="preserve">
+    <value>Připravuje se tabulka prvočísel…</value>
+  </data>
+  <!-- Euler's number (e) -->
+  <data name="EulerNumber_Name" xml:space="preserve">
+    <value>Eulerovo číslo (e)</value>
+  </data>
+  <data name="EulerNumber_Tooltip" xml:space="preserve">
+    <value>Vyhledávání v desetinném rozvoji čísla e — prvních N číslic, pozice, rozsah nebo všechny výskyty sekvence.</value>
+  </data>
+  <data name="EulerMode" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="EulerModeFirst" xml:space="preserve">
+    <value>Prvních N desetinných míst</value>
+  </data>
+  <data name="EulerModePosition" xml:space="preserve">
+    <value>Číslici na pozici</value>
+  </data>
+  <data name="EulerModeRange" xml:space="preserve">
+    <value>Rozsah pozic</value>
+  </data>
+  <data name="EulerModeSearch" xml:space="preserve">
+    <value>Hledat sekvenci</value>
+  </data>
+  <data name="EulerCountLabel" xml:space="preserve">
+    <value>Počet desetinných míst (1–1 000 000)</value>
+  </data>
+  <data name="EulerPositionLabel" xml:space="preserve">
+    <value>Pozice (1–1 000 000)</value>
+  </data>
+  <data name="EulerRangeFromLabel" xml:space="preserve">
+    <value>Od pozice</value>
+  </data>
+  <data name="EulerRangeToLabel" xml:space="preserve">
+    <value>Do pozice (včetně)</value>
+  </data>
+  <data name="EulerSearchLabel" xml:space="preserve">
+    <value>Sekvence číslic</value>
+  </data>
+  <data name="EulerSearchPlaceholder" xml:space="preserve">
+    <value>např. 1828</value>
+  </data>
+  <data name="EulerGroupDigits" xml:space="preserve">
+    <value>Seskupit číslice do bloků po 10</value>
+  </data>
+  <data name="EulerShowPositions" xml:space="preserve">
+    <value>Zobrazit pozice řádků</value>
+  </data>
+  <data name="EulerOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="EulerOccurrencesLabel" xml:space="preserve">
+    <value>Výskyty</value>
+  </data>
+  <data name="EulerCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="EulerShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="EulerCopyPosition" xml:space="preserve">
+    <value>Kopírovat tuto pozici</value>
+  </data>
+  <data name="EulerCountError" xml:space="preserve">
+    <value>Zadejte počet desetinných míst od 1 do 1 000 000.</value>
+  </data>
+  <data name="EulerPositionError" xml:space="preserve">
+    <value>Zadejte pozici od 1 do 1 000 000.</value>
+  </data>
+  <data name="EulerRangeError" xml:space="preserve">
+    <value>Zadejte platný rozsah od 1 do 1 000 000 (začátek před koncem).</value>
+  </data>
+  <data name="EulerSearchError" xml:space="preserve">
+    <value>Hledaná sekvence smí obsahovat pouze číslice 0–9.</value>
+  </data>
+  <data name="EulerLoadError" xml:space="preserve">
+    <value>Číslice čísla e se nepodařilo načíst.</value>
+  </data>
+  <data name="EulerSearchNoMatch" xml:space="preserve">
+    <value>Sekvence se v prvním 1 000 000 desetinných míst nevyskytuje.</value>
+  </data>
+  <data name="EulerSearchCount" xml:space="preserve">
+    <value>Počet výskytů: {0}</value>
+  </data>
+  <data name="EulerSearchTruncated" xml:space="preserve">
+    <value>Počet výskytů: {0} (zobrazeno prvních {1})</value>
+  </data>
+  <data name="EulerIntegerNote" xml:space="preserve">
+    <value>Pozice 1 je první číslice za desetinnou čárkou — celá část čísla e (2) se nepočítá.</value>
+  </data>
 </root>

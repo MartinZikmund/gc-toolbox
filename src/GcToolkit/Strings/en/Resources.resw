@@ -1912,4 +1912,531 @@
   <data name="AngleCopyUnit" xml:space="preserve">
     <value>Copy this value</value>
   </data>
+  <!-- Tool: Colour conversion -->
+  <data name="ColourConversion_Name" xml:space="preserve">
+    <value>Colour conversion</value>
+  </data>
+  <data name="ColourConversion_Tooltip" xml:space="preserve">
+    <value>Convert a colour between hex, RGB, CMY, CMYK, HSL, HSV, HSI, YIQ, YUV and YCbCr.</value>
+  </data>
+  <data name="ColourConversionIntro" xml:space="preserve">
+    <value>Colours can be written in many notations. Type a value into any model and every other model updates instantly.</value>
+  </data>
+  <data name="ColourConversionPreview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="ColourConversionDeviceNote" xml:space="preserve">
+    <value>Some conversions (for example CMYK → RGB) are not standardised and are device-specific in real colour-management systems, so results may differ between devices.</value>
+  </data>
+  <data name="ColourConversionCopyHex" xml:space="preserve">
+    <value>Copy hex</value>
+  </data>
+  <data name="ColourConversionCopyAll" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="ColourConversionShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ColourConversionHexLabel" xml:space="preserve">
+    <value>Hexadecimal</value>
+  </data>
+  <data name="ColourConversionRgb" xml:space="preserve">
+    <value>RGB</value>
+  </data>
+  <data name="ColourConversionCmy" xml:space="preserve">
+    <value>CMY</value>
+  </data>
+  <data name="ColourConversionCmyk" xml:space="preserve">
+    <value>CMYK</value>
+  </data>
+  <data name="ColourConversionHsl" xml:space="preserve">
+    <value>HSL</value>
+  </data>
+  <data name="ColourConversionHsv" xml:space="preserve">
+    <value>HSB / HSV</value>
+  </data>
+  <data name="ColourConversionHsi" xml:space="preserve">
+    <value>HSI</value>
+  </data>
+  <data name="ColourConversionYiq" xml:space="preserve">
+    <value>YIQ</value>
+  </data>
+  <data name="ColourConversionYuv" xml:space="preserve">
+    <value>YUV</value>
+  </data>
+  <data name="ColourConversionYCbCr" xml:space="preserve">
+    <value>YCbCr</value>
+  </data>
+  <data name="ColourConversionR" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="ColourConversionG" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="ColourConversionB" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="ColourConversionCyan" xml:space="preserve">
+    <value>Cyan</value>
+  </data>
+  <data name="ColourConversionMagenta" xml:space="preserve">
+    <value>Magenta</value>
+  </data>
+  <data name="ColourConversionYellow" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="ColourConversionKey" xml:space="preserve">
+    <value>Key (black)</value>
+  </data>
+  <data name="ColourConversionHue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="ColourConversionSaturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="ColourConversionLightness" xml:space="preserve">
+    <value>Lightness</value>
+  </data>
+  <data name="ColourConversionBrightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="ColourConversionIntensity" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="ColourConversionLuma" xml:space="preserve">
+    <value>Luma (Y)</value>
+  </data>
+  <data name="ColourConversionChromaI" xml:space="preserve">
+    <value>Chrominance I</value>
+  </data>
+  <data name="ColourConversionChromaQ" xml:space="preserve">
+    <value>Chrominance Q</value>
+  </data>
+  <data name="ColourConversionChromaU" xml:space="preserve">
+    <value>Chrominance U</value>
+  </data>
+  <data name="ColourConversionChromaV" xml:space="preserve">
+    <value>Chrominance V</value>
+  </data>
+  <data name="ColourConversionChromaCb" xml:space="preserve">
+    <value>Chrominance Cb</value>
+  </data>
+  <data name="ColourConversionChromaCr" xml:space="preserve">
+    <value>Chrominance Cr</value>
+  </data>
+  <!-- Tool: Brainfuck & Ook! -->
+  <data name="BrainfuckOok_Name" xml:space="preserve">
+    <value>Brainfuck &amp; Ook!</value>
+  </data>
+  <data name="BrainfuckOok_Tooltip" xml:space="preserve">
+    <value>Run, generate and transliterate Brainfuck and its Ook! variants.</value>
+  </data>
+  <data name="BrainfuckOokModeLabel" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="BrainfuckOokModeExecute" xml:space="preserve">
+    <value>Run code → text</value>
+  </data>
+  <data name="BrainfuckOokModeEncode" xml:space="preserve">
+    <value>Text → code</value>
+  </data>
+  <data name="BrainfuckOokModeConvert" xml:space="preserve">
+    <value>Convert notation</value>
+  </data>
+  <data name="BrainfuckOokNotationLabel" xml:space="preserve">
+    <value>Notation</value>
+  </data>
+  <data name="BrainfuckOokTargetNotationLabel" xml:space="preserve">
+    <value>To notation</value>
+  </data>
+  <data name="BrainfuckOokNotationBrainfuck" xml:space="preserve">
+    <value>Brainfuck</value>
+  </data>
+  <data name="BrainfuckOokNotationOok" xml:space="preserve">
+    <value>Ook!</value>
+  </data>
+  <data name="BrainfuckOokNotationOokShort" xml:space="preserve">
+    <value>Ook! short</value>
+  </data>
+  <data name="BrainfuckOokInputLabel" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="BrainfuckOokInputPlaceholder" xml:space="preserve">
+    <value>Paste a program to run, or type text to encode…</value>
+  </data>
+  <data name="BrainfuckOokStdinLabel" xml:space="preserve">
+    <value>Input (stdin)</value>
+  </data>
+  <data name="BrainfuckOokStdinPlaceholder" xml:space="preserve">
+    <value>Bytes fed to the "," command…</value>
+  </data>
+  <data name="BrainfuckOokClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BrainfuckOokOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BrainfuckOokCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BrainfuckOokShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BrainfuckOokAbortedMessage" xml:space="preserve">
+    <value>The program was stopped: it ran too long or produced too much output (possible infinite loop).</value>
+  </data>
+  <data name="BrainfuckOokAboutTitle" xml:space="preserve">
+    <value>About Brainfuck &amp; Ook!</value>
+  </data>
+  <data name="BrainfuckOokAboutBody" xml:space="preserve">
+    <value>Brainfuck is a minimalist language of eight commands (&gt; &lt; + - . , [ ]) operating on a byte-cell tape. Ook! and Ook! short are exact rewrites of the same commands. Run a program to see its output, generate a program that prints your text, or convert freely between the three notations. Loops that never end are stopped automatically.</value>
+  </data>
+  <data name="SpellingAlphabet_Name" xml:space="preserve">
+    <value>Spelling alphabet</value>
+  </data>
+  <data name="SpellingAlphabet_Tooltip" xml:space="preserve">
+    <value>Spell text in NATO phonetic code words (and ten historical variants) — and read them back.</value>
+  </data>
+  <data name="SpellingAlphabetVariantLabel" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Nato" xml:space="preserve">
+    <value>NATO / ICAO (international)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Itu1932" xml:space="preserve">
+    <value>ITU 1932 (international)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_WesternUnion" xml:space="preserve">
+    <value>Western Union</value>
+  </data>
+  <data name="SpellingAlphabetVariant_AbleBaker" xml:space="preserve">
+    <value>US Joint Army/Navy (Able Baker)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Raf1924" xml:space="preserve">
+    <value>RAF 1924</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Apco" xml:space="preserve">
+    <value>APCO / Police</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Dutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="SpellingAlphabetVariant_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="SpellingAlphabetVariant_Swedish" xml:space="preserve">
+    <value>Swedish</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianOfficial" xml:space="preserve">
+    <value>Russian (official)</value>
+  </data>
+  <data name="SpellingAlphabetVariant_RussianUnofficial" xml:space="preserve">
+    <value>Russian (unofficial)</value>
+  </data>
+  <data name="SpellingAlphabetEncode" xml:space="preserve">
+    <value>Text to code words</value>
+  </data>
+  <data name="SpellingAlphabetDecode" xml:space="preserve">
+    <value>Code words to text</value>
+  </data>
+  <data name="SpellingAlphabetAutoDetect" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="SpellingAlphabetInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="SpellingAlphabetInputPlaceholder" xml:space="preserve">
+    <value>Type text, or paste code words to read back</value>
+  </data>
+  <data name="SpellingAlphabetClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SpellingAlphabetSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="SpellingAlphabetShowAllVariants" xml:space="preserve">
+    <value>Show all alphabets</value>
+  </data>
+  <data name="SpellingAlphabetOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="SpellingAlphabetUnknownNotice" xml:space="preserve">
+    <value>Unrecognised code words: {0}</value>
+  </data>
+  <data name="SpellingAlphabetCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="SpellingAlphabetShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="SpellingAlphabetAllVariantsLabel" xml:space="preserve">
+    <value>Every alphabet</value>
+  </data>
+  <data name="SpellingAlphabetChartTitle" xml:space="preserve">
+    <value>Code-word chart</value>
+  </data>
+  <data name="SpellingAlphabetChartHint" xml:space="preserve">
+    <value>Tap a letter to add it to the input.</value>
+  </data>
+  <!-- Pi (π) tool -->
+  <data name="Pi_Name" xml:space="preserve">
+    <value>Pi (π)</value>
+  </data>
+  <data name="Pi_Tooltip" xml:space="preserve">
+    <value>Look up decimals of π — first N digits, digits by position, ranges, and digit-sequence search.</value>
+  </data>
+  <data name="PiModeFirst" xml:space="preserve">
+    <value>First N decimals</value>
+  </data>
+  <data name="PiModeDigitAt" xml:space="preserve">
+    <value>Digit at position</value>
+  </data>
+  <data name="PiModeRange" xml:space="preserve">
+    <value>Range of positions</value>
+  </data>
+  <data name="PiModeSearch" xml:space="preserve">
+    <value>Find a sequence</value>
+  </data>
+  <data name="PiCountLabel" xml:space="preserve">
+    <value>Number of decimals (1–1,000,000)</value>
+  </data>
+  <data name="PiPositionLabel" xml:space="preserve">
+    <value>Position (1–1,000,000)</value>
+  </data>
+  <data name="PiFromLabel" xml:space="preserve">
+    <value>From position</value>
+  </data>
+  <data name="PiToLabel" xml:space="preserve">
+    <value>To position (inclusive)</value>
+  </data>
+  <data name="PiSearchLabel" xml:space="preserve">
+    <value>Digit sequence</value>
+  </data>
+  <data name="PiSearchPlaceholder" xml:space="preserve">
+    <value>e.g. 1415</value>
+  </data>
+  <data name="PiPositionNote" xml:space="preserve">
+    <value>Position 1 is the first digit after the decimal point.</value>
+  </data>
+  <data name="PiShow" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="PiGroupDigits" xml:space="preserve">
+    <value>Group digits in blocks of 10</value>
+  </data>
+  <data name="PiLineNumbers" xml:space="preserve">
+    <value>Show positions at line starts</value>
+  </data>
+  <data name="PiResultLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="PiContextLabel" xml:space="preserve">
+    <value>In context</value>
+  </data>
+  <data name="PiCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PiShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PiDigitAtSummary" xml:space="preserve">
+    <value>Decimal of π at position {0}</value>
+  </data>
+  <data name="PiFoundSummary" xml:space="preserve">
+    <value>Occurrences found: {0}</value>
+  </data>
+  <data name="PiFoundTruncated" xml:space="preserve">
+    <value>Occurrences found: {0} (showing the first {1} positions)</value>
+  </data>
+  <data name="PiNoOccurrences" xml:space="preserve">
+    <value>The sequence does not occur in the first 1,000,000 decimals of π.</value>
+  </data>
+  <data name="PiErrorCount" xml:space="preserve">
+    <value>Enter a number of decimals between 1 and 1,000,000.</value>
+  </data>
+  <data name="PiErrorPosition" xml:space="preserve">
+    <value>Enter a position between 1 and 1,000,000.</value>
+  </data>
+  <data name="PiErrorRange" xml:space="preserve">
+    <value>Enter a valid range between 1 and 1,000,000 (from ≤ to).</value>
+  </data>
+  <data name="PiErrorPattern" xml:space="preserve">
+    <value>Enter a sequence of 1 to 50 digits.</value>
+  </data>
+  <!-- Prime numbers -->
+  <data name="PrimeNumbers_Name" xml:space="preserve">
+    <value>Prime numbers</value>
+  </data>
+  <data name="PrimeNumbers_Tooltip" xml:space="preserve">
+    <value>Test primality, find the n-th prime, a prime's position, the nearest prime, and prime factorizations.</value>
+  </data>
+  <data name="PrimeModeLabel" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="PrimeModePrimality" xml:space="preserve">
+    <value>Primality test</value>
+  </data>
+  <data name="PrimeModeNthPrime" xml:space="preserve">
+    <value>N-th prime</value>
+  </data>
+  <data name="PrimeModePosition" xml:space="preserve">
+    <value>Position of a prime</value>
+  </data>
+  <data name="PrimeModeNearest" xml:space="preserve">
+    <value>Nearest prime</value>
+  </data>
+  <data name="PrimeModeFactorization" xml:space="preserve">
+    <value>Prime factorization</value>
+  </data>
+  <data name="PrimeInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="PrimeInputPlaceholder" xml:space="preserve">
+    <value>Enter a whole number…</value>
+  </data>
+  <data name="PrimeRangeHint" xml:space="preserve">
+    <value>Valid range: {0} – {1}</value>
+  </data>
+  <data name="PrimeClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="PrimeResultLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="PrimeCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PrimeShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PrimeInvalidNumber" xml:space="preserve">
+    <value>Enter a whole number.</value>
+  </data>
+  <data name="PrimeOutOfRange" xml:space="preserve">
+    <value>Enter a number between {0} and {1}.</value>
+  </data>
+  <data name="PrimeIsPrime" xml:space="preserve">
+    <value>{0} is a prime number.</value>
+  </data>
+  <data name="PrimeIsNotPrime" xml:space="preserve">
+    <value>{0} is not a prime number — it is divisible by {1}.</value>
+  </data>
+  <data name="PrimeIsNotPrimeSimple" xml:space="preserve">
+    <value>{0} is not a prime number.</value>
+  </data>
+  <data name="PrimeNthResult" xml:space="preserve">
+    <value>Prime #{0} is {1}.</value>
+  </data>
+  <data name="PrimePositionResult" xml:space="preserve">
+    <value>{0} is prime #{1}.</value>
+  </data>
+  <data name="PrimePositionNotPrime" xml:space="preserve">
+    <value>{0} is not a prime number — there are {1} primes below it.</value>
+  </data>
+  <data name="PrimeNearestResult" xml:space="preserve">
+    <value>The nearest prime to {0} is {1}.</value>
+  </data>
+  <data name="PrimeNearestSelf" xml:space="preserve">
+    <value>{0} is itself a prime number.</value>
+  </data>
+  <data name="PrimePrevious" xml:space="preserve">
+    <value>Previous prime</value>
+  </data>
+  <data name="PrimeNext" xml:space="preserve">
+    <value>Next prime</value>
+  </data>
+  <data name="PrimeFactorizationPrime" xml:space="preserve">
+    <value>{0} is a prime number — it has no smaller factors.</value>
+  </data>
+  <data name="PrimePreparing" xml:space="preserve">
+    <value>Preparing the prime table…</value>
+  </data>
+  <!-- Euler's number (e) -->
+  <data name="EulerNumber_Name" xml:space="preserve">
+    <value>Euler's number (e)</value>
+  </data>
+  <data name="EulerNumber_Tooltip" xml:space="preserve">
+    <value>Look up the decimals of e — the first N digits, a position, a range, or every occurrence of a sequence.</value>
+  </data>
+  <data name="EulerMode" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="EulerModeFirst" xml:space="preserve">
+    <value>First N decimals</value>
+  </data>
+  <data name="EulerModePosition" xml:space="preserve">
+    <value>Decimal at position</value>
+  </data>
+  <data name="EulerModeRange" xml:space="preserve">
+    <value>Position range</value>
+  </data>
+  <data name="EulerModeSearch" xml:space="preserve">
+    <value>Find sequence</value>
+  </data>
+  <data name="EulerCountLabel" xml:space="preserve">
+    <value>Number of decimals (1–1,000,000)</value>
+  </data>
+  <data name="EulerPositionLabel" xml:space="preserve">
+    <value>Position (1–1,000,000)</value>
+  </data>
+  <data name="EulerRangeFromLabel" xml:space="preserve">
+    <value>From position</value>
+  </data>
+  <data name="EulerRangeToLabel" xml:space="preserve">
+    <value>Up to and including position</value>
+  </data>
+  <data name="EulerSearchLabel" xml:space="preserve">
+    <value>Digit sequence</value>
+  </data>
+  <data name="EulerSearchPlaceholder" xml:space="preserve">
+    <value>e.g. 1828</value>
+  </data>
+  <data name="EulerGroupDigits" xml:space="preserve">
+    <value>Group digits in blocks of 10</value>
+  </data>
+  <data name="EulerShowPositions" xml:space="preserve">
+    <value>Show line positions</value>
+  </data>
+  <data name="EulerOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="EulerOccurrencesLabel" xml:space="preserve">
+    <value>Occurrences</value>
+  </data>
+  <data name="EulerCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="EulerShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="EulerCopyPosition" xml:space="preserve">
+    <value>Copy this position</value>
+  </data>
+  <data name="EulerCountError" xml:space="preserve">
+    <value>Enter a number of decimals between 1 and 1,000,000.</value>
+  </data>
+  <data name="EulerPositionError" xml:space="preserve">
+    <value>Enter a position between 1 and 1,000,000.</value>
+  </data>
+  <data name="EulerRangeError" xml:space="preserve">
+    <value>Enter a valid range between 1 and 1,000,000 (start before end).</value>
+  </data>
+  <data name="EulerSearchError" xml:space="preserve">
+    <value>The search sequence may contain only the digits 0–9.</value>
+  </data>
+  <data name="EulerLoadError" xml:space="preserve">
+    <value>The digits of e could not be loaded.</value>
+  </data>
+  <data name="EulerSearchNoMatch" xml:space="preserve">
+    <value>The sequence does not occur in the first 1,000,000 decimals.</value>
+  </data>
+  <data name="EulerSearchCount" xml:space="preserve">
+    <value>Occurrences found: {0}</value>
+  </data>
+  <data name="EulerSearchTruncated" xml:space="preserve">
+    <value>Occurrences found: {0} (showing the first {1})</value>
+  </data>
+  <data name="EulerIntegerNote" xml:space="preserve">
+    <value>Position 1 is the first digit after the decimal point — the integer part of e (2) is not counted.</value>
+  </data>
 </root>

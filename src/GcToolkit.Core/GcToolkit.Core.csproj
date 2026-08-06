@@ -20,6 +20,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- The 1,000,000 verified decimals of π ship inside the assembly so the Pi tool works fully offline. -->
+        <Content Remove="Numbers\Pi\PiDecimals.txt" />
+        <None Remove="Numbers\Pi\PiDecimals.txt" />
+        <EmbeddedResource Include="Numbers\Pi\PiDecimals.txt" LogicalName="GcToolkit.Core.Numbers.Pi.PiDecimals.txt" />
+        <!-- 1,000,000 decimals of e, gzip-compressed, for the Euler's number tool -->
+        <EmbeddedResource Include="Numbers\EulerNumberDecimals.gz" LogicalName="GcToolkit.Core.Numbers.EulerNumberDecimals.gz" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="MZikmund.Toolkit.WinUI" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
         <PackageReference Include="CommunityToolkit.WinUI.Converters" />
