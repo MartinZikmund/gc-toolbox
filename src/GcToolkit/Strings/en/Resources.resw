@@ -2642,4 +2642,89 @@
   <data name="FibonacciErrorDigitsRange" xml:space="preserve">
     <value>The number of digits must be between 1 and {0:N0}.</value>
   </data>
+  <!-- Tool: Semaphore flags -->
+  <data name="Semaphore_Name" xml:space="preserve">
+    <value>Semaphore flags</value>
+  </data>
+  <data name="Semaphore_Tooltip" xml:space="preserve">
+    <value>Convert text to and from flag semaphore figures.</value>
+  </data>
+  <data name="SemaphoreInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="SemaphoreInputPlaceholder" xml:space="preserve">
+    <value>Type text or tap figures in the chart below…</value>
+  </data>
+  <data name="SemaphoreClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SemaphoreCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="SemaphoreShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="SemaphoreSequenceLabel" xml:space="preserve">
+    <value>Semaphore figures</value>
+  </data>
+  <data name="SemaphoreEmptyHint" xml:space="preserve">
+    <value>The semaphore figures appear here as you type.</value>
+  </data>
+  <data name="SemaphoreChartLabel" xml:space="preserve">
+    <value>Semaphore chart</value>
+  </data>
+  <data name="SemaphoreChartHint" xml:space="preserve">
+    <value>Tap a figure to add it to the text. Tap Numbers before digits — A–I and K then read as 1–9 and 0 — and tap Letters to return to letters.</value>
+  </data>
+  <data name="SemaphoreUnknownNotice" xml:space="preserve">
+    <value>Some characters have no semaphore figure and were skipped.</value>
+  </data>
+  <data name="SemaphoreSpaceSign" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="SemaphoreLettersSign" xml:space="preserve">
+    <value>Letters</value>
+  </data>
+  <data name="SemaphoreNumbersSign" xml:space="preserve">
+    <value>Numbers</value>
+  </data>
+  <data name="SemaphoreSpecialLabel" xml:space="preserve">
+    <value>Special signals</value>
+  </data>
+  <data name="SemaphoreCancelSign" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SemaphoreErrorSign" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="SemaphoreCancelTooltip" xml:space="preserve">
+    <value>Cancel — disregard the signal sent so far.</value>
+  </data>
+  <data name="SemaphoreErrorTooltip" xml:space="preserve">
+    <value>Error — both flags are waved overhead and back down; ignore the message so far.</value>
+  </data>
+  <data name="SemaphoreArmsTooltip" xml:space="preserve">
+    <value>Left arm {0}, right arm {1} (signaller's view)</value>
+  </data>
+  <data name="SemaphoreArmDown" xml:space="preserve">
+    <value>down</value>
+  </data>
+  <data name="SemaphoreArmLow" xml:space="preserve">
+    <value>low</value>
+  </data>
+  <data name="SemaphoreArmOut" xml:space="preserve">
+    <value>out</value>
+  </data>
+  <data name="SemaphoreArmHigh" xml:space="preserve">
+    <value>high</value>
+  </data>
+  <data name="SemaphoreArmUp" xml:space="preserve">
+    <value>up</value>
+  </data>
+  <data name="SemaphoreArmAcrossLow" xml:space="preserve">
+    <value>across low</value>
+  </data>
+  <data name="SemaphoreArmAcrossHigh" xml:space="preserve">
+    <value>across high</value>
+  </data>
 </root>

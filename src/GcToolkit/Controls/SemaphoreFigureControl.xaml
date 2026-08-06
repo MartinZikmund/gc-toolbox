@@ -1,0 +1,148 @@
+﻿<UserControl
+    x:Class="GcToolkit.Controls.SemaphoreFigureControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    IsTabStop="False">
+
+    <!--
+        Viewer-facing stick figure on a 100×108 canvas with headroom so raised flags never clip; arm
+        groups pivot at the shoulders. Flags carry a thin outline so close arms (e.g. A, G) stay legible.
+    -->
+    <Viewbox Stretch="Uniform">
+        <Canvas Width="100" Height="108">
+            <!--  Everything is nudged down so the overhead positions have room above the head  -->
+            <Canvas Canvas.Top="15">
+
+                <!--  Optional "wave" ghost arms (e.g. Error), drawn faint and behind the body  -->
+                <Canvas
+                    x:Name="GhostArms"
+                    Opacity="0.3"
+                    Visibility="Collapsed">
+                    <Canvas Canvas.Left="46" Canvas.Top="26">
+                        <Canvas.RenderTransform>
+                            <RotateTransform x:Name="RightArmGhostRotation" />
+                        </Canvas.RenderTransform>
+                        <Line
+                            Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                            StrokeEndLineCap="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="3.5"
+                            X1="0"
+                            X2="0"
+                            Y1="0"
+                            Y2="34" />
+                        <Polygon Fill="#E81123" Points="0,18 16,18 0,34" />
+                        <Polygon Fill="#FFD800" Points="16,18 16,34 0,34" />
+                        <Polygon
+                            Points="0,18 16,18 16,34 0,34"
+                            Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                            StrokeThickness="1.5" />
+                    </Canvas>
+                    <Canvas Canvas.Left="54" Canvas.Top="26">
+                        <Canvas.RenderTransform>
+                            <RotateTransform x:Name="LeftArmGhostRotation" />
+                        </Canvas.RenderTransform>
+                        <Line
+                            Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                            StrokeEndLineCap="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="3.5"
+                            X1="0"
+                            X2="0"
+                            Y1="0"
+                            Y2="34" />
+                        <Polygon Fill="#E81123" Points="0,18 -16,18 0,34" />
+                        <Polygon Fill="#FFD800" Points="-16,18 -16,34 0,34" />
+                        <Polygon
+                            Points="0,18 -16,18 -16,34 0,34"
+                            Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                            StrokeThickness="1.5" />
+                    </Canvas>
+                </Canvas>
+
+                <!--  Head  -->
+                <Ellipse
+                    Canvas.Left="42.5"
+                    Canvas.Top="3"
+                    Width="15"
+                    Height="15"
+                    Fill="{ThemeResource TextFillColorPrimaryBrush}" />
+
+                <!--  Torso  -->
+                <Line
+                    Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                    StrokeEndLineCap="Round"
+                    StrokeStartLineCap="Round"
+                    StrokeThickness="5"
+                    X1="50"
+                    X2="50"
+                    Y1="20"
+                    Y2="58" />
+
+                <!--  Legs  -->
+                <Line
+                    Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                    StrokeEndLineCap="Round"
+                    StrokeStartLineCap="Round"
+                    StrokeThickness="5"
+                    X1="50"
+                    X2="40"
+                    Y1="56"
+                    Y2="84" />
+                <Line
+                    Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                    StrokeEndLineCap="Round"
+                    StrokeStartLineCap="Round"
+                    StrokeThickness="5"
+                    X1="50"
+                    X2="60"
+                    Y1="56"
+                    Y2="84" />
+
+                <!--  Signaller's right arm (viewer's left); angle 0 = down, positive = clockwise  -->
+                <Canvas Canvas.Left="46" Canvas.Top="26">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="RightArmRotation" />
+                    </Canvas.RenderTransform>
+                    <Line
+                        Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                        StrokeEndLineCap="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="3.5"
+                        X1="0"
+                        X2="0"
+                        Y1="0"
+                        Y2="34" />
+                    <Polygon Fill="#E81123" Points="0,18 16,18 0,34" />
+                    <Polygon Fill="#FFD800" Points="16,18 16,34 0,34" />
+                    <Polygon
+                        Points="0,18 16,18 16,34 0,34"
+                        Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                        StrokeThickness="1.5" />
+                </Canvas>
+
+                <!--  Signaller's left arm (viewer's right); flag mirrored to the other side of the pole  -->
+                <Canvas Canvas.Left="54" Canvas.Top="26">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="LeftArmRotation" />
+                    </Canvas.RenderTransform>
+                    <Line
+                        Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                        StrokeEndLineCap="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="3.5"
+                        X1="0"
+                        X2="0"
+                        Y1="0"
+                        Y2="34" />
+                    <Polygon Fill="#E81123" Points="0,18 -16,18 0,34" />
+                    <Polygon Fill="#FFD800" Points="-16,18 -16,34 0,34" />
+                    <Polygon
+                        Points="0,18 -16,18 -16,34 0,34"
+                        Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                        StrokeThickness="1.5" />
+                </Canvas>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</UserControl>

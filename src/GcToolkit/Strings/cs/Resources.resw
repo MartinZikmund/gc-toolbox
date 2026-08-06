@@ -2642,4 +2642,89 @@
   <data name="FibonacciErrorDigitsRange" xml:space="preserve">
     <value>Počet číslic musí být mezi 1 a {0:N0}.</value>
   </data>
+  <!-- Tool: Semaphore flags -->
+  <data name="Semaphore_Name" xml:space="preserve">
+    <value>Semaforová abeceda</value>
+  </data>
+  <data name="Semaphore_Tooltip" xml:space="preserve">
+    <value>Převádějte text do vlajkové semaforové abecedy a zpět.</value>
+  </data>
+  <data name="SemaphoreInputLabel" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="SemaphoreInputPlaceholder" xml:space="preserve">
+    <value>Pište text nebo klepejte na znaky v tabulce níže…</value>
+  </data>
+  <data name="SemaphoreClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="SemaphoreCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="SemaphoreShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="SemaphoreSequenceLabel" xml:space="preserve">
+    <value>Semaforové znaky</value>
+  </data>
+  <data name="SemaphoreEmptyHint" xml:space="preserve">
+    <value>Semaforové znaky se zde zobrazí během psaní.</value>
+  </data>
+  <data name="SemaphoreChartLabel" xml:space="preserve">
+    <value>Semaforová tabulka</value>
+  </data>
+  <data name="SemaphoreChartHint" xml:space="preserve">
+    <value>Klepnutím na znak jej přidáte do textu. Před číslicemi klepněte na Číslice – A–I a K se pak čtou jako 1–9 a 0 – a k písmenům se vrátíte klepnutím na Písmena.</value>
+  </data>
+  <data name="SemaphoreUnknownNotice" xml:space="preserve">
+    <value>Některé znaky nemají semaforový znak a byly přeskočeny.</value>
+  </data>
+  <data name="SemaphoreSpaceSign" xml:space="preserve">
+    <value>Mezera</value>
+  </data>
+  <data name="SemaphoreLettersSign" xml:space="preserve">
+    <value>Písmena</value>
+  </data>
+  <data name="SemaphoreNumbersSign" xml:space="preserve">
+    <value>Číslice</value>
+  </data>
+  <data name="SemaphoreSpecialLabel" xml:space="preserve">
+    <value>Speciální značky</value>
+  </data>
+  <data name="SemaphoreCancelSign" xml:space="preserve">
+    <value>Zrušení</value>
+  </data>
+  <data name="SemaphoreErrorSign" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="SemaphoreCancelTooltip" xml:space="preserve">
+    <value>Zrušení – dosud odeslaný signál neberte v potaz.</value>
+  </data>
+  <data name="SemaphoreErrorTooltip" xml:space="preserve">
+    <value>Chyba – oběma vlajkami se mávne nad hlavu a zpět dolů; dosavadní zprávu ignorujte.</value>
+  </data>
+  <data name="SemaphoreArmsTooltip" xml:space="preserve">
+    <value>Levá paže {0}, pravá paže {1} (z pohledu signalisty)</value>
+  </data>
+  <data name="SemaphoreArmDown" xml:space="preserve">
+    <value>dolů</value>
+  </data>
+  <data name="SemaphoreArmLow" xml:space="preserve">
+    <value>šikmo dolů</value>
+  </data>
+  <data name="SemaphoreArmOut" xml:space="preserve">
+    <value>vodorovně</value>
+  </data>
+  <data name="SemaphoreArmHigh" xml:space="preserve">
+    <value>šikmo nahoru</value>
+  </data>
+  <data name="SemaphoreArmUp" xml:space="preserve">
+    <value>vzhůru</value>
+  </data>
+  <data name="SemaphoreArmAcrossLow" xml:space="preserve">
+    <value>křížem dolů</value>
+  </data>
+  <data name="SemaphoreArmAcrossHigh" xml:space="preserve">
+    <value>křížem nahoru</value>
+  </data>
 </root>
