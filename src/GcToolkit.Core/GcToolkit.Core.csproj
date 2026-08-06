@@ -28,6 +28,9 @@
         <EmbeddedResource Include="Numbers\EulerNumberDecimals.gz" LogicalName="GcToolkit.Core.Numbers.EulerNumberDecimals.gz" />
         <!-- Offline φ digits for the Golden ratio tool (1,000,000 decimals, gzipped) -->
         <EmbeddedResource Include="Numbers\GoldenRatio\GoldenRatioDigits.gz" LogicalName="GcToolkit.Core.Numbers.GoldenRatio.GoldenRatioDigits.gz" />
+        <!-- Frequency-ordered English word list (gzipped) so the vanity-code decoder resolves 34448 -> DIGIT/EIGHT/FIGHT offline.
+             WithCulture=false: a ".en." segment would make MSBuild treat this as a satellite resource. -->
+        <EmbeddedResource Include="Ciphers\PhoneKeypadWords-en.gz" LogicalName="GcToolkit.Core.Ciphers.PhoneKeypadWords-en.gz" WithCulture="false" />
     </ItemGroup>
 
     <ItemGroup>

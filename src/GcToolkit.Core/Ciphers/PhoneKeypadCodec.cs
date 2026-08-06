@@ -33,7 +33,8 @@ public sealed class PhoneKeypadCodec
     /// <summary>Emitted for a multitap group that maps to no letter.</summary>
     public const char Unknown = '#';
 
-    private const char SpaceDigit = '0';
+    /// <summary>The digit that stands for a space unless the caller picks the other one.</summary>
+    public const char DefaultSpaceDigit = '0';
 
     private static readonly (char Digit, string Letters)[] Layout =
     [
@@ -64,8 +65,9 @@ public sealed class PhoneKeypadCodec
     public IReadOnlyList<(char Digit, string Letters)> KeypadLayout => Layout;
 
     /// <summary>Encodes <paramref name="text"/> to keypad digits in the chosen <paramref name="mode"/>.
-    /// Spaces become <c>0</c>; characters that aren't letters pass through unchanged.</summary>
-    public string Encode(string? text, PhoneKeypadMode mode)
+    /// Spaces become <paramref name="spaceDigit"/> (<c>0</c> or <c>1</c> — geocachingtoolbox.com lets you
+    /// pick); characters that aren't letters pass through unchanged.</summary>
+    public string Encode(string? text, PhoneKeypadMode mode, char spaceDigit = DefaultSpaceDigit)
     {
         if (string.IsNullOrWhiteSpace(text))
         {
@@ -74,19 +76,19 @@ public sealed class PhoneKeypadCodec
 
         // Vanity concatenates one digit per letter; multitap separates the repeated-press groups with spaces.
         return mode == PhoneKeypadMode.Multitap
-            ? string.Join(' ', EncodeTokens(text, multitap: true))
-            : string.Concat(EncodeTokens(text, multitap: false));
+            ? string.Join(' ', EncodeTokens(text, multitap: true, spaceDigit))
+            : string.Concat(EncodeTokens(text, multitap: false, spaceDigit));
     }
 
-    /// <summary>Per-character keypad tokens: a space → <c>"0"</c>, a letter → its key digit (repeated by
-    /// position when <paramref name="multitap"/>), any other character passes through unchanged.</summary>
-    private static IEnumerable<string> EncodeTokens(string text, bool multitap)
+    /// <summary>Per-character keypad tokens: a space → the space digit, a letter → its key digit (repeated
+    /// by position when <paramref name="multitap"/>), any other character passes through unchanged.</summary>
+    private static IEnumerable<string> EncodeTokens(string text, bool multitap, char spaceDigit)
     {
         foreach (var raw in text)
         {
             if (raw == ' ')
             {
-                yield return SpaceDigit.ToString();
+                yield return spaceDigit.ToString();
                 continue;
             }
 
@@ -124,7 +126,7 @@ public sealed class PhoneKeypadCodec
         var key = group[0];
         var uniform = group.All(ch => ch == key);
 
-        if (uniform && key == SpaceDigit)
+        if (uniform && key is '0' or '1')
         {
             return ' ';
         }
@@ -167,6 +169,71 @@ public sealed class PhoneKeypadCodec
         }
 
         return result;
+    }
+
+    /// <summary>The keypad digit for <paramref name="letter"/> (accents folded), or <c>'\0'</c> when the
+    /// character has no key — the primitive the dictionary index and its binary search are built on.</summary>
+    public static char DigitFor(char letter)
+    {
+        var upper = char.ToUpperInvariant(letter);
+        if (LetterToKey.TryGetValue(upper, out var key))
+        {
+            return key.Digit;
+        }
+
+        return FoldToBaseLetter(upper) is char folded && LetterToKey.TryGetValue(folded, out var foldedKey)
+            ? foldedKey.Digit
+            : '\0';
+    }
+
+    /// <summary>The vanity code for <paramref name="word"/> (<c>CACHE → 22243</c>), or <see langword="null"/>
+    /// when any character has no key — such words can never be a decode candidate.</summary>
+    public static string? VanityCode(string word)
+    {
+        var digits = new char[word.Length];
+        for (var i = 0; i < word.Length; i++)
+        {
+            var digit = DigitFor(word[i]);
+            if (digit == '\0')
+            {
+                return null;
+            }
+
+            digits[i] = digit;
+        }
+
+        return new string(digits);
+    }
+
+    /// <summary>Splits a vanity code into the runs of letter-bearing digits (2–9) that could each be a word.
+    /// Everything else separates: whitespace, the space digits <c>0</c>/<c>1</c>, and the punctuation people
+    /// paste along with a phone number (<c>1-800-356-9377</c>, <c>(555) 123.4567</c>).</summary>
+    public static IReadOnlyList<string> SplitVanityTokens(string? digits)
+    {
+        if (string.IsNullOrWhiteSpace(digits))
+        {
+            return [];
+        }
+
+        List<string> tokens = [];
+        var start = -1;
+
+        for (var i = 0; i <= digits.Length; i++)
+        {
+            var isLetterDigit = i < digits.Length && digits[i] is >= '2' and <= '9';
+
+            if (isLetterDigit && start < 0)
+            {
+                start = i;
+            }
+            else if (!isLetterDigit && start >= 0)
+            {
+                tokens.Add(digits[start..i]);
+                start = -1;
+            }
+        }
+
+        return tokens;
     }
 
     private static char? FoldToBaseLetter(char c)

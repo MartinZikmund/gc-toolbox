@@ -2807,6 +2807,12 @@
     <value>Share</value>
   </data>
   <data name="PhoneKeypadVanityNote" xml:space="preserve">
-    <value>A vanity code is ambiguous — each digit could be any of its letters, so decoding lists the options per digit.</value>
+    <value>A vanity code is ambiguous — one digit run can spell several words. Matches come from the bundled offline word list, commonest first; runs with no match fall back to the letters on each key.</value>
+  </data>
+  <data name="PhoneKeypadSpaceDigit" xml:space="preserve">
+    <value>Digit used for a space</value>
+  </data>
+  <data name="PhoneKeypadCandidatesHeader" xml:space="preserve">
+    <value>Possible words</value>
   </data>
 </root>

@@ -118,6 +118,67 @@ public class PhoneKeypadCodecTests
     public void DecodeVanityCandidates_EmptyOrNull_ReturnsEmpty(string? digits)
         => Assert.AreEqual(0, _codec.DecodeVanityCandidates(digits).Count);
 
+    // ---- Selectable space digit (geocachingtoolbox.com parity) ----
+
+    [TestMethod]
+    public void Encode_Vanity_UsesTheChosenSpaceDigit()
+        => Assert.AreEqual("35693771369", _codec.Encode("FLOWERS FOX", PhoneKeypadMode.Vanity, spaceDigit: '1'));
+
+    [TestMethod]
+    public void Encode_Multitap_UsesTheChosenSpaceDigit()
+        => Assert.AreEqual("44 444 1 2", _codec.Encode("HI A", PhoneKeypadMode.Multitap, spaceDigit: '1'));
+
+    [TestMethod]
+    public void DecodeMultitap_TreatsBothSpaceDigitsAsSpace()
+        => Assert.AreEqual("HI A", _codec.DecodeMultitap("44 444 1 2"));
+
+    // ---- Vanity codes & tokenizing (what the dictionary decoder is built on) ----
+
+    [DataTestMethod]
+    [DataRow("CACHE", "22243")]
+    [DataRow("digit", "34448")]
+    [DataRow("Č", "2")]                    // accents fold to the base letter
+    public void VanityCode_MapsWordToDigits(string word, string expected)
+        => Assert.AreEqual(expected, PhoneKeypadCodec.VanityCode(word));
+
+    [DataTestMethod]
+    [DataRow("a-b")]
+    [DataRow("1st")]
+    [DataRow("hi there")]
+    public void VanityCode_WordWithoutAKey_ReturnsNull(string word)
+        => Assert.IsNull(PhoneKeypadCodec.VanityCode(word));
+
+    [TestMethod]
+    public void DigitFor_UnmappedCharacter_ReturnsNul()
+        => Assert.AreEqual('\0', PhoneKeypadCodec.DigitFor('-'));
+
+    [TestMethod]
+    public void SplitVanityTokens_SplitsOnSpaceDigitsAndPunctuation()
+    {
+        // 1-800-FLOWERS pasted as digits: only the letter-bearing runs are words.
+        var tokens = PhoneKeypadCodec.SplitVanityTokens("1-800-356-9377");
+
+        CollectionAssert.AreEqual(new[] { "8", "356", "9377" }, tokens.ToArray());
+    }
+
+    [TestMethod]
+    public void SplitVanityTokens_SplitsOnEitherSpaceDigit()
+    {
+        CollectionAssert.AreEqual(new[] { "22243", "34448" }, PhoneKeypadCodec.SplitVanityTokens("22243034448").ToArray());
+        CollectionAssert.AreEqual(new[] { "22243", "34448" }, PhoneKeypadCodec.SplitVanityTokens("22243134448").ToArray());
+    }
+
+    [TestMethod]
+    public void SplitVanityTokens_ToleratesWhitespaceAndSeparators()
+        => Assert.AreEqual("555|273|4567", string.Join('|', PhoneKeypadCodec.SplitVanityTokens("(555) 273.4567")));
+
+    [DataTestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    [DataRow("0110")]
+    public void SplitVanityTokens_NothingToDecode_ReturnsEmpty(string? digits)
+        => Assert.AreEqual(0, PhoneKeypadCodec.SplitVanityTokens(digits).Count);
+
     // ---- Keypad layout (for the on-screen keys / legend) ----
 
     [TestMethod]

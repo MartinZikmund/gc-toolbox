@@ -2807,6 +2807,12 @@
     <value>Sdílet</value>
   </data>
   <data name="PhoneKeypadVanityNote" xml:space="preserve">
-    <value>Vanity kód je nejednoznačný — každá číslice může být kterékoli z jejích písmen, proto se při dekódování vypíšou možnosti pro každou číslici.</value>
+    <value>Vanity kód je nejednoznačný — jedna skupina číslic může dávat několik slov. Shody pocházejí z vestavěného offline slovníku, nejběžnější první; skupiny bez shody se zobrazí jako písmena na jednotlivých klávesách.</value>
+  </data>
+  <data name="PhoneKeypadSpaceDigit" xml:space="preserve">
+    <value>Číslice pro mezeru</value>
+  </data>
+  <data name="PhoneKeypadCandidatesHeader" xml:space="preserve">
+    <value>Možná slova</value>
   </data>
 </root>
