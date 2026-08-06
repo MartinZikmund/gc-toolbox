@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - main
-      - feature/tools
       - release/**
     paths-ignore:
       - '**.md'
