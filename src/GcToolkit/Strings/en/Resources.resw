@@ -2351,4 +2351,92 @@
   <data name="PrimePreparing" xml:space="preserve">
     <value>Preparing the prime table…</value>
   </data>
+  <!-- Euler's number (e) -->
+  <data name="EulerNumber_Name" xml:space="preserve">
+    <value>Euler's number (e)</value>
+  </data>
+  <data name="EulerNumber_Tooltip" xml:space="preserve">
+    <value>Look up the decimals of e — the first N digits, a position, a range, or every occurrence of a sequence.</value>
+  </data>
+  <data name="EulerMode" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="EulerModeFirst" xml:space="preserve">
+    <value>First N decimals</value>
+  </data>
+  <data name="EulerModePosition" xml:space="preserve">
+    <value>Decimal at position</value>
+  </data>
+  <data name="EulerModeRange" xml:space="preserve">
+    <value>Position range</value>
+  </data>
+  <data name="EulerModeSearch" xml:space="preserve">
+    <value>Find sequence</value>
+  </data>
+  <data name="EulerCountLabel" xml:space="preserve">
+    <value>Number of decimals (1–1,000,000)</value>
+  </data>
+  <data name="EulerPositionLabel" xml:space="preserve">
+    <value>Position (1–1,000,000)</value>
+  </data>
+  <data name="EulerRangeFromLabel" xml:space="preserve">
+    <value>From position</value>
+  </data>
+  <data name="EulerRangeToLabel" xml:space="preserve">
+    <value>Up to and including position</value>
+  </data>
+  <data name="EulerSearchLabel" xml:space="preserve">
+    <value>Digit sequence</value>
+  </data>
+  <data name="EulerSearchPlaceholder" xml:space="preserve">
+    <value>e.g. 1828</value>
+  </data>
+  <data name="EulerGroupDigits" xml:space="preserve">
+    <value>Group digits in blocks of 10</value>
+  </data>
+  <data name="EulerShowPositions" xml:space="preserve">
+    <value>Show line positions</value>
+  </data>
+  <data name="EulerOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="EulerOccurrencesLabel" xml:space="preserve">
+    <value>Occurrences</value>
+  </data>
+  <data name="EulerCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="EulerShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="EulerCopyPosition" xml:space="preserve">
+    <value>Copy this position</value>
+  </data>
+  <data name="EulerCountError" xml:space="preserve">
+    <value>Enter a number of decimals between 1 and 1,000,000.</value>
+  </data>
+  <data name="EulerPositionError" xml:space="preserve">
+    <value>Enter a position between 1 and 1,000,000.</value>
+  </data>
+  <data name="EulerRangeError" xml:space="preserve">
+    <value>Enter a valid range between 1 and 1,000,000 (start before end).</value>
+  </data>
+  <data name="EulerSearchError" xml:space="preserve">
+    <value>The search sequence may contain only the digits 0–9.</value>
+  </data>
+  <data name="EulerLoadError" xml:space="preserve">
+    <value>The digits of e could not be loaded.</value>
+  </data>
+  <data name="EulerSearchNoMatch" xml:space="preserve">
+    <value>The sequence does not occur in the first 1,000,000 decimals.</value>
+  </data>
+  <data name="EulerSearchCount" xml:space="preserve">
+    <value>Occurrences found: {0}</value>
+  </data>
+  <data name="EulerSearchTruncated" xml:space="preserve">
+    <value>Occurrences found: {0} (showing the first {1})</value>
+  </data>
+  <data name="EulerIntegerNote" xml:space="preserve">
+    <value>Position 1 is the first digit after the decimal point — the integer part of e (2) is not counted.</value>
+  </data>
 </root>
