@@ -2676,7 +2676,7 @@
     <value>Semaphore chart</value>
   </data>
   <data name="SemaphoreChartHint" xml:space="preserve">
-    <value>Tap a figure to add it to the text. Tap Numbers before digits; tap Letters to return to letters.</value>
+    <value>Tap a figure to add it to the text. Tap Numbers before digits — A–I and K then read as 1–9 and 0 — and tap Letters to return to letters.</value>
   </data>
   <data name="SemaphoreUnknownNotice" xml:space="preserve">
     <value>Some characters have no semaphore figure and were skipped.</value>

@@ -2676,7 +2676,7 @@
     <value>Semaforová tabulka</value>
   </data>
   <data name="SemaphoreChartHint" xml:space="preserve">
-    <value>Klepnutím na znak jej přidáte do textu. Před číslicemi klepněte na Číslice; k písmenům se vrátíte klepnutím na Písmena.</value>
+    <value>Klepnutím na znak jej přidáte do textu. Před číslicemi klepněte na Číslice – A–I a K se pak čtou jako 1–9 a 0 – a k písmenům se vrátíte klepnutím na Písmena.</value>
   </data>
   <data name="SemaphoreUnknownNotice" xml:space="preserve">
     <value>Některé znaky nemají semaforový znak a byly přeskočeny.</value>

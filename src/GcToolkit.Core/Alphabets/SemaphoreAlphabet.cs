@@ -66,7 +66,7 @@ public static class SemaphoreAlphabet
             ('F', SemaphoreArmPosition.Out, SemaphoreArmPosition.Down),
             ('G', SemaphoreArmPosition.Low, SemaphoreArmPosition.Down),
             ('H', SemaphoreArmPosition.AcrossLow, SemaphoreArmPosition.Out),
-            ('I', SemaphoreArmPosition.AcrossLow, SemaphoreArmPosition.Up),
+            ('I', SemaphoreArmPosition.AcrossLow, SemaphoreArmPosition.High),
             ('J', SemaphoreArmPosition.Out, SemaphoreArmPosition.Up),
             ('K', SemaphoreArmPosition.Up, SemaphoreArmPosition.Low),
             ('L', SemaphoreArmPosition.High, SemaphoreArmPosition.Low),

@@ -3,6 +3,7 @@ using GcToolkit.Core.Alphabets;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using Microsoft.Extensions.Localization;
@@ -21,10 +22,16 @@ namespace GcToolkit.Core.ViewModels.Tools;
       Keywords = ["semaphore", "flags", "flag", "semafor", "vlajková abeceda", "vlajky", "abeceda", "paže"])]
 public sealed partial class SemaphoreViewModel : ToolViewModelBase
 {
+    // A long paste rebuilds one figure item per character, so coalesce those into a single rebuild;
+    // short input (the common case) still converts on every keystroke.
+    private const int DebounceThreshold = 120;
+
     private readonly SemaphoreCodec _codec = new();
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
+    private readonly Dictionary<SemaphoreArmPosition, string> _armNames;
 
     // Mode override set by tapping the Numbers/Letters chart signs; consumed by the next letter tap
     // and discarded when the user edits the text directly.
@@ -43,6 +50,7 @@ public sealed partial class SemaphoreViewModel : ToolViewModelBase
         _clipboard = clipboard;
         _share = share;
         _localizer = localizer;
+        _armNames = Enum.GetValues<SemaphoreArmPosition>().ToDictionary(p => p, LocalizeArmName);
         Palette = [.. SemaphoreAlphabet.ChartFigures.Select(CreatePaletteItem)];
         SpecialSignals = [.. SemaphoreAlphabet.SpecialFigures.Select(CreateSpecialItem)];
     }
@@ -77,7 +85,14 @@ public sealed partial class SemaphoreViewModel : ToolViewModelBase
             _pendingTapMode = null;
         }
 
-        Convert();
+        if (value.Length > DebounceThreshold)
+        {
+            _debouncer.Debounce(Convert);
+        }
+        else
+        {
+            _debouncer.RunNow(Convert);
+        }
     }
 
     private void Convert()
@@ -189,9 +204,9 @@ public sealed partial class SemaphoreViewModel : ToolViewModelBase
     };
 
     private string DescribeArms(SemaphoreFigure figure)
-        => _localizer["SemaphoreArmsTooltip", ArmName(figure.LeftArm), ArmName(figure.RightArm)].Value;
+        => _localizer["SemaphoreArmsTooltip", _armNames[figure.LeftArm], _armNames[figure.RightArm]].Value;
 
-    private string ArmName(SemaphoreArmPosition position) => position switch
+    private string LocalizeArmName(SemaphoreArmPosition position) => position switch
     {
         SemaphoreArmPosition.Down => _localizer["SemaphoreArmDown"].Value,
         SemaphoreArmPosition.Low => _localizer["SemaphoreArmLow"].Value,

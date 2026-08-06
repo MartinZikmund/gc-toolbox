@@ -27,6 +27,19 @@ public class SemaphoreAlphabetTests
         Assert.AreEqual(26, positions);
     }
 
+    // Distinct arm *positions* aren't enough: two letters must not draw the same picture either
+    // (e.g. left-across-low + right-up would render exactly like left-up + right-low).
+    [TestMethod]
+    public void Letters_AllRenderedFlagDirectionsAreDistinct()
+    {
+        var collisions = SemaphoreAlphabet.Letters
+            .GroupBy(pair => string.Join("/", new[] { pair.Value.LeftFlagAngle, pair.Value.RightFlagAngle }.Order()))
+            .Where(group => group.Count() > 1)
+            .Select(group => string.Join("=", group.Select(pair => pair.Key)));
+
+        Assert.AreEqual(string.Empty, string.Join(", ", collisions), "Letters that draw the same figure");
+    }
+
     // Canonical positions cross-checked against the standard flag-semaphore chart
     // (left/right are the signaller's own arms).
     [DataTestMethod]
@@ -38,7 +51,7 @@ public class SemaphoreAlphabetTests
     [DataRow('F', SemaphoreArmPosition.Out, SemaphoreArmPosition.Down)]
     [DataRow('G', SemaphoreArmPosition.Low, SemaphoreArmPosition.Down)]
     [DataRow('H', SemaphoreArmPosition.AcrossLow, SemaphoreArmPosition.Out)]
-    [DataRow('I', SemaphoreArmPosition.AcrossLow, SemaphoreArmPosition.Up)]
+    [DataRow('I', SemaphoreArmPosition.AcrossLow, SemaphoreArmPosition.High)]
     [DataRow('J', SemaphoreArmPosition.Out, SemaphoreArmPosition.Up)]
     [DataRow('K', SemaphoreArmPosition.Up, SemaphoreArmPosition.Low)]
     [DataRow('L', SemaphoreArmPosition.High, SemaphoreArmPosition.Low)]

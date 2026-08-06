@@ -8,9 +8,12 @@
     xmlns:vm="using:GcToolkit.Core.ViewModels.Tools"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid MaxWidth="1024" HorizontalAlignment="Center">
-        <ScrollViewer x:Name="ContentScroller" Padding="24">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+    <ScrollViewer x:Name="ContentScroller" Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
 
                 <!--  Header: tool name + favorite toggle  -->
                 <Grid ColumnSpacing="12">
@@ -197,26 +200,27 @@
                 </Border>
 
             </StackPanel>
-        </ScrollViewer>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Wide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ContentScroller.Padding" Value="24" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ContentScroller.Padding" Value="12" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="Wide">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="640" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="ContentScroller.Padding" Value="24" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Narrow">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="ContentScroller.Padding" Value="12" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ScrollViewer>
 </local:SemaphoreViewBase>

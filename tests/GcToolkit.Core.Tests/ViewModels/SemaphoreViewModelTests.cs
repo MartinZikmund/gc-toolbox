@@ -45,6 +45,26 @@ public class SemaphoreViewModelTests
     }
 
     [TestMethod]
+    public void InputText_LongText_StillRendersOneFigurePerCharacter()
+    {
+        var vm = CreateViewModel();
+
+        vm.InputText = new string('a', 500);
+
+        Assert.AreEqual(500, vm.Figures.Count);
+    }
+
+    [TestMethod]
+    public void FigureItem_ToString_LeadsWithTheCaption()
+    {
+        var vm = CreateViewModel();
+
+        var text = PaletteLetter(vm, 'A').ToString();
+
+        Assert.IsTrue(text!.StartsWith("A / 1", StringComparison.Ordinal), text);
+    }
+
+    [TestMethod]
     public void Palette_HasAllLettersAndThreeSigns_WithDigitCaptions()
     {
         var vm = CreateViewModel();

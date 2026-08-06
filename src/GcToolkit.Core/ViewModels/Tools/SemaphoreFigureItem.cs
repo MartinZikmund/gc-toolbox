@@ -24,4 +24,7 @@ public sealed class SemaphoreFigureItem(
     public string ToolTip { get; } = toolTip;
 
     public IRelayCommand? TapCommand { get; } = tapCommand;
+
+    // List items with no explicit automation name fall back to ToString(), so make it readable.
+    public override string ToString() => $"{Caption} — {ToolTip}";
 }
