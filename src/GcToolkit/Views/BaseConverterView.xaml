@@ -1,0 +1,387 @@
+﻿<local:BaseConverterViewBase
+    x:Class="GcToolkit.Views.BaseConverterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <local:BaseConverterViewBase.Resources>
+        <!--  Virtualizing result rows: strip the container chrome so the row template owns the look.  -->
+        <Style x:Key="ResultRowsListViewStyle" TargetType="ListView">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </local:BaseConverterViewBase.Resources>
+
+    <ScrollViewer Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
+
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Input value(s)  -->
+                <TextBox
+                    x:Name="ValueTextBox"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    Header="{markup:Localize Key=BaseConverterInputLabel}"
+                    PlaceholderText="{markup:Localize Key=BaseConverterInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <!--  From base / swap / to base  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=BaseConverterFromBase}"
+                        IsEnabled="{x:Bind ViewModel.UseStandardBases, Mode=OneWay}"
+                        ItemsSource="{x:Bind ViewModel.Bases}"
+                        SelectedIndex="{x:Bind ViewModel.FromBaseIndex, Mode=TwoWay}" />
+                    <Button
+                        Grid.Column="1"
+                        Width="40"
+                        Height="32"
+                        Padding="0"
+                        VerticalAlignment="Bottom"
+                        AutomationProperties.Name="{markup:Localize Key=BaseConverterSwap}"
+                        Command="{x:Bind ViewModel.SwapBasesCommand}"
+                        ToolTipService.ToolTip="{markup:Localize Key=BaseConverterSwap}">
+                        <FontIcon FontSize="14" Glyph="&#xE8AB;" />
+                    </Button>
+                    <ComboBox
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        Header="{markup:Localize Key=BaseConverterToBase}"
+                        IsEnabled="{x:Bind ViewModel.UseStandardBases, Mode=OneWay}"
+                        ItemsSource="{x:Bind ViewModel.Bases}"
+                        SelectedIndex="{x:Bind ViewModel.ToBaseIndex, Mode=TwoWay}" />
+                </Grid>
+
+                <!--  Manual mode: user-defined source/target alphabets, whose length is the base  -->
+                <Grid
+                    ColumnSpacing="12"
+                    RowSpacing="4"
+                    Visibility="{x:Bind ViewModel.UseCustomAlphabet, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.SourceAlphabetHint, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.TargetAlphabetHint, Mode=OneWay}" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontFamily="Consolas"
+                        Header="{markup:Localize Key=BaseConverterSourceAlphabet}"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.SourceAlphabet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontFamily="Consolas"
+                        Header="{markup:Localize Key=BaseConverterTargetAlphabet}"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.TargetAlphabet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <!--  Options  -->
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <CheckBox
+                        Content="{markup:Localize Key=BaseConverterCaseSensitive}"
+                        IsChecked="{x:Bind ViewModel.CaseSensitive, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.IsCaseToggleEnabled, Mode=OneWay}" />
+                    <CheckBox Content="{markup:Localize Key=BaseConverterShowAllBases}" IsChecked="{x:Bind ViewModel.ShowAllBases, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=BaseConverterCustomAlphabet}" IsChecked="{x:Bind ViewModel.UseCustomAlphabet, Mode=TwoWay}" />
+                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BaseConverterClear}" />
+                </StackPanel>
+
+                <!--  Invalid-input notice  -->
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                    Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                    Severity="Error" />
+
+                <!--  Single value: the arbitrary target base  -->
+                <TextBox
+                    FontFamily="Consolas"
+                    FontSize="16"
+                    Header="{markup:Localize Key=BaseConverterTargetLabel}"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.TargetOutput, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind ViewModel.IsSingleValue, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <!--  Single value: the four common bases at once (binary / octal / decimal / hex)  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsSingleValue, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BaseConverterCommonLabel}" />
+                    <ListView
+                        ItemsSource="{x:Bind ViewModel.CommonResults, Mode=OneWay}"
+                        SelectionMode="None"
+                        Style="{StaticResource ResultRowsListViewStyle}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:BaseResultItem">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="12,8"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Label}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        FontSize="16"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Value}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{markup:Localize Key=BaseConverterCopyRow}"
+                                        Command="{x:Bind CopyCommand}"
+                                        ToolTipService.ToolTip="{markup:Localize Key=BaseConverterCopyRow}">
+                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!--  Single value: every base 2-62 ("show all bases")  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllBases, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BaseConverterAllBasesLabel}" />
+                    <ListView
+                        MaxHeight="420"
+                        ItemsSource="{x:Bind ViewModel.AllBaseResults, Mode=OneWay}"
+                        SelectionMode="None"
+                        Style="{StaticResource ResultRowsListViewStyle}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:BaseResultItem">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="12,6"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Label}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Value}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{markup:Localize Key=BaseConverterCopyRow}"
+                                        Command="{x:Bind CopyCommand}"
+                                        ToolTipService.ToolTip="{markup:Localize Key=BaseConverterCopyRow}">
+                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!--  Batch: one row per space-separated token, invalid ones flagged  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsBatch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BaseConverterBatchLabel}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=BaseConverterBatchNote}"
+                        TextWrapping="Wrap" />
+                    <ListView
+                        MaxHeight="420"
+                        ItemsSource="{x:Bind ViewModel.BatchResults, Mode=OneWay}"
+                        SelectionMode="None"
+                        Style="{StaticResource ResultRowsListViewStyle}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:BaseBatchItem">
+                                <Grid
+                                    Margin="0,2"
+                                    Padding="12,6"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    ColumnSpacing="12"
+                                    CornerRadius="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind Input}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Display}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{markup:Localize Key=BaseConverterCopyRow}"
+                                        Command="{x:Bind CopyCommand}"
+                                        ToolTipService.ToolTip="{markup:Localize Key=BaseConverterCopyRow}">
+                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!--  Output actions  -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=BaseConverterCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=BaseConverterShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Digit reference for the current source base  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BaseConverterDigitsLabel}" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="15"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.DigitReference, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=BaseConverterDigitsNote}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</local:BaseConverterViewBase>

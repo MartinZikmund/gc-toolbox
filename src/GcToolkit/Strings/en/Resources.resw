@@ -192,7 +192,6 @@
   <data name="Category_Text" xml:space="preserve">
     <value>Text</value>
   </data>
-  <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Conversion</value>
   </data>
@@ -3223,7 +3222,6 @@
   <data name="AsciiInvalidInput" xml:space="preserve">
     <value>The input isn't valid {0}.</value>
   </data>
-  <!-- Numbers to letters / A1Z26 -->
   <data name="NumbersToLetters_Name" xml:space="preserve">
     <value>Numbers to letters</value>
   </data>
@@ -3298,5 +3296,137 @@
   </data>
   <data name="NumbersShare" xml:space="preserve">
     <value>Share</value>
+  </data>
+  <data name="BaseConverterInputLabel" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="BaseConverterInputPlaceholder" xml:space="preserve">
+    <value>Type a number (digits 0–9, A–Z)…</value>
+  </data>
+  <data name="BaseConverterFromBase" xml:space="preserve">
+    <value>From base</value>
+  </data>
+  <data name="BaseConverterToBase" xml:space="preserve">
+    <value>To base</value>
+  </data>
+  <data name="BaseConverterClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="BaseConverterCommonLabel" xml:space="preserve">
+    <value>All bases</value>
+  </data>
+  <data name="BaseConverterTargetLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BaseConverterBinary" xml:space="preserve">
+    <value>Binary (base 2)</value>
+  </data>
+  <data name="BaseConverterOctal" xml:space="preserve">
+    <value>Octal (base 8)</value>
+  </data>
+  <data name="BaseConverterDecimal" xml:space="preserve">
+    <value>Decimal (base 10)</value>
+  </data>
+  <data name="BaseConverterHex" xml:space="preserve">
+    <value>Hexadecimal (base 16)</value>
+  </data>
+  <data name="BaseConverterCopyRow" xml:space="preserve">
+    <value>Copy this value</value>
+  </data>
+  <data name="BaseConverterCopy" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="BaseConverterShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BaseConverterInvalidNotice" xml:space="preserve">
+    <value>That's not a valid number in base {0}. Check the digits and the selected base.</value>
+  </data>
+  <data name="BaseConverterTargetLine" xml:space="preserve">
+    <value>Base {0}: {1}</value>
+  </data>
+  <data name="BaseConverterDigitsLabel" xml:space="preserve">
+    <value>Digits</value>
+  </data>
+  <data name="BaseConverterDigitsNote" xml:space="preserve">
+    <value>A base uses this many leading digits, in order. Letters are case-insensitive on input.</value>
+  </data>
+  <data name="BaseConverterBaseN" xml:space="preserve">
+    <value>Base {0}</value>
+  </data>
+  <data name="BaseConverterSwap" xml:space="preserve">
+    <value>Swap bases</value>
+  </data>
+  <data name="BaseConverterCaseSensitive" xml:space="preserve">
+    <value>Case-sensitive</value>
+  </data>
+  <data name="BaseConverterShowAllBases" xml:space="preserve">
+    <value>Show all bases</value>
+  </data>
+  <data name="BaseConverterAllBasesLabel" xml:space="preserve">
+    <value>Every base (2–62)</value>
+  </data>
+  <data name="BaseConverterBatchLabel" xml:space="preserve">
+    <value>Batch results</value>
+  </data>
+  <data name="BaseConverterBatchNote" xml:space="preserve">
+    <value>Each space-separated value is converted on its own; values that aren't valid in the source base are skipped.</value>
+  </data>
+  <data name="BaseConverterSkipped" xml:space="preserve">
+    <value>Skipped — not valid in base {0}</value>
+  </data>
+  <data name="BaseConverterCustomAlphabet" xml:space="preserve">
+    <value>Custom alphabets</value>
+  </data>
+  <data name="BaseConverterSourceAlphabet" xml:space="preserve">
+    <value>Source alphabet</value>
+  </data>
+  <data name="BaseConverterTargetAlphabet" xml:space="preserve">
+    <value>Target alphabet</value>
+  </data>
+  <data name="BaseConverterAlphabetInvalid" xml:space="preserve">
+    <value>An alphabet needs at least two characters and no repeats. Its length is the base.</value>
+  </data>
+  <data name="BaseNameBinary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="BaseNameTernary" xml:space="preserve">
+    <value>Ternary</value>
+  </data>
+  <data name="BaseNameQuaternary" xml:space="preserve">
+    <value>Quaternary</value>
+  </data>
+  <data name="BaseNameQuinary" xml:space="preserve">
+    <value>Quinary</value>
+  </data>
+  <data name="BaseNameSenary" xml:space="preserve">
+    <value>Senary</value>
+  </data>
+  <data name="BaseNameSeptenary" xml:space="preserve">
+    <value>Septenary</value>
+  </data>
+  <data name="BaseNameOctal" xml:space="preserve">
+    <value>Octal</value>
+  </data>
+  <data name="BaseNameNonary" xml:space="preserve">
+    <value>Nonary</value>
+  </data>
+  <data name="BaseNameDecimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="BaseNameUndecimal" xml:space="preserve">
+    <value>Undecimal</value>
+  </data>
+  <data name="BaseNameDuodecimal" xml:space="preserve">
+    <value>Duodecimal</value>
+  </data>
+  <data name="BaseNameHexadecimal" xml:space="preserve">
+    <value>Hexadecimal</value>
+  </data>
+  <data name="BaseNameVigesimal" xml:space="preserve">
+    <value>Vigesimal</value>
+  </data>
+  <data name="BaseNameTrigesimal" xml:space="preserve">
+    <value>Trigesimal</value>
   </data>
 </root>

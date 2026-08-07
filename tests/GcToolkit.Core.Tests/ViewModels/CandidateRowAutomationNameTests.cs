@@ -70,6 +70,38 @@ public class CandidateRowAutomationNameTests
     }
 
     [TestMethod]
+    public void BaseResultItem_ToString_IsLabelAndValue()
+    {
+        BaseResultItem item = new("Base 2", "11111111", NoOp);
+
+        Assert.AreEqual("Base 2: 11111111", item.ToString());
+    }
+
+    [TestMethod]
+    public void BaseBatchItem_ToString_IsInputAndResult()
+    {
+        BaseBatchItem item = new("FF", "255", isValid: true, "skipped", NoOp);
+
+        Assert.AreEqual("FF: 255", item.ToString());
+    }
+
+    [TestMethod]
+    public void BaseBatchItem_ToString_SkippedToken_AnnouncesWhyItWasSkipped()
+    {
+        BaseBatchItem item = new("ZZ", string.Empty, isValid: false, "Skipped — not valid in base 16", NoOp);
+
+        Assert.AreEqual("ZZ: Skipped — not valid in base 16", item.ToString());
+    }
+
+    [TestMethod]
+    public void BaseOption_ToString_IsTheDisplayName_NotTheRecordForm()
+    {
+        BaseOption option = new(16, "Hexadecimal (16)");
+
+        Assert.AreEqual("Hexadecimal (16)", option.ToString());
+    }
+
+    [TestMethod]
     public void GcCodeIdResultItem_ToString_IsInputAndOutput()
     {
         GcCodeIdResultItem item = new("GC16XYD", "718967", isValid: true, NoOp);
