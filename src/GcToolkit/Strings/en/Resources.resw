@@ -3504,4 +3504,139 @@
   <data name="VigenereKeyLengthTo" xml:space="preserve">
     <value>to</value>
   </data>
+  <data name="ResistorCode_Name" xml:space="preserve">
+    <value>Resistor colour code</value>
+  </data>
+  <data name="ResistorCode_Tooltip" xml:space="preserve">
+    <value>Decode resistor colour bands to a value, or encode a value to bands.</value>
+  </data>
+  <data name="ResistorMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="ResistorModeDecode" xml:space="preserve">
+    <value>Colours → value</value>
+  </data>
+  <data name="ResistorModeEncode" xml:space="preserve">
+    <value>Value → colours</value>
+  </data>
+  <data name="ResistorBands" xml:space="preserve">
+    <value>Bands</value>
+  </data>
+  <data name="ResistorBands4" xml:space="preserve">
+    <value>4 bands</value>
+  </data>
+  <data name="ResistorBands5" xml:space="preserve">
+    <value>5 bands</value>
+  </data>
+  <data name="ResistorBands6" xml:space="preserve">
+    <value>6 bands</value>
+  </data>
+  <data name="ResistorBandDigit" xml:space="preserve">
+    <value>Digit {0}</value>
+  </data>
+  <data name="ResistorBandMultiplier" xml:space="preserve">
+    <value>Multiplier</value>
+  </data>
+  <data name="ResistorBandTolerance" xml:space="preserve">
+    <value>Tolerance</value>
+  </data>
+  <data name="ResistorBandTempCo" xml:space="preserve">
+    <value>Temp. coefficient</value>
+  </data>
+  <data name="ResistorValueLabel" xml:space="preserve">
+    <value>Resistance (ohms)</value>
+  </data>
+  <data name="ResistorValuePlaceholder" xml:space="preserve">
+    <value>e.g. 4700 or 4.7k</value>
+  </data>
+  <data name="ResistorResistanceLabel" xml:space="preserve">
+    <value>Resistance</value>
+  </data>
+  <data name="ResistorToleranceValue" xml:space="preserve">
+    <value>± {0}%</value>
+  </data>
+  <data name="ResistorTempCoValue" xml:space="preserve">
+    <value>{0} ppm/K</value>
+  </data>
+  <data name="ResistorCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ResistorShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ResistorClear" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResistorColor_Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="ResistorColor_Brown" xml:space="preserve">
+    <value>Brown</value>
+  </data>
+  <data name="ResistorColor_Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="ResistorColor_Orange" xml:space="preserve">
+    <value>Orange</value>
+  </data>
+  <data name="ResistorColor_Yellow" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="ResistorColor_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="ResistorColor_Blue" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="ResistorColor_Violet" xml:space="preserve">
+    <value>Violet</value>
+  </data>
+  <data name="ResistorColor_Grey" xml:space="preserve">
+    <value>Grey</value>
+  </data>
+  <data name="ResistorColor_White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="ResistorColor_Gold" xml:space="preserve">
+    <value>Gold</value>
+  </data>
+  <data name="ResistorColor_Silver" xml:space="preserve">
+    <value>Silver</value>
+  </data>
+  <data name="ResistorColor_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ResistorErrorBandCount" xml:space="preserve">
+    <value>Select a valid number of bands.</value>
+  </data>
+  <data name="ResistorErrorDigitBand" xml:space="preserve">
+    <value>A digit band must be a colour from black to white.</value>
+  </data>
+  <data name="ResistorErrorMultiplierBand" xml:space="preserve">
+    <value>That colour can't be used as a multiplier.</value>
+  </data>
+  <data name="ResistorErrorToleranceBand" xml:space="preserve">
+    <value>That colour can't be used as a tolerance.</value>
+  </data>
+  <data name="ResistorErrorTempCoBand" xml:space="preserve">
+    <value>That colour can't be used as a temperature coefficient.</value>
+  </data>
+  <data name="ResistorErrorTolerance" xml:space="preserve">
+    <value>No colour band matches that tolerance.</value>
+  </data>
+  <data name="ResistorErrorTempCo" xml:space="preserve">
+    <value>No colour band matches that temperature coefficient.</value>
+  </data>
+  <data name="ResistorErrorValueRange" xml:space="preserve">
+    <value>Enter a resistance greater than zero.</value>
+  </data>
+  <data name="ResistorErrorValue" xml:space="preserve">
+    <value>That value can't be shown with these bands. Try a different value or more bands.</value>
+  </data>
+  <data name="ResistorApproximate" xml:space="preserve">
+    <value>These bands can't show that value exactly — the closest is {0}.</value>
+  </data>
+  <data name="ResistorDigitsLabel" xml:space="preserve">
+    <value>Digits</value>
+  </data>
 </root>
