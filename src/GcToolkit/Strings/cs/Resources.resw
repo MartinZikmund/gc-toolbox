@@ -211,6 +211,51 @@
   <data name="CoordinateDistance_Tooltip" xml:space="preserve">
     <value>Změřte vzdálenost a azimut mezi dvěma body.</value>
   </data>
+  <data name="CoordinateDistancePointA" xml:space="preserve">
+    <value>Bod A</value>
+  </data>
+  <data name="CoordinateDistancePointB" xml:space="preserve">
+    <value>Bod B</value>
+  </data>
+  <data name="CoordinateDistanceInputPlaceholder" xml:space="preserve">
+    <value>např. N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordinateDistanceInputHint" xml:space="preserve">
+    <value>Přijímá desetinné stupně, stupně a desetinné minuty, stupně minuty vteřiny, UTM nebo MGRS.</value>
+  </data>
+  <data name="CoordinateDistanceParseError" xml:space="preserve">
+    <value>Jeden ze souřadnicových bodů se nepodařilo načíst. Zkontrolujte zápis a zkuste to znovu.</value>
+  </data>
+  <data name="CoordinateDistanceResults" xml:space="preserve">
+    <value>Výsledky</value>
+  </data>
+  <data name="CoordinateDistanceDistance" xml:space="preserve">
+    <value>Vzdálenost</value>
+  </data>
+  <data name="CoordinateDistanceInitialBearing" xml:space="preserve">
+    <value>Počáteční azimut</value>
+  </data>
+  <data name="CoordinateDistanceFinalBearing" xml:space="preserve">
+    <value>Koncový azimut</value>
+  </data>
+  <data name="CoordinateDistanceMidpoint" xml:space="preserve">
+    <value>Středový bod</value>
+  </data>
+  <data name="CoordinateDistanceMidpointNote" xml:space="preserve">
+    <value>Stupně a desetinné minuty – standard pro geocaching.</value>
+  </data>
+  <data name="CoordinateDistanceCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="CoordinateDistanceShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
+  <data name="CoordinateDistanceClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="CoordinateDistanceSwap" xml:space="preserve">
+    <value>Prohodit A / B</value>
+  </data>
   <data name="CoordinateProjection_Name" xml:space="preserve">
     <value>Projekce bodu</value>
   </data>

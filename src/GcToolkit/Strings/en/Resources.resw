@@ -211,6 +211,51 @@
   <data name="CoordinateDistance_Tooltip" xml:space="preserve">
     <value>Measure the distance and bearing between two points.</value>
   </data>
+  <data name="CoordinateDistancePointA" xml:space="preserve">
+    <value>Point A</value>
+  </data>
+  <data name="CoordinateDistancePointB" xml:space="preserve">
+    <value>Point B</value>
+  </data>
+  <data name="CoordinateDistanceInputPlaceholder" xml:space="preserve">
+    <value>e.g. N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordinateDistanceInputHint" xml:space="preserve">
+    <value>Accepts decimal degrees, degrees decimal minutes, degrees minutes seconds, UTM or MGRS.</value>
+  </data>
+  <data name="CoordinateDistanceParseError" xml:space="preserve">
+    <value>Couldn't read one of the coordinates. Check the notation and try again.</value>
+  </data>
+  <data name="CoordinateDistanceResults" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="CoordinateDistanceDistance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="CoordinateDistanceInitialBearing" xml:space="preserve">
+    <value>Initial bearing</value>
+  </data>
+  <data name="CoordinateDistanceFinalBearing" xml:space="preserve">
+    <value>Final bearing</value>
+  </data>
+  <data name="CoordinateDistanceMidpoint" xml:space="preserve">
+    <value>Midpoint</value>
+  </data>
+  <data name="CoordinateDistanceMidpointNote" xml:space="preserve">
+    <value>Degrees and decimal minutes — the geocaching standard.</value>
+  </data>
+  <data name="CoordinateDistanceCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CoordinateDistanceShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="CoordinateDistanceClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CoordinateDistanceSwap" xml:space="preserve">
+    <value>Swap A / B</value>
+  </data>
   <data name="CoordinateProjection_Name" xml:space="preserve">
     <value>Waypoint projection</value>
   </data>
