@@ -99,6 +99,9 @@ public class CandidateRowAutomationNameTests
         BaseOption option = new(16, "Hexadecimal (16)");
 
         Assert.AreEqual("Hexadecimal (16)", option.ToString());
+    }
+
+    [TestMethod]
     public void VigenereKeyLengthItem_ToString_IsLengthAndScore()
     {
         VigenereKeyLengthItem item = new(5, 0.0661);
