@@ -3375,6 +3375,18 @@
   <data name="BaseConverterSkipped" xml:space="preserve">
     <value>Přeskočeno — neplatné v soustavě {0}</value>
   </data>
+  <data name="BaseConverterCustomAlphabet" xml:space="preserve">
+    <value>Vlastní abecedy</value>
+  </data>
+  <data name="BaseConverterSourceAlphabet" xml:space="preserve">
+    <value>Zdrojová abeceda</value>
+  </data>
+  <data name="BaseConverterTargetAlphabet" xml:space="preserve">
+    <value>Cílová abeceda</value>
+  </data>
+  <data name="BaseConverterAlphabetInvalid" xml:space="preserve">
+    <value>Abeceda musí mít alespoň dva znaky a žádné se nesmí opakovat. Její délka určuje základ soustavy.</value>
+  </data>
   <data name="BaseNameBinary" xml:space="preserve">
     <value>Dvojková</value>
   </data>

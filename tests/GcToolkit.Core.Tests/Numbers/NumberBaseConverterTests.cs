@@ -282,6 +282,82 @@ public class NumberBaseConverterTests
         Assert.AreEqual(0, NumberBaseConverter.Tokenize("   ").Length);
     }
 
+    // ---- Manual mode: user-defined alphabets ----
+
+    [TestMethod]
+    public void IsValidAlphabet_RejectsShortOrRepeatingGlyphSets()
+    {
+        Assert.IsFalse(NumberBaseConverter.IsValidAlphabet(null));
+        Assert.IsFalse(NumberBaseConverter.IsValidAlphabet("A"));
+        Assert.IsFalse(NumberBaseConverter.IsValidAlphabet("ABA"));
+        Assert.IsTrue(NumberBaseConverter.IsValidAlphabet("AB"));
+        Assert.IsTrue(NumberBaseConverter.IsValidAlphabet("0123456789ABCDEFGHJKMNPQRTVWXYZ"));
+    }
+
+    [TestMethod]
+    public void CanFoldCase_OnlyWhenFoldingKeepsGlyphsDistinct()
+    {
+        Assert.IsTrue(NumberBaseConverter.CanFoldCase("0123456789ABCDEF"));
+        Assert.IsTrue(NumberBaseConverter.CanFoldCase("abcXYZ"));
+        Assert.IsFalse(NumberBaseConverter.CanFoldCase("aAbB"));
+        Assert.IsFalse(NumberBaseConverter.CanFoldCase(NumberBaseConverter.DigitsFor(62)));
+    }
+
+    [TestMethod]
+    public void TryParse_CustomAlphabet_ReadsDigitsInGlyphOrder()
+    {
+        // GC codes: base 31 over 0-9 A-Z minus I, L, O, S, U.
+        const string GcBase31 = "0123456789ABCDEFGHJKMNPQRTVWXYZ";
+
+        Assert.IsTrue(_converter.TryParse("16XYD", GcBase31, caseSensitive: false, out var value));
+        Assert.AreEqual("16XYD", _converter.Format(value, GcBase31));
+    }
+
+    [TestMethod]
+    public void TryParse_CustomAlphabet_UnicodeGlyphsAreJustDigits()
+    {
+        const string Runes = "▲■●◆";
+
+        Assert.IsTrue(_converter.TryParse("■●", Runes, caseSensitive: true, out var value));
+        Assert.AreEqual((BigInteger)((1 * 4) + 2), value);
+        Assert.AreEqual("■●", _converter.Format(value, Runes));
+        Assert.AreEqual("▲", _converter.Format(BigInteger.Zero, Runes));
+    }
+
+    [TestMethod]
+    public void TryParse_CustomAlphabet_RejectsGlyphsOutsideIt()
+        => Assert.IsFalse(_converter.TryParse("XY", "ABCD", caseSensitive: true, out _));
+
+    [TestMethod]
+    public void TryParse_CustomAlphabet_InvalidAlphabet_ReturnsFalse()
+    {
+        Assert.IsFalse(_converter.TryParse("AB", "ABA", caseSensitive: true, out _));
+        Assert.IsFalse(_converter.TryParse("A", "A", caseSensitive: true, out _));
+    }
+
+    [TestMethod]
+    public void TryParse_CustomAlphabet_ClaimingTheMinusGlyph_TreatsItAsADigit()
+    {
+        // '-' is the alphabet's zero here, so it must not be swallowed as a sign.
+        Assert.IsTrue(_converter.TryParse("-+", "-+", caseSensitive: true, out var value));
+        Assert.AreEqual(BigInteger.One, value);
+    }
+
+    [TestMethod]
+    public void Format_InvalidAlphabet_Throws()
+        => Assert.ThrowsExactly<ArgumentException>(() => _converter.Format(BigInteger.One, "AA"));
+
+    [TestMethod]
+    public void ConvertBatch_CustomAlphabets_SkipsTokensOutsideTheSourceGlyphs()
+    {
+        var results = _converter.ConvertBatch("AB XY BA", "AB", "01", caseSensitive: true);
+
+        Assert.AreEqual(3, results.Count);
+        Assert.AreEqual("1", results[0].Output);    // "AB" = 1, rendered without a leading zero
+        Assert.IsFalse(results[1].IsValid);
+        Assert.AreEqual("10", results[2].Output);   // "BA" = 2
+    }
+
     // ---- Bounds ----
 
     [TestMethod]

@@ -94,9 +94,28 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
     [NotifyPropertyChangedFor(nameof(ToBaseIndex))]
     public partial int ToBase { get; set; } = 16;
 
-    /// <summary>When set, upper and lower case are distinct digits on input (forced on above base 36).</summary>
+    /// <summary>When set, upper and lower case are distinct digits on input (forced on when the alphabet uses both).</summary>
     [ObservableProperty]
     public partial bool CaseSensitive { get; set; }
+
+    /// <summary>The site's "manual" mode: the user supplies the source/target alphabets instead of picking a radix.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(UseStandardBases))]
+    [NotifyPropertyChangedFor(nameof(IsCaseToggleEnabled))]
+    [NotifyPropertyChangedFor(nameof(DigitReference))]
+    public partial bool UseCustomAlphabet { get; set; }
+
+    /// <summary>The ordered glyph set the input is written in while <see cref="UseCustomAlphabet"/> is on.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsCaseToggleEnabled))]
+    [NotifyPropertyChangedFor(nameof(DigitReference))]
+    [NotifyPropertyChangedFor(nameof(SourceAlphabetHint))]
+    public partial string SourceAlphabet { get; set; } = string.Empty;
+
+    /// <summary>The ordered glyph set the result is written in while <see cref="UseCustomAlphabet"/> is on.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TargetAlphabetHint))]
+    public partial string TargetAlphabet { get; set; } = string.Empty;
 
     /// <summary>Renders the value in every base 2–62 at once (the site's "show all bases").</summary>
     [ObservableProperty]
@@ -162,18 +181,29 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
         }
     }
 
-    /// <summary>Above base 36 both letter cases are already distinct digits, so the switch is meaningless.</summary>
-    public bool IsCaseToggleEnabled => !NumberBaseConverter.RequiresCaseSensitivity(FromBase);
+    /// <summary>The base dropdowns are only in play while the custom-alphabet mode is off.</summary>
+    public bool UseStandardBases => !UseCustomAlphabet;
 
-    /// <summary>The ordered glyphs the source base uses, shown as a live digit reference.</summary>
-    public string DigitReference => NumberBaseConverter.DigitsFor(FromBase);
+    /// <summary>The glyphs the input is read with — the custom alphabet, or the standard digits of <see cref="FromBase"/>.</summary>
+    public string DigitReference => UseCustomAlphabet ? SourceAlphabet : NumberBaseConverter.DigitsFor(FromBase);
+
+    /// <summary>The glyphs the result is written with.</summary>
+    private string TargetAlphabetInUse => UseCustomAlphabet ? TargetAlphabet : NumberBaseConverter.DigitsFor(ToBase);
+
+    /// <summary>"Base {n}" derived from the custom source alphabet's length, or empty when it is unusable.</summary>
+    public string SourceAlphabetHint => DescribeAlphabet(SourceAlphabet);
+
+    /// <summary>"Base {n}" derived from the custom target alphabet's length, or empty when it is unusable.</summary>
+    public string TargetAlphabetHint => DescribeAlphabet(TargetAlphabet);
+
+    /// <summary>Case folding is impossible when the alphabet already uses both cases of a letter.</summary>
+    public bool IsCaseToggleEnabled => NumberBaseConverter.CanFoldCase(DigitReference);
 
     public int MinBase => NumberBaseConverter.MinBase;
 
     public int MaxBase => NumberBaseConverter.MaxBase;
 
-    /// <summary>Case folding is impossible above base 36 — treat those bases as case-sensitive regardless.</summary>
-    private bool EffectiveCaseSensitive => CaseSensitive || NumberBaseConverter.RequiresCaseSensitivity(FromBase);
+    private bool EffectiveCaseSensitive => CaseSensitive || !NumberBaseConverter.CanFoldCase(DigitReference);
 
     // Typing while "show all bases" (61 renderings) or a batch is on rebuilds a whole list per keystroke,
     // which freezes the UI — debounce that path. A single value in one base stays instant.
@@ -196,6 +226,33 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
     partial void OnCaseSensitiveChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnShowAllBasesChanged(bool value) => _debouncer.RunNow(Recompute);
+
+    partial void OnSourceAlphabetChanged(string value) => _debouncer.Debounce(Recompute);
+
+    partial void OnTargetAlphabetChanged(string value) => _debouncer.Debounce(Recompute);
+
+    // Entering manual mode seeds the alphabets from the current bases, so the user edits rather than types
+    // 62 glyphs from scratch; leaving it falls back to the standard digits.
+    partial void OnUseCustomAlphabetChanged(bool value)
+    {
+        if (value)
+        {
+            _suppressRecompute = true;
+            if (!NumberBaseConverter.IsValidAlphabet(SourceAlphabet))
+            {
+                SourceAlphabet = NumberBaseConverter.DigitsFor(FromBase);
+            }
+
+            if (!NumberBaseConverter.IsValidAlphabet(TargetAlphabet))
+            {
+                TargetAlphabet = NumberBaseConverter.DigitsFor(ToBase);
+            }
+
+            _suppressRecompute = false;
+        }
+
+        _debouncer.RunNow(Recompute);
+    }
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -220,6 +277,17 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
             return;
         }
 
+        // A half-typed custom alphabet isn't a conversion failure — say what's wrong with the alphabet.
+        if (UseCustomAlphabet
+            && (!NumberBaseConverter.IsValidAlphabet(SourceAlphabet) || !NumberBaseConverter.IsValidAlphabet(TargetAlphabet)))
+        {
+            _generation++;
+            ResetOutputs();
+            HasError = true;
+            ErrorMessage = _localizer["BaseConverterAlphabetInvalid"].Value;
+            return;
+        }
+
         if (tokens.Length > 1)
         {
             RecomputeBatch();
@@ -229,12 +297,14 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
         IsBatch = false;
         BatchResults = [];
 
-        if (!_converter.TryParse(tokens[0], FromBase, EffectiveCaseSensitive, out var value))
+        if (!_converter.TryParse(tokens[0], DigitReference, EffectiveCaseSensitive, out var value))
         {
             _generation++;
             ResetOutputs();
             HasError = true;
-            ErrorMessage = Format("BaseConverterInvalidNotice", FromBase);
+            ErrorMessage = UseCustomAlphabet
+                ? Format("BaseConverterInvalidNotice", DigitReference.Length)
+                : Format("BaseConverterInvalidNotice", FromBase);
             return;
         }
 
@@ -250,7 +320,7 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
             new BaseResultItem(_localizer["BaseConverterHex"].Value, common.Hexadecimal, _clipboard.SetText),
         ];
 
-        TargetOutput = _converter.Format(value, ToBase);
+        TargetOutput = _converter.Format(value, TargetAlphabetInUse);
         HasOutput = true;
 
         if (ShowAllBases)
@@ -273,10 +343,10 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
         AllBaseResults = [];
         TargetOutput = string.Empty;
 
-        var (input, fromBase, toBase, caseSensitive) = (InputText, FromBase, ToBase, EffectiveCaseSensitive);
-        var skipped = Format("BaseConverterSkipped", fromBase);
+        var (input, from, to, caseSensitive) = (InputText, DigitReference, TargetAlphabetInUse, EffectiveCaseSensitive);
+        var skipped = Format("BaseConverterSkipped", UseCustomAlphabet ? from.Length : FromBase);
         RunOffThread(
-            () => BuildBatch(input, fromBase, toBase, caseSensitive, skipped),
+            () => BuildBatch(input, from, to, caseSensitive, skipped),
             rows =>
             {
                 BatchResults = rows;
@@ -288,9 +358,13 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
         => [.. _converter.ToAllBases(value)
             .Select(r => new BaseResultItem(_allBaseLabels[r.Radix - NumberBaseConverter.MinBase], r.Text, _clipboard.SetText))];
 
-    private IReadOnlyList<BaseBatchItem> BuildBatch(string input, int fromBase, int toBase, bool caseSensitive, string skippedLabel)
-        => [.. _converter.ConvertBatch(input, fromBase, toBase, caseSensitive)
+    private IReadOnlyList<BaseBatchItem> BuildBatch(string input, string fromAlphabet, string toAlphabet, bool caseSensitive, string skippedLabel)
+        => [.. _converter.ConvertBatch(input, fromAlphabet, toAlphabet, caseSensitive)
             .Select(c => new BaseBatchItem(c.Input, c.Output, c.IsValid, skippedLabel, _clipboard.SetText))];
+
+    /// <summary>"Base {n}" for a usable alphabet, otherwise nothing (the invalid notice covers the rest).</summary>
+    private string DescribeAlphabet(string alphabet)
+        => NumberBaseConverter.IsValidAlphabet(alphabet) ? Format("BaseConverterBaseN", alphabet.Length) : string.Empty;
 
     /// <summary>
     /// Runs a list build off the UI thread and publishes it back through the captured dispatcher, dropping
@@ -355,7 +429,7 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
         }
 
         var lines = CommonResults.Select(r => $"{r.Label}: {r.Value}").ToList();
-        lines.Add(Format("BaseConverterTargetLine", ToBase, TargetOutput));
+        lines.Add(Format("BaseConverterTargetLine", UseCustomAlphabet ? TargetAlphabetInUse.Length : ToBase, TargetOutput));
         if (ShowAllBases)
         {
             lines.AddRange(AllBaseResults.Select(r => $"{r.Label}: {r.Value}"));
@@ -389,6 +463,7 @@ public sealed partial class BaseConverterViewModel : ToolViewModelBase
     {
         _suppressRecompute = true;
         (FromBase, ToBase) = (ToBase, FromBase);
+        (SourceAlphabet, TargetAlphabet) = (TargetAlphabet, SourceAlphabet);
         if (!IsBatch && HasOutput && TargetOutput.Length > 0)
         {
             InputText = TargetOutput;

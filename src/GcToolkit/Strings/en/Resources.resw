@@ -3375,6 +3375,18 @@
   <data name="BaseConverterSkipped" xml:space="preserve">
     <value>Skipped — not valid in base {0}</value>
   </data>
+  <data name="BaseConverterCustomAlphabet" xml:space="preserve">
+    <value>Custom alphabets</value>
+  </data>
+  <data name="BaseConverterSourceAlphabet" xml:space="preserve">
+    <value>Source alphabet</value>
+  </data>
+  <data name="BaseConverterTargetAlphabet" xml:space="preserve">
+    <value>Target alphabet</value>
+  </data>
+  <data name="BaseConverterAlphabetInvalid" xml:space="preserve">
+    <value>An alphabet needs at least two characters and no repeats. Its length is the base.</value>
+  </data>
   <data name="BaseNameBinary" xml:space="preserve">
     <value>Binary</value>
   </data>

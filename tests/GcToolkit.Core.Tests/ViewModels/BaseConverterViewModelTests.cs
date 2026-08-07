@@ -206,6 +206,66 @@ public sealed class BaseConverterViewModelTests
     }
 
     [TestMethod]
+    public void UseCustomAlphabet_SeedsTheAlphabetsFromTheCurrentBases()
+    {
+        var vm = CreateViewModel(out _);
+        vm.FromBase = 2;
+        vm.ToBase = 16;
+
+        vm.UseCustomAlphabet = true;
+
+        Assert.IsFalse(vm.UseStandardBases);
+        Assert.AreEqual("01", vm.SourceAlphabet);
+        Assert.AreEqual("0123456789ABCDEF", vm.TargetAlphabet);
+    }
+
+    [TestMethod]
+    public void UseCustomAlphabet_ConvertsThroughTheUserGlyphSets()
+    {
+        var vm = CreateViewModel(out _);
+        vm.UseCustomAlphabet = true;
+        vm.SourceAlphabet = "0123456789ABCDEFGHJKMNPQRTVWXYZ";   // GC base 31
+        vm.TargetAlphabet = "0123456789";
+
+        vm.InputText = "16XYD";
+
+        Assert.IsFalse(vm.HasError);
+        Assert.IsTrue(vm.HasOutput);
+        Assert.AreEqual("1130087", vm.TargetOutput);
+    }
+
+    [TestMethod]
+    public void UseCustomAlphabet_RepeatedGlyph_ShowsTheAlphabetError()
+    {
+        var vm = CreateViewModel(out _);
+        vm.UseCustomAlphabet = true;
+        vm.InputText = "01";
+
+        vm.SourceAlphabet = "0011";
+
+        Assert.IsTrue(vm.HasError);
+        Assert.IsFalse(vm.HasOutput);
+    }
+
+    [TestMethod]
+    public void SwapBases_InCustomAlphabetMode_SwapsTheAlphabetsToo()
+    {
+        var vm = CreateViewModel(out _);
+        vm.UseCustomAlphabet = true;
+        vm.SourceAlphabet = "01";
+        vm.TargetAlphabet = "AB";
+        vm.InputText = "101";
+        Assert.AreEqual("BAB", vm.TargetOutput);
+
+        vm.SwapBasesCommand.Execute(null);
+
+        Assert.AreEqual("AB", vm.SourceAlphabet);
+        Assert.AreEqual("01", vm.TargetAlphabet);
+        Assert.AreEqual("BAB", vm.InputText);
+        Assert.AreEqual("101", vm.TargetOutput);
+    }
+
+    [TestMethod]
     public void CopyOutput_CopiesEveryShownLine()
     {
         var vm = CreateViewModel(out var clipboard);

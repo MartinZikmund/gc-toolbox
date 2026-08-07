@@ -84,6 +84,7 @@
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
                         Header="{markup:Localize Key=BaseConverterFromBase}"
+                        IsEnabled="{x:Bind ViewModel.UseStandardBases, Mode=OneWay}"
                         ItemsSource="{x:Bind ViewModel.Bases}"
                         SelectedIndex="{x:Bind ViewModel.FromBaseIndex, Mode=TwoWay}" />
                     <Button
@@ -101,8 +102,52 @@
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         Header="{markup:Localize Key=BaseConverterToBase}"
+                        IsEnabled="{x:Bind ViewModel.UseStandardBases, Mode=OneWay}"
                         ItemsSource="{x:Bind ViewModel.Bases}"
                         SelectedIndex="{x:Bind ViewModel.ToBaseIndex, Mode=TwoWay}" />
+                </Grid>
+
+                <!--  Manual mode: user-defined source/target alphabets, whose length is the base  -->
+                <Grid
+                    ColumnSpacing="12"
+                    RowSpacing="4"
+                    Visibility="{x:Bind ViewModel.UseCustomAlphabet, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.SourceAlphabetHint, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.TargetAlphabetHint, Mode=OneWay}" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontFamily="Consolas"
+                        Header="{markup:Localize Key=BaseConverterSourceAlphabet}"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.SourceAlphabet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontFamily="Consolas"
+                        Header="{markup:Localize Key=BaseConverterTargetAlphabet}"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.TargetAlphabet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap" />
                 </Grid>
 
                 <!--  Options  -->
@@ -112,6 +157,7 @@
                         IsChecked="{x:Bind ViewModel.CaseSensitive, Mode=TwoWay}"
                         IsEnabled="{x:Bind ViewModel.IsCaseToggleEnabled, Mode=OneWay}" />
                     <CheckBox Content="{markup:Localize Key=BaseConverterShowAllBases}" IsChecked="{x:Bind ViewModel.ShowAllBases, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=BaseConverterCustomAlphabet}" IsChecked="{x:Bind ViewModel.UseCustomAlphabet, Mode=TwoWay}" />
                     <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BaseConverterClear}" />
                 </StackPanel>
 
