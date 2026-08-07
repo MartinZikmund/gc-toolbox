@@ -192,6 +192,7 @@
   <data name="Category_Text" xml:space="preserve">
     <value>Text</value>
   </data>
+  <!-- Groups -->
   <data name="Group_Conversion" xml:space="preserve">
     <value>Převody</value>
   </data>
@@ -3221,5 +3222,81 @@
   </data>
   <data name="AsciiInvalidInput" xml:space="preserve">
     <value>Vstup není platný ve formátu {0}.</value>
+  </data>
+  <!-- Numbers to letters / A1Z26 -->
+  <data name="NumbersToLetters_Name" xml:space="preserve">
+    <value>Čísla na písmena</value>
+  </data>
+  <data name="NumbersToLetters_Tooltip" xml:space="preserve">
+    <value>Převádějte mezi písmeny a jejich čísly A1Z26 (A=1 … Z=26), oběma směry.</value>
+  </data>
+  <data name="NumbersDirectionLabel" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="NumbersSwap" xml:space="preserve">
+    <value>Prohodit</value>
+  </data>
+  <data name="NumbersLettersToNumbers" xml:space="preserve">
+    <value>Písmena → čísla</value>
+  </data>
+  <data name="NumbersNumbersToLetters" xml:space="preserve">
+    <value>Čísla → písmena</value>
+  </data>
+  <data name="NumbersMethodLabel" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
+  <data name="NumbersInputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="NumbersInputPlaceholderLetters" xml:space="preserve">
+    <value>Zadejte písmena k převodu na čísla…</value>
+  </data>
+  <data name="NumbersInputPlaceholderNumbers" xml:space="preserve">
+    <value>Zadejte čísla oddělená oddělovačem…</value>
+  </data>
+  <data name="NumbersOutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="NumbersOptionsLabel" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="NumbersSeparatorLabel" xml:space="preserve">
+    <value>Oddělovač</value>
+  </data>
+  <data name="NumbersSeparatorPlaceholder" xml:space="preserve">
+    <value>mezera</value>
+  </data>
+  <data name="NumbersKeepNonLetters" xml:space="preserve">
+    <value>Zachovat ostatní znaky</value>
+  </data>
+  <data name="NumbersUpperCase" xml:space="preserve">
+    <value>Výstup velkými písmeny</value>
+  </data>
+  <data name="NumbersWrapModulo" xml:space="preserve">
+    <value>Zalomit hodnoty mimo rozsah metody</value>
+  </data>
+  <data name="NumbersWrapNote" xml:space="preserve">
+    <value>Vypnuto: čísla mimo rozsah metody (a nečíselná) se nahradí podle volby níže. Zapnuto: zalomí se do rozsahu, takže 27 → A.</value>
+  </data>
+  <data name="NumbersKeepOriginalUnknown" xml:space="preserve">
+    <value>Ponechat neznámá čísla beze změny</value>
+  </data>
+  <data name="NumbersReplaceUnknownLabel" xml:space="preserve">
+    <value>Nahradit neznámé číslo za</value>
+  </data>
+  <data name="NumbersReplaceUnknownPlaceholder" xml:space="preserve">
+    <value>např. ? (prázdné = odebrat)</value>
+  </data>
+  <data name="NumbersConversionTableLabel" xml:space="preserve">
+    <value>Převodní tabulka</value>
+  </data>
+  <data name="NumbersClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="NumbersCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="NumbersShare" xml:space="preserve">
+    <value>Sdílet</value>
   </data>
 </root>
