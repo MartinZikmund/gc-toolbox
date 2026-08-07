@@ -3486,4 +3486,22 @@
   <data name="VigenereKeyNote" xml:space="preserve">
     <value>Každé písmeno klíče posune abecedu; písmeno otevřeného textu na dané pozici se mapuje na zobrazené písmeno.</value>
   </data>
+  <data name="VigenereKeyError" xml:space="preserve">
+    <value>Zadejte klíč obsahující alespoň jedno písmeno A–Z — bez něj projde text beze změny.</value>
+  </data>
+  <data name="VigenereLanguageLabel" xml:space="preserve">
+    <value>Jazyk otevřeného textu</value>
+  </data>
+  <data name="VigenereLanguage_En" xml:space="preserve">
+    <value>Angličtina</value>
+  </data>
+  <data name="VigenereLanguage_Cs" xml:space="preserve">
+    <value>Čeština</value>
+  </data>
+  <data name="VigenereKeyLengthFrom" xml:space="preserve">
+    <value>Délka klíče od</value>
+  </data>
+  <data name="VigenereKeyLengthTo" xml:space="preserve">
+    <value>do</value>
+  </data>
 </root>

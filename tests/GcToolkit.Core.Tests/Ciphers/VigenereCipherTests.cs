@@ -186,6 +186,100 @@ public class VigenereCipherTests
         Assert.AreEqual(3, result.KeyLength);
     }
 
+    // ---- Key-length search range (reference-site parity: "from x to y", min 1 - max 50) ----
+
+    [TestMethod]
+    public void RankKeyLengths_HonoursTheRequestedRange()
+    {
+        var encoded = _cipher.Encode(EnglishCorpus, "LEMON");
+
+        var ranked = _cipher.RankKeyLengths(encoded, maxKeyLength: 8, minKeyLength: 4);
+
+        Assert.IsTrue(ranked.Count > 0);
+        Assert.IsTrue(ranked.All(c => c.Length is >= 4 and <= 8),
+            $"got lengths [{string.Join(", ", ranked.Select(c => c.Length))}]");
+    }
+
+    [TestMethod]
+    public void RankKeyLengths_MaxAboveTheSupportedCeiling_IsClampedToFifty()
+    {
+        var encoded = _cipher.Encode(EnglishCorpus, "LEMON");
+
+        var ranked = _cipher.RankKeyLengths(encoded, maxKeyLength: 500);
+
+        Assert.IsTrue(ranked.All(c => c.Length <= VigenereCipher.MaxSupportedKeyLength));
+    }
+
+    [TestMethod]
+    public void RankKeyLengths_InvertedRange_ReturnsEmpty()
+        => Assert.AreEqual(0, _cipher.RankKeyLengths(_cipher.Encode(EnglishCorpus, "LEMON"), maxKeyLength: 3, minKeyLength: 9).Count);
+
+    [TestMethod]
+    public void Solve_RangeExcludingTheTrueLength_StillReturnsAKeyWithoutThrowing()
+    {
+        var encoded = _cipher.Encode(EnglishCorpus, "LEMON"); // true length 5
+
+        var result = _cipher.Solve(encoded, maxKeyLength: 4, minKeyLength: 2);
+
+        // The right key is out of range, but the solver must degrade gracefully, not throw.
+        Assert.IsTrue(result.Key.Length is >= 1 and <= 4);
+    }
+
+    // ---- Language profiles (reference-site parity: the solver's Language dropdown) ----
+
+    [TestMethod]
+    public void LanguageProfiles_ExposeEnglishAndCzech()
+    {
+        CollectionAssert.AreEqual(
+            new[] { "En", "Cs" },
+            VigenereLanguageProfile.All.Select(p => p.Id).ToArray());
+    }
+
+    [TestMethod]
+    public void LanguageProfile_Proportions_AreNormalizedAndNonZero()
+    {
+        foreach (var profile in VigenereLanguageProfile.All)
+        {
+            Assert.AreEqual(VigenereCipher.AlphabetSize, profile.Proportions.Count);
+            Assert.AreEqual(1.0, profile.Proportions.Sum(), 0.01, $"{profile.Id} proportions must sum to ~1");
+            // A zero expectation would divide by zero in the chi-squared score.
+            Assert.IsTrue(profile.Proportions.All(p => p > 0), $"{profile.Id} has a zero expectation");
+        }
+    }
+
+    [TestMethod]
+    public void Solve_WithExplicitEnglishProfile_MatchesTheDefault()
+    {
+        var encoded = _cipher.Encode(EnglishCorpus, "LEMON");
+
+        var explicitEnglish = _cipher.Solve(encoded, 12, 1, VigenereLanguageProfile.English);
+
+        Assert.AreEqual("LEMON", explicitEnglish.Key);
+    }
+
+    [TestMethod]
+    public void Solve_CzechCiphertext_RecoversTheKeyWithTheCzechProfile()
+    {
+        var encoded = _cipher.Encode(CzechProse, "KLIC");
+
+        var result = _cipher.Solve(encoded, 12, 1, VigenereLanguageProfile.Czech);
+
+        Assert.AreEqual("KLIC", result.Key);
+        Assert.AreEqual(CzechProse, result.PlainText);
+    }
+
+    // Natural Czech prose with diacritics stripped (the cipher only moves A-Z), long enough for the
+    // frequency analysis to lock on.
+    private const string CzechProse =
+        "Bylo jednou jedno mesto, ktere lezelo hluboko v udoli mezi vysokymi horami a temnymi lesy. "
+        + "Lide v tom meste zili klidne a spokojene, protoze pudou byla urodna a voda v rece cista. "
+        + "Kazde rano vychazeli hospodari na pole a kazdy vecer se vraceli domu k svym rodinam. "
+        + "Deti si hraly na namesti pred starou radnici a stari muzi sedavali na lavickach ve stinu lip. "
+        + "Kdyz prisla zima, snih pokryl strechy domu a z komínu stoupal dym k sedive obloze. "
+        + "Nikdo nevedel, jak dlouho uz to mesto stoji, ale vsichni verili, ze tam bude stat navzdy. "
+        + "Jednoho dne prisel do mesta cizinec a prinesl s sebou zpravu, ktera vsechno zmenila. "
+        + "Vypravel o zemi za horami, kde rostou stromy s zlatymi listy a kde reky teku k mori.";
+
     // Natural English prose (public-domain: openings of Austen & Dickens). Non-repeating text with a
     // realistic letter distribution is what the IC + chi-squared solver targets — repeated text injects
     // spurious periodicity that no real ciphertext has.

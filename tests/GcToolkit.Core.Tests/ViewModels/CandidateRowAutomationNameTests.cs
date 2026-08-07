@@ -1,4 +1,4 @@
-using GcToolkit.Core.ViewModels.Tools;
+﻿using GcToolkit.Core.ViewModels.Tools;
 
 namespace GcToolkit.Core.Tests.ViewModels;
 
@@ -99,6 +99,20 @@ public class CandidateRowAutomationNameTests
         BaseOption option = new(16, "Hexadecimal (16)");
 
         Assert.AreEqual("Hexadecimal (16)", option.ToString());
+    public void VigenereKeyLengthItem_ToString_IsLengthAndScore()
+    {
+        VigenereKeyLengthItem item = new(5, 0.0661);
+
+        // Built with the same (current) culture the row formats with, so a comma decimal separator passes.
+        Assert.AreEqual($"5: IC {0.0661:0.0000}", item.ToString());
+    }
+
+    [TestMethod]
+    public void VigenereKeyRow_ToString_IsKeyLetterAndCipherAlphabet()
+    {
+        VigenereKeyRow row = new('B', "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BCDEFGHIJKLMNOPQRSTUVWXYZA");
+
+        Assert.AreEqual("B: BCDEFGHIJKLMNOPQRSTUVWXYZA", row.ToString());
     }
 
     [TestMethod]

@@ -12,4 +12,7 @@ public sealed class VigenereKeyRow(char keyLetter, string plainAlphabet, string 
     public string PlainAlphabet { get; } = plainAlphabet;
 
     public string CipherAlphabet { get; } = cipherAlphabet;
+
+    /// <summary>A ListView item with no explicit automation name announces its ToString(), so make it the row.</summary>
+    public override string ToString() => $"{KeyLetter}: {CipherAlphabet}";
 }

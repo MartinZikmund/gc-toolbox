@@ -3486,4 +3486,22 @@
   <data name="VigenereKeyNote" xml:space="preserve">
     <value>Each key letter shifts the alphabet; the plaintext letter at that position maps to the letter shown.</value>
   </data>
+  <data name="VigenereKeyError" xml:space="preserve">
+    <value>Enter a key containing at least one letter A–Z — without one the text passes through unchanged.</value>
+  </data>
+  <data name="VigenereLanguageLabel" xml:space="preserve">
+    <value>Plaintext language</value>
+  </data>
+  <data name="VigenereLanguage_En" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="VigenereLanguage_Cs" xml:space="preserve">
+    <value>Czech</value>
+  </data>
+  <data name="VigenereKeyLengthFrom" xml:space="preserve">
+    <value>Key length from</value>
+  </data>
+  <data name="VigenereKeyLengthTo" xml:space="preserve">
+    <value>to</value>
+  </data>
 </root>

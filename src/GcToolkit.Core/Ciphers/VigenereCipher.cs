@@ -36,16 +36,14 @@ public sealed class VigenereCipher
     /// <summary>The Index of Coincidence of a uniformly random 26-letter text (1/26 ≈ 0.0385).</summary>
     public const double RandomIndexOfCoincidence = 1.0 / AlphabetSize;
 
+    /// <summary>Shortest key length the solver will search (matches the reference site's minimum).</summary>
+    public const int MinSupportedKeyLength = 1;
+
+    /// <summary>Longest key length the solver will search (matches the reference site's maximum).</summary>
+    public const int MaxSupportedKeyLength = 50;
+
     /// <summary>The ordered plain alphabet (<c>ABC…Z</c>) for the "key" display.</summary>
     public string PlainAlphabet { get; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    // Relative frequencies of A–Z in English (percentages), used to score column shifts by chi-squared.
-    private static readonly double[] EnglishFrequencies =
-    [
-        8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153,
-        0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056,
-        2.758, 0.978, 2.360, 0.150, 1.974, 0.074,
-    ];
 
     /// <summary>
     /// Enciphers <paramref name="text"/> with <paramref name="key"/>: each plaintext letter is shifted
@@ -118,41 +116,52 @@ public sealed class VigenereCipher
     }
 
     /// <summary>
-    /// Estimates the most likely key length by trying every length <c>1..maxKeyLength</c>, splitting the
+    /// Estimates the most likely key length by trying every length in the requested range, splitting the
     /// ciphertext's letters into that many columns, and picking the length whose averaged per-column IC
-    /// is closest to English. Returns the best length (1 if the text is too short to judge).
+    /// is closest to the target language. Returns the best length (1 if the text is too short to judge).
     /// </summary>
-    public int EstimateKeyLength(string? cipherText, int maxKeyLength = 12)
+    public int EstimateKeyLength(
+        string? cipherText,
+        int maxKeyLength = 12,
+        int minKeyLength = MinSupportedKeyLength,
+        VigenereLanguageProfile? language = null)
     {
-        var ranked = RankKeyLengths(cipherText, maxKeyLength);
+        var ranked = RankKeyLengths(cipherText, maxKeyLength, minKeyLength, language);
         return ranked.Count > 0 ? ranked[0].Length : 1;
     }
 
     /// <summary>
-    /// Every candidate key length <c>1..maxKeyLength</c> scored by its averaged per-column Index of
-    /// Coincidence, ordered best-first (nearest to English). The top entries are the true key length and
-    /// its multiples. Empty when there are too few letters to test even length 2.
+    /// Every candidate key length in <c>minKeyLength..maxKeyLength</c> scored by its averaged per-column
+    /// Index of Coincidence, ordered best-first (nearest to the target language). The top entries are the
+    /// true key length and its multiples. Empty when there are too few letters or the range is empty.
     /// </summary>
-    public IReadOnlyList<VigenereKeyLengthCandidate> RankKeyLengths(string? cipherText, int maxKeyLength = 12)
+    public IReadOnlyList<VigenereKeyLengthCandidate> RankKeyLengths(
+        string? cipherText,
+        int maxKeyLength = 12,
+        int minKeyLength = MinSupportedKeyLength,
+        VigenereLanguageProfile? language = null)
     {
         var letters = ExtractLetters(cipherText);
-        if (letters.Length < 2 || maxKeyLength < 1)
+        var target = (language ?? VigenereLanguageProfile.English).ExpectedIndexOfCoincidence;
+
+        var low = Math.Max(MinSupportedKeyLength, minKeyLength);
+        var high = Math.Min(Math.Min(maxKeyLength, MaxSupportedKeyLength), letters.Length);
+        if (letters.Length < 2 || low > high)
         {
             return [];
         }
 
-        var cap = Math.Min(maxKeyLength, letters.Length);
-        var candidates = new List<VigenereKeyLengthCandidate>(cap);
-        for (var length = 1; length <= cap; length++)
+        var candidates = new List<VigenereKeyLengthCandidate>(high - low + 1);
+        for (var length = low; length <= high; length++)
         {
             candidates.Add(new VigenereKeyLengthCandidate(length, AverageColumnIndexOfCoincidence(letters, length)));
         }
 
-        // Closest averaged IC to English wins; ties break toward the shorter (simpler) key.
+        // Closest averaged IC to the language wins; ties break toward the shorter (simpler) key.
         candidates.Sort((a, b) =>
         {
-            var byCloseness = Math.Abs(a.IndexOfCoincidence - EnglishIndexOfCoincidence)
-                .CompareTo(Math.Abs(b.IndexOfCoincidence - EnglishIndexOfCoincidence));
+            var byCloseness = Math.Abs(a.IndexOfCoincidence - target)
+                .CompareTo(Math.Abs(b.IndexOfCoincidence - target));
             return byCloseness != 0 ? byCloseness : a.Length.CompareTo(b.Length);
         });
 
@@ -161,13 +170,19 @@ public sealed class VigenereCipher
 
     /// <summary>
     /// Assisted decode for an unknown key: estimates the key length via the Index of Coincidence, then
-    /// recovers each key letter by chi-squared scoring of its column against English letter frequencies,
-    /// and decodes. Returns the derived key, the decoded text (original formatting preserved), the chosen
-    /// key length, and the ranked length candidates. An empty/too-short input yields an empty key.
+    /// recovers each key letter by chi-squared scoring of its column against the target language's letter
+    /// frequencies, and decodes. Returns the derived key, the decoded text (original formatting
+    /// preserved), the chosen key length, and the ranked length candidates. Too little text yields an
+    /// empty key.
     /// </summary>
-    public VigenereSolveResult Solve(string? cipherText, int maxKeyLength = 12)
+    public VigenereSolveResult Solve(
+        string? cipherText,
+        int maxKeyLength = 12,
+        int minKeyLength = MinSupportedKeyLength,
+        VigenereLanguageProfile? language = null)
     {
-        var ranked = RankKeyLengths(cipherText, maxKeyLength);
+        var profile = language ?? VigenereLanguageProfile.English;
+        var ranked = RankKeyLengths(cipherText, maxKeyLength, minKeyLength, profile);
         var letters = ExtractLetters(cipherText);
 
         if (ranked.Count == 0 || letters.Length == 0)
@@ -175,11 +190,11 @@ public sealed class VigenereCipher
             return new VigenereSolveResult(string.Empty, cipherText ?? string.Empty, 0, ranked);
         }
 
-        // The length whose averaged per-column IC is closest to English is the most likely key length.
-        // The IC can't tell a key from its own repetition (a multiple length scores identically), so
-        // fold the recovered key down to its fundamental period — KEYKEYKEY is reported as KEY.
+        // The length whose averaged per-column IC is closest to the language is the most likely key
+        // length. The IC can't tell a key from its own repetition (a multiple length scores identically),
+        // so fold the recovered key down to its fundamental period — KEYKEYKEY is reported as KEY.
         var keyLength = ranked[0].Length;
-        var key = ReduceToFundamentalPeriod(RecoverKey(letters, keyLength));
+        var key = ReduceToFundamentalPeriod(RecoverKey(letters, keyLength, profile));
         var plain = Decode(cipherText, key);
 
         return new VigenereSolveResult(key, plain, key.Length, ranked);
@@ -252,22 +267,22 @@ public sealed class VigenereCipher
     }
 
     /// <summary>Recovers the key for a known length: each column's shift is the one whose decoded letters
-    /// best fit English by chi-squared.</summary>
-    private string RecoverKey(char[] letters, int keyLength)
+    /// best fit the target language by chi-squared.</summary>
+    private static string RecoverKey(char[] letters, int keyLength, VigenereLanguageProfile language)
     {
-        return string.Create(keyLength, (letters, keyLength), static (span, state) =>
+        return string.Create(keyLength, (letters, keyLength, language.Weights), static (span, state) =>
         {
-            var (text, length) = state;
+            var (text, length, weights) = state;
             for (var col = 0; col < length; col++)
             {
-                span[col] = (char)('A' + BestShiftForColumn(text, col, length));
+                span[col] = (char)('A' + BestShiftForColumn(text, col, length, weights));
             }
         });
     }
 
     /// <summary>The shift (0–25) that, when used to decode this column, yields the lowest chi-squared
-    /// distance to English letter frequencies — i.e. the column's key letter index.</summary>
-    private static int BestShiftForColumn(char[] letters, int column, int keyLength)
+    /// distance to the language's letter frequencies — i.e. the column's key letter index.</summary>
+    private static int BestShiftForColumn(char[] letters, int column, int keyLength, double[] weights)
     {
         Span<int> counts = stackalloc int[AlphabetSize];
         var n = 0;
@@ -291,7 +306,7 @@ public sealed class VigenereCipher
             {
                 // Decoding this column by `shift` maps observed `letter` back to (letter - shift).
                 var observed = counts[(letter + shift) % AlphabetSize];
-                var expected = EnglishFrequencies[letter] / 100.0 * n;
+                var expected = weights[letter] * n;
                 var delta = observed - expected;
                 chi += delta * delta / expected;
             }
