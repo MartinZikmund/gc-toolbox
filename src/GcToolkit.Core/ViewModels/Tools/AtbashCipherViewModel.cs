@@ -63,6 +63,7 @@ public sealed partial class AtbashCipherViewModel : ToolViewModelBase
     {
         CopyOutputCommand.NotifyCanExecuteChanged();
         ShareOutputCommand.NotifyCanExecuteChanged();
+        UseOutputAsInputCommand.NotifyCanExecuteChanged();
     }
 
     [RelayCommand(CanExecute = nameof(HasOutput))]
@@ -80,6 +81,13 @@ public sealed partial class AtbashCipherViewModel : ToolViewModelBase
             // Sharing is best-effort; a platform share failure must not crash the tool.
         }
     }
+
+    /// <summary>
+    /// Feeds the result back into the input so Atbash can be chained with other ciphers. Because the
+    /// cipher is self-inverse, the assignment recomputes the output back to the original text.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(HasOutput))]
+    private void UseOutputAsInput() => InputText = OutputText;
 
     [RelayCommand]
     private void Clear() => InputText = string.Empty;

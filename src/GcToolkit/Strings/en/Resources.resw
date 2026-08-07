@@ -2994,6 +2994,9 @@
   <data name="AtbashShare" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="AtbashUseOutputAsInput" xml:space="preserve">
+    <value>Use result as input</value>
+  </data>
   <data name="AtbashKeyLabel" xml:space="preserve">
     <value>Key</value>
   </data>
