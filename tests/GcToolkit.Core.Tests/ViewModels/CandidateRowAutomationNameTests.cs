@@ -54,6 +54,22 @@ public class CandidateRowAutomationNameTests
     }
 
     [TestMethod]
+    public void WordValueWordItem_ToString_IsWordAndDetail_NotTheRecordForm()
+    {
+        WordValueWordItem item = new("cache", "3 + 1 + 3 + 8 + 5 = 20 = 2");
+
+        Assert.AreEqual("cache: 3 + 1 + 3 + 8 + 5 = 20 = 2", item.ToString());
+    }
+
+    [TestMethod]
+    public void WordValueConversionItem_ToString_IsCharacterAndValue_NotTheRecordForm()
+    {
+        WordValueConversionItem item = new("a", 1);
+
+        Assert.AreEqual("a = 1", item.ToString());
+    }
+
+    [TestMethod]
     public void GcCodeIdResultItem_ToString_IsInputAndOutput()
     {
         GcCodeIdResultItem item = new("GC16XYD", "718967", isValid: true, NoOp);

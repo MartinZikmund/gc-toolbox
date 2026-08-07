@@ -1,0 +1,298 @@
+﻿<local:WordValueViewBase
+    x:Class="GcToolkit.Views.WordValueView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup"
+    xmlns:text="using:GcToolkit.Core.Text"
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer x:Name="RootScroll" Padding="24">
+        <Grid>
+            <StackPanel
+                MaxWidth="760"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
+                <!--  Header: tool name + favorite toggle  -->
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Style="{ThemeResource TitleLargeTextBlockStyle}"
+                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
+                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
+                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
+                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
+                        <FontIcon FontSize="18" Glyph="&#xE734;" />
+                    </ToggleButton>
+                </Grid>
+
+                <!--  Method picker  -->
+                <ComboBox
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=WordValueMethodLabel}"
+                    ItemsSource="{x:Bind ViewModel.Methods}"
+                    SelectedItem="{x:Bind ViewModel.SelectedMethod, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="text:WordValueMethod">
+                            <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <!--  Options  -->
+                <StackPanel Spacing="10">
+                    <CheckBox Content="{markup:Localize Key=WordValueCountNumbers}" IsChecked="{x:Bind ViewModel.CountNumbers, Mode=TwoWay}" />
+
+                    <!--  Beyond parity: choose how digits are counted  -->
+                    <RadioButtons
+                        Margin="28,0,0,4"
+                        Header="{markup:Localize Key=WordValueNumberHandlingLabel}"
+                        SelectedIndex="{x:Bind ViewModel.NumberModeIndex, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.CountNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <RadioButton Content="{markup:Localize Key=WordValueNumbersInline}" />
+                        <RadioButton Content="{markup:Localize Key=WordValueNumbersSeparate}" />
+                    </RadioButtons>
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <CheckBox
+                            Content="{markup:Localize Key=WordValueRemoveDiacritics}"
+                            IsChecked="{x:Bind ViewModel.RemoveDiacritics, Mode=TwoWay}"
+                            IsEnabled="{x:Bind ViewModel.CanRemoveDiacritics, Mode=OneWay}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=WordValueRemoveDiacriticsHint}" />
+                    </StackPanel>
+
+                    <CheckBox Content="{markup:Localize Key=WordValueShowCalculation}" IsChecked="{x:Bind ViewModel.ShowCalculation, Mode=TwoWay}" />
+                    <CheckBox Content="{markup:Localize Key=WordValueCountSeparateWords}" IsChecked="{x:Bind ViewModel.CountSeparateWords, Mode=TwoWay}" />
+                </StackPanel>
+
+                <!--  Input  -->
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    Header="{markup:Localize Key=WordValueInputLabel}"
+                    PlaceholderText="{markup:Localize Key=WordValueInputPlaceholder}"
+                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <Button Command="{x:Bind ViewModel.ResetCommand}" Content="{markup:Localize Key=WordValueReset}" />
+
+                <!--  Result: word value + summed to one digit  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="12">
+                        <StackPanel Spacing="2">
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=WordValueResultLabel}" />
+                            <TextBlock
+                                AutomationProperties.Name="{markup:Localize Key=WordValueResultLabel}"
+                                FontFamily="Consolas"
+                                FontSize="16"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind ViewModel.WordValueLine, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=WordValueSummedLabel}" />
+                            <TextBlock
+                                AutomationProperties.Name="{markup:Localize Key=WordValueSummedLabel}"
+                                FontFamily="Consolas"
+                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                IsTextSelectionEnabled="True"
+                                Style="{ThemeResource TitleTextBlockStyle}"
+                                Text="{x:Bind ViewModel.ReductionLine, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!--  Separate numbers (only when summing numbers separately)  -->
+                <Border
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.ShowSeparateNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueNumbersLabel}" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.NumbersLine, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.NumbersReductionLine, Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+                <!--  Per-word breakdown (count separate words)  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowSeparateWords, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueSeparateWordsLabel}" />
+                    <!--  ListView virtualizes the per-word rows so a long paste realizes only what is visible.  -->
+                    <ListView
+                        MaxHeight="420"
+                        ItemsSource="{x:Bind ViewModel.Words, Mode=OneWay}"
+                        SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="tools:WordValueWordItem">
+                                <StackPanel
+                                    Margin="0,2"
+                                    Padding="10,8"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    CornerRadius="6"
+                                    Spacing="2">
+                                    <TextBlock
+                                        FontFamily="Consolas"
+                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind Word}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        FontFamily="Consolas"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind Detail}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <!--  Output actions  -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                            <TextBlock Text="{markup:Localize Key=WordValueCopy}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                            <TextBlock Text="{markup:Localize Key=WordValueShare}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Collapsible conversion table  -->
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    IsExpanded="False">
+                    <Expander.Header>
+                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=WordValueConversionTableLabel}" />
+                    </Expander.Header>
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Conversion, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                MinColumnSpacing="4"
+                                MinItemHeight="48"
+                                MinItemWidth="40"
+                                MinRowSpacing="4" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="tools:WordValueConversionItem">
+                                <Border
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="6">
+                                    <StackPanel
+                                        Padding="4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind Character}" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                            Style="{ThemeResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind Value}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Expander>
+
+                <!--  How it works  -->
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{markup:Localize Key=WordValueHelpNote}"
+                    TextWrapping="Wrap" />
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                        <VisualState>
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="0" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter Target="RootScroll.Padding" Value="16" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState>
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="640" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter Target="RootScroll.Padding" Value="24" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</local:WordValueViewBase>
