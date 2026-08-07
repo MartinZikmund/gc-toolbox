@@ -3195,4 +3195,31 @@
   <data name="AsciiShare" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="AsciiFromLabel" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="AsciiToLabel" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="AsciiSwap" xml:space="preserve">
+    <value>Swap From and To</value>
+  </data>
+  <data name="AsciiFormatText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="AsciiFormatBase32" xml:space="preserve">
+    <value>Base32</value>
+  </data>
+  <data name="AsciiFormatBase64" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="AsciiFormatHtml" xml:space="preserve">
+    <value>HTML entities</value>
+  </data>
+  <data name="AsciiRemoveSpaces" xml:space="preserve">
+    <value>Remove non-encoded spaces from the result</value>
+  </data>
+  <data name="AsciiInvalidInput" xml:space="preserve">
+    <value>The input isn't valid {0}.</value>
+  </data>
 </root>

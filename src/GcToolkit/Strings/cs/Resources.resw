@@ -3195,4 +3195,31 @@
   <data name="AsciiShare" xml:space="preserve">
     <value>Sdílet</value>
   </data>
+  <data name="AsciiFromLabel" xml:space="preserve">
+    <value>Z formátu</value>
+  </data>
+  <data name="AsciiToLabel" xml:space="preserve">
+    <value>Do formátu</value>
+  </data>
+  <data name="AsciiSwap" xml:space="preserve">
+    <value>Prohodit vstupní a výstupní formát</value>
+  </data>
+  <data name="AsciiFormatText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="AsciiFormatBase32" xml:space="preserve">
+    <value>Base32</value>
+  </data>
+  <data name="AsciiFormatBase64" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="AsciiFormatHtml" xml:space="preserve">
+    <value>HTML entity</value>
+  </data>
+  <data name="AsciiRemoveSpaces" xml:space="preserve">
+    <value>Odstranit z výsledku mezery, které nejsou zakódované</value>
+  </data>
+  <data name="AsciiInvalidInput" xml:space="preserve">
+    <value>Vstup není platný ve formátu {0}.</value>
+  </data>
 </root>

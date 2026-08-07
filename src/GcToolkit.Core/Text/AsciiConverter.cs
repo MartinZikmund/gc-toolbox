@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net;
 using System.Text;
 
 namespace GcToolkit.Core.Text;
@@ -19,6 +20,38 @@ public enum AsciiNumberBase
     Hexadecimal = 16,
 }
 
+/// <summary>
+/// An input/output format of the converter. The four numeric bases mirror <see cref="AsciiNumberBase"/>;
+/// <see cref="Text"/>, <see cref="Base32"/>, <see cref="Base64"/> and <see cref="Html"/> complete the
+/// any-to-any matrix offered by geocachingtoolbox.com.
+/// </summary>
+public enum AsciiFormat
+{
+    /// <summary>Plain text — the pivot every other format converts through.</summary>
+    Text,
+
+    /// <summary>Character codes in base 2.</summary>
+    Binary,
+
+    /// <summary>Character codes in base 8.</summary>
+    Octal,
+
+    /// <summary>Character codes in base 10.</summary>
+    Decimal,
+
+    /// <summary>Character codes in base 16.</summary>
+    Hexadecimal,
+
+    /// <summary>RFC 4648 Base32 of the text's UTF-8 bytes.</summary>
+    Base32,
+
+    /// <summary>RFC 4648 Base64 of the text's UTF-8 bytes.</summary>
+    Base64,
+
+    /// <summary>HTML character entities (numeric on output; numeric <b>and</b> named accepted on input).</summary>
+    Html,
+}
+
 /// <summary>One character's code shown in every base at once (the "all bases" breakdown row).</summary>
 public readonly record struct AsciiCodeRow(
     string Character,
@@ -26,7 +59,15 @@ public readonly record struct AsciiCodeRow(
     string Decimal,
     string Hexadecimal,
     string Octal,
-    string Binary);
+    string Binary)
+{
+    /// <summary>
+    /// Announced verbatim by screen readers for the list row (a row without this reads as the record's
+    /// generated form).
+    /// </summary>
+    public override string ToString()
+        => $"{Character} — {Decimal} decimal, {Hexadecimal} hex, {Octal} octal, {Binary} binary";
+}
 
 /// <summary>The codes for a single piece of text rendered in all four bases simultaneously.</summary>
 public readonly record struct AsciiCodes(string Decimal, string Hexadecimal, string Octal, string Binary);
@@ -125,8 +166,8 @@ public sealed class AsciiConverter
     }
 
     /// <summary>
-    /// Decodes <paramref name="codes"/> after inferring the base from the tokens (binary, then octal,
-    /// then decimal, then hexadecimal — the first base under which <em>every</em> token is a valid
+    /// Decodes <paramref name="codes"/> after inferring the base from the tokens (binary, then decimal,
+    /// then hexadecimal, then octal — the first base under which <em>every</em> token is a valid
     /// in-range code point wins).
     /// </summary>
     public bool TryDecodeAuto(string? codes, out string text, out AsciiNumberBase detectedBase)
@@ -178,10 +219,297 @@ public sealed class AsciiConverter
         return rows;
     }
 
+    // ---- Any-to-any format conversion (Text / bases / Base32 / Base64 / HTML entities) ----
+
+    /// <summary>
+    /// Converts <paramref name="input"/> from <paramref name="from"/> to <paramref name="to"/>, going
+    /// through text as the pivot (so e.g. binary code groups → hexadecimal code groups works). Pass
+    /// <see langword="null"/> for <paramref name="from"/> to auto-detect the input format.
+    /// </summary>
+    /// <param name="resolvedFrom">The format actually used to read the input.</param>
+    /// <returns><see langword="false"/> when the input is not valid in the source format.</returns>
+    public bool TryConvert(
+        string? input,
+        AsciiFormat? from,
+        AsciiFormat to,
+        string separator,
+        bool removeSpaces,
+        out string result,
+        out AsciiFormat resolvedFrom)
+    {
+        resolvedFrom = from ?? AsciiFormat.Text;
+        result = string.Empty;
+
+        if (string.IsNullOrEmpty(input))
+        {
+            return true;
+        }
+
+        if (from is null)
+        {
+            DetectFormat(input, out resolvedFrom);
+        }
+
+        if (!TryToText(input, resolvedFrom, out var text))
+        {
+            return false;
+        }
+
+        result = FromText(text, to, separator);
+        if (removeSpaces)
+        {
+            result = result.Replace(" ", string.Empty, StringComparison.Ordinal);
+        }
+
+        return true;
+    }
+
+    /// <summary>Reads <paramref name="input"/> written in <paramref name="format"/> back to plain text.</summary>
+    public bool TryToText(string? input, AsciiFormat format, out string text)
+    {
+        text = string.Empty;
+        if (string.IsNullOrEmpty(input))
+        {
+            return true;
+        }
+
+        switch (format)
+        {
+            case AsciiFormat.Text:
+                text = input;
+                return true;
+
+            case AsciiFormat.Binary:
+            case AsciiFormat.Octal:
+            case AsciiFormat.Decimal:
+            case AsciiFormat.Hexadecimal:
+                return TryDecode(input, ToNumberBase(format), out text);
+
+            case AsciiFormat.Base32:
+                if (!TryFromBase32(input, out var base32Bytes))
+                {
+                    return false;
+                }
+
+                text = ToText(base32Bytes);
+                return true;
+
+            case AsciiFormat.Base64:
+                if (!TryFromBase64(input, out var base64Bytes))
+                {
+                    return false;
+                }
+
+                text = ToText(base64Bytes);
+                return true;
+
+            case AsciiFormat.Html:
+                text = WebUtility.HtmlDecode(input);
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    /// <summary>Writes plain <paramref name="text"/> out in <paramref name="format"/>.</summary>
+    public string FromText(string? text, AsciiFormat format, string separator = DefaultSeparator)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return string.Empty;
+        }
+
+        return format switch
+        {
+            AsciiFormat.Text => text,
+            AsciiFormat.Binary or AsciiFormat.Octal or AsciiFormat.Decimal or AsciiFormat.Hexadecimal
+                => Encode(text, ToNumberBase(format), separator),
+            AsciiFormat.Base32 => ToBase32(Encoding.UTF8.GetBytes(text)),
+            AsciiFormat.Base64 => System.Convert.ToBase64String(Encoding.UTF8.GetBytes(text)),
+            AsciiFormat.Html => ToHtmlEntities(text),
+            _ => text,
+        };
+    }
+
+    /// <summary>
+    /// Infers the input format: the first numeric base under which <em>every</em> token is a valid,
+    /// in-range code point wins; otherwise the input is treated as plain text. Base32/Base64 are
+    /// deliberately excluded — almost any letter run is valid in them, so they'd swallow real text.
+    /// </summary>
+    public bool DetectFormat(string? input, out AsciiFormat format)
+    {
+        format = AsciiFormat.Text;
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return true;
+        }
+
+        foreach (var candidate in AutoDetectOrder)
+        {
+            if (TryDecode(input, candidate, out var decoded) && decoded.Length > 0)
+            {
+                format = ToFormat(candidate);
+                return true;
+            }
+        }
+
+        return true;
+    }
+
+    private static AsciiNumberBase ToNumberBase(AsciiFormat format) => format switch
+    {
+        AsciiFormat.Binary => AsciiNumberBase.Binary,
+        AsciiFormat.Octal => AsciiNumberBase.Octal,
+        AsciiFormat.Hexadecimal => AsciiNumberBase.Hexadecimal,
+        _ => AsciiNumberBase.Decimal,
+    };
+
+    private static AsciiFormat ToFormat(AsciiNumberBase numberBase) => numberBase switch
+    {
+        AsciiNumberBase.Binary => AsciiFormat.Binary,
+        AsciiNumberBase.Octal => AsciiFormat.Octal,
+        AsciiNumberBase.Hexadecimal => AsciiFormat.Hexadecimal,
+        _ => AsciiFormat.Decimal,
+    };
+
+    /// <summary>UTF-8 first (what we encode with); falls back to Latin-1 so arbitrary byte blobs still show.</summary>
+    private static string ToText(byte[] bytes)
+    {
+        try
+        {
+            return new UTF8Encoding(false, throwOnInvalidBytes: true).GetString(bytes);
+        }
+        catch (DecoderFallbackException)
+        {
+            return Encoding.Latin1.GetString(bytes);
+        }
+    }
+
+    private static string ToHtmlEntities(string text)
+    {
+        var builder = new StringBuilder();
+        foreach (var rune in text.EnumerateRunes())
+        {
+            builder.Append("&#").Append(rune.Value.ToString(CultureInfo.InvariantCulture)).Append(';');
+        }
+
+        return builder.ToString();
+    }
+
+    private static bool TryFromBase64(string input, out byte[] bytes)
+    {
+        bytes = [];
+        try
+        {
+            // Convert already ignores embedded whitespace; strip our own separators too.
+            var cleaned = new string([.. input.Where(static c => !char.IsWhiteSpace(c) && c != ',')]);
+            if (cleaned.Length == 0)
+            {
+                return true;
+            }
+
+            bytes = System.Convert.FromBase64String(cleaned);
+            return true;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+    }
+
+    private const string Base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+    private static string ToBase32(byte[] bytes)
+    {
+        var builder = new StringBuilder(((bytes.Length + 4) / 5) * 8);
+        for (var offset = 0; offset < bytes.Length; offset += 5)
+        {
+            var chunk = Math.Min(5, bytes.Length - offset);
+            ulong buffer = 0;
+            for (var i = 0; i < 5; i++)
+            {
+                buffer <<= 8;
+                if (i < chunk)
+                {
+                    buffer |= bytes[offset + i];
+                }
+            }
+
+            // 5 bytes -> 8 chars; a short final chunk yields fewer chars, the rest is '=' padding.
+            var charCount = chunk switch { 1 => 2, 2 => 4, 3 => 5, 4 => 7, _ => 8 };
+            for (var i = 0; i < 8; i++)
+            {
+                builder.Append(i < charCount ? Base32Alphabet[(int)((buffer >> (35 - (i * 5))) & 0x1F)] : '=');
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private static bool TryFromBase32(string input, out byte[] bytes)
+    {
+        bytes = [];
+        var symbols = new List<int>(input.Length);
+        foreach (var c in input)
+        {
+            if (char.IsWhiteSpace(c) || c is '=' or ',')
+            {
+                continue;
+            }
+
+            var index = Base32Alphabet.IndexOf(char.ToUpperInvariant(c));
+            if (index < 0)
+            {
+                return false;
+            }
+
+            symbols.Add(index);
+        }
+
+        var result = new List<byte>(symbols.Count * 5 / 8);
+        var bitBuffer = 0;
+        var bitCount = 0;
+        foreach (var symbol in symbols)
+        {
+            bitBuffer = (bitBuffer << 5) | symbol;
+            bitCount += 5;
+            if (bitCount >= 8)
+            {
+                bitCount -= 8;
+                result.Add((byte)((bitBuffer >> bitCount) & 0xFF));
+            }
+        }
+
+        bytes = [.. result];
+        return true;
+    }
+
     /// <summary>Splits an input string into code tokens on any run of non-alphanumeric characters.</summary>
     private static IEnumerable<string> Tokenize(string codes)
-        => codes.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)
-                .SelectMany(static part => part.Split(',', StringSplitOptions.RemoveEmptyEntries));
+    {
+        var start = -1;
+        for (var i = 0; i < codes.Length; i++)
+        {
+            if (char.IsLetterOrDigit(codes[i]))
+            {
+                if (start < 0)
+                {
+                    start = i;
+                }
+            }
+            else if (start >= 0)
+            {
+                yield return codes[start..i];
+                start = -1;
+            }
+        }
+
+        if (start >= 0)
+        {
+            yield return codes[start..];
+        }
+    }
 
     private static string Format(int value, AsciiNumberBase numberBase) => numberBase switch
     {

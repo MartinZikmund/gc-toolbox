@@ -224,4 +224,163 @@ public class AsciiConverterTests
         Assert.AreEqual("101 102", all.Octal);
         Assert.AreEqual("1000001 1000010", all.Binary);
     }
+
+    [TestMethod]
+    public void AsciiCodeRow_ToString_ReadsAsItsContent()
+    {
+        // Screen readers announce the item's ToString() when a list row has no explicit name.
+        var row = _converter.Describe("A")[0];
+        Assert.AreEqual("A — 65 decimal, 41 hex, 101 octal, 1000001 binary", row.ToString());
+    }
+
+    // ---- Tokenizing tolerance ----
+
+    [TestMethod]
+    [DataRow("72-105")]
+    [DataRow("72; 105")]
+    [DataRow("[72] [105]")]
+    public void TryDecode_TolerantOfArbitraryPunctuationSeparators(string codes)
+    {
+        Assert.IsTrue(_converter.TryDecode(codes, AsciiNumberBase.Decimal, out var text));
+        Assert.AreEqual("Hi", text);
+    }
+
+    [TestMethod]
+    public void TryDecode_RoundTripsWithACustomSeparator()
+    {
+        var encoded = _converter.Encode("Hi", AsciiNumberBase.Decimal, " - ");
+        Assert.IsTrue(_converter.TryDecode(encoded, AsciiNumberBase.Decimal, out var text));
+        Assert.AreEqual("Hi", text);
+    }
+
+    // ---- Base32 / Base64 / HTML (website parity formats) ----
+
+    [TestMethod]
+    [DataRow("f", "MY======")]
+    [DataRow("fo", "MZXQ====")]
+    [DataRow("foo", "MZXW6===")]
+    [DataRow("foob", "MZXW6YQ=")]
+    [DataRow("fooba", "MZXW6YTB")]
+    [DataRow("foobar", "MZXW6YTBOI======")]
+    public void FromText_Base32_MatchesRfc4648Vectors(string text, string expected)
+        => Assert.AreEqual(expected, _converter.FromText(text, AsciiFormat.Base32));
+
+    [TestMethod]
+    [DataRow("MZXW6YTBOI======", "foobar")]
+    [DataRow("mzxw6ytboi", "foobar")]
+    public void TryToText_Base32_DecodesRfc4648Vectors(string encoded, string expected)
+    {
+        Assert.IsTrue(_converter.TryToText(encoded, AsciiFormat.Base32, out var text));
+        Assert.AreEqual(expected, text);
+    }
+
+    [TestMethod]
+    public void TryToText_Base32_InvalidSymbol_ReturnsFalse()
+        => Assert.IsFalse(_converter.TryToText("MZXW6YTB!", AsciiFormat.Base32, out _));
+
+    [TestMethod]
+    public void FromText_Base64_EncodesText()
+        => Assert.AreEqual("SGVsbG8=", _converter.FromText("Hello", AsciiFormat.Base64));
+
+    [TestMethod]
+    public void TryToText_Base64_DecodesText()
+    {
+        Assert.IsTrue(_converter.TryToText("SGVsbG8=", AsciiFormat.Base64, out var text));
+        Assert.AreEqual("Hello", text);
+    }
+
+    [TestMethod]
+    public void TryToText_Base64_MalformedPadding_ReturnsFalse()
+        => Assert.IsFalse(_converter.TryToText("SGVsbG8", AsciiFormat.Base64, out _));
+
+    [TestMethod]
+    public void FromText_Html_ProducesNumericEntities()
+        => Assert.AreEqual("&#72;&#105;", _converter.FromText("Hi", AsciiFormat.Html));
+
+    [TestMethod]
+    public void TryToText_Html_ReadsNumericHexAndNamedEntities()
+    {
+        Assert.IsTrue(_converter.TryToText("&#72;&#x69;&amp;&eacute;", AsciiFormat.Html, out var text));
+        Assert.AreEqual("Hi&é", text);
+    }
+
+    [TestMethod]
+    [DataRow(AsciiFormat.Base32)]
+    [DataRow(AsciiFormat.Base64)]
+    [DataRow(AsciiFormat.Html)]
+    [DataRow(AsciiFormat.Binary)]
+    [DataRow(AsciiFormat.Hexadecimal)]
+    public void FromText_ThenTryToText_RoundTripsUnicode(AsciiFormat format)
+    {
+        const string original = "Héllo, Wörld! ☺ €";
+        var encoded = _converter.FromText(original, format);
+        Assert.IsTrue(_converter.TryToText(encoded, format, out var text));
+        Assert.AreEqual(original, text);
+    }
+
+    // ---- Any-to-any conversion ----
+
+    [TestMethod]
+    public void TryConvert_TextToDecimal()
+    {
+        Assert.IsTrue(_converter.TryConvert("Hi", AsciiFormat.Text, AsciiFormat.Decimal, " ", false, out var result, out _));
+        Assert.AreEqual("72 105", result);
+    }
+
+    [TestMethod]
+    public void TryConvert_BaseToBase_ConvertsWithoutGoingThroughTheUi()
+    {
+        // The website's binary-code-groups -> hex-code-groups case.
+        Assert.IsTrue(_converter.TryConvert(
+            "1001000 1101001", AsciiFormat.Binary, AsciiFormat.Hexadecimal, " ", false, out var result, out _));
+        Assert.AreEqual("48 69", result);
+    }
+
+    [TestMethod]
+    public void TryConvert_Base64ToText()
+    {
+        Assert.IsTrue(_converter.TryConvert("SGVsbG8=", AsciiFormat.Base64, AsciiFormat.Text, " ", false, out var result, out _));
+        Assert.AreEqual("Hello", result);
+    }
+
+    [TestMethod]
+    public void TryConvert_RemoveSpaces_StripsSeparatorSpacesFromResult()
+    {
+        Assert.IsTrue(_converter.TryConvert("Hi", AsciiFormat.Text, AsciiFormat.Decimal, " ", true, out var result, out _));
+        Assert.AreEqual("72105", result);
+    }
+
+    [TestMethod]
+    public void TryConvert_InvalidSourceFormat_ReturnsFalse()
+        => Assert.IsFalse(_converter.TryConvert("nope", AsciiFormat.Decimal, AsciiFormat.Text, " ", false, out _, out _));
+
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    public void TryConvert_NullOrEmpty_ReturnsTrueWithEmpty(string? input)
+    {
+        Assert.IsTrue(_converter.TryConvert(input, AsciiFormat.Text, AsciiFormat.Decimal, " ", false, out var result, out _));
+        Assert.AreEqual(string.Empty, result);
+    }
+
+    // ---- Auto-detect across formats ----
+
+    [TestMethod]
+    [DataRow("72 105", AsciiFormat.Decimal)]
+    [DataRow("1001000 1101001", AsciiFormat.Binary)]
+    [DataRow("48 65 6C 6C 6F", AsciiFormat.Hexadecimal)]
+    [DataRow("Hello world", AsciiFormat.Text)]
+    public void DetectFormat_InfersTheSourceFormat(string input, AsciiFormat expected)
+    {
+        Assert.IsTrue(_converter.DetectFormat(input, out var format));
+        Assert.AreEqual(expected, format);
+    }
+
+    [TestMethod]
+    public void TryConvert_AutoDetect_UsesTheDetectedFormat()
+    {
+        Assert.IsTrue(_converter.TryConvert("Hello", from: null, AsciiFormat.Decimal, " ", false, out var result, out var detected));
+        Assert.AreEqual(AsciiFormat.Text, detected);
+        Assert.AreEqual("72 101 108 108 111", result);
+    }
 }
