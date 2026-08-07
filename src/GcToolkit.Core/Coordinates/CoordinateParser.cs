@@ -27,7 +27,15 @@ public static partial class CoordinateParser
         // Grids first — their shape (digits + band/square letters) does not collide with angular input.
         if (Mgrs.TryParse(trimmed, out coordinate))
         {
+            // USNG shares the MGRS notation; report MGRS (they are identical on WGS84).
             detected = CoordinateFormat.Mgrs;
+            return true;
+        }
+
+        // British National Grid: two grid letters followed by an even run of digits.
+        if (BritishGrid.TryParse(trimmed, out coordinate))
+        {
+            detected = CoordinateFormat.BritishGrid;
             return true;
         }
 
@@ -35,6 +43,23 @@ public static partial class CoordinateParser
         {
             coordinate = Utm.ToLatLon(utm);
             detected = CoordinateFormat.Utm;
+            return true;
+        }
+
+        // Dutch RD: two large metric numbers inside the Netherlands extent (range-guarded so plain
+        // lat/lon pairs are not mistaken for RD).
+        if (DutchRd.TryParse(trimmed, out var rd))
+        {
+            coordinate = DutchRd.ToLatLon(rd);
+            detected = CoordinateFormat.DutchRd;
+            return true;
+        }
+
+        // British National Grid, all-numeric form (e.g. "651409 313177"). Tried after the Dutch RD so an
+        // ambiguous metric pair inside the Netherlands extent still reads as RD, matching the reference site.
+        if (BritishGrid.TryParseNumeric(trimmed, out coordinate))
+        {
+            detected = CoordinateFormat.BritishGrid;
             return true;
         }
 
@@ -70,6 +95,22 @@ public static partial class CoordinateParser
 
             case CoordinateFormat.Mgrs:
                 return Mgrs.TryParse(trimmed, out coordinate);
+
+            case CoordinateFormat.Usng:
+                return Usng.TryParse(trimmed, out coordinate);
+
+            case CoordinateFormat.BritishGrid:
+                return BritishGrid.TryParse(trimmed, out coordinate)
+                    || BritishGrid.TryParseNumeric(trimmed, out coordinate);
+
+            case CoordinateFormat.DutchRd:
+                if (DutchRd.TryParse(trimmed, out var rd))
+                {
+                    coordinate = DutchRd.ToLatLon(rd);
+                    return true;
+                }
+
+                return false;
 
             default:
                 return TryParseAngular(trimmed, out coordinate, out var detected) && detected == format;

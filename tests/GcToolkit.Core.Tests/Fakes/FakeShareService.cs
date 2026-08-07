@@ -1,20 +1,23 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GcToolkit.Core.Services;
 
 namespace GcToolkit.Core.Tests.Fakes;
 
-/// <summary>Records the last shared title/text so tests can assert on Share commands.</summary>
+/// <summary>Records the last shared payload so tests can assert on Share commands; never touches a real share sheet.</summary>
 public sealed class FakeShareService : IShareService
 {
     public string? LastTitle { get; private set; }
 
     public string? LastText { get; private set; }
 
+    public string? LastUri { get; private set; }
+
     public int ShareTextCallCount { get; private set; }
 
     public Task ShareAsync(string title, string uri)
     {
         LastTitle = title;
+        LastUri = uri;
         LastText = uri;
         return Task.CompletedTask;
     }
