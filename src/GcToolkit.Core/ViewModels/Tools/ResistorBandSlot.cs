@@ -11,6 +11,9 @@ public sealed class ResistorColorOption(ResistorColor color, string name)
     public string Name { get; } = name;
 
     public string SwatchHex { get; } = ResistorCode.SwatchHex(color);
+
+    /// <summary>Screen readers fall back to <c>ToString()</c> for list/combo items, so return the colour name.</summary>
+    public override string ToString() => Name;
 }
 
 /// <summary>
@@ -50,4 +53,6 @@ public sealed partial class ResistorBandSlot : ObservableObject
             _onChanged();
         }
     }
+
+    public override string ToString() => $"{RoleLabel}: {SelectedOption.Name}";
 }

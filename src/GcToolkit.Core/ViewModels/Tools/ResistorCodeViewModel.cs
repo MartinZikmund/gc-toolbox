@@ -96,6 +96,17 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial bool HasTempCo { get; set; }
 
+    /// <summary>The significant digits as they read off the bands (brown-black-red → <c>102</c>) — what cache puzzles want.</summary>
+    [ObservableProperty]
+    public partial string DigitsText { get; set; } = string.Empty;
+
+    /// <summary>Set when the entered value has no exact band representation and the nearest one is shown.</summary>
+    [ObservableProperty]
+    public partial bool IsApproximate { get; set; }
+
+    [ObservableProperty]
+    public partial string ApproximateMessage { get; set; } = string.Empty;
+
     [ObservableProperty]
     public partial bool HasOutput { get; set; }
 
@@ -120,14 +131,67 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
 
     partial void OnModeIndexChanged(int value)
     {
-        if (value is not (0 or 1))
+        if (_suppressRecompute || value is not (0 or 1))
         {
             return;
         }
 
         OnPropertyChanged(nameof(IsDecodeMode));
         OnPropertyChanged(nameof(IsEncodeMode));
+
+        // Carry the previous result across the toggle so a round-trip is one tap.
+        _suppressRecompute = true;
+        if (value == 1)
+        {
+            CarryDecodedValueIntoEncodeInput();
+        }
+        else
+        {
+            CarryEncodedBandsIntoSelectors();
+        }
+
+        _suppressRecompute = false;
         Recompute();
+    }
+
+    /// <summary>Decode → encode: seed the value box (and tolerance) from the bands the user had selected.</summary>
+    private void CarryDecodedValueIntoEncodeInput()
+    {
+        var colors = Bands.Select(b => b.SelectedColor).ToArray();
+        var decoded = _codec.Decode(colors);
+        if (!decoded.Success)
+        {
+            return;
+        }
+
+        ResistanceInput = decoded.Value!.Resistance.ToString("0.############", CultureInfo.InvariantCulture);
+
+        var toleranceColor = colors[ResistorCode.DigitBandCount(BandCount) + 1];
+        SelectedTolerance = ToleranceOptions.FirstOrDefault(o => o.Color == toleranceColor) ?? SelectedTolerance;
+        if (IsSixBand)
+        {
+            var tempCoColor = colors[5];
+            SelectedTempCo = TempCoOptions.FirstOrDefault(o => o.Color == tempCoColor) ?? SelectedTempCo;
+        }
+    }
+
+    /// <summary>Encode → decode: seed the band selectors from the colours the encoder produced.</summary>
+    private void CarryEncodedBandsIntoSelectors()
+    {
+        if (ResultBands.Count != Bands.Count)
+        {
+            return;
+        }
+
+        for (var i = 0; i < Bands.Count; i++)
+        {
+            var slot = Bands[i];
+            var match = slot.Options.FirstOrDefault(o => o.Color == ResultBands[i].Color);
+            if (match is not null)
+            {
+                slot.SelectedOption = match;
+            }
+        }
     }
 
     partial void OnBandCountIndexChanged(int value)
@@ -194,7 +258,7 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
                 ? IndexOfColor(options, previous[i])
                 : IndexOfColor(options, fallbackColor);
 
-            Bands.Add(new ResistorBandSlot(role, options, selected, Recompute));
+            Bands.Add(new ResistorBandSlot(role, options, selected, OnBandChanged));
         }
     }
 
@@ -227,6 +291,14 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
         return (_localizer["ResistorBandTempCo"].Value, tempCoOptions, ResistorColor.Brown);
     }
 
+    private void OnBandChanged()
+    {
+        if (!_suppressRecompute)
+        {
+            Recompute();
+        }
+    }
+
     private void Recompute()
     {
         if (IsEncodeMode)
@@ -251,7 +323,14 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
             return;
         }
 
+        // The preview mirrors the selected bands so decode mode gets the same visual resistor as encode.
+        foreach (var color in colors)
+        {
+            ResultBands.Add(Option(color));
+        }
+
         ApplyValue(result.Value!);
+        DigitsText = ResistorCode.DigitString(colors);
     }
 
     private void RecomputeEncode()
@@ -291,6 +370,16 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
         if (decoded.Success)
         {
             ApplyValue(decoded.Value!);
+            DigitsText = ResistorCode.DigitString(result.Bands);
+
+            if (result.IsApproximate)
+            {
+                IsApproximate = true;
+                ApproximateMessage = string.Format(
+                    CultureInfo.CurrentCulture,
+                    _localizer["ResistorApproximate"].Value,
+                    ResistorCode.FormatResistance(decoded.Value!.Resistance));
+            }
         }
     }
 
@@ -312,6 +401,8 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
         HasOutput = true;
         HasError = false;
         ErrorMessage = string.Empty;
+        IsApproximate = false;
+        ApproximateMessage = string.Empty;
     }
 
     private void ShowError(ResistorError error)
@@ -326,10 +417,13 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
         ResistanceText = string.Empty;
         ToleranceText = string.Empty;
         TempCoText = string.Empty;
+        DigitsText = string.Empty;
         HasTempCo = false;
         HasOutput = false;
         HasError = false;
         ErrorMessage = string.Empty;
+        IsApproximate = false;
+        ApproximateMessage = string.Empty;
     }
 
     private string FormatTolerance(decimal percent)
@@ -448,6 +542,11 @@ public sealed partial class ResistorCodeViewModel : ToolViewModelBase
         if (HasTempCo && !string.IsNullOrEmpty(TempCoText))
         {
             parts.Add(TempCoText);
+        }
+
+        if (!string.IsNullOrEmpty(DigitsText))
+        {
+            parts.Add(DigitsText);
         }
 
         return string.Join(", ", parts);

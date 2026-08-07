@@ -93,6 +93,58 @@ public sealed class ResistorCodeViewModelTests
     }
 
     [TestMethod]
+    public void ModeIndex_DecodeToEncode_CarriesTheDecodedValueIntoTheInput()
+    {
+        var sut = CreateSut();
+
+        // Defaults decode to 470 Ω, ±5% (gold).
+        sut.ModeIndex = 1;
+
+        Assert.AreEqual("470", sut.ResistanceInput);
+        Assert.AreEqual(ResistorColor.Gold, sut.SelectedTolerance!.Color);
+        StringAssert.Contains(sut.ResistanceText, "470");
+    }
+
+    [TestMethod]
+    public void ModeIndex_EncodeToDecode_CarriesTheEncodedBandsIntoTheSelectors()
+    {
+        var sut = CreateSut();
+        sut.ModeIndex = 1;
+        sut.ResistanceInput = "1000";
+
+        sut.ModeIndex = 0;
+
+        CollectionAssert.AreEqual(
+            new[] { ResistorColor.Brown, ResistorColor.Black, ResistorColor.Red, ResistorColor.Gold },
+            sut.Bands.Select(b => b.SelectedColor).ToArray());
+        StringAssert.Contains(sut.ResistanceText, "1");
+    }
+
+    [TestMethod]
+    public void Decode_ShowsTheBandPreviewAndDigitString()
+    {
+        var sut = CreateSut();
+
+        // Yellow, violet, brown, gold -> digits "47" and a four-chip preview.
+        Assert.AreEqual(4, sut.ResultBands.Count);
+        Assert.AreEqual("47", sut.DigitsText);
+    }
+
+    [TestMethod]
+    public void Encode_ValueNeedingMoreDigits_FlagsApproximate()
+    {
+        var sut = CreateSut();
+        sut.ModeIndex = 1;
+        sut.BandCountIndex = 1; // 5-band -> 3 significant digits
+        sut.ResistanceInput = "1234";
+
+        Assert.IsTrue(sut.HasOutput);
+        Assert.IsFalse(sut.HasError);
+        Assert.IsTrue(sut.IsApproximate);
+        Assert.IsFalse(string.IsNullOrEmpty(sut.ApproximateMessage));
+    }
+
+    [TestMethod]
     public void CopyOutput_PutsResultOnClipboard()
     {
         var clipboard = new FakeClipboard();
@@ -129,6 +181,7 @@ public sealed class ResistorCodeViewModelTests
             ["ResistorBandTempCo"] = "Temp. coefficient",
             ["ResistorToleranceValue"] = "± {0}%",
             ["ResistorTempCoValue"] = "{0} ppm/K",
+            ["ResistorApproximate"] = "Closest is {0}",
         });
 
         return new ResistorCodeViewModel(

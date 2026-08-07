@@ -203,6 +203,42 @@ public class ResistorCodeTests
         Assert.IsFalse(_codec.Encode(999_000_000_000m, ResistorBandCount.Four, tolerancePercent: 5m).Success);
     }
 
+    [TestMethod]
+    public void Encode_ValueNeedingMoreDigits_RoundsAndFlagsApproximate()
+    {
+        // 1234 needs 4 significant digits; a 5-band resistor carries 3 -> nearest is 1230.
+        var result = _codec.Encode(1234m, ResistorBandCount.Five, tolerancePercent: 1m);
+
+        Assert.IsTrue(result.Success);
+        Assert.IsTrue(result.IsApproximate);
+        Assert.AreEqual(1230m, _codec.Decode(result.Bands!).Value!.Resistance);
+    }
+
+    [TestMethod]
+    public void Encode_ExactValue_IsNotFlaggedApproximate()
+    {
+        var result = _codec.Encode(4700m, ResistorBandCount.Four, tolerancePercent: 5m);
+
+        Assert.IsTrue(result.Success);
+        Assert.IsFalse(result.IsApproximate);
+    }
+
+    // ---- Digit string (geocaching puzzles want the digits, not the ohm value) ----
+
+    [TestMethod]
+    public void DigitString_FourBand_ReturnsTheTwoSignificantDigits()
+        => Assert.AreEqual("10", ResistorCode.DigitString([ResistorColor.Brown, ResistorColor.Black, ResistorColor.Red, ResistorColor.Gold]));
+
+    [TestMethod]
+    public void DigitString_FiveBand_ReturnsTheThreeSignificantDigits()
+        => Assert.AreEqual(
+            "560",
+            ResistorCode.DigitString([ResistorColor.Green, ResistorColor.Blue, ResistorColor.Black, ResistorColor.Brown, ResistorColor.Brown]));
+
+    [TestMethod]
+    public void DigitString_InvalidBands_ReturnsEmpty()
+        => Assert.AreEqual(string.Empty, ResistorCode.DigitString([ResistorColor.Gold, ResistorColor.Black, ResistorColor.Red, ResistorColor.Gold]));
+
     // ---- Colour metadata tables (parity verification) ----
 
     [TestMethod]

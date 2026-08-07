@@ -3633,4 +3633,10 @@
   <data name="ResistorErrorValue" xml:space="preserve">
     <value>Tuto hodnotu nelze zobrazit s těmito proužky. Zkuste jinou hodnotu nebo více proužků.</value>
   </data>
+  <data name="ResistorApproximate" xml:space="preserve">
+    <value>Tyto proužky neumí zobrazit hodnotu přesně — nejbližší je {0}.</value>
+  </data>
+  <data name="ResistorDigitsLabel" xml:space="preserve">
+    <value>Číslice</value>
+  </data>
 </root>

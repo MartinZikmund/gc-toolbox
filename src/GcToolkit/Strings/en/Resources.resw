@@ -3633,4 +3633,10 @@
   <data name="ResistorErrorValue" xml:space="preserve">
     <value>That value can't be shown with these bands. Try a different value or more bands.</value>
   </data>
+  <data name="ResistorApproximate" xml:space="preserve">
+    <value>These bands can't show that value exactly — the closest is {0}.</value>
+  </data>
+  <data name="ResistorDigitsLabel" xml:space="preserve">
+    <value>Digits</value>
+  </data>
 </root>

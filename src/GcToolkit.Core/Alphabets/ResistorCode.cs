@@ -49,10 +49,19 @@ public readonly record struct ResistorDecodeResult(bool Success, ResistorValue? 
     public static ResistorDecodeResult Fail(ResistorError error) => new(false, null, error);
 }
 
-/// <summary>The outcome of encoding a value: either the <see cref="Bands"/> or an error reason.</summary>
-public readonly record struct ResistorEncodeResult(bool Success, IReadOnlyList<ResistorColor>? Bands, ResistorError Error)
+/// <summary>
+/// The outcome of encoding a value: either the <see cref="Bands"/> or an error reason.
+/// <see cref="IsApproximate"/> is set when the requested value has no exact band representation and
+/// the closest representable one was produced instead.
+/// </summary>
+public readonly record struct ResistorEncodeResult(
+    bool Success,
+    IReadOnlyList<ResistorColor>? Bands,
+    ResistorError Error,
+    bool IsApproximate = false)
 {
-    public static ResistorEncodeResult Ok(IReadOnlyList<ResistorColor> bands) => new(true, bands, ResistorError.None);
+    public static ResistorEncodeResult Ok(IReadOnlyList<ResistorColor> bands, bool isApproximate = false)
+        => new(true, bands, ResistorError.None, isApproximate);
 
     public static ResistorEncodeResult Fail(ResistorError error) => new(false, null, error);
 }
@@ -281,7 +290,7 @@ public sealed class ResistorCode
         }
 
         var digitCount = DigitBandCount(bandCount);
-        if (!TryGetSignificantAndExponent(resistance, digitCount, out var significant, out var exponent))
+        if (!TryGetSignificantAndExponent(resistance, digitCount, out var significant, out var exponent, out var isApproximate))
         {
             return ResistorEncodeResult.Fail(ResistorError.UnrepresentableValue);
         }
@@ -307,7 +316,35 @@ public sealed class ResistorCode
             bands.Add(c);
         }
 
-        return ResistorEncodeResult.Ok(bands);
+        return ResistorEncodeResult.Ok(bands, isApproximate);
+    }
+
+    /// <summary>
+    /// The significant digits of <paramref name="bands"/> concatenated as they appear on the resistor
+    /// (brown-black-red → <c>102</c>) — what a cache puzzle usually wants, rather than the ohm value.
+    /// Returns an empty string when the band count or a digit colour is invalid.
+    /// </summary>
+    public static string DigitString(IReadOnlyList<ResistorColor> bands)
+    {
+        if (bands is null || !IsKnownBandCount(bands.Count, out var count))
+        {
+            return string.Empty;
+        }
+
+        var digitCount = DigitBandCount(count);
+        var digits = new char[digitCount];
+        for (var i = 0; i < digitCount; i++)
+        {
+            var digit = DigitValue(bands[i]);
+            if (digit < 0)
+            {
+                return string.Empty;
+            }
+
+            digits[i] = (char)('0' + digit);
+        }
+
+        return new string(digits);
     }
 
     /// <summary>
@@ -382,19 +419,30 @@ public sealed class ResistorCode
     }
 
     /// <summary>
-    /// Decomposes <paramref name="resistance"/> into an integer <paramref name="significant"/> of
-    /// exactly <paramref name="digitCount"/> digits times <c>10^<paramref name="exponent"/></c>, choosing
-    /// the exponent so the significand uses the full digit width (preserving precision). Returns
-    /// <see langword="false"/> when no exponent in the supported multiplier range fits.
+    /// Decomposes <paramref name="resistance"/> into an integer <paramref name="significant"/> of at most
+    /// <paramref name="digitCount"/> digits times <c>10^<paramref name="exponent"/></c>, choosing the
+    /// exponent so the significand uses the full digit width (preserving precision). An exact
+    /// representation wins; otherwise the closest representable one is returned with
+    /// <paramref name="isApproximate"/> set. Returns <see langword="false"/> only when no exponent in the
+    /// supported multiplier range fits at all.
     /// </summary>
-    private static bool TryGetSignificantAndExponent(decimal resistance, int digitCount, out long significant, out int exponent)
+    private static bool TryGetSignificantAndExponent(
+        decimal resistance,
+        int digitCount,
+        out long significant,
+        out int exponent,
+        out bool isApproximate)
     {
         significant = 0;
         exponent = 0;
+        isApproximate = false;
 
         // Highest representable significand, e.g. 99 (4-band) or 999 (5/6-band).
         var maxSignificant = (long)Pow10(digitCount) - 1;
         var minSignificant = (long)Pow10(digitCount - 1); // keep the leading digit non-zero where possible
+
+        long? fallbackSignificant = null;
+        var fallbackExponent = 0;
 
         // Try multiplier exponents from smallest (silver, -2) to largest (white, 9).
         for (exponent = -2; exponent <= 9; exponent++)
@@ -408,19 +456,34 @@ public sealed class ResistorCode
                 continue;
             }
 
-            // Require an exact reconstruction so we never silently misreport the value.
-            if (rounded * scale != resistance)
+            // Prefer the representation that fills the digit width (leading digit non-zero) when possible,
+            // but accept a smaller significand at the lowest exponent (e.g. single-digit values).
+            if (rounded < minSignificant && exponent != -2)
             {
                 continue;
             }
 
-            // Prefer the representation that fills the digit width (leading digit non-zero) when possible,
-            // but accept a smaller significand at the lowest exponent (e.g. single-digit values).
-            if (rounded >= minSignificant || exponent == -2)
+            // An exact reconstruction always wins, so we never silently misreport a representable value.
+            if (rounded * scale == resistance)
             {
                 significant = (long)rounded;
                 return true;
             }
+
+            // Otherwise remember the first (lowest-exponent, so highest-precision) rounded candidate.
+            if (fallbackSignificant is null)
+            {
+                fallbackSignificant = (long)rounded;
+                fallbackExponent = exponent;
+            }
+        }
+
+        if (fallbackSignificant is long value)
+        {
+            significant = value;
+            exponent = fallbackExponent;
+            isApproximate = true;
+            return true;
         }
 
         return false;
