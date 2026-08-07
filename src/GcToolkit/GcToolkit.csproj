@@ -79,5 +79,6 @@
     <!-- `dotnet run` support for the packaged WinAppSDK head. See Platforms/Windows/README.md. -->
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" PrivateAssets="all" />
     </ItemGroup>
 </Project>
