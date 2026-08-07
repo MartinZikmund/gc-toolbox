@@ -3230,6 +3230,12 @@
   <data name="NumbersToLetters_Tooltip" xml:space="preserve">
     <value>Convert between letters and their A1Z26 numbers (A=1 … Z=26), both ways.</value>
   </data>
+  <data name="NumbersDirectionLabel" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="NumbersSwap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
   <data name="NumbersLettersToNumbers" xml:space="preserve">
     <value>Letters → Numbers</value>
   </data>

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 
 namespace GcToolkit.Core.Text;
@@ -155,7 +156,7 @@ public sealed class AlphabetNumbers
                     result.Append(separator);
                 }
 
-                result.Append(wordNumbers[i]);
+                result.Append(wordNumbers[i].ToString(CultureInfo.InvariantCulture));
             }
 
             wordNumbers.Clear();
@@ -196,7 +197,7 @@ public sealed class AlphabetNumbers
                     result.Append(separator);
                 }
 
-                result.Append(value);
+                result.Append(value.ToString(CultureInfo.InvariantCulture));
                 previousWasNumber = true;
             }
             else
@@ -336,7 +337,8 @@ public sealed class AlphabetNumbers
 
     private static string DecodeToken(string token, AlphabetNumberOptions options, AlphabetMethodDefinition method)
     {
-        if (int.TryParse(token, out var n))
+        // Invariant parsing: the tokens are digits the user typed, never culture-formatted numbers.
+        if (int.TryParse(token, NumberStyles.Integer, CultureInfo.InvariantCulture, out var n))
         {
             if (method.TryGetChar(n, out var letter))
             {

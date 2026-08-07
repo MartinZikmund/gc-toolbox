@@ -238,6 +238,11 @@ public class AlphabetNumbersTests
     }
 
     [TestMethod]
+    public void AlphabetEntry_ToString_IsCharacterAndValue_NotTheRecordForm()
+        // A table tile with no explicit automation name announces ToString().
+        => Assert.AreEqual("a = 1", new AlphabetEntry("a", 1).ToString());
+
+    [TestMethod]
     public void AlphabetMethods_All_ExposesEightMethodsWithLabels()
     {
         Assert.AreEqual(8, AlphabetMethods.All.Count);

@@ -26,6 +26,7 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
+    private bool _suppressRecompute;
 
     public NumbersToLettersViewModel(
         ICatalogService catalog,
@@ -114,18 +115,29 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
 
     partial void OnDirectionIndexChanged(int value)
     {
-        // Ignore the transient -1 a RadioButtons control can emit while re-templating.
-        if (value is not (0 or 1))
+        // Ignore re-entrant carries and the transient -1 a RadioButtons control can emit while re-templating.
+        if (_suppressRecompute || value is not (0 or 1))
         {
             return;
         }
 
         IsLettersToNumbers = value == 0;
         InputPlaceholder = _localizer[IsLettersToNumbers ? "NumbersInputPlaceholderLetters" : "NumbersInputPlaceholderNumbers"].Value;
+
+        // Switching direction carries the previous result into the input, so a round-trip is one tap.
+        _suppressRecompute = true;
+        InputText = OutputText;
+        _suppressRecompute = false;
         Recompute();
     }
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    partial void OnInputTextChanged(string value)
+    {
+        if (!_suppressRecompute)
+        {
+            Recompute();
+        }
+    }
 
     partial void OnSeparatorChanged(string value) => Recompute();
 
@@ -159,6 +171,7 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
     {
         CopyOutputCommand.NotifyCanExecuteChanged();
         ShareOutputCommand.NotifyCanExecuteChanged();
+        SwapCommand.NotifyCanExecuteChanged();
     }
 
     private void Recompute()
@@ -188,6 +201,10 @@ public sealed partial class NumbersToLettersViewModel : ToolViewModelBase
 
         HasOutput = OutputText.Length > 0;
     }
+
+    /// <summary>Flips the direction; the direction handler carries the result into the input for a one-tap round trip.</summary>
+    [RelayCommand(CanExecute = nameof(HasOutput))]
+    private void Swap() => DirectionIndex = IsDecode ? 0 : 1;
 
     [RelayCommand(CanExecute = nameof(HasOutput))]
     private void CopyOutput() => _clipboard.SetText(OutputText);

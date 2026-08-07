@@ -39,6 +39,9 @@ public sealed record AlphabetEntry(string Character, int Value)
 {
     /// <summary>The value as a culture-invariant string, for binding to a text element.</summary>
     public string ValueText => Value.ToString(CultureInfo.InvariantCulture);
+
+    /// <summary>Announced by screen readers for the table tile — the record's generated form would not read.</summary>
+    public override string ToString() => $"{Character} = {ValueText}";
 }
 
 /// <summary>
