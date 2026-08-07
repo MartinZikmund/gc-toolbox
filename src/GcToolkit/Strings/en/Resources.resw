@@ -3351,4 +3351,70 @@
   <data name="BaseConverterDigitsNote" xml:space="preserve">
     <value>A base uses this many leading digits, in order. Letters are case-insensitive on input.</value>
   </data>
+  <data name="BaseConverterBaseN" xml:space="preserve">
+    <value>Base {0}</value>
+  </data>
+  <data name="BaseConverterSwap" xml:space="preserve">
+    <value>Swap bases</value>
+  </data>
+  <data name="BaseConverterCaseSensitive" xml:space="preserve">
+    <value>Case-sensitive</value>
+  </data>
+  <data name="BaseConverterShowAllBases" xml:space="preserve">
+    <value>Show all bases</value>
+  </data>
+  <data name="BaseConverterAllBasesLabel" xml:space="preserve">
+    <value>Every base (2–62)</value>
+  </data>
+  <data name="BaseConverterBatchLabel" xml:space="preserve">
+    <value>Batch results</value>
+  </data>
+  <data name="BaseConverterBatchNote" xml:space="preserve">
+    <value>Each space-separated value is converted on its own; values that aren't valid in the source base are skipped.</value>
+  </data>
+  <data name="BaseConverterSkipped" xml:space="preserve">
+    <value>Skipped — not valid in base {0}</value>
+  </data>
+  <data name="BaseNameBinary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="BaseNameTernary" xml:space="preserve">
+    <value>Ternary</value>
+  </data>
+  <data name="BaseNameQuaternary" xml:space="preserve">
+    <value>Quaternary</value>
+  </data>
+  <data name="BaseNameQuinary" xml:space="preserve">
+    <value>Quinary</value>
+  </data>
+  <data name="BaseNameSenary" xml:space="preserve">
+    <value>Senary</value>
+  </data>
+  <data name="BaseNameSeptenary" xml:space="preserve">
+    <value>Septenary</value>
+  </data>
+  <data name="BaseNameOctal" xml:space="preserve">
+    <value>Octal</value>
+  </data>
+  <data name="BaseNameNonary" xml:space="preserve">
+    <value>Nonary</value>
+  </data>
+  <data name="BaseNameDecimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="BaseNameUndecimal" xml:space="preserve">
+    <value>Undecimal</value>
+  </data>
+  <data name="BaseNameDuodecimal" xml:space="preserve">
+    <value>Duodecimal</value>
+  </data>
+  <data name="BaseNameHexadecimal" xml:space="preserve">
+    <value>Hexadecimal</value>
+  </data>
+  <data name="BaseNameVigesimal" xml:space="preserve">
+    <value>Vigesimal</value>
+  </data>
+  <data name="BaseNameTrigesimal" xml:space="preserve">
+    <value>Trigesimal</value>
+  </data>
 </root>

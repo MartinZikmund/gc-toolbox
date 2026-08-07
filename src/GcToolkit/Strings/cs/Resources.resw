@@ -3351,4 +3351,70 @@
   <data name="BaseConverterDigitsNote" xml:space="preserve">
     <value>Soustava používá tento počet úvodních číslic v daném pořadí. U zadávání se nerozlišují velká a malá písmena.</value>
   </data>
+  <data name="BaseConverterBaseN" xml:space="preserve">
+    <value>Soustava {0}</value>
+  </data>
+  <data name="BaseConverterSwap" xml:space="preserve">
+    <value>Prohodit soustavy</value>
+  </data>
+  <data name="BaseConverterCaseSensitive" xml:space="preserve">
+    <value>Rozlišovat velikost písmen</value>
+  </data>
+  <data name="BaseConverterShowAllBases" xml:space="preserve">
+    <value>Zobrazit všechny soustavy</value>
+  </data>
+  <data name="BaseConverterAllBasesLabel" xml:space="preserve">
+    <value>Všechny soustavy (2–62)</value>
+  </data>
+  <data name="BaseConverterBatchLabel" xml:space="preserve">
+    <value>Výsledky dávky</value>
+  </data>
+  <data name="BaseConverterBatchNote" xml:space="preserve">
+    <value>Každá hodnota oddělená mezerou se převádí samostatně; hodnoty neplatné ve zdrojové soustavě se přeskočí.</value>
+  </data>
+  <data name="BaseConverterSkipped" xml:space="preserve">
+    <value>Přeskočeno — neplatné v soustavě {0}</value>
+  </data>
+  <data name="BaseNameBinary" xml:space="preserve">
+    <value>Dvojková</value>
+  </data>
+  <data name="BaseNameTernary" xml:space="preserve">
+    <value>Trojková</value>
+  </data>
+  <data name="BaseNameQuaternary" xml:space="preserve">
+    <value>Čtyřková</value>
+  </data>
+  <data name="BaseNameQuinary" xml:space="preserve">
+    <value>Pětková</value>
+  </data>
+  <data name="BaseNameSenary" xml:space="preserve">
+    <value>Šestková</value>
+  </data>
+  <data name="BaseNameSeptenary" xml:space="preserve">
+    <value>Sedmičková</value>
+  </data>
+  <data name="BaseNameOctal" xml:space="preserve">
+    <value>Osmičková</value>
+  </data>
+  <data name="BaseNameNonary" xml:space="preserve">
+    <value>Devítková</value>
+  </data>
+  <data name="BaseNameDecimal" xml:space="preserve">
+    <value>Desítková</value>
+  </data>
+  <data name="BaseNameUndecimal" xml:space="preserve">
+    <value>Jedenáctková</value>
+  </data>
+  <data name="BaseNameDuodecimal" xml:space="preserve">
+    <value>Dvanáctková</value>
+  </data>
+  <data name="BaseNameHexadecimal" xml:space="preserve">
+    <value>Šestnáctková</value>
+  </data>
+  <data name="BaseNameVigesimal" xml:space="preserve">
+    <value>Dvacítková</value>
+  </data>
+  <data name="BaseNameTrigesimal" xml:space="preserve">
+    <value>Třicítková</value>
+  </data>
 </root>

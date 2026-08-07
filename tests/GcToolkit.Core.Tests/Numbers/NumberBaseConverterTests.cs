@@ -10,7 +10,7 @@ public class NumberBaseConverterTests
 
     // ---- Parse: a value in a source base -> BigInteger ----
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("255", 10, "255")]
     [DataRow("11111111", 2, "255")]
     [DataRow("377", 8, "255")]
@@ -50,7 +50,7 @@ public class NumberBaseConverterTests
 
     // ---- Parse: invalid digit for the base -> failure (no throw) ----
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("2", 2)]      // '2' is not a binary digit
     [DataRow("8", 8)]      // '8' is not an octal digit
     [DataRow("G", 16)]     // 'G' >= base 16
@@ -63,17 +63,81 @@ public class NumberBaseConverterTests
     public void TryParse_InvalidDigit_ReturnsFalse(string? text, int fromBase)
         => Assert.IsFalse(_converter.TryParse(text, fromBase, out _));
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(1)]
     [DataRow(0)]
-    [DataRow(37)]
+    [DataRow(63)]
     [DataRow(-5)]
     public void TryParse_BaseOutOfRange_ReturnsFalse(int fromBase)
         => Assert.IsFalse(_converter.TryParse("1", fromBase, out _));
 
+    // ---- Bases 37-62: 0-9, a-z (10-35), A-Z (36-61), always case-sensitive ----
+
+    [TestMethod]
+    [DataRow("a", 62, "10")]
+    [DataRow("z", 62, "35")]
+    [DataRow("A", 62, "36")]
+    [DataRow("Z", 62, "61")]
+    [DataRow("47", 62, "255")]
+    [DataRow("10", 62, "62")]
+    public void TryParse_ExtendedBase_UsesBothLetterCasesAsDistinctDigits(string text, int fromBase, string expectedDecimal)
+    {
+        Assert.IsTrue(_converter.TryParse(text, fromBase, out var value));
+        Assert.AreEqual(BigInteger.Parse(expectedDecimal), value);
+    }
+
+    [TestMethod]
+    public void TryParse_ExtendedBase_RejectsGlyphsAboveTheRadix()
+    {
+        // 'A' is digit 36 — the last digit of base 37; 'B' (37) is already out of range.
+        Assert.IsTrue(_converter.TryParse("A", 37, out var value));
+        Assert.AreEqual((BigInteger)36, value);
+        Assert.IsFalse(_converter.TryParse("B", 37, out _));
+        Assert.IsTrue(_converter.TryParse("B", 38, out _));
+    }
+
+    [TestMethod]
+    [DataRow(36, false)]
+    [DataRow(37, true)]
+    [DataRow(62, true)]
+    public void RequiresCaseSensitivity_OnlyAboveBase36(int radix, bool expected)
+        => Assert.AreEqual(expected, NumberBaseConverter.RequiresCaseSensitivity(radix));
+
+    // ---- Case sensitivity switch (bases 2-36) ----
+
+    [TestMethod]
+    public void TryParse_CaseSensitive_RejectsLowerCaseDigits()
+    {
+        Assert.IsFalse(_converter.TryParse("ff", 16, caseSensitive: true, out _));
+        Assert.IsTrue(_converter.TryParse("FF", 16, caseSensitive: true, out var value));
+        Assert.AreEqual((BigInteger)255, value);
+    }
+
+    [TestMethod]
+    public void TryParse_CaseSensitive_IsIgnoredAboveBase36()
+    {
+        // The base-62 alphabet already distinguishes the cases, so the flag can't change the reading.
+        Assert.IsTrue(_converter.TryParse("aA", 62, caseSensitive: false, out var insensitive));
+        Assert.IsTrue(_converter.TryParse("aA", 62, caseSensitive: true, out var sensitive));
+        Assert.AreEqual(insensitive, sensitive);
+        Assert.AreEqual((BigInteger)((10 * 62) + 36), sensitive);
+    }
+
+    // ---- Digit reference ----
+
+    [TestMethod]
+    public void DigitsFor_ReturnsTheOrderedGlyphsOfTheBase()
+    {
+        Assert.AreEqual("01", NumberBaseConverter.DigitsFor(2));
+        Assert.AreEqual("0123456789ABCDEF", NumberBaseConverter.DigitsFor(16));
+        Assert.AreEqual(62, NumberBaseConverter.DigitsFor(62).Length);
+        Assert.AreEqual("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", NumberBaseConverter.DigitsFor(62));
+        Assert.AreEqual(string.Empty, NumberBaseConverter.DigitsFor(63));
+    }
+
     // ---- Format: BigInteger -> a value in a target base ----
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("255", 2, "11111111")]
     [DataRow("255", 8, "377")]
     [DataRow("255", 10, "255")]
@@ -89,9 +153,18 @@ public class NumberBaseConverterTests
     public void Format_NegativeValue_HasLeadingMinus()
         => Assert.AreEqual("-FF", _converter.Format((BigInteger)(-255), 16));
 
-    [DataTestMethod]
+    [TestMethod]
+    [DataRow("255", 62, "47")]
+    [DataRow("10", 62, "a")]
+    [DataRow("35", 62, "z")]
+    [DataRow("36", 62, "A")]
+    [DataRow("61", 62, "Z")]
+    public void Format_ExtendedBase_UsesTheSixtyTwoGlyphAlphabet(string decimalValue, int toBase, string expected)
+        => Assert.AreEqual(expected, _converter.Format(BigInteger.Parse(decimalValue), toBase));
+
+    [TestMethod]
     [DataRow(1)]
-    [DataRow(37)]
+    [DataRow(63)]
     public void Format_BaseOutOfRange_Throws(int toBase)
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _converter.Format(BigInteger.One, toBase));
 
@@ -111,7 +184,7 @@ public class NumberBaseConverterTests
     public void RoundTrip_EveryBase_PreservesValue()
     {
         var value = (BigInteger)123456789;
-        for (var b = 2; b <= 36; b++)
+        for (var b = NumberBaseConverter.MinBase; b <= NumberBaseConverter.MaxBase; b++)
         {
             var text = _converter.Format(value, b);
             Assert.IsTrue(_converter.TryParse(text, b, out var back), $"base {b}");
@@ -152,12 +225,72 @@ public class NumberBaseConverterTests
         Assert.AreEqual("FF", all.Hexadecimal);
     }
 
+    // ---- "Show all bases" ----
+
+    [TestMethod]
+    public void ToAllBases_CoversEveryRadixFromTwoToSixtyTwo()
+    {
+        Assert.IsTrue(_converter.TryParse("255", 10, out var value));
+        var all = _converter.ToAllBases(value);
+
+        Assert.AreEqual(61, all.Count);
+        Assert.AreEqual(2, all[0].Radix);
+        Assert.AreEqual("11111111", all[0].Text);
+        Assert.AreEqual(62, all[^1].Radix);
+        Assert.AreEqual("47", all[^1].Text);
+        Assert.AreEqual("FF", all.Single(r => r.Radix == 16).Text);
+    }
+
+    // ---- Batch: whitespace-separated values, unknown ones skipped ----
+
+    [TestMethod]
+    public void ConvertBatch_ConvertsEachTokenIndependently()
+    {
+        var results = _converter.ConvertBatch("FF 10 A", 16, 10);
+
+        Assert.AreEqual(3, results.Count);
+        Assert.AreEqual("255", results[0].Output);
+        Assert.AreEqual("16", results[1].Output);
+        Assert.AreEqual("10", results[2].Output);
+        Assert.IsTrue(results.All(r => r.IsValid));
+    }
+
+    [TestMethod]
+    public void ConvertBatch_InvalidToken_IsFlaggedWithoutHaltingTheBatch()
+    {
+        var results = _converter.ConvertBatch("FF ZZ 10", 16, 10);
+
+        Assert.AreEqual(3, results.Count);
+        Assert.IsTrue(results[0].IsValid);
+        Assert.IsFalse(results[1].IsValid);
+        Assert.AreEqual("ZZ", results[1].Input);
+        Assert.AreEqual(string.Empty, results[1].Output);
+        Assert.IsTrue(results[2].IsValid);
+        Assert.AreEqual("16", results[2].Output);
+    }
+
+    [TestMethod]
+    [DataRow("1 10  11")]
+    [DataRow("1\n10\t11")]
+    public void Tokenize_SplitsOnAnyWhitespaceRun(string text)
+        => CollectionAssert.AreEqual(new[] { "1", "10", "11" }, NumberBaseConverter.Tokenize(text));
+
+    [TestMethod]
+    public void Tokenize_EmptyInput_ReturnsNoTokens()
+    {
+        Assert.AreEqual(0, NumberBaseConverter.Tokenize(null).Length);
+        Assert.AreEqual(0, NumberBaseConverter.Tokenize("   ").Length);
+    }
+
     // ---- Bounds ----
 
     [TestMethod]
-    public void MinAndMaxBase_AreTwoAndThirtySix()
+    public void IsValidBase_AcceptsTwoThroughSixtyTwoOnly()
     {
-        Assert.AreEqual(2, NumberBaseConverter.MinBase);
-        Assert.AreEqual(36, NumberBaseConverter.MaxBase);
+        Assert.IsFalse(NumberBaseConverter.IsValidBase(1));
+        Assert.IsTrue(NumberBaseConverter.IsValidBase(2));
+        Assert.IsTrue(NumberBaseConverter.IsValidBase(36));
+        Assert.IsTrue(NumberBaseConverter.IsValidBase(62));
+        Assert.IsFalse(NumberBaseConverter.IsValidBase(63));
     }
 }
