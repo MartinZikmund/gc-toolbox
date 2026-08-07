@@ -12,7 +12,12 @@ public sealed class FakeShareService : IShareService
 
     public int ShareTextCallCount { get; private set; }
 
-    public Task ShareAsync(string title, string uri) => Task.CompletedTask;
+    public Task ShareAsync(string title, string uri)
+    {
+        LastTitle = title;
+        LastText = uri;
+        return Task.CompletedTask;
+    }
 
     public Task ShareTextAsync(string title, string text)
     {

@@ -2860,4 +2860,77 @@
   <data name="PhoneKeypadCandidatesHeader" xml:space="preserve">
     <value>Possible words</value>
   </data>
+  <!-- Tool: Coordinate projection -->
+  <data name="CoordinateProjectionStartLabel" xml:space="preserve">
+    <value>Start coordinate</value>
+  </data>
+  <data name="CoordinateProjectionStartPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordinateProjectionAngleLabel" xml:space="preserve">
+    <value>Angle (°)</value>
+  </data>
+  <data name="CoordinateProjectionAnglePlaceholder" xml:space="preserve">
+    <value>0–360</value>
+  </data>
+  <data name="CoordinateProjectionAngleHint" xml:space="preserve">
+    <value>The angle is measured in degrees clockwise from North (0° = N, 90° = E, 180° = S, 270° = W).</value>
+  </data>
+  <data name="CoordinateProjectionDistanceLabel" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="CoordinateProjectionDistancePlaceholder" xml:space="preserve">
+    <value>e.g. 100</value>
+  </data>
+  <data name="CoordinateProjectionUnitLabel" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="CoordinateProjectionUnitMeter" xml:space="preserve">
+    <value>Meter</value>
+  </data>
+  <data name="CoordinateProjectionUnitKilometer" xml:space="preserve">
+    <value>Kilometer</value>
+  </data>
+  <data name="CoordinateProjectionUnitFeet" xml:space="preserve">
+    <value>Feet</value>
+  </data>
+  <data name="CoordinateProjectionUnitYard" xml:space="preserve">
+    <value>Yard</value>
+  </data>
+  <data name="CoordinateProjectionUnitMile" xml:space="preserve">
+    <value>Mile</value>
+  </data>
+  <data name="CoordinateProjectionResultLabel" xml:space="preserve">
+    <value>Projected coordinate</value>
+  </data>
+  <data name="CoordinateProjectionFormatDdm" xml:space="preserve">
+    <value>Degrees and decimal minutes (DDM)</value>
+  </data>
+  <data name="CoordinateProjectionFormatDd" xml:space="preserve">
+    <value>Decimal degrees (DD)</value>
+  </data>
+  <data name="CoordinateProjectionFormatDms" xml:space="preserve">
+    <value>Degrees, minutes, seconds (DMS)</value>
+  </data>
+  <data name="CoordinateProjectionCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CoordinateProjectionShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="CoordinateProjectionClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CoordinateProjectionErrorStart" xml:space="preserve">
+    <value>Enter a valid start coordinate (e.g. N 49 12.345 E 016 34.567).</value>
+  </data>
+  <data name="CoordinateProjectionErrorAngle" xml:space="preserve">
+    <value>Enter the angle as a number in degrees.</value>
+  </data>
+  <data name="CoordinateProjectionErrorDistance" xml:space="preserve">
+    <value>Enter the distance as a number.</value>
+  </data>
+  <data name="CoordinateProjectionErrorDistanceNegative" xml:space="preserve">
+    <value>The distance cannot be negative.</value>
+  </data>
 </root>
