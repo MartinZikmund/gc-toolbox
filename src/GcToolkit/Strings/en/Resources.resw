@@ -3429,4 +3429,79 @@
   <data name="BaseNameTrigesimal" xml:space="preserve">
     <value>Trigesimal</value>
   </data>
+  <data name="VigenereMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="VigenereEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="VigenereDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="VigenereAssisted" xml:space="preserve">
+    <value>Assisted decode</value>
+  </data>
+  <data name="VigenereKeyInputLabel" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="VigenereKeyPlaceholder" xml:space="preserve">
+    <value>Enter a keyword (letters only)…</value>
+  </data>
+  <data name="VigenereAssistedExplainer" xml:space="preserve">
+    <value>No keyword needed. The solver estimates the key length with the Index of Coincidence, then recovers each letter by matching English letter frequencies. Works best on long ciphertext.</value>
+  </data>
+  <data name="VigenereInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="VigenereInputPlaceholder" xml:space="preserve">
+    <value>Type text to encode or decode…</value>
+  </data>
+  <data name="VigenereClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="VigenereDerivedKeyLabel" xml:space="preserve">
+    <value>Recovered key</value>
+  </data>
+  <data name="VigenereAssistedHint" xml:space="preserve">
+    <value>Not enough text to recover a key. Paste a longer sample of ciphertext and try again.</value>
+  </data>
+  <data name="VigenereOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="VigenereCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="VigenereShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="VigenereKeyLengthsLabel" xml:space="preserve">
+    <value>Likely key lengths</value>
+  </data>
+  <data name="VigenereKeyLengthsNote" xml:space="preserve">
+    <value>Candidate lengths ranked by how close each one's averaged Index of Coincidence is to English (~0.067).</value>
+  </data>
+  <data name="VigenereKeyLabel" xml:space="preserve">
+    <value>Running key</value>
+  </data>
+  <data name="VigenereKeyNote" xml:space="preserve">
+    <value>Each key letter shifts the alphabet; the plaintext letter at that position maps to the letter shown.</value>
+  </data>
+  <data name="VigenereKeyError" xml:space="preserve">
+    <value>Enter a key containing at least one letter A–Z — without one the text passes through unchanged.</value>
+  </data>
+  <data name="VigenereLanguageLabel" xml:space="preserve">
+    <value>Plaintext language</value>
+  </data>
+  <data name="VigenereLanguage_En" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="VigenereLanguage_Cs" xml:space="preserve">
+    <value>Czech</value>
+  </data>
+  <data name="VigenereKeyLengthFrom" xml:space="preserve">
+    <value>Key length from</value>
+  </data>
+  <data name="VigenereKeyLengthTo" xml:space="preserve">
+    <value>to</value>
+  </data>
 </root>
