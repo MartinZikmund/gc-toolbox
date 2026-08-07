@@ -1,10 +1,10 @@
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
+using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Services;
 using GcToolkit.Core.Text;
@@ -30,6 +30,7 @@ namespace GcToolkit.Core.ViewModels.Tools;
 public sealed partial class WordValueViewModel : ToolViewModelBase
 {
     private readonly WordValueCalculator _calculator = new();
+    private readonly UiDebouncer _debouncer = new(TimeSpan.FromMilliseconds(200));
     private readonly IClipboardService _clipboard;
     private readonly IShareService _share;
     private readonly IStringLocalizer _localizer;
@@ -99,8 +100,10 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial string ReductionLine { get; set; } = string.Empty;
 
-    /// <summary>Per-word rows shown when <see cref="CountSeparateWords"/> is on.</summary>
-    public ObservableCollection<WordValueWordItem> Words { get; } = [];
+    /// <summary>Per-word rows shown when <see cref="CountSeparateWords"/> is on. Assigned wholesale so a
+    /// long paste replaces the list in one notification instead of one per word.</summary>
+    [ObservableProperty]
+    public partial IReadOnlyList<WordValueWordItem> Words { get; set; } = [];
 
     [ObservableProperty]
     public partial bool ShowSeparateWords { get; set; }
@@ -116,28 +119,41 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
     public partial string NumbersReductionLine { get; set; } = string.Empty;
 
     /// <summary>The conversion table for the active scheme (one cell per scored character).</summary>
-    public ObservableCollection<WordValueConversionItem> Conversion { get; } = [];
+    [ObservableProperty]
+    public partial IReadOnlyList<WordValueConversionItem> Conversion { get; set; } = [];
 
-    partial void OnSelectedMethodChanged(WordValueMethod value) => Recompute();
+    partial void OnSelectedMethodChanged(WordValueMethod value) => _debouncer.RunNow(Recompute);
 
-    partial void OnInputTextChanged(string value) => Recompute();
+    // Typing rebuilds the per-character calculation and (optionally) a row per word, so a long paste
+    // is expensive — coalesce keystrokes then, but keep short/plain input instant.
+    partial void OnInputTextChanged(string value)
+    {
+        if (CountSeparateWords || (ShowCalculation && value.Length > 200))
+        {
+            _debouncer.Debounce(Recompute);
+        }
+        else
+        {
+            _debouncer.RunNow(Recompute);
+        }
+    }
 
-    partial void OnCountNumbersChanged(bool value) => Recompute();
+    partial void OnCountNumbersChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnNumberModeIndexChanged(int value)
     {
         // Ignore the transient -1 a RadioButtons control can emit while re-templating.
         if (value is 0 or 1)
         {
-            Recompute();
+            _debouncer.RunNow(Recompute);
         }
     }
 
-    partial void OnRemoveDiacriticsChanged(bool value) => Recompute();
+    partial void OnRemoveDiacriticsChanged(bool value) => _debouncer.RunNow(Recompute);
 
-    partial void OnShowCalculationChanged(bool value) => Recompute();
+    partial void OnShowCalculationChanged(bool value) => _debouncer.RunNow(Recompute);
 
-    partial void OnCountSeparateWordsChanged(bool value) => Recompute();
+    partial void OnCountSeparateWordsChanged(bool value) => _debouncer.RunNow(Recompute);
 
     partial void OnHasOutputChanged(bool value)
     {
@@ -172,15 +188,8 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
         WordValueLine = FormatValueLine(analysis.Terms, analysis.Total);
         ReductionLine = FormatReduction(analysis.ReductionSteps);
 
-        Words.Clear();
-        foreach (var word in analysis.Words)
-        {
-            var detail = ShowCalculation && word.Terms.Count > 0
-                ? $"{FormatTerms(word.Terms)} = {FormatReduction(word.ReductionSteps)}"
-                : FormatReduction(word.ReductionSteps);
-            Words.Add(new WordValueWordItem(word.Text, detail));
-        }
-
+        // Only materialize the per-word rows when they are actually shown.
+        Words = CountSeparateWords ? [.. analysis.Words.Select(BuildWordItem)] : [];
         ShowSeparateWords = CountSeparateWords && Words.Count > 0;
 
         ShowSeparateNumbers = NumberMode == NumberHandling.NumbersSeparate && analysis.HasNumbers;
@@ -189,16 +198,23 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
             NumbersLine = $"{string.Join(" + ", analysis.Numbers.Select(Format))} = {analysis.NumberTotal}";
             NumbersReductionLine = FormatReduction(analysis.NumberReductionSteps);
         }
+        else
+        {
+            NumbersLine = string.Empty;
+            NumbersReductionLine = string.Empty;
+        }
+    }
+
+    private WordValueWordItem BuildWordItem(WordValueWord word)
+    {
+        var detail = ShowCalculation && word.Terms.Count > 0
+            ? $"{FormatTerms(word.Terms)} = {FormatReduction(word.ReductionSteps)}"
+            : FormatReduction(word.ReductionSteps);
+        return new WordValueWordItem(word.Text, detail);
     }
 
     private void BuildConversionTable(WordValueScheme scheme)
-    {
-        Conversion.Clear();
-        foreach (var ch in scheme.Characters)
-        {
-            Conversion.Add(new WordValueConversionItem(ch.ToString(), scheme.Values[ch]));
-        }
-    }
+        => Conversion = [.. scheme.Characters.Select(ch => new WordValueConversionItem(ch.ToString(), scheme.Values[ch]))];
 
     /// <summary>The headline value line: <c>terms = total</c> with the calculation, just <c>total</c> without.</summary>
     private string FormatValueLine(IReadOnlyList<int> terms, long total)
@@ -267,6 +283,6 @@ public sealed partial class WordValueViewModel : ToolViewModelBase
         ShowCalculation = true;
         CountSeparateWords = false;
         _suppressRecompute = false;
-        Recompute();
+        _debouncer.RunNow(Recompute);
     }
 }
