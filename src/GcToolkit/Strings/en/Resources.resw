@@ -3114,4 +3114,112 @@
   <data name="WordValueMethod_Swedish0" xml:space="preserve">
     <value>A=0 … Z=25, å=26, ä=27, ö=28</value>
   </data>
+  <data name="AsciiConverter_Name" xml:space="preserve">
+    <value>ASCII converter</value>
+  </data>
+  <data name="AsciiConverter_Tooltip" xml:space="preserve">
+    <value>Convert text to character codes (decimal, hex, octal, binary) and back — full Unicode.</value>
+  </data>
+  <data name="AsciiDirectionEncode" xml:space="preserve">
+    <value>Text → codes</value>
+  </data>
+  <data name="AsciiDirectionDecode" xml:space="preserve">
+    <value>Codes → text</value>
+  </data>
+  <data name="AsciiSeparatorLabel" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="AsciiSeparatorPlaceholder" xml:space="preserve">
+    <value>e.g. a space or comma</value>
+  </data>
+  <data name="AsciiDecodeBaseLabel" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="AsciiBaseAuto" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="AsciiBaseDecimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="AsciiBaseHex" xml:space="preserve">
+    <value>Hexadecimal</value>
+  </data>
+  <data name="AsciiBaseOctal" xml:space="preserve">
+    <value>Octal</value>
+  </data>
+  <data name="AsciiBaseBinary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="AsciiInputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="AsciiInputEncodePlaceholder" xml:space="preserve">
+    <value>Type text to convert to codes…</value>
+  </data>
+  <data name="AsciiInputDecodePlaceholder" xml:space="preserve">
+    <value>Type character codes to convert to text…</value>
+  </data>
+  <data name="AsciiClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AsciiOutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="AsciiDecodeError" xml:space="preserve">
+    <value>Some codes aren't valid for the selected base.</value>
+  </data>
+  <data name="AsciiDetectedBaseNote" xml:space="preserve">
+    <value>Detected base:</value>
+  </data>
+  <data name="AsciiBreakdownLabel" xml:space="preserve">
+    <value>Every base</value>
+  </data>
+  <data name="AsciiColumnChar" xml:space="preserve">
+    <value>Char</value>
+  </data>
+  <data name="AsciiColumnDecimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="AsciiColumnHex" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="AsciiColumnOctal" xml:space="preserve">
+    <value>Octal</value>
+  </data>
+  <data name="AsciiColumnBinary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="AsciiCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="AsciiShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="AsciiFromLabel" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="AsciiToLabel" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="AsciiSwap" xml:space="preserve">
+    <value>Swap From and To</value>
+  </data>
+  <data name="AsciiFormatText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="AsciiFormatBase32" xml:space="preserve">
+    <value>Base32</value>
+  </data>
+  <data name="AsciiFormatBase64" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="AsciiFormatHtml" xml:space="preserve">
+    <value>HTML entities</value>
+  </data>
+  <data name="AsciiRemoveSpaces" xml:space="preserve">
+    <value>Remove non-encoded spaces from the result</value>
+  </data>
+  <data name="AsciiInvalidInput" xml:space="preserve">
+    <value>The input isn't valid {0}.</value>
+  </data>
 </root>
