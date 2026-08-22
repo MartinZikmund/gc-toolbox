@@ -501,11 +501,16 @@ solution-config.props
 .claude/scheduled_tasks.lock
 .claude/worktrees
 
-# winapp ui screenshot captures (see .claude/skills/run-winui-app)
-.screenshots/
+# winapp ui screenshot captures (see .claude/skills/run-winui-app).
+# Anchored to the repo root so it can never swallow a tracked nested folder.
+/.screenshots/
 
 .specify/feature.json
 
 # Local single-target build override (copy from crosstargeting-override.props.sample).
 # Machine-local on purpose — never commit it, or CI would build only one platform.
 src/crosstargeting-override.props
+
+# Browser-automation session dumps (Playwright MCP). They capture arbitrary
+# scraped page text and must never land in a public repo.
+.playwright-mcp/
