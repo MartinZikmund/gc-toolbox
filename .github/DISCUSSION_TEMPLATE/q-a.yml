@@ -1,62 +1,50 @@
 name: Q&A
-description: Ask the community for help
+description: Ask a question about GC Toolkit
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask away — questions about how a tool works, which tool fits a puzzle, or how to build the app yourself are all welcome.
+        Found a bug or have a feature idea? Please [open an issue](https://github.com/MartinZikmund/gc-toolbox/issues/new/choose) instead.
 
   - type: textarea
     id: question
     attributes:
-      label: Describe your issue
+      label: What would you like to know?
       description: |
-        - Explain your problem in the most specific way. Provide any relevant error logs, full stack traces of exceptions, browser logs, etc...
-        - If you have a build error, [make sure to attach a binlog](https://aka.platform.uno/msbuild-troubleshoot)
+        Be as specific as you can. If a tool isn't giving the result you expect, include the input you entered and the output you got.
+    validations:
+      required: true
 
-  - type: textarea
-    id: repro-steps
+  - type: input
+    id: tool
     attributes:
-      label: Provide repro steps and sample
-      description: |
-        - Attach a [**minimal repro project**](https://aka.platform.uno/uno-repro-sample) and provide detailed **steps to reproduce**.
-        - Make sure to attach the zip file to this discussion (you can use drag and drop of the zip file).
-
-  - type: textarea
-    id: nuget-versions
-    attributes:
-      label: NuGet package version(s)
-
-  - type: checkboxes
-    id: renderer
-    attributes:
-      label: Renderer
-      multiple: true
-      options:
-
-        - Skia
-        - Native
+      label: Which tool? (optional)
+      description: The name of the tool your question is about, as it appears in the app. Leave blank for general questions.
+      placeholder: e.g. Caesar Cipher, Coordinate Converter
 
   - type: dropdown
-    id: platforms
+    id: platform
     attributes:
-      label: Affected platforms
-      multiple: true
-      options:        
-        - WebAssembly
-        - Android
-        - iOS
-        - Desktop (Windows)
-        - Desktop (macOS)
-        - Desktop (X11)
-        - Desktop (Linux Framebuffer)
-        - Windows App SDK
-        - Build tasks
-
-  - type: dropdown
-    id: ide
-    attributes:
-      label: IDE
+      label: Where are you using the app? (optional)
       multiple: true
       options:
-        - Visual Studio 2022
-        - Visual Studio Code
-        - Rider Windows
-        - Rider macOS
-        - Rider Linux
+        - Windows
+        - macOS
+        - Linux
+        - Android (phone or tablet)
+        - iOS (iPhone or iPad)
+        - Web browser
+
+  - type: input
+    id: app-version
+    attributes:
+      label: App version (optional)
+      description: Open Settings and look under "About" — the version is shown there.
+      placeholder: e.g. 1.2.0
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Screenshots or anything else (optional)
+      description: Drag images into this box, or paste any other details that help explain the question.

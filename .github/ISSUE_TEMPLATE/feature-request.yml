@@ -17,6 +17,13 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: tool
+    attributes:
+      label: Which tool is this about? (optional)
+      description: Leave blank if the idea is about the app as a whole, or name the tool it would change. If you're suggesting a brand new tool, say so here.
+      placeholder: e.g. Coordinate Converter, or "a new tool for ..."
+
   - type: textarea
     id: motivation
     attributes:

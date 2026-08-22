@@ -1,5 +1,10 @@
-blank_issues_enabled: false
+# GitHub Discussions are not enabled on this repository, so questions have to go
+# through issues — keep blank issues enabled until Discussions are turned on.
+blank_issues_enabled: true
 contact_links:
-  - name: Questions
-    url: https://github.com/MartinZikmund/uno-app-template/discussions
-    about: For general questions, visit GitHub Discussions.
+  - name: I have a question
+    url: https://github.com/MartinZikmund/gc-toolbox/issues/new
+    about: Not a bug or a feature idea? Open a blank issue and ask — questions about a tool, a puzzle, or how something works are welcome.
+  - name: Documentation
+    url: https://github.com/MartinZikmund/gc-toolbox#readme
+    about: What GC Toolkit does, which platforms it runs on, and how to build it yourself.
