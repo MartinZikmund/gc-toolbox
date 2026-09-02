@@ -55,10 +55,7 @@
                                                 VerticalAlignment="Top"
                                                 Background="{ThemeResource BrandPrimarySoftBrush}"
                                                 CornerRadius="12">
-                                                <ImageIcon
-                                                    Width="24"
-                                                    Height="24"
-                                                    Source="{Binding ToolId, Converter={StaticResource IconKeyToImageSourceConverter}}" />
+                                                <ContentPresenter Content="{Binding ToolId, Converter={StaticResource IconKeyToIconConverter}}" Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
                                             </Border>
 
                                             <StackPanel Grid.Column="1" Spacing="2">
@@ -237,10 +234,7 @@
                                                 VerticalAlignment="Top"
                                                 Background="{ThemeResource BrandPrimarySoftBrush}"
                                                 CornerRadius="12">
-                                                <ImageIcon
-                                                    Width="24"
-                                                    Height="24"
-                                                    Source="{Binding ToolId, Converter={StaticResource IconKeyToImageSourceConverter}}" />
+                                                <ContentPresenter Content="{Binding ToolId, Converter={StaticResource IconKeyToIconConverter}}" Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
                                             </Border>
 
                                             <StackPanel Grid.Column="1" Spacing="2">

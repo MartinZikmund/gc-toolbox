@@ -3666,4 +3666,10 @@
   <data name="ResistorDigitsLabel" xml:space="preserve">
     <value>Digits</value>
   </data>
+  <data name="AttributionIcons" xml:space="preserve">
+    <value>Icons</value>
+  </data>
+  <data name="AttributionIconsDescription" xml:space="preserve">
+    <value>Tool and category icons by Icons8, used under their free licence.</value>
+  </data>
 </root>

@@ -75,6 +75,14 @@
                     <TextBlock Text="{x:Bind ViewModel.AppVersion}" />
                 </toolkit:SettingsCard>
 
+                <!--  Icons8's free tier requires visible attribution; this is that obligation.  -->
+                <toolkit:SettingsCard Description="{markup:Localize Key=AttributionIconsDescription}" Header="{markup:Localize Key=AttributionIcons}">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEB9F;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <HyperlinkButton Content="icons8.com" NavigateUri="https://icons8.com" />
+                </toolkit:SettingsCard>
+
                 <!--  Debug section  -->
                 <StackPanel Visibility="{x:Bind ViewModel.IsDebug}">
                     <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{markup:Localize Key=Debugging}" />

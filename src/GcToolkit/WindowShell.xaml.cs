@@ -258,7 +258,7 @@ public sealed partial class WindowShell : Page, IWindowShell
             Tag = new CategoryNavTag(category.CategoryId),
             // Clicking the body navigates; the chevron expand/collapse is independent (research R11).
             SelectsOnInvoked = true,
-            Icon = iconOverride ?? new ImageIcon { Source = ToolIcons.For(category.IconKey, ToolIconKind.Category) },
+            Icon = iconOverride ?? ToolIcons.NavIcon(category.IconKey),
         };
 
         foreach (var tool in category.Tools)
@@ -267,7 +267,7 @@ public sealed partial class WindowShell : Page, IWindowShell
             {
                 Content = Localizer.Instance.GetString(tool.NameKey),
                 Tag = tool.ViewModelType,
-                Icon = new ImageIcon { Source = ToolIcons.For(tool.IconKey, ToolIconKind.Tool) },
+                Icon = ToolIcons.NavIcon(tool.IconKey),
             };
 
             ToolTipService.SetToolTip(toolItem, Localizer.Instance.GetString(tool.TooltipKey));

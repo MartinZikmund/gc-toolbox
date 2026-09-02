@@ -3666,4 +3666,10 @@
   <data name="ResistorDigitsLabel" xml:space="preserve">
     <value>Číslice</value>
   </data>
+  <data name="AttributionIcons" xml:space="preserve">
+    <value>Ikony</value>
+  </data>
+  <data name="AttributionIconsDescription" xml:space="preserve">
+    <value>Ikony nástrojů a kategorií od Icons8, použité v rámci bezplatné licence.</value>
+  </data>
 </root>
