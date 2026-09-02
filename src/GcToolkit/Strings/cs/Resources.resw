@@ -174,20 +174,11 @@
   <data name="Catalog" xml:space="preserve">
     <value>Katalog</value>
   </data>
-  <data name="Map" xml:space="preserve">
-    <value>Mapa</value>
-  </data>
-  <data name="Caches" xml:space="preserve">
-    <value>Kešky</value>
-  </data>
   <data name="Tools" xml:space="preserve">
     <value>Nástroje</value>
   </data>
   <data name="Field" xml:space="preserve">
     <value>V terénu</value>
-  </data>
-  <data name="ComingSoon" xml:space="preserve">
-    <value>Již brzy</value>
   </data>
   <data name="Category_Coordinates" xml:space="preserve">
     <value>Souřadnice</value>

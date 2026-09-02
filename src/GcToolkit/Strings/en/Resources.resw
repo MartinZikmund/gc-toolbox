@@ -174,20 +174,11 @@
   <data name="Catalog" xml:space="preserve">
     <value>Catalog</value>
   </data>
-  <data name="Map" xml:space="preserve">
-    <value>Map</value>
-  </data>
-  <data name="Caches" xml:space="preserve">
-    <value>Caches</value>
-  </data>
   <data name="Tools" xml:space="preserve">
     <value>Tools</value>
   </data>
   <data name="Field" xml:space="preserve">
     <value>Field</value>
-  </data>
-  <data name="ComingSoon" xml:space="preserve">
-    <value>Coming soon</value>
   </data>
   <data name="Category_Coordinates" xml:space="preserve">
     <value>Coordinates</value>
