@@ -12,6 +12,39 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d not_win">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <!--  Pane identity: the selected item is a brand-tinted pill with a brand selection indicator.  -->
+                <ResourceDictionary x:Key="Light">
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewSelectionIndicatorForeground" ResourceKey="BrandPrimaryBrush" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewSelectionIndicatorForeground" ResourceKey="BrandPrimaryBrush" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <Style x:Key="PaneSoonChipStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource BrandPrimarySoftBrush}" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Padding" Value="8,4" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -49,6 +82,7 @@
             IsBackButtonVisible="Auto"
             IsBackEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
             IsPaneToggleButtonVisible="True"
+            IsSettingsVisible="False"
             Loaded="NavView_Loaded"
             OpenPaneLength="280"
             PaneDisplayMode="Auto"
@@ -63,6 +97,7 @@
                     Text="{x:Bind Search.Query, Mode=TwoWay}" />
             </not_win:NavigationView.AutoSuggestBox>
 
+            <!--  Task-first sections. Categories and the promoted Field section are appended by BuildToolNavigation.  -->
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     x:Name="HomeNavItem"
@@ -72,15 +107,67 @@
                         <FontIcon Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+
+                <!--  Map and Caches are placeholders: present so navigation never has to be restructured when they land.  -->
                 <NavigationViewItem
-                    x:Name="CatalogNavItem"
-                    Content="{markup:Localize Key=Catalog}"
+                    x:Name="MapNavItem"
+                    AutomationProperties.Name="{markup:Localize Key=Map}"
+                    IsEnabled="False"
+                    ToolTipService.ToolTip="{markup:Localize Key=ComingSoon}">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE774;" />
+                    </NavigationViewItem.Icon>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock VerticalAlignment="Center" Text="{markup:Localize Key=Map}" />
+                        <Border Style="{StaticResource PaneSoonChipStyle}">
+                            <TextBlock
+                                Foreground="{ThemeResource BrandOnPrimarySoftBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=ComingSoon}" />
+                        </Border>
+                    </StackPanel>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Name="CachesNavItem"
+                    AutomationProperties.Name="{markup:Localize Key=Caches}"
+                    IsEnabled="False"
+                    ToolTipService.ToolTip="{markup:Localize Key=ComingSoon}">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE9D5;" />
+                    </NavigationViewItem.Icon>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock VerticalAlignment="Center" Text="{markup:Localize Key=Caches}" />
+                        <Border Style="{StaticResource PaneSoonChipStyle}">
+                            <TextBlock
+                                Foreground="{ThemeResource BrandOnPrimarySoftBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=ComingSoon}" />
+                        </Border>
+                    </StackPanel>
+                </NavigationViewItem>
+
+                <!--  Invoking Tools opens the unscoped catalog; the chevron reveals the categories nested under it.  -->
+                <NavigationViewItem
+                    x:Name="ToolsNavItem"
+                    Content="{markup:Localize Key=Tools}"
                     Tag="Catalog">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE71D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
+
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItemSeparator />
+                <NavigationViewItem
+                    x:Name="SettingsNavItem"
+                    Content="{markup:Localize Key=Settings}"
+                    Tag="Settings">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
 
             <Frame x:Name="InnerFrame" />
         </NavigationView>

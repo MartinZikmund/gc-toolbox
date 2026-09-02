@@ -1,0 +1,367 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
+    xmlns:markup="using:GcToolkit.Markup">
+
+    <!--
+        Implicit rather than Themes/Generic.xaml + DefaultStyleKey: this app has no Themes
+        folder and the Generic.xaml probe is the least-exercised path across Uno heads.
+        ToolPage keeps ContentControl's default style key, so a lookup miss degrades to bare
+        content instead of a blank page.
+    -->
+    <Style TargetType="controls:ToolPage">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ToolPage">
+                    <Grid Background="{ThemeResource AppGroundBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <ScrollViewer x:Name="PART_Scroller" Padding="24">
+                            <!--
+                                WinUI #4619 (won't-fix): a MaxWidth panel that is a ScrollViewer's
+                                DIRECT child renders off-centre and jumps while typing. This Grid
+                                wrapper is the fix, and it is why HorizontalAlignment below stays
+                                Stretch — Center is only required without the wrapper.
+                            -->
+                            <Grid>
+                                <StackPanel
+                                    MaxWidth="{TemplateBinding ContentMaxWidth}"
+                                    HorizontalAlignment="Stretch"
+                                    Spacing="16">
+
+                                    <!--
+                                        DataContext is pushed to Tool from OnApplyTemplate and from the
+                                        Tool changed-callback, so these stay plain bindings — no
+                                        RelativeSource path resolution anywhere in this template.
+                                    -->
+                                    <StackPanel x:Name="PART_Header" Spacing="16">
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border
+                                                Grid.Column="0"
+                                                Width="48"
+                                                Height="48"
+                                                VerticalAlignment="Top"
+                                                Background="{ThemeResource BrandPrimarySoftBrush}"
+                                                CornerRadius="12">
+                                                <ImageIcon
+                                                    Width="24"
+                                                    Height="24"
+                                                    Source="{Binding ToolId, Converter={StaticResource IconKeyToImageSourceConverter}}" />
+                                            </Border>
+
+                                            <StackPanel Grid.Column="1" Spacing="2">
+                                                <TextBlock
+                                                    Style="{ThemeResource TitleLargeTextBlockStyle}"
+                                                    Text="{Binding ToolName, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                                    Text="{Binding Tooltip, Mode=OneWay}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{Binding Tooltip, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}" />
+                                            </StackPanel>
+
+                                            <!--
+                                                Button, not ToggleButton: ToggleButton.OnToggle writes a local
+                                                IsChecked over the OneWay binding and ToggleFavoriteAsync is
+                                                async, so a same-value round-trip leaves the glyph stale.
+                                            -->
+                                            <Button
+                                                Grid.Column="2"
+                                                Width="44"
+                                                Height="44"
+                                                Padding="0"
+                                                VerticalAlignment="Top"
+                                                AutomationProperties.AutomationId="ToolFavoriteButton"
+                                                AutomationProperties.Name="{TemplateBinding FavoriteLabel}"
+                                                Command="{Binding ToggleFavoriteCommand}"
+                                                Style="{StaticResource SubtleButtonStyle}"
+                                                ToolTipService.ToolTip="{TemplateBinding FavoriteLabel}">
+                                                <Grid>
+                                                    <FontIcon
+                                                        FontSize="18"
+                                                        Glyph="&#xE734;"
+                                                        Visibility="{Binding IsFavorite, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                                                    <!--  Amber as a GRAPHIC, so AccentFoundBrush, not the text variant.  -->
+                                                    <FontIcon
+                                                        FontSize="18"
+                                                        Foreground="{ThemeResource AccentFoundBrush}"
+                                                        Glyph="&#xE735;"
+                                                        Visibility="{Binding IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </Grid>
+                                            </Button>
+                                        </Grid>
+
+                                        <InfoBar
+                                            IsClosable="False"
+                                            IsOpen="{Binding IsPlaceholder, Mode=OneWay}"
+                                            Message="{markup:Localize Key=PlaceholderToolNotice}"
+                                            Severity="Informational" />
+                                    </StackPanel>
+
+                                    <!--  The only slot a tool view fills.  -->
+                                    <ContentPresenter
+                                        HorizontalContentAlignment="Stretch"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+
+                        <!--
+                            Collapsed until a view sets CopyCommand / ShareCommand / Actions.
+                            Order is structural: Copy, then Share, then tool-specific.
+                        -->
+                        <Border
+                            x:Name="PART_ActionBar"
+                            Grid.Row="1"
+                            Padding="24,12"
+                            Background="{ThemeResource AppSurfaceBrush}"
+                            BorderBrush="{ThemeResource AppStrokeBrush}"
+                            BorderThickness="0,1,0,0"
+                            Visibility="{TemplateBinding ActionBarVisibility}">
+                            <Grid>
+                                <StackPanel
+                                    MaxWidth="{TemplateBinding ContentMaxWidth}"
+                                    HorizontalAlignment="Stretch"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                                    <Button
+                                        AutomationProperties.AutomationId="ToolCopyButton"
+                                        Background="{ThemeResource BrandPrimaryBrush}"
+                                        Command="{TemplateBinding CopyCommand}"
+                                        Foreground="{ThemeResource BrandOnPrimaryBrush}"
+                                        Visibility="{TemplateBinding CopyVisibility}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                                            <TextBlock Text="{markup:Localize Key=ToolCopy}" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        AutomationProperties.AutomationId="ToolShareButton"
+                                        Command="{TemplateBinding ShareCommand}"
+                                        Visibility="{TemplateBinding ShareVisibility}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                                            <TextBlock Text="{markup:Localize Key=ToolShare}" />
+                                        </StackPanel>
+                                    </Button>
+                                    <ContentPresenter
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Actions}"
+                                        Visibility="{TemplateBinding ActionsVisibility}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!--  Absorbs the padding VSM five views hand-roll today.  -->
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="WindowStates">
+                                <VisualState x:Name="WideWindow">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="640" />
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="NarrowWindow">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="0" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_Scroller.Padding" Value="16" />
+                                        <Setter Target="PART_ActionBar.Padding" Value="16,12" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        Opt-out for a tool that must own its own scrolling (a map, a full-viewport grid, a keypad).
+        Identical chrome; the scroller becomes a Grid and the content row takes the slack. No view
+        uses it today — it exists so an unusual tool never has to fork the control. BasedOn is not
+        used because WinUI XAML has no x:Type, so an implicit style cannot be referenced by key.
+    -->
+    <Style x:Key="ToolPageFillStyle" TargetType="controls:ToolPage">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ToolPage">
+                    <Grid Background="{ThemeResource AppGroundBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid x:Name="PART_Scroller" Padding="24">
+                            <!--  Same WinUI #4619 wrapper as the scrolling template.  -->
+                            <Grid>
+                                <Grid
+                                    MaxWidth="{TemplateBinding ContentMaxWidth}"
+                                    HorizontalAlignment="Stretch"
+                                    RowSpacing="16">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel x:Name="PART_Header" Spacing="16">
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border
+                                                Grid.Column="0"
+                                                Width="48"
+                                                Height="48"
+                                                VerticalAlignment="Top"
+                                                Background="{ThemeResource BrandPrimarySoftBrush}"
+                                                CornerRadius="12">
+                                                <ImageIcon
+                                                    Width="24"
+                                                    Height="24"
+                                                    Source="{Binding ToolId, Converter={StaticResource IconKeyToImageSourceConverter}}" />
+                                            </Border>
+
+                                            <StackPanel Grid.Column="1" Spacing="2">
+                                                <TextBlock
+                                                    Style="{ThemeResource TitleLargeTextBlockStyle}"
+                                                    Text="{Binding ToolName, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                                    Text="{Binding Tooltip, Mode=OneWay}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{Binding Tooltip, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}" />
+                                            </StackPanel>
+
+                                            <Button
+                                                Grid.Column="2"
+                                                Width="44"
+                                                Height="44"
+                                                Padding="0"
+                                                VerticalAlignment="Top"
+                                                AutomationProperties.AutomationId="ToolFavoriteButton"
+                                                AutomationProperties.Name="{TemplateBinding FavoriteLabel}"
+                                                Command="{Binding ToggleFavoriteCommand}"
+                                                Style="{StaticResource SubtleButtonStyle}"
+                                                ToolTipService.ToolTip="{TemplateBinding FavoriteLabel}">
+                                                <Grid>
+                                                    <FontIcon
+                                                        FontSize="18"
+                                                        Glyph="&#xE734;"
+                                                        Visibility="{Binding IsFavorite, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                                                    <FontIcon
+                                                        FontSize="18"
+                                                        Foreground="{ThemeResource AccentFoundBrush}"
+                                                        Glyph="&#xE735;"
+                                                        Visibility="{Binding IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </Grid>
+                                            </Button>
+                                        </Grid>
+
+                                        <InfoBar
+                                            IsClosable="False"
+                                            IsOpen="{Binding IsPlaceholder, Mode=OneWay}"
+                                            Message="{markup:Localize Key=PlaceholderToolNotice}"
+                                            Severity="Informational" />
+                                    </StackPanel>
+
+                                    <ContentPresenter
+                                        Grid.Row="1"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <Border
+                            x:Name="PART_ActionBar"
+                            Grid.Row="1"
+                            Padding="24,12"
+                            Background="{ThemeResource AppSurfaceBrush}"
+                            BorderBrush="{ThemeResource AppStrokeBrush}"
+                            BorderThickness="0,1,0,0"
+                            Visibility="{TemplateBinding ActionBarVisibility}">
+                            <Grid>
+                                <StackPanel
+                                    MaxWidth="{TemplateBinding ContentMaxWidth}"
+                                    HorizontalAlignment="Stretch"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                                    <Button
+                                        AutomationProperties.AutomationId="ToolCopyButton"
+                                        Background="{ThemeResource BrandPrimaryBrush}"
+                                        Command="{TemplateBinding CopyCommand}"
+                                        Foreground="{ThemeResource BrandOnPrimaryBrush}"
+                                        Visibility="{TemplateBinding CopyVisibility}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                                            <TextBlock Text="{markup:Localize Key=ToolCopy}" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        AutomationProperties.AutomationId="ToolShareButton"
+                                        Command="{TemplateBinding ShareCommand}"
+                                        Visibility="{TemplateBinding ShareVisibility}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                                            <TextBlock Text="{markup:Localize Key=ToolShare}" />
+                                        </StackPanel>
+                                    </Button>
+                                    <ContentPresenter
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Actions}"
+                                        Visibility="{TemplateBinding ActionsVisibility}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="WindowStates">
+                                <VisualState x:Name="WideWindow">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="640" />
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="NarrowWindow">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="0" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_Scroller.Padding" Value="16" />
+                                        <Setter Target="PART_ActionBar.Padding" Value="16,12" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

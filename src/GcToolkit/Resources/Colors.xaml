@@ -1,16 +1,89 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<!--
+    Trail Instrument design system tokens.
+    Amber (AccentFound*) is a graphics-only accent — bearing arrows, favourite stars, found markers.
+    When amber is used as TEXT, always use AccentFoundTextBrush (never AccentFoundBrush: the fill
+    amber is only 2.4:1 contrast on white and fails as body/label text).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default">
-            <Color x:Key="BrandColor">#005FB8</Color>
-            <SolidColorBrush x:Key="BrandBrush" Color="{StaticResource BrandColor}" />
-            <SolidColorBrush x:Key="AppOverlayBackgroundBrush" Color="#44000000" />
-        </ResourceDictionary>
+
         <ResourceDictionary x:Key="Light">
-            <Color x:Key="BrandColor">#005FB8</Color>
-            <SolidColorBrush x:Key="BrandBrush" Color="{StaticResource BrandColor}" />
+            <!--  Structural brand: nav selection, primary buttons, slider fill  -->
+            <SolidColorBrush x:Key="BrandPrimaryBrush" Color="#1B5E3F" />
+            <SolidColorBrush x:Key="BrandOnPrimaryBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="BrandPrimarySoftBrush" Color="#DFEDE4" />
+            <SolidColorBrush x:Key="BrandOnPrimarySoftBrush" Color="#134B32" />
+
+            <!--  Amber accent: graphics only, plus the darker text-safe variant  -->
+            <SolidColorBrush x:Key="AccentFoundBrush" Color="#D98B1F" />
+            <SolidColorBrush x:Key="AccentFoundTextBrush" Color="#A65F08" />
+            <SolidColorBrush x:Key="AccentFoundSoftBrush" Color="#FAEBD2" />
+
+            <!--  App chrome: warm stone ground, raised surfaces, hairlines  -->
+            <SolidColorBrush x:Key="AppGroundBrush" Color="#F4F2ED" />
+            <SolidColorBrush x:Key="AppSurfaceBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="AppStrokeBrush" Color="#DEDBD1" />
+
+            <!--  Tool result readout: dark surface in BOTH themes, always monospaced/tabular text  -->
+            <SolidColorBrush x:Key="ReadoutBackgroundBrush" Color="#12241A" />
+            <SolidColorBrush x:Key="ReadoutForegroundBrush" Color="#EBF3ED" />
+
+            <!--  Legacy keys: retargeted onto the pine brand values rather than removed  -->
+            <Color x:Key="BrandColor">#1B5E3F</Color>
+            <StaticResource x:Key="BrandBrush" ResourceKey="BrandPrimaryBrush" />
             <SolidColorBrush x:Key="AppOverlayBackgroundBrush" Color="#44FFFFFF" />
         </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="BrandPrimaryBrush" Color="#3E9E6E" />
+            <SolidColorBrush x:Key="BrandOnPrimaryBrush" Color="#06170E" />
+            <SolidColorBrush x:Key="BrandPrimarySoftBrush" Color="#1C3327" />
+            <SolidColorBrush x:Key="BrandOnPrimarySoftBrush" Color="#8FD9B2" />
+
+            <SolidColorBrush x:Key="AccentFoundBrush" Color="#E8A33D" />
+            <SolidColorBrush x:Key="AccentFoundTextBrush" Color="#F0BE72" />
+            <SolidColorBrush x:Key="AccentFoundSoftBrush" Color="#3A2C13" />
+
+            <SolidColorBrush x:Key="AppGroundBrush" Color="#111511" />
+            <SolidColorBrush x:Key="AppSurfaceBrush" Color="#171C17" />
+            <SolidColorBrush x:Key="AppStrokeBrush" Color="#272E27" />
+
+            <SolidColorBrush x:Key="ReadoutBackgroundBrush" Color="#0B120D" />
+            <SolidColorBrush x:Key="ReadoutForegroundBrush" Color="#CFEBD9" />
+
+            <Color x:Key="BrandColor">#3E9E6E</Color>
+            <StaticResource x:Key="BrandBrush" ResourceKey="BrandPrimaryBrush" />
+            <SolidColorBrush x:Key="AppOverlayBackgroundBrush" Color="#44000000" />
+        </ResourceDictionary>
+
+        <!--
+            HighContrast: only the eight system colour brushes below may back a value here — no
+            hardcoded colours, no opacity, no accent colours. Every brand key is redirected onto
+            whichever one reads closest, so text/graphic contrast stays under the user's OS control.
+        -->
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="BrandPrimaryBrush" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="BrandOnPrimaryBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="BrandPrimarySoftBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="BrandOnPrimarySoftBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+
+            <StaticResource x:Key="AccentFoundBrush" ResourceKey="SystemColorHotlightColorBrush" />
+            <StaticResource x:Key="AccentFoundTextBrush" ResourceKey="SystemColorHotlightColorBrush" />
+            <StaticResource x:Key="AccentFoundSoftBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+
+            <StaticResource x:Key="AppGroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppSurfaceBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="AppStrokeBrush" ResourceKey="SystemColorGrayTextColorBrush" />
+
+            <StaticResource x:Key="ReadoutBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+            <StaticResource x:Key="ReadoutForegroundBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+
+            <StaticResource x:Key="BrandColor" ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="BrandBrush" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="AppOverlayBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+        </ResourceDictionary>
+
     </ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>
