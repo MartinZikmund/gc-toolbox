@@ -7,12 +7,71 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required">
 
+    <local:HomeViewBase.Resources>
+        <!--  Sections are announced by a quiet tracked caption plus a rule, not by three shouted subtitles.  -->
+        <Style
+            x:Key="SectionCaptionStyle"
+            BasedOn="{StaticResource CaptionTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="CharacterSpacing" Value="80" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
+
+        <Style x:Key="SectionRuleStyle" TargetType="Rectangle">
+            <Setter Property="Height" Value="1" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Fill" Value="{ThemeResource AppStrokeBrush}" />
+        </Style>
+
+        <Style
+            x:Key="SectionEmptyTextStyle"
+            BasedOn="{StaticResource BodyTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </local:HomeViewBase.Resources>
+
     <ScrollViewer Padding="24">
+        <!--  Grid wrapper: a MaxWidth panel directly inside a ScrollViewer renders off-centre and jumps while typing (WinUI #4619).  -->
         <Grid>
             <StackPanel
                 MaxWidth="960"
                 HorizontalAlignment="Stretch"
                 Spacing="24">
+
+                <!--  Identity band  -->
+                <Grid Background="{ThemeResource BrandPrimarySoftBrush}" CornerRadius="8">
+                    <!--
+                        Assets/Icons/contour_band.svg redrawn as geometry: the asset strokes with
+                        currentColor, which the Uno asset pipeline bakes to black, so the generated
+                        PNG would disappear against the dark-theme ground. As a Path it takes a
+                        ThemeResource stroke. The explicit Height stops the texture driving the band
+                        height - Stretch="Fill" otherwise reports the 120-unit artwork as desired size.
+                    -->
+                    <Path
+                        Height="76"
+                        VerticalAlignment="Center"
+                        Data="M0,24.4 C12,24.4 50,24.6 75,24.7 C100,24.9 125,27.1 150,25.2 C175,23.3 200,15.2 225,13.4 C250,11.7 275,13.6 300,14.6 C325,15.6 350,17.5 375,19.4 C400,21.3 425,24.6 450,25.8 C475,27.0 500,28.2 525,26.6 C550,24.9 575,17.5 600,15.6 C625,13.7 650,15.4 675,15.3 C700,15.1 725,12.9 750,14.8 C775,16.7 800,24.8 825,26.6 C850,28.3 875,26.4 900,25.4 C925,24.4 950,22.5 975,20.6 C1000,18.7 1025,15.4 1050,14.2 C1075,13.0 1100,11.8 1125,13.4 C1150,15.1 1188,22.6 1200,24.4 M0,46.7 C12,46.8 50,49.4 75,47.2 C100,45.1 125,34.8 150,33.7 C175,32.5 200,38.0 225,40.3 C250,42.6 275,46.6 300,47.4 C325,48.3 350,47.4 375,45.5 C400,43.6 425,37.5 450,36.1 C475,34.8 500,35.2 525,37.5 C550,39.8 575,49.2 600,50.2 C625,51.1 650,45.4 675,43.3 C700,41.2 725,38.5 750,37.5 C775,36.5 800,35.2 825,37.2 C850,39.1 875,48.1 900,49.4 C925,50.7 950,47.4 975,45.0 C1000,42.6 1025,35.9 1050,35.0 C1075,34.2 1100,38.0 1125,40.0 C1150,41.9 1188,45.6 1200,46.7 M0,66.9 C12,65.3 50,59.0 75,57.6 C100,56.2 125,57.8 150,58.4 C175,59.1 200,59.5 225,61.5 C250,63.4 275,69.0 300,69.8 C325,70.7 350,67.6 375,66.3 C400,65.1 425,63.9 450,62.1 C475,60.4 500,55.7 525,55.6 C550,55.5 575,59.9 600,61.6 C625,63.3 650,64.5 675,65.9 C700,67.3 725,70.7 750,70.1 C775,69.4 800,64.0 825,62.1 C850,60.2 875,59.5 900,58.6 C925,57.8 950,55.9 975,57.2 C1000,58.4 1025,64.5 1050,66.3 C1075,68.1 1100,67.9 1125,68.0 C1150,68.0 1188,67.1 1200,66.9 M0,86.7 C12,86.6 50,88.2 75,86.4 C100,84.6 125,76.6 150,75.8 C175,75.1 200,79.6 225,81.8 C250,84.0 275,89.0 300,89.0 C325,88.9 350,82.3 375,81.5 C400,80.8 425,82.8 450,84.6 C475,86.3 500,92.4 525,92.0 C550,91.6 575,84.4 600,82.1 C625,79.8 650,77.5 675,78.2 C700,79.0 725,86.0 750,86.6 C775,87.2 800,83.1 825,81.7 C850,80.3 875,76.9 900,78.3 C925,79.6 950,88.0 975,89.8 C1000,91.6 1025,90.5 1050,89.0 C1075,87.4 1100,80.8 1125,80.4 C1150,80.1 1188,85.6 1200,86.7 M0,107.8 C12,107.0 50,104.4 75,102.9 C100,101.4 125,98.5 150,98.9 C175,99.2 200,103.1 225,105.0 C250,107.0 275,111.1 300,110.4 C325,109.6 350,102.2 375,100.6 C400,99.0 425,100.1 450,100.7 C475,101.3 500,102.5 525,104.1 C550,105.7 575,110.8 600,110.4 C625,110.0 650,103.5 675,101.6 C700,99.7 725,98.1 750,98.9 C775,99.7 800,105.0 825,106.4 C850,107.9 875,108.2 900,107.8 C925,107.4 950,105.7 975,103.9 C1000,102.1 1025,96.5 1050,97.1 C1075,97.7 1100,105.6 1125,107.4 C1150,109.2 1188,107.8 1200,107.8"
+                        IsHitTestVisible="False"
+                        Opacity="0.12"
+                        Stretch="Fill"
+                        Stroke="{ThemeResource BrandPrimaryBrush}"
+                        StrokeThickness="1.5" />
+
+                    <StackPanel Margin="24,20" Spacing="4">
+                        <TextBlock
+                            Foreground="{ThemeResource BrandOnPrimarySoftBrush}"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="{markup:Localize Key=HomeGreeting}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind HeaderStatus(ViewModel.HasFavoriteTools, ViewModel.HasRecentTools), Mode=OneWay}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
 
                 <!--  Search entry  -->
                 <AutoSuggestBox
@@ -21,51 +80,20 @@
                     QueryIcon="Find"
                     Text="{x:Bind ViewModel.Search.Query, Mode=TwoWay}" />
 
-                <Button
-                    Command="{x:Bind ViewModel.GoToCatalogCommand}"
-                    Content="{markup:Localize Key=Catalog}"
-                    Style="{ThemeResource AccentButtonStyle}" />
-
-                <!--  New & Updated  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasNewAndUpdatedTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=NewAndUpdated}" />
-                    <ItemsRepeater ItemTemplate="{StaticResource ToolCardTemplate}" ItemsSource="{x:Bind ViewModel.NewAndUpdatedTools, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                ItemsStretch="Fill"
-                                MinColumnSpacing="8"
-                                MinItemWidth="240"
-                                MinRowSpacing="8" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-                </StackPanel>
-
-                <!--  Favorite tools  -->
+                <!--  Recently used leads: it is the strongest re-entry signal for a returning user.  -->
                 <StackPanel Spacing="8">
-                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=FavoriteTools}" />
-                    <ItemsRepeater
-                        ItemTemplate="{StaticResource ToolCardTemplate}"
-                        ItemsSource="{x:Bind ViewModel.FavoriteTools, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                ItemsStretch="Fill"
-                                MinColumnSpacing="8"
-                                MinItemWidth="240"
-                                MinRowSpacing="8" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{markup:Localize Key=FavoriteToolsEmpty}"
-                        TextWrapping="Wrap"
-                        Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
-                </StackPanel>
-
-                <!--  Recently used  -->
-                <StackPanel Spacing="8">
-                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=RecentlyUsed}" />
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!--  Automation name keeps the untransformed string so readers do not spell the caption out.  -->
+                        <TextBlock
+                            AutomationProperties.Name="{markup:Localize Key=RecentlyUsed}"
+                            Style="{StaticResource SectionCaptionStyle}"
+                            Text="{x:Bind RecentsHeader}" />
+                        <Rectangle Grid.Column="1" Style="{StaticResource SectionRuleStyle}" />
+                    </Grid>
                     <ItemsRepeater
                         ItemTemplate="{StaticResource ToolCardTemplate}"
                         ItemsSource="{x:Bind ViewModel.RecentTools, Mode=OneWay}"
@@ -79,11 +107,64 @@
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                     <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Style="{StaticResource SectionEmptyTextStyle}"
                         Text="{markup:Localize Key=RecentsEmpty}"
-                        TextWrapping="Wrap"
                         Visibility="{x:Bind ViewModel.HasRecentTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                </StackPanel>
+
+                <!--  Favorite tools  -->
+                <StackPanel Spacing="8">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            AutomationProperties.Name="{markup:Localize Key=FavoriteTools}"
+                            Style="{StaticResource SectionCaptionStyle}"
+                            Text="{x:Bind FavoritesHeader}" />
+                        <Rectangle Grid.Column="1" Style="{StaticResource SectionRuleStyle}" />
+                    </Grid>
+                    <ItemsRepeater
+                        ItemTemplate="{StaticResource ToolCardTemplate}"
+                        ItemsSource="{x:Bind ViewModel.FavoriteTools, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="240"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                    <TextBlock
+                        Style="{StaticResource SectionEmptyTextStyle}"
+                        Text="{markup:Localize Key=FavoriteToolsEmpty}"
+                        Visibility="{x:Bind ViewModel.HasFavoriteTools, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                </StackPanel>
+
+                <!--  New and updated  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasNewAndUpdatedTools, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            AutomationProperties.Name="{markup:Localize Key=NewAndUpdated}"
+                            Style="{StaticResource SectionCaptionStyle}"
+                            Text="{x:Bind NewAndUpdatedHeader}" />
+                        <Rectangle Grid.Column="1" Style="{StaticResource SectionRuleStyle}" />
+                    </Grid>
+                    <ItemsRepeater ItemTemplate="{StaticResource ToolCardTemplate}" ItemsSource="{x:Bind ViewModel.NewAndUpdatedTools, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="240"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
                 </StackPanel>
 
             </StackPanel>

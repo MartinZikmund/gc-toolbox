@@ -1491,6 +1491,15 @@
   <data name="NewAndUpdated" xml:space="preserve">
     <value>New &amp; updated</value>
   </data>
+  <data name="HomeGreeting" xml:space="preserve">
+    <value>Welcome back</value>
+  </data>
+  <data name="HomeStatusReady" xml:space="preserve">
+    <value>Pick up where you left off.</value>
+  </data>
+  <data name="HomeStatusEmpty" xml:space="preserve">
+    <value>Nothing here yet — search for a tool to get started.</value>
+  </data>
   <data name="Badge_New" xml:space="preserve">
     <value>New</value>
   </data>
@@ -1505,6 +1514,18 @@
   </data>
   <data name="CatalogEmpty" xml:space="preserve">
     <value>No tools are available yet.</value>
+  </data>
+  <data name="CatalogScale" xml:space="preserve">
+    <value>Tools: {0} · Categories: {1}</value>
+  </data>
+  <data name="CatalogScaleToolsOnly" xml:space="preserve">
+    <value>Tools: {0}</value>
+  </data>
+  <data name="CatalogEmptyHint" xml:space="preserve">
+    <value>New tools land here as soon as they ship.</value>
+  </data>
+  <data name="SearchNoResultsHint" xml:space="preserve">
+    <value>Try a shorter word, or clear the search box to see every tool.</value>
   </data>
   <data name="PlaceholderToolNotice" xml:space="preserve">
     <value>This is a placeholder. The tool's functionality is coming in a future update.</value>

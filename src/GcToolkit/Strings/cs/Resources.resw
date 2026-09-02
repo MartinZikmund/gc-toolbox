@@ -1491,6 +1491,15 @@
   <data name="NewAndUpdated" xml:space="preserve">
     <value>Nové a aktualizované</value>
   </data>
+  <data name="HomeGreeting" xml:space="preserve">
+    <value>Vítejte zpět</value>
+  </data>
+  <data name="HomeStatusReady" xml:space="preserve">
+    <value>Pokračujte tam, kde jste skončili.</value>
+  </data>
+  <data name="HomeStatusEmpty" xml:space="preserve">
+    <value>Zatím tu nic není — začněte hledáním nástroje.</value>
+  </data>
   <data name="Badge_New" xml:space="preserve">
     <value>Nové</value>
   </data>
@@ -1505,6 +1514,18 @@
   </data>
   <data name="CatalogEmpty" xml:space="preserve">
     <value>Zatím nejsou k dispozici žádné nástroje.</value>
+  </data>
+  <data name="CatalogScale" xml:space="preserve">
+    <value>Nástroje: {0} · Kategorie: {1}</value>
+  </data>
+  <data name="CatalogScaleToolsOnly" xml:space="preserve">
+    <value>Nástroje: {0}</value>
+  </data>
+  <data name="CatalogEmptyHint" xml:space="preserve">
+    <value>Nové nástroje se tu objeví, jakmile vyjdou.</value>
+  </data>
+  <data name="SearchNoResultsHint" xml:space="preserve">
+    <value>Zkuste kratší výraz nebo vymažte hledání a zobrazte všechny nástroje.</value>
   </data>
   <data name="PlaceholderToolNotice" xml:space="preserve">
     <value>Toto je zástupný nástroj. Jeho funkce přijde v budoucí aktualizaci.</value>
