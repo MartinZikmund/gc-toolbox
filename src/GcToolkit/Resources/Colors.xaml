@@ -86,4 +86,19 @@
 
     </ResourceDictionary.ThemeDictionaries>
 
+    <!--
+        WinUI's own controls (RadioButton, Slider, ToggleSwitch, focus rings, AccentButton) never read
+        BrandPrimaryBrush — they derive from this SystemAccentColor family. Without these the whole app
+        renders in the user's personal Windows accent, so the brand applies to everything we authored
+        and nothing we didn't. Theme-independent by design: WinUI's Light theme resolves its default
+        accent to Dark1 and its Dark theme to Light2, so those two carry the pine values.
+    -->
+    <Color x:Key="SystemAccentColor">#1B5E3F</Color>
+    <Color x:Key="SystemAccentColorDark1">#1B5E3F</Color>
+    <Color x:Key="SystemAccentColorDark2">#164E34</Color>
+    <Color x:Key="SystemAccentColorDark3">#103A26</Color>
+    <Color x:Key="SystemAccentColorLight1">#2F8659</Color>
+    <Color x:Key="SystemAccentColorLight2">#3E9E6E</Color>
+    <Color x:Key="SystemAccentColorLight3">#6BC496</Color>
+
 </ResourceDictionary>
