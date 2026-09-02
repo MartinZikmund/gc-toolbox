@@ -41,7 +41,7 @@ public partial class CatalogViewModel : ViewModelBase
         _navigation = navigation;
         _localizer = localizer;
         _search = search;
-        PageTitle = _localizer["Catalog"];
+        PageTitle = _localizer["Tools"];
     }
 
     public ObservableCollection<CatalogGroup> Groups { get; } = new();
@@ -109,7 +109,7 @@ public partial class CatalogViewModel : ViewModelBase
         }
 
         // Recover the title when leaving scoped mode (RebuildScoped sets it to the category name).
-        PageTitle = _localizer["Catalog"];
+        PageTitle = _localizer["Tools"];
 
         var matchingByCategory = _catalog.Search(_search.Query).ToLookup(t => t.CategoryId, StringComparer.Ordinal);
 
