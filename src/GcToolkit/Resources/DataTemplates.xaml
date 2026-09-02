@@ -40,7 +40,11 @@
                                 Background="{ThemeResource BrandPrimarySoftBrush}"
                                 CornerRadius="12"
                                 Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ContentPresenter Content="{x:Bind IconKey, Converter={StaticResource IconKeyToIconConverter}}" Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
+                                <ContentPresenter
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{x:Bind IconKey, Converter={StaticResource IconKeyToIconConverter}}"
+                                    Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
                             </Border>
                             <!--  Right margin is the star's dodge: the caption below keeps full width.  -->
                             <TextBlock

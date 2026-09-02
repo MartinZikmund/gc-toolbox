@@ -55,7 +55,11 @@
                                                 VerticalAlignment="Top"
                                                 Background="{ThemeResource BrandPrimarySoftBrush}"
                                                 CornerRadius="12">
-                                                <ContentPresenter Content="{Binding ToolId, Converter={StaticResource IconKeyToIconConverter}}" Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
+                                                <ContentPresenter
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Content="{Binding ToolId, Converter={StaticResource IconKeyToIconConverter}}"
+                                                    Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
                                             </Border>
 
                                             <StackPanel Grid.Column="1" Spacing="2">
@@ -234,7 +238,11 @@
                                                 VerticalAlignment="Top"
                                                 Background="{ThemeResource BrandPrimarySoftBrush}"
                                                 CornerRadius="12">
-                                                <ContentPresenter Content="{Binding ToolId, Converter={StaticResource IconKeyToIconConverter}}" Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
+                                                <ContentPresenter
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Content="{Binding ToolId, Converter={StaticResource IconKeyToIconConverter}}"
+                                                    Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
                                             </Border>
 
                                             <StackPanel Grid.Column="1" Spacing="2">
