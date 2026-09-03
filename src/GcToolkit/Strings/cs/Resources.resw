@@ -3672,4 +3672,145 @@
   <data name="AttributionIconsDescription" xml:space="preserve">
     <value>Ikony nástrojů a kategorií od Icons8, použité v rámci bezplatné licence.</value>
   </data>
+  <data name="CentroidArithmeticMean" xml:space="preserve">
+    <value>Aritmetický průměr stupňů</value>
+  </data>
+  <data name="CentroidArithmeticNote" xml:space="preserve">
+    <value>Prostý průměr, se kterým počítá řada mysterek. Přes datovou hranici je chybný.</value>
+  </data>
+  <data name="CentroidClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="CentroidColumnBearing" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="CentroidColumnCoordinate" xml:space="preserve">
+    <value>Souřadnice</value>
+  </data>
+  <data name="CentroidColumnDistance" xml:space="preserve">
+    <value>Od středu</value>
+  </data>
+  <data name="CentroidColumnPoint" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="CentroidDivergence" xml:space="preserve">
+    <value>Rozdíl středů</value>
+  </data>
+  <data name="CentroidDivergenceNote" xml:space="preserve">
+    <value>Body leží po obou stranách 180. poledníku (nebo obklopují pól), takže aritmetický průměr vychází na opačné straně světa. Použijte 3D průměr.</value>
+  </data>
+  <data name="CentroidDivergenceTitle" xml:space="preserve">
+    <value>Oba středy se rozcházejí</value>
+  </data>
+  <data name="CentroidFarthest" xml:space="preserve">
+    <value>Nejvzdálenější bod</value>
+  </data>
+  <data name="CentroidGeodesicMean" xml:space="preserve">
+    <value>Geografický střed (3D průměr)</value>
+  </data>
+  <data name="CentroidGeodesicNote" xml:space="preserve">
+    <value>Průměr vektorů ve třech rozměrech – správný i přes datovou hranici a poblíž pólů.</value>
+  </data>
+  <data name="CentroidInputHint" xml:space="preserve">
+    <value>Jedna souřadnice na řádek. Desetinné stupně, stupně a desetinné minuty, stupně minuty vteřiny, UTM i MGRS lze libovolně kombinovat.</value>
+  </data>
+  <data name="CentroidInputLabel" xml:space="preserve">
+    <value>Souřadnice</value>
+  </data>
+  <data name="CentroidInputPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CentroidMeanDistance" xml:space="preserve">
+    <value>Průměrná vzdálenost</value>
+  </data>
+  <data name="CentroidParseError" xml:space="preserve">
+    <value>Tyto řádky nejsou platné souřadnice a byly přeskočeny: {0}</value>
+  </data>
+  <data name="CentroidPointCount" xml:space="preserve">
+    <value>Počet bodů: {0}</value>
+  </data>
+  <data name="CentroidPointsHeader" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="Centroid_Name" xml:space="preserve">
+    <value>Těžiště bodů</value>
+  </data>
+  <data name="Centroid_Tooltip" xml:space="preserve">
+    <value>Najděte geografický střed libovolného počtu bodů.</value>
+  </data>
+  <data name="CoordinateAveragingArithmetic" xml:space="preserve">
+    <value>Aritmetický průměr stupňů</value>
+  </data>
+  <data name="CoordinateAveragingBestEstimate" xml:space="preserve">
+    <value>Nejlepší odhad</value>
+  </data>
+  <data name="CoordinateAveragingClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="CoordinateAveragingColumnBearing" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="CoordinateAveragingColumnCoordinate" xml:space="preserve">
+    <value>Souřadnice</value>
+  </data>
+  <data name="CoordinateAveragingColumnDistance" xml:space="preserve">
+    <value>Od odhadu</value>
+  </data>
+  <data name="CoordinateAveragingColumnReading" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="CoordinateAveragingDivergenceNote" xml:space="preserve">
+    <value>Měření leží po obou stranách 180. poledníku (nebo obklopují pól), takže aritmetický průměr vychází na opačné straně světa. Použijte nejlepší odhad.</value>
+  </data>
+  <data name="CoordinateAveragingDivergenceTitle" xml:space="preserve">
+    <value>Oba průměry se rozcházejí</value>
+  </data>
+  <data name="CoordinateAveragingFarthest" xml:space="preserve">
+    <value>Nejvzdálenější měření</value>
+  </data>
+  <data name="CoordinateAveragingInputHint" xml:space="preserve">
+    <value>Jedno měření na řádek – pořiďte jich několik se stojící GPS. Zápisy lze kombinovat.</value>
+  </data>
+  <data name="CoordinateAveragingInputLabel" xml:space="preserve">
+    <value>Měření</value>
+  </data>
+  <data name="CoordinateAveragingInputPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordinateAveragingMeanDistance" xml:space="preserve">
+    <value>Průměrná vzdálenost</value>
+  </data>
+  <data name="CoordinateAveragingParseError" xml:space="preserve">
+    <value>Tyto řádky nejsou platné souřadnice a byly přeskočeny: {0}</value>
+  </data>
+  <data name="CoordinateAveragingQualityModerate" xml:space="preserve">
+    <value>Měření se rozptylují v rozmezí {0}. Použitelné, ale několik dalších by odhad zpřesnilo.</value>
+  </data>
+  <data name="CoordinateAveragingQualitySingle" xml:space="preserve">
+    <value>Jen jedno měření — pro zprůměrování přidejte další.</value>
+  </data>
+  <data name="CoordinateAveragingQualitySpread" xml:space="preserve">
+    <value>Měření se rozptylují v rozmezí {0}. Než průměru uvěříte, poohlédněte se po odlehlém měření.</value>
+  </data>
+  <data name="CoordinateAveragingQualityTight" xml:space="preserve">
+    <value>Měření se shodují do {0}. To je spolehlivý odhad.</value>
+  </data>
+  <data name="CoordinateAveragingReadingCount" xml:space="preserve">
+    <value>Počet měření: {0}</value>
+  </data>
+  <data name="CoordinateAveragingReadings" xml:space="preserve">
+    <value>Měření</value>
+  </data>
+  <data name="CoordinateAveraging_Name" xml:space="preserve">
+    <value>Průměrování souřadnic</value>
+  </data>
+  <data name="CoordinateAveraging_Tooltip" xml:space="preserve">
+    <value>Zprůměrujte několik GPS měření téhož místa do jednoho nejlepšího odhadu.</value>
+  </data>
+  <data name="ToolCopy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="ToolShare" xml:space="preserve">
+    <value>Sdílet</value>
+  </data>
 </root>

@@ -3672,4 +3672,145 @@
   <data name="AttributionIconsDescription" xml:space="preserve">
     <value>Tool and category icons by Icons8, used under their free licence.</value>
   </data>
+  <data name="CentroidArithmeticMean" xml:space="preserve">
+    <value>Arithmetic mean of degrees</value>
+  </data>
+  <data name="CentroidArithmeticNote" xml:space="preserve">
+    <value>The simple average many puzzles assume. Wrong across the date line.</value>
+  </data>
+  <data name="CentroidClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CentroidColumnBearing" xml:space="preserve">
+    <value>Bearing</value>
+  </data>
+  <data name="CentroidColumnCoordinate" xml:space="preserve">
+    <value>Coordinate</value>
+  </data>
+  <data name="CentroidColumnDistance" xml:space="preserve">
+    <value>From centre</value>
+  </data>
+  <data name="CentroidColumnPoint" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="CentroidDivergence" xml:space="preserve">
+    <value>Centres differ by</value>
+  </data>
+  <data name="CentroidDivergenceNote" xml:space="preserve">
+    <value>Your points straddle the 180th meridian (or sit around a pole), so the arithmetic mean lands on the wrong side of the world. Use the 3D mean.</value>
+  </data>
+  <data name="CentroidDivergenceTitle" xml:space="preserve">
+    <value>The two centres disagree</value>
+  </data>
+  <data name="CentroidFarthest" xml:space="preserve">
+    <value>Farthest point</value>
+  </data>
+  <data name="CentroidGeodesicMean" xml:space="preserve">
+    <value>Geographic centre (3D mean)</value>
+  </data>
+  <data name="CentroidGeodesicNote" xml:space="preserve">
+    <value>Vectors averaged in three dimensions — correct even across the date line and near the poles.</value>
+  </data>
+  <data name="CentroidInputHint" xml:space="preserve">
+    <value>One coordinate per line. Decimal degrees, degrees decimal minutes, degrees minutes seconds, UTM and MGRS can be mixed freely.</value>
+  </data>
+  <data name="CentroidInputLabel" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="CentroidInputPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CentroidMeanDistance" xml:space="preserve">
+    <value>Average distance</value>
+  </data>
+  <data name="CentroidParseError" xml:space="preserve">
+    <value>These lines aren't valid coordinates and were skipped: {0}</value>
+  </data>
+  <data name="CentroidPointCount" xml:space="preserve">
+    <value>Points: {0}</value>
+  </data>
+  <data name="CentroidPointsHeader" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="Centroid_Name" xml:space="preserve">
+    <value>Centroid</value>
+  </data>
+  <data name="Centroid_Tooltip" xml:space="preserve">
+    <value>Find the geographic centre of any number of points.</value>
+  </data>
+  <data name="CoordinateAveragingArithmetic" xml:space="preserve">
+    <value>Arithmetic mean of degrees</value>
+  </data>
+  <data name="CoordinateAveragingBestEstimate" xml:space="preserve">
+    <value>Best estimate</value>
+  </data>
+  <data name="CoordinateAveragingClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CoordinateAveragingColumnBearing" xml:space="preserve">
+    <value>Bearing</value>
+  </data>
+  <data name="CoordinateAveragingColumnCoordinate" xml:space="preserve">
+    <value>Coordinate</value>
+  </data>
+  <data name="CoordinateAveragingColumnDistance" xml:space="preserve">
+    <value>From fix</value>
+  </data>
+  <data name="CoordinateAveragingColumnReading" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="CoordinateAveragingDivergenceNote" xml:space="preserve">
+    <value>Your readings straddle the 180th meridian (or sit around a pole), so the arithmetic mean lands on the wrong side of the world. Use the best estimate.</value>
+  </data>
+  <data name="CoordinateAveragingDivergenceTitle" xml:space="preserve">
+    <value>The two averages disagree</value>
+  </data>
+  <data name="CoordinateAveragingFarthest" xml:space="preserve">
+    <value>Farthest reading</value>
+  </data>
+  <data name="CoordinateAveragingInputHint" xml:space="preserve">
+    <value>One reading per line — take several with the GPS standing still. Notations may be mixed.</value>
+  </data>
+  <data name="CoordinateAveragingInputLabel" xml:space="preserve">
+    <value>Readings</value>
+  </data>
+  <data name="CoordinateAveragingInputPlaceholder" xml:space="preserve">
+    <value>N 49 12.345 E 016 34.567</value>
+  </data>
+  <data name="CoordinateAveragingMeanDistance" xml:space="preserve">
+    <value>Average distance</value>
+  </data>
+  <data name="CoordinateAveragingParseError" xml:space="preserve">
+    <value>These lines aren't valid coordinates and were skipped: {0}</value>
+  </data>
+  <data name="CoordinateAveragingQualityModerate" xml:space="preserve">
+    <value>The readings spread over {0}. Usable, but a few more would sharpen it.</value>
+  </data>
+  <data name="CoordinateAveragingQualitySingle" xml:space="preserve">
+    <value>One reading — add another to average.</value>
+  </data>
+  <data name="CoordinateAveragingQualitySpread" xml:space="preserve">
+    <value>The readings spread over {0}. Look for an outlier before trusting the average.</value>
+  </data>
+  <data name="CoordinateAveragingQualityTight" xml:space="preserve">
+    <value>The readings agree to within {0}. That's a solid fix.</value>
+  </data>
+  <data name="CoordinateAveragingReadingCount" xml:space="preserve">
+    <value>Readings: {0}</value>
+  </data>
+  <data name="CoordinateAveragingReadings" xml:space="preserve">
+    <value>Readings</value>
+  </data>
+  <data name="CoordinateAveraging_Name" xml:space="preserve">
+    <value>Coordinate averaging</value>
+  </data>
+  <data name="CoordinateAveraging_Tooltip" xml:space="preserve">
+    <value>Average several GPS readings of the same spot into one best fix.</value>
+  </data>
+  <data name="ToolCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ToolShare" xml:space="preserve">
+    <value>Share</value>
+  </data>
 </root>
