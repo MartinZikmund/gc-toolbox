@@ -1,0 +1,185 @@
+﻿<local:CompassViewBase
+    x:Class="GcToolkit.Views.CompassView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup">
+
+    <controls:ToolPage CopyCommand="{x:Bind ViewModel.CopyHeadingCommand}" Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
+
+            <!--  Sensor refused or absent — the tool is normally hidden on such a device, but a restored selection can still land here.  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Severity="Warning" />
+
+            <!--
+                North-up rose with a bearing needle: the rose never turns, so N/E/S/W stay upright and
+                legible at arm's length, and the amber needle alone shows which way the device faces.
+                Viewbox rather than a fixed size: 320 is the cap, not the width, so it fits a narrow phone.
+            -->
+            <Viewbox
+                MaxWidth="320"
+                HorizontalAlignment="Center"
+                AutomationProperties.AccessibilityView="Raw"
+                Stretch="Uniform">
+                <Canvas Width="320" Height="320">
+
+                    <Ellipse
+                        Canvas.Left="1"
+                        Canvas.Top="1"
+                        Width="318"
+                        Height="318"
+                        Fill="{ThemeResource AppSurfaceBrush}"
+                        Stroke="{ThemeResource AppStrokeBrush}"
+                        StrokeThickness="1" />
+
+                    <!--  Ticks every 15°  -->
+                    <Path
+                        Data="M 0 0 M 188.5 53.7 L 192.1 40.2 M 215.0 64.7 L 222.0 52.6 M 255.3 105.0 L 267.4 98.0 M 266.3 131.5 L 279.8 127.9 M 266.3 188.5 L 279.8 192.1 M 255.3 215.0 L 267.4 222.0 M 215.0 255.3 L 222.0 267.4 M 188.5 266.3 L 192.1 279.8 M 131.5 266.3 L 127.9 279.8 M 105.0 255.3 L 98.0 267.4 M 64.7 215.0 L 52.6 222.0 M 53.7 188.5 L 40.2 192.1 M 53.7 131.5 L 40.2 127.9 M 64.7 105.0 L 52.6 98.0 M 105.0 64.7 L 98.0 52.6 M 131.5 53.7 L 127.9 40.2"
+                        Stroke="{ThemeResource AppStrokeBrush}"
+                        StrokeThickness="1" />
+
+                    <!--  Longer, heavier ticks every 45°  -->
+                    <Path
+                        Data="M 0 0 M 160.0 60.0 L 160.0 36.0 M 230.7 89.3 L 247.7 72.3 M 260.0 160.0 L 284.0 160.0 M 230.7 230.7 L 247.7 247.7 M 160.0 260.0 L 160.0 284.0 M 89.3 230.7 L 72.3 247.7 M 60.0 160.0 L 36.0 160.0 M 89.3 89.3 L 72.3 72.3"
+                        Stroke="{ThemeResource AppStrokeBrush}"
+                        StrokeThickness="2" />
+
+                    <!--
+                        Labels are text, so they take a text brush: AppStrokeBrush is a hairline colour
+                        and would fail contrast here. N is the reference point, so it carries the weight.
+                    -->
+                    <TextBlock
+                        Canvas.Left="140"
+                        Canvas.Top="8"
+                        Width="40"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        Text="{markup:Localize Key=Compass_North}"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Canvas.Left="280"
+                        Canvas.Top="148"
+                        Width="40"
+                        FontSize="18"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{markup:Localize Key=Compass_East}"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Canvas.Left="140"
+                        Canvas.Top="288"
+                        Width="40"
+                        FontSize="18"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{markup:Localize Key=Compass_South}"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Canvas.Left="0"
+                        Canvas.Top="148"
+                        Width="40"
+                        FontSize="18"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{markup:Localize Key=Compass_West}"
+                        TextAlignment="Center" />
+
+                    <!--  Hidden until readings flow: a needle parked at 000° would read as a bearing.  -->
+                    <Canvas
+                        Width="320"
+                        Height="320"
+                        Visibility="{x:Bind ViewModel.IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Canvas.RenderTransform>
+                            <RotateTransform x:Name="NeedleRotation" CenterX="160" CenterY="160" />
+                        </Canvas.RenderTransform>
+                        <!--  Amber marks the one live element on the page, and nothing else.  -->
+                        <Path Data="M 0 0 M 160 68 L 173 136 L 160 146 L 147 136 Z" Fill="{ThemeResource AccentFoundBrush}" />
+                        <Path Data="M 0 0 M 160 232 L 168 180 L 160 172 L 152 180 Z" Fill="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </Canvas>
+
+                    <Ellipse
+                        Canvas.Left="152"
+                        Canvas.Top="152"
+                        Width="16"
+                        Height="16"
+                        Fill="{ThemeResource BrandPrimaryBrush}" />
+
+                </Canvas>
+            </Viewbox>
+
+            <!--  Warm-up replaces the readout rather than layering over it, so no stale bearing is on screen.  -->
+            <StackPanel
+                HorizontalAlignment="Center"
+                Spacing="8"
+                Visibility="{x:Bind ViewModel.IsWarmingUp, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <ProgressRing
+                        Width="20"
+                        Height="20"
+                        IsActive="{x:Bind ViewModel.IsWarmingUp, Mode=OneWay}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{markup:Localize Key=Compass_WarmingUp}" />
+                </StackPanel>
+                <TextBlock
+                    MaxWidth="320"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{markup:Localize Key=Compass_CalibrateHint}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  The ticking figures: mono face throughout so the line never reflows as the digits change.  -->
+            <Border Style="{StaticResource ToolReadoutSurfaceStyle}" Visibility="{x:Bind ViewModel.IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Spacing="4">
+                    <TextBlock
+                        Foreground="{ThemeResource ReadoutForegroundBrush}"
+                        Opacity="0.7"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=Compass_MagneticNorth}" />
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock
+                            FontSize="44"
+                            LineHeight="52"
+                            Style="{StaticResource ReadoutTextBlockStyle}"
+                            Text="{x:Bind ViewModel.HeadingText, Mode=OneWay}" />
+                        <TextBlock
+                            VerticalAlignment="Bottom"
+                            FontSize="24"
+                            LineHeight="34"
+                            Style="{StaticResource ReadoutTextBlockStyle}"
+                            Text="{x:Bind ViewModel.CardinalPoint, Mode=OneWay}" />
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Visibility="{x:Bind ViewModel.HasTrueNorth, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock
+                            VerticalAlignment="Bottom"
+                            Foreground="{ThemeResource ReadoutForegroundBrush}"
+                            Opacity="0.7"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{markup:Localize Key=Compass_TrueNorth}" />
+                        <TextBlock
+                            FontSize="22"
+                            LineHeight="28"
+                            Style="{StaticResource ReadoutTextBlockStyle}"
+                            Text="{x:Bind ViewModel.TrueNorthText, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <ToggleSwitch Header="{markup:Localize Key=Compass_KeepScreenAwake}" IsOn="{x:Bind ViewModel.KeepScreenAwake, Mode=TwoWay}" />
+
+        </StackPanel>
+    </controls:ToolPage>
+
+</local:CompassViewBase>
