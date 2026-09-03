@@ -3675,4 +3675,46 @@
   <data name="ToolUnavailableNotice" xml:space="preserve">
     <value>Tento nástroj vyžaduje hardware, který vaše zařízení nemá, takže zde není dostupný.</value>
   </data>
+  <data name="Flashlight_Brightness" xml:space="preserve">
+    <value>Jas</value>
+  </data>
+  <data name="Flashlight_Colour" xml:space="preserve">
+    <value>Barva</value>
+  </data>
+  <data name="Flashlight_Colour_Green" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="Flashlight_Colour_Red" xml:space="preserve">
+    <value>Červená</value>
+  </data>
+  <data name="Flashlight_Colour_White" xml:space="preserve">
+    <value>Bílá</value>
+  </data>
+  <data name="Flashlight_RedNightVisionHint" xml:space="preserve">
+    <value>Červené světlo zachovává noční vidění.</value>
+  </data>
+  <data name="Flashlight_ScreenLight" xml:space="preserve">
+    <value>Světlo displeje</value>
+  </data>
+  <data name="Flashlight_Sos" xml:space="preserve">
+    <value>SOS</value>
+  </data>
+  <data name="Flashlight_SosHint" xml:space="preserve">
+    <value>Opakuje · · · — — — · · · na displeji a při zapnuté LED i na ní.</value>
+  </data>
+  <data name="Flashlight_TapToTurnOff" xml:space="preserve">
+    <value>Klepnutím kamkoli světlo vypnete</value>
+  </data>
+  <data name="Flashlight_Torch" xml:space="preserve">
+    <value>Světlo fotoaparátu</value>
+  </data>
+  <data name="Flashlight_TorchPermissionDenied" xml:space="preserve">
+    <value>K zapnutí LED je potřeba oprávnění k fotoaparátu. Udělit ho můžete v nastavení systému.</value>
+  </data>
+  <data name="Flashlight_TorchStolen" xml:space="preserve">
+    <value>Světlo fotoaparátu používá jiná aplikace. Zavřete ji a zkuste to znovu.</value>
+  </data>
+  <data name="Flashlight_TorchToggle" xml:space="preserve">
+    <value>Použít LED fotoaparátu</value>
+  </data>
 </root>
