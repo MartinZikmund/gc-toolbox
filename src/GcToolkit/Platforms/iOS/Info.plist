@@ -39,6 +39,10 @@
 			<string>en</string>
 			<string>cs</string>
 		</array>
+		<!-- The Flashlight tool drives the camera torch through AVCaptureDevice. Creating the device does
+		     not prompt, but iOS requires this key once the camera hardware is touched at all. -->
+		<key>NSCameraUsageDescription</key>
+		<string>GC Toolkit uses the camera flash as a flashlight. It never records photos or video.</string>
 		<key>CFBundleDisplayName</key>
 		<string>GC Toolkit</string>
 		<key>CFBundleName</key>

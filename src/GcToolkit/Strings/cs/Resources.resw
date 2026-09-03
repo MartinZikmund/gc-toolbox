@@ -3672,4 +3672,7 @@
   <data name="AttributionIconsDescription" xml:space="preserve">
     <value>Ikony nástrojů a kategorií od Icons8, použité v rámci bezplatné licence.</value>
   </data>
+  <data name="ToolUnavailableNotice" xml:space="preserve">
+    <value>Tento nástroj vyžaduje hardware, který vaše zařízení nemá, takže zde není dostupný.</value>
+  </data>
 </root>

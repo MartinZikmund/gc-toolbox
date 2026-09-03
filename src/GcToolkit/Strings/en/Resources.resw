@@ -3672,4 +3672,7 @@
   <data name="AttributionIconsDescription" xml:space="preserve">
     <value>Tool and category icons by Icons8, used under their free licence.</value>
   </data>
+  <data name="ToolUnavailableNotice" xml:space="preserve">
+    <value>This tool needs hardware your device doesn't have, so it isn't available here.</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.FavoriteTools;
 using GcToolkit.Core.Infrastructure;
@@ -6,10 +6,12 @@ using GcToolkit.Core.Localization;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Search;
 using GcToolkit.Core.Services;
+using GcToolkit.Core.Services.Devices;
 using GcToolkit.Core.Services.Dialogs;
 using GcToolkit.Core.Services.Settings;
 using GcToolkit.Core.Services.Theming;
 using GcToolkit.Core.ViewModels;
+using GcToolkit.Services.Devices;
 using GcToolkit.Services.Dialogs;
 using GcToolkit.Services.Navigation;
 using GcToolkit.Services.Rating;
@@ -125,6 +127,10 @@ public partial class App : Application, IApplication
         services.AddScoped<IShareService, ShareService>();
         services.AddScoped<IClipboardService, ClipboardService>();
         services.AddScoped<IMorseAudioService, MorseAudioService>();
+        // Device sensors. Scoped: each captures its window's dispatcher and owns the hardware while
+        // the tool is open. The compass is only ever a reader; the torch owns the lamp while lit.
+        services.AddScoped<ICompassService, CompassService>();
+        services.AddScoped<ITorchService, TorchService>();
         services.AddScoped<INavigationService>(sp =>
         {
             var service = new NavigationService(sp.GetRequiredService<IWindowShellProvider>());
@@ -136,6 +142,10 @@ public partial class App : Application, IApplication
 
         // Catalog domain (FR-010/FR-015): the matcher is a pure singleton; the catalog is per-window.
         services.AddSingleton<IToolMatcher, ToolMatcher>();
+        // Hardware presence is a process-wide fact, so it is probed once and cached: singleton.
+        // The policy that reads it is stateless and ANDed into every window's scoped catalog.
+        services.AddSingleton<IDeviceCapabilityService, DeviceCapabilityService>();
+        services.AddSingleton<IToolAvailabilityPolicy, DeviceCapabilityToolPolicy>();
         // Generated (ToolDiscoveryServiceCollectionExtensions.g.cs): registers the discovered tool
         // contributor (IToolContributor + ICategoryContributor) and each tool ViewModel (transient).
         services.AddDiscoveredTools();

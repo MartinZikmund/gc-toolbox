@@ -111,6 +111,13 @@
                                             IsOpen="{Binding IsPlaceholder, Mode=OneWay}"
                                             Message="{markup:Localize Key=PlaceholderToolNotice}"
                                             Severity="Informational" />
+
+                                        <!--  Reachable by a restored selection even when the catalog hides it.  -->
+                                        <InfoBar
+                                            IsClosable="False"
+                                            IsOpen="{Binding IsUnavailable, Mode=OneWay}"
+                                            Message="{markup:Localize Key=ToolUnavailableNotice}"
+                                            Severity="Warning" />
                                     </StackPanel>
 
                                     <!--  The only slot a tool view fills.  -->
@@ -288,6 +295,13 @@
                                             IsOpen="{Binding IsPlaceholder, Mode=OneWay}"
                                             Message="{markup:Localize Key=PlaceholderToolNotice}"
                                             Severity="Informational" />
+
+                                        <!--  Reachable by a restored selection even when the catalog hides it.  -->
+                                        <InfoBar
+                                            IsClosable="False"
+                                            IsOpen="{Binding IsUnavailable, Mode=OneWay}"
+                                            Message="{markup:Localize Key=ToolUnavailableNotice}"
+                                            Severity="Warning" />
                                     </StackPanel>
 
                                     <ContentPresenter
