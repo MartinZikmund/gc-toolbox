@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.FLASHLIGHT" />
   <!-- API 21-22 only: below API 23 Uno's Lamp falls back to Camera.Open(), which needs CAMERA. It is an
-       install-time permission there, so declaring it is enough; the API 23+ path never requests it. -->
-  <uses-permission android:name="android.permission.CAMERA" />
+       install-time permission there, so declaring it is enough. maxSdkVersion keeps API 23+ installs from
+       declaring CAMERA at all, where the Lamp path never touches it. -->
+  <uses-permission android:name="android.permission.CAMERA" android:maxSdkVersion="22" />
   <!-- required="false" on both, or Play filters the app off tablets with no flash or no magnetometer. -->
   <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
   <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
