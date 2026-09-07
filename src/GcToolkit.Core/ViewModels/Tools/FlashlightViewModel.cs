@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -422,15 +422,17 @@ public sealed partial class FlashlightViewModel : ToolViewModelBase
         }
         finally
         {
-            IsBlinkOn = false;
-            IsSosBlinking = false;
-            UpdateSurface();
-            UpdateWakeLock();
-            await RestoreTorchAsync();
-
+            // Only the run that is still current may reset shared state. Stopping and immediately
+            // restarting hands the tool to a new loop while this one is still unwinding, and its
+            // teardown would otherwise clear the new run's IsSosBlinking and take the torch off it.
             if (ReferenceEquals(_blinkCts, cts))
             {
                 _blinkCts = null;
+                IsBlinkOn = false;
+                IsSosBlinking = false;
+                UpdateSurface();
+                UpdateWakeLock();
+                await RestoreTorchAsync();
             }
 
             cts.Dispose();

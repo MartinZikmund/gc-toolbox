@@ -1,4 +1,4 @@
-using GcToolkit.Core.Services;
+﻿using GcToolkit.Core.Services;
 using GcToolkit.Core.Services.Devices;
 using GcToolkit.Core.Tests.Fakes;
 using GcToolkit.Core.ViewModels.Tools;
@@ -264,6 +264,24 @@ public sealed class FlashlightViewModelTests
         sut.ToggleSosCommand.Execute(null);
 
         Assert.IsFalse(sut.IsSosBlinking);
+
+        sut.ViewUnloaded();
+    }
+
+    [TestMethod]
+    public async Task ToggleSos_RestartedImmediately_IsNotStoppedByTheCancelledRun()
+    {
+        var (sut, _, _) = CreateSut();
+
+        sut.ToggleSosCommand.Execute(null);
+        sut.ToggleSosCommand.Execute(null);
+        sut.ToggleSosCommand.Execute(null);
+
+        // The cancelled run unwinds on its own continuation; give it room to land. Its teardown must
+        // leave the restarted run alone, so this only ever fails in one direction.
+        await Task.Delay(50);
+
+        Assert.IsTrue(sut.IsSosBlinking);
 
         sut.ViewUnloaded();
     }
