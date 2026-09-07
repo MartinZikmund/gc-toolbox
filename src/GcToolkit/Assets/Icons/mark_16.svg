@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- <=16px cut: rings would be mush at this size, so only the pine field and the amber find remain. -->
+  <circle cx="8" cy="8" r="7.25" fill="#1B5E3F" />
+  <circle cx="8" cy="8" r="2.6" fill="#E8A33D" />
+</svg>

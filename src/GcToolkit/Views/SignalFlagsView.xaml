@@ -5,8 +5,7 @@
     xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools">
 
     <local:SignalFlagsViewBase.Resources>
         <!--  One flag (or gap) of the rendered hoist  -->
@@ -65,179 +64,142 @@
         </DataTemplate>
     </local:SignalFlagsViewBase.Resources>
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="900"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
+    <controls:ToolPage ContentWidth="Wide" Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+            <!--  Input  -->
+            <TextBox
+                MinHeight="64"
+                AcceptsReturn="False"
+                Header="{markup:Localize Key=SignalFlagsInputLabel}"
+                PlaceholderText="{markup:Localize Key=SignalFlagsInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <!--  Input actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.AppendSpaceCommand}" Content="{markup:Localize Key=SignalFlagsSpace}" />
+                <Button
+                    AutomationProperties.Name="{markup:Localize Key=SignalFlagsBackspace}"
+                    Command="{x:Bind ViewModel.BackspaceCommand}"
+                    ToolTipService.ToolTip="{markup:Localize Key=SignalFlagsBackspace}">
+                    <FontIcon FontSize="16" Glyph="&#xE750;" />
+                </Button>
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=SignalFlagsClear}" />
+                <Button Command="{x:Bind ViewModel.CopyTextCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=SignalFlagsCopy}" />
                     </StackPanel>
-
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
-
-                <!--  Input  -->
-                <TextBox
-                    MinHeight="64"
-                    AcceptsReturn="False"
-                    Header="{markup:Localize Key=SignalFlagsInputLabel}"
-                    PlaceholderText="{markup:Localize Key=SignalFlagsInputPlaceholder}"
-                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    TextWrapping="Wrap" />
-
-                <!--  Input actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.AppendSpaceCommand}" Content="{markup:Localize Key=SignalFlagsSpace}" />
-                    <Button
-                        AutomationProperties.Name="{markup:Localize Key=SignalFlagsBackspace}"
-                        Command="{x:Bind ViewModel.BackspaceCommand}"
-                        ToolTipService.ToolTip="{markup:Localize Key=SignalFlagsBackspace}">
-                        <FontIcon FontSize="16" Glyph="&#xE750;" />
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=SignalFlagsClear}" />
-                    <Button Command="{x:Bind ViewModel.CopyTextCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=SignalFlagsCopy}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareTextCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=SignalFlagsShare}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <!--  Unmappable-character notice  -->
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.HasSkipped, Mode=OneWay}"
-                    Message="{x:Bind ViewModel.SkippedNotice, Mode=OneWay}"
-                    Severity="Warning" />
-
-                <!--  Rendered hoist  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsOutputLabel}" />
-
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{markup:Localize Key=SignalFlagsEmptyHint}"
-                            Visibility="{x:Bind ViewModel.HasFlags, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
-
-                        <ItemsControl
-                            ItemTemplate="{StaticResource SignalFlagsSequenceTemplate}"
-                            ItemsSource="{x:Bind ViewModel.Sequence, Mode=OneWay}"
-                            Visibility="{x:Bind ViewModel.HasFlags, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <controls:SignalFlagsWrapPanel ItemSpacing="6" LineSpacing="8" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-
-                        <!--  Flag size  -->
-                        <Slider
-                            MaxWidth="320"
-                            HorizontalAlignment="Left"
-                            Header="{markup:Localize Key=SignalFlagsFlagSize}"
-                            Maximum="{x:Bind ViewModel.MaxFlagSize}"
-                            Minimum="{x:Bind ViewModel.MinFlagSize}"
-                            StepFrequency="4"
-                            Value="{x:Bind ViewModel.FlagSize, Mode=TwoWay}" />
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareTextCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=SignalFlagsShare}" />
                     </StackPanel>
-                </Border>
-
-                <!--  Reference chart  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsChartHeader}" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=SignalFlagsChartHint}"
-                            TextWrapping="Wrap" />
-
-                        <!--  Letters  -->
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsLettersHeader}" />
-                        <ItemsRepeater ItemTemplate="{StaticResource SignalFlagsPaletteTemplate}" ItemsSource="{x:Bind ViewModel.LetterPalette}">
-                            <ItemsRepeater.Layout>
-                                <UniformGridLayout
-                                    ItemsStretch="Fill"
-                                    MinColumnSpacing="8"
-                                    MinItemWidth="96"
-                                    MinRowSpacing="8" />
-                            </ItemsRepeater.Layout>
-                        </ItemsRepeater>
-
-                        <!--  Numeral pennants  -->
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsNumeralsHeader}" />
-                        <ItemsRepeater ItemTemplate="{StaticResource SignalFlagsPaletteTemplate}" ItemsSource="{x:Bind ViewModel.NumeralPalette}">
-                            <ItemsRepeater.Layout>
-                                <UniformGridLayout
-                                    ItemsStretch="Fill"
-                                    MinColumnSpacing="8"
-                                    MinItemWidth="120"
-                                    MinRowSpacing="8" />
-                            </ItemsRepeater.Layout>
-                        </ItemsRepeater>
-
-                        <!--  Answering pennant and substitutes (display-only)  -->
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsSpecialsHeader}" />
-                        <ItemsRepeater ItemTemplate="{StaticResource SignalFlagsSpecialTemplate}" ItemsSource="{x:Bind ViewModel.SpecialPalette}">
-                            <ItemsRepeater.Layout>
-                                <UniformGridLayout
-                                    ItemsStretch="Fill"
-                                    MinColumnSpacing="8"
-                                    MinItemWidth="150"
-                                    MinRowSpacing="8" />
-                            </ItemsRepeater.Layout>
-                        </ItemsRepeater>
-                    </StackPanel>
-                </Border>
-
+                </Button>
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+
+            <!--  Unmappable-character notice  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasSkipped, Mode=OneWay}"
+                Message="{x:Bind ViewModel.SkippedNotice, Mode=OneWay}"
+                Severity="Warning" />
+
+            <!--  Rendered hoist  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsOutputLabel}" />
+
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=SignalFlagsEmptyHint}"
+                        Visibility="{x:Bind ViewModel.HasFlags, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+
+                    <ItemsControl
+                        ItemTemplate="{StaticResource SignalFlagsSequenceTemplate}"
+                        ItemsSource="{x:Bind ViewModel.Sequence, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasFlags, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <controls:SignalFlagsWrapPanel ItemSpacing="6" LineSpacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                    <!--  Flag size  -->
+                    <Slider
+                        MaxWidth="320"
+                        HorizontalAlignment="Left"
+                        Header="{markup:Localize Key=SignalFlagsFlagSize}"
+                        Maximum="{x:Bind ViewModel.MaxFlagSize}"
+                        Minimum="{x:Bind ViewModel.MinFlagSize}"
+                        StepFrequency="4"
+                        Value="{x:Bind ViewModel.FlagSize, Mode=TwoWay}" />
+                </StackPanel>
+            </Border>
+
+            <!--  Reference chart  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsChartHeader}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=SignalFlagsChartHint}"
+                        TextWrapping="Wrap" />
+
+                    <!--  Letters  -->
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsLettersHeader}" />
+                    <ItemsRepeater ItemTemplate="{StaticResource SignalFlagsPaletteTemplate}" ItemsSource="{x:Bind ViewModel.LetterPalette}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="96"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+
+                    <!--  Numeral pennants  -->
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsNumeralsHeader}" />
+                    <ItemsRepeater ItemTemplate="{StaticResource SignalFlagsPaletteTemplate}" ItemsSource="{x:Bind ViewModel.NumeralPalette}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="120"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+
+                    <!--  Answering pennant and substitutes (display-only)  -->
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=SignalFlagsSpecialsHeader}" />
+                    <ItemsRepeater ItemTemplate="{StaticResource SignalFlagsSpecialTemplate}" ItemsSource="{x:Bind ViewModel.SpecialPalette}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemWidth="150"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:SignalFlagsViewBase>

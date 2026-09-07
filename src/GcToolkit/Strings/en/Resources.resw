@@ -174,6 +174,12 @@
   <data name="Catalog" xml:space="preserve">
     <value>Catalog</value>
   </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>Field</value>
+  </data>
   <data name="Category_Coordinates" xml:space="preserve">
     <value>Coordinates</value>
   </data>
@@ -1476,6 +1482,15 @@
   <data name="NewAndUpdated" xml:space="preserve">
     <value>New &amp; updated</value>
   </data>
+  <data name="HomeGreeting" xml:space="preserve">
+    <value>Welcome back</value>
+  </data>
+  <data name="HomeStatusReady" xml:space="preserve">
+    <value>Pick up where you left off.</value>
+  </data>
+  <data name="HomeStatusEmpty" xml:space="preserve">
+    <value>Nothing here yet — search for a tool to get started.</value>
+  </data>
   <data name="Badge_New" xml:space="preserve">
     <value>New</value>
   </data>
@@ -1490,6 +1505,18 @@
   </data>
   <data name="CatalogEmpty" xml:space="preserve">
     <value>No tools are available yet.</value>
+  </data>
+  <data name="CatalogScale" xml:space="preserve">
+    <value>Tools: {0} · Categories: {1}</value>
+  </data>
+  <data name="CatalogScaleToolsOnly" xml:space="preserve">
+    <value>Tools: {0}</value>
+  </data>
+  <data name="CatalogEmptyHint" xml:space="preserve">
+    <value>New tools land here as soon as they ship.</value>
+  </data>
+  <data name="SearchNoResultsHint" xml:space="preserve">
+    <value>Try a shorter word, or clear the search box to see every tool.</value>
   </data>
   <data name="PlaceholderToolNotice" xml:space="preserve">
     <value>This is a placeholder. The tool's functionality is coming in a future update.</value>
@@ -3638,5 +3665,65 @@
   </data>
   <data name="ResistorDigitsLabel" xml:space="preserve">
     <value>Digits</value>
+  </data>
+  <data name="AttributionIcons" xml:space="preserve">
+    <value>Icons</value>
+  </data>
+  <data name="AttributionIconsDescription" xml:space="preserve">
+    <value>Tool and category icons by Icons8, used under their free licence.</value>
+  </data>
+  <data name="Base64BinaryNote" xml:space="preserve">
+    <value>The decoded bytes are not valid UTF-8 text, so they are shown byte by byte.</value>
+  </data>
+  <data name="Base64ByteCount" xml:space="preserve">
+    <value>Bytes: {0}</value>
+  </data>
+  <data name="Base64Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Base64DetectedNote" xml:space="preserve">
+    <value>Detected direction:</value>
+  </data>
+  <data name="Base64Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Base64DirectionAuto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Base64DirectionDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="Base64DirectionEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="Base64InputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="Base64InputPlaceholder" xml:space="preserve">
+    <value>Text, or a Base64 string</value>
+  </data>
+  <data name="Base64InvalidCharacter" xml:space="preserve">
+    <value>“{0}” is not a Base64 character. Base64 uses A–Z, a–z, 0–9, + and /.</value>
+  </data>
+  <data name="Base64InvalidLength" xml:space="preserve">
+    <value>This is not a complete Base64 string — one character is left over at the end.</value>
+  </data>
+  <data name="Base64OutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Base64PaddingLabel" xml:space="preserve">
+    <value>Add “=” padding</value>
+  </data>
+  <data name="Base64RepairedNote" xml:space="preserve">
+    <value>Line breaks, spaces, missing or surplus padding and URL-safe characters (- and _) were handled.</value>
+  </data>
+  <data name="Base64Swap" xml:space="preserve">
+    <value>Use result as input</value>
+  </data>
+  <data name="Base64_Name" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="Base64_Tooltip" xml:space="preserve">
+    <value>Encode text to Base64 and decode it back — line breaks and missing padding are no problem.</value>
   </data>
 </root>

@@ -2,190 +2,153 @@
     x:Class="GcToolkit.Views.CoordinateConversionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools">
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="760"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
+    <controls:ToolPage Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
+            <!--  Input: one coordinate in any notation  -->
+            <TextBox
+                MinHeight="72"
+                AcceptsReturn="False"
+                FontFamily="{ThemeResource AppMonoFontFamily}"
+                Header="{markup:Localize Key=CoordConvInputLabel}"
+                PlaceholderText="{markup:Localize Key=CoordConvInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="{markup:Localize Key=CoordConvInputHint}"
+                TextWrapping="Wrap" />
 
-                <!--  Input: one coordinate in any notation  -->
-                <TextBox
-                    MinHeight="72"
-                    AcceptsReturn="False"
-                    FontFamily="Consolas"
-                    Header="{markup:Localize Key=CoordConvInputLabel}"
-                    PlaceholderText="{markup:Localize Key=CoordConvInputPlaceholder}"
-                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    TextWrapping="Wrap" />
+            <!--  Datum selectors: interpret the input on one datum, render the angular notations on another  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    DisplayMemberPath="Display"
+                    Header="{markup:Localize Key=CoordConvInputDatum}"
+                    ItemsSource="{x:Bind ViewModel.DatumOptions}"
+                    SelectedItem="{x:Bind ViewModel.SelectedInputDatum, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    DisplayMemberPath="Display"
+                    Header="{markup:Localize Key=CoordConvOutputDatum}"
+                    ItemsSource="{x:Bind ViewModel.DatumOptions}"
+                    SelectedItem="{x:Bind ViewModel.SelectedOutputDatum, Mode=TwoWay}" />
+            </Grid>
 
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource CaptionTextBlockStyle}"
-                    Text="{markup:Localize Key=CoordConvInputHint}"
-                    TextWrapping="Wrap" />
+            <!--  Parse error  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{markup:Localize Key=CoordConvParseError}"
+                Severity="Error" />
 
-                <!--  Datum selectors: interpret the input on one datum, render the angular notations on another  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ComboBox
-                        Grid.Column="0"
-                        HorizontalAlignment="Stretch"
-                        DisplayMemberPath="Display"
-                        Header="{markup:Localize Key=CoordConvInputDatum}"
-                        ItemsSource="{x:Bind ViewModel.DatumOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedInputDatum, Mode=TwoWay}" />
-                    <ComboBox
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        DisplayMemberPath="Display"
-                        Header="{markup:Localize Key=CoordConvOutputDatum}"
-                        ItemsSource="{x:Bind ViewModel.DatumOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedOutputDatum, Mode=TwoWay}" />
-                </Grid>
+            <!--  Detected notation  -->
+            <InfoBar
+                Title="{markup:Localize Key=CoordConvDetectedLabel}"
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasResult, Mode=OneWay}"
+                Severity="Success">
+                <InfoBar.Content>
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                        Text="{x:Bind ViewModel.DetectedFormatLabel, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                </InfoBar.Content>
+            </InfoBar>
 
-                <!--  Parse error  -->
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
-                    Message="{markup:Localize Key=CoordConvParseError}"
-                    Severity="Error" />
-
-                <!--  Detected notation  -->
-                <InfoBar
-                    Title="{markup:Localize Key=CoordConvDetectedLabel}"
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.HasResult, Mode=OneWay}"
-                    Severity="Success">
-                    <InfoBar.Content>
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            FontFamily="Consolas"
-                            Text="{x:Bind ViewModel.DetectedFormatLabel, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </InfoBar.Content>
-                </InfoBar>
-
-                <!--  All notations of the same point, each row independently copyable  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CoordConvAllFormatsLabel}" />
-                    <!--  ListView virtualizes the rows and is rebuilt wholesale on every recompute.  -->
-                    <ListView
-                        MaxHeight="520"
-                        ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"
-                        SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Margin" Value="0" />
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="MinHeight" Value="0" />
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="tools:CoordinateFormatRow">
-                                <Grid
-                                    Margin="0,2"
-                                    Padding="12,8"
-                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    BorderThickness="1"
-                                    ColumnSpacing="12"
-                                    CornerRadius="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Spacing="2">
-                                        <TextBlock
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Style="{ThemeResource CaptionTextBlockStyle}"
-                                            Text="{x:Bind Label}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontFamily="Consolas"
-                                            FontSize="16"
-                                            IsTextSelectionEnabled="True"
-                                            Text="{x:Bind Value}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
-                                    <Button
-                                        Grid.Column="1"
-                                        Width="40"
-                                        Height="40"
-                                        Padding="0"
+            <!--  All notations of the same point, each row independently copyable  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CoordConvAllFormatsLabel}" />
+                <!--  ListView virtualizes the rows and is rebuilt wholesale on every recompute.  -->
+                <ListView
+                    MaxHeight="520"
+                    ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"
+                    SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="tools:CoordinateFormatRow">
+                            <Grid
+                                Margin="0,2"
+                                Padding="12,8"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="12"
+                                CornerRadius="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Spacing="2">
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Label}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
                                         VerticalAlignment="Center"
-                                        AutomationProperties.Name="{x:Bind CopyAutomationName}"
-                                        Command="{x:Bind CopyCommand}"
-                                        ToolTipService.ToolTip="{x:Bind CopyAutomationName}">
-                                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-
-                <!--  Actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.CopyAllCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=CoordConvCopyAll}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=CoordConvShare}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=CoordConvClear}" />
-                </StackPanel>
-
+                                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                                        FontSize="16"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind Value}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <Button
+                                    Grid.Column="1"
+                                    Width="40"
+                                    Height="40"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.Name="{x:Bind CopyAutomationName}"
+                                    Command="{x:Bind CopyCommand}"
+                                    ToolTipService.ToolTip="{x:Bind CopyAutomationName}">
+                                    <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+
+            <!--  Actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyAllCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=CoordConvCopyAll}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=CoordConvShare}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=CoordConvClear}" />
+            </StackPanel>
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:CoordinateConversionViewBase>

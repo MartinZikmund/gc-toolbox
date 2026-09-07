@@ -4,56 +4,95 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:GcToolkit.Core.ViewModels">
 
-    <!--  Shared tool card used by Home (favorites/recents) and the Catalog.  -->
+    <!--  Shared tool card used by Home (favorites/recents/new) and the Catalog.  -->
     <DataTemplate x:Key="ToolCardTemplate" x:DataType="vm:ToolListItem">
-        <Grid MinHeight="64">
-            <!--  Open affordance fills the card; right padding leaves room for the star.  -->
+        <Grid>
+            <!--  Open affordance fills the card; CardButtonStyle carries the hover/press lift.  -->
             <Button
-                Padding="12,12,48,12"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
                 AutomationProperties.Name="{x:Bind Name}"
                 Command="{x:Bind OpenCommand}"
-                ToolTipService.ToolTip="{x:Bind Tooltip}">
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ImageIcon
-                        Grid.Column="0"
-                        Width="20"
-                        Height="20"
-                        Source="{x:Bind IconKey, Converter={StaticResource IconKeyToImageSourceConverter}}"
-                        Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <TextBlock
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Style="{ThemeResource BodyStrongTextBlockStyle}"
-                        Text="{x:Bind Name}"
-                        TextWrapping="Wrap" />
-                </Grid>
+                Style="{StaticResource CardButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind Tooltip}"
+                UseSystemFocusVisuals="True">
+                <Border
+                    MinHeight="100"
+                    Padding="16"
+                    Background="{ThemeResource AppSurfaceBrush}"
+                    BorderBrush="{ThemeResource AppStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <!--  Fixed two-row shape: UniformGridLayout sizes every card from the first one.  -->
+                    <Grid RowSpacing="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" MinHeight="20" />
+                        </Grid.RowDefinitions>
+
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--  Signature tile: what makes a grid of cards read as one family.  -->
+                            <Border
+                                Width="40"
+                                Height="40"
+                                Background="{ThemeResource BrandPrimarySoftBrush}"
+                                CornerRadius="12"
+                                Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ContentPresenter
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{x:Bind IconKey, Converter={StaticResource IconKeyToIconConverter}}"
+                                    Foreground="{ThemeResource BrandOnPrimarySoftBrush}" />
+                            </Border>
+                            <!--  Right margin is the star's dodge: the caption below keeps full width.  -->
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="0,0,32,0"
+                                VerticalAlignment="Center"
+                                MaxLines="2"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="{x:Bind Name}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{x:Bind Tooltip}"
+                                TextTrimming="CharacterEllipsis" />
+
+                            <!--  "New"/"Updated" badge (US4). Soft amber fill, text-safe amber label.  -->
+                            <Border
+                                Grid.Column="1"
+                                Padding="6,0"
+                                VerticalAlignment="Center"
+                                Background="{ThemeResource AccentFoundSoftBrush}"
+                                CornerRadius="4"
+                                Visibility="{x:Bind HasBadge, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock
+                                    Foreground="{ThemeResource AccentFoundTextBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind BadgeString, Mode=OneWay}" />
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
             </Button>
 
-            <!--  "New"/"Updated" badge (US4)  -->
-            <Border
-                Margin="8,8,0,0"
-                Padding="6,1"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Background="{ThemeResource AccentFillColorDefaultBrush}"
-                CornerRadius="4"
-                Visibility="{x:Bind HasBadge, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock
-                    FontSize="11"
-                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
-                    Style="{ThemeResource CaptionTextBlockStyle}"
-                    Text="{x:Bind BadgeString, Mode=OneWay}" />
-            </Border>
-
-            <!--  Favorite toggle overlay.  -->
-            <ToggleButton
+            <!--
+                Favorite toggle overlay. A plain Button, not a ToggleButton: the checked visual
+                states of ToggleButton repaint the background and swallow the amber star.
+            -->
+            <Button
                 Width="40"
                 Height="40"
                 Margin="0,4,4,0"
@@ -61,13 +100,28 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 AutomationProperties.Name="{x:Bind FavoriteToggleLabel, Mode=OneWay}"
-                Background="Transparent"
-                BorderThickness="0"
                 Command="{x:Bind ToggleFavoriteCommand}"
-                IsChecked="{x:Bind IsFavorite, Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind FavoriteToggleLabel, Mode=OneWay}">
-                <FontIcon FontSize="16" Glyph="{x:Bind StarGlyph, Mode=OneWay}" />
-            </ToggleButton>
+                CornerRadius="8"
+                Style="{StaticResource SubtleButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind FavoriteToggleLabel, Mode=OneWay}"
+                UseSystemFocusVisuals="True">
+                <!--
+                    Two icons rather than a brush converter, so each colour stays a ThemeResource
+                    and survives a theme switch. Both take StarGlyph; only one is ever visible.
+                -->
+                <Grid>
+                    <FontIcon
+                        FontSize="16"
+                        Foreground="{ThemeResource AccentFoundBrush}"
+                        Glyph="{x:Bind StarGlyph, Mode=OneWay}"
+                        Visibility="{x:Bind IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <FontIcon
+                        FontSize="16"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Glyph="{x:Bind StarGlyph, Mode=OneWay}"
+                        Visibility="{x:Bind IsFavorite, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                </Grid>
+            </Button>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

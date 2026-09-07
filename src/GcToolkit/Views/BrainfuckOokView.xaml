@@ -2,166 +2,129 @@
     x:Class="GcToolkit.Views.BrainfuckOokView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
-    xmlns:markup="using:GcToolkit.Markup"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:markup="using:GcToolkit.Markup">
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="760"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+    <controls:ToolPage Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
-
-                <!--  Mode: Execute / Encode / Convert  -->
-                <StackPanel Spacing="6">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrainfuckOokModeLabel}" />
-                    <RadioButtons MaxColumns="3" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
-                        <RadioButton Content="{markup:Localize Key=BrainfuckOokModeExecute}" />
-                        <RadioButton Content="{markup:Localize Key=BrainfuckOokModeEncode}" />
-                        <RadioButton Content="{markup:Localize Key=BrainfuckOokModeConvert}" />
-                    </RadioButtons>
-                </StackPanel>
-
-                <!--  Notation selectors  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <ComboBox
-                        Grid.Column="0"
-                        HorizontalAlignment="Stretch"
-                        Header="{markup:Localize Key=BrainfuckOokNotationLabel}"
-                        SelectedIndex="{x:Bind ViewModel.NotationIndex, Mode=TwoWay}">
-                        <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationBrainfuck}" />
-                        <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOok}" />
-                        <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOokShort}" />
-                    </ComboBox>
-
-                    <ComboBox
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        Header="{markup:Localize Key=BrainfuckOokTargetNotationLabel}"
-                        SelectedIndex="{x:Bind ViewModel.TargetNotationIndex, Mode=TwoWay}"
-                        Visibility="{x:Bind ViewModel.ShowTargetNotation, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationBrainfuck}" />
-                        <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOok}" />
-                        <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOokShort}" />
-                    </ComboBox>
-                </Grid>
-
-                <!--  Input: program, or text-to-print in Encode mode  -->
-                <TextBox
-                    MinHeight="120"
-                    AcceptsReturn="True"
-                    FontFamily="Consolas"
-                    Header="{markup:Localize Key=BrainfuckOokInputLabel}"
-                    IsSpellCheckEnabled="False"
-                    PlaceholderText="{markup:Localize Key=BrainfuckOokInputPlaceholder}"
-                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    TextWrapping="Wrap" />
-
-                <!--  Standard input consumed by the "," command (Execute mode only)  -->
-                <TextBox
-                    Header="{markup:Localize Key=BrainfuckOokStdinLabel}"
-                    PlaceholderText="{markup:Localize Key=BrainfuckOokStdinPlaceholder}"
-                    Text="{x:Bind ViewModel.StdinText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind ViewModel.ShowStdin, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BrainfuckOokClear}" />
-
-                <!--  Status / abort warning  -->
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.IsAborted, Mode=OneWay}"
-                    Message="{markup:Localize Key=BrainfuckOokAbortedMessage}"
-                    Severity="Warning" />
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.HasStatus, Mode=OneWay}"
-                    Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
-                    Severity="Error" />
-
-                <!--  Result  -->
-                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrainfuckOokOutputLabel}" />
-                <TextBox
-                    MinHeight="120"
-                    AcceptsReturn="True"
-                    AutomationProperties.Name="{markup:Localize Key=BrainfuckOokOutputLabel}"
-                    FontFamily="Consolas"
-                    IsReadOnly="True"
-                    IsSpellCheckEnabled="False"
-                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-
-                <!--  Output actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=BrainfuckOokCopy}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=BrainfuckOokShare}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <!--  How it works  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="8">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrainfuckOokAboutTitle}" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{markup:Localize Key=BrainfuckOokAboutBody}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-                </Border>
+            <!--  Mode: Execute / Encode / Convert  -->
+            <StackPanel Spacing="6">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrainfuckOokModeLabel}" />
+                <RadioButtons MaxColumns="3" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                    <RadioButton Content="{markup:Localize Key=BrainfuckOokModeExecute}" />
+                    <RadioButton Content="{markup:Localize Key=BrainfuckOokModeEncode}" />
+                    <RadioButton Content="{markup:Localize Key=BrainfuckOokModeConvert}" />
+                </RadioButtons>
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+
+            <!--  Notation selectors  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=BrainfuckOokNotationLabel}"
+                    SelectedIndex="{x:Bind ViewModel.NotationIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationBrainfuck}" />
+                    <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOok}" />
+                    <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOokShort}" />
+                </ComboBox>
+
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Header="{markup:Localize Key=BrainfuckOokTargetNotationLabel}"
+                    SelectedIndex="{x:Bind ViewModel.TargetNotationIndex, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.ShowTargetNotation, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationBrainfuck}" />
+                    <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOok}" />
+                    <ComboBoxItem Content="{markup:Localize Key=BrainfuckOokNotationOokShort}" />
+                </ComboBox>
+            </Grid>
+
+            <!--  Input: program, or text-to-print in Encode mode  -->
+            <TextBox
+                MinHeight="120"
+                AcceptsReturn="True"
+                FontFamily="{ThemeResource AppMonoFontFamily}"
+                Header="{markup:Localize Key=BrainfuckOokInputLabel}"
+                IsSpellCheckEnabled="False"
+                PlaceholderText="{markup:Localize Key=BrainfuckOokInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <!--  Standard input consumed by the "," command (Execute mode only)  -->
+            <TextBox
+                Header="{markup:Localize Key=BrainfuckOokStdinLabel}"
+                PlaceholderText="{markup:Localize Key=BrainfuckOokStdinPlaceholder}"
+                Text="{x:Bind ViewModel.StdinText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap"
+                Visibility="{x:Bind ViewModel.ShowStdin, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=BrainfuckOokClear}" />
+
+            <!--  Status / abort warning  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.IsAborted, Mode=OneWay}"
+                Message="{markup:Localize Key=BrainfuckOokAbortedMessage}"
+                Severity="Warning" />
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasStatus, Mode=OneWay}"
+                Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Result  -->
+            <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrainfuckOokOutputLabel}" />
+            <TextBox
+                MinHeight="120"
+                AcceptsReturn="True"
+                AutomationProperties.Name="{markup:Localize Key=BrainfuckOokOutputLabel}"
+                FontFamily="{ThemeResource AppMonoFontFamily}"
+                IsReadOnly="True"
+                IsSpellCheckEnabled="False"
+                Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                TextWrapping="Wrap" />
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=BrainfuckOokCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=BrainfuckOokShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  How it works  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=BrainfuckOokAboutTitle}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{markup:Localize Key=BrainfuckOokAboutBody}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </controls:ToolPage>
 </local:BrainfuckOokViewBase>

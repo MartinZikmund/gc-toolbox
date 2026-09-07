@@ -45,6 +45,15 @@
         <UnoSplashScreenScale>0.85</UnoSplashScreenScale>
     </PropertyGroup>
 
+    <!-- Bundled monospace, so coordinates and cipher readouts share one face on every head
+         (Consolas ships with Windows only). The Uno.Sdk's implicit `Assets/**` Content glob
+         is skipped when IsWinAppSdk, and the .NET SDK only globs Assets as None, so the
+         Windows head needs the folder declared explicitly. Licence: Assets/Fonts/LICENSE-CascadiaMono.txt. -->
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+        <None Remove="Assets\Fonts\**" />
+        <Content Include="Assets\Fonts\**" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="MZikmund.Toolkit.WinUI" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
