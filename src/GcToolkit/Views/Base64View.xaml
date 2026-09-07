@@ -1,0 +1,103 @@
+﻿<local:Base64ViewBase
+    x:Class="GcToolkit.Views.Base64View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup">
+
+    <controls:ToolPage
+        CopyCommand="{x:Bind ViewModel.CopyOutputCommand}"
+        ShareCommand="{x:Bind ViewModel.ShareOutputCommand}"
+        Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
+
+            <!--  Direction — auto-detect, with a manual override  -->
+            <RadioButtons
+                Header="{markup:Localize Key=Base64Direction}"
+                MaxColumns="3"
+                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=Base64DirectionAuto}" />
+                <RadioButton Content="{markup:Localize Key=Base64DirectionEncode}" />
+                <RadioButton Content="{markup:Localize Key=Base64DirectionDecode}" />
+            </RadioButtons>
+
+            <!--  Padding only shapes the encoded output, so it hides while decoding.  -->
+            <CheckBox
+                Content="{markup:Localize Key=Base64PaddingLabel}"
+                IsChecked="{x:Bind ViewModel.IncludePadding, Mode=TwoWay}"
+                Visibility="{x:Bind ViewModel.IsEncoding, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=Base64InputLabel}"
+                IsSpellCheckEnabled="False"
+                PlaceholderText="{markup:Localize Key=Base64InputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=Base64Clear}" />
+                <Button Command="{x:Bind ViewModel.SwapCommand}" Content="{markup:Localize Key=Base64Swap}" />
+            </StackPanel>
+
+            <!--  Error  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Result  -->
+            <StackPanel Spacing="8">
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    FontSize="16"
+                    Header="{markup:Localize Key=Base64OutputLabel}"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+
+                <!--  Which way the auto-detector went  -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="6"
+                    Visibility="{x:Bind ViewModel.ShowDetectedDirection, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=Base64DetectedNote}" />
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.DetectedDirectionName, Mode=OneWay}" />
+                </StackPanel>
+
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.ByteCountText, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.ByteCountText, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}" />
+            </StackPanel>
+
+            <!--  Forgiveness is silent by default — say when it kicked in.  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.ShowRepairedNote, Mode=OneWay}"
+                Message="{markup:Localize Key=Base64RepairedNote}"
+                Severity="Informational" />
+
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.ShowBinaryNote, Mode=OneWay}"
+                Message="{markup:Localize Key=Base64BinaryNote}"
+                Severity="Warning" />
+
+        </StackPanel>
+    </controls:ToolPage>
+</local:Base64ViewBase>
