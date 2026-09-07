@@ -1,4 +1,4 @@
-namespace GcToolkit.Core.Coordinates;
+﻿namespace GcToolkit.Core.Coordinates;
 
 /// <summary>An input line that is not a coordinate in any notation the parser knows.</summary>
 public readonly record struct CoordinateLineError(int LineNumber, string Text);
@@ -123,8 +123,9 @@ public static class CoordinateMean
         return count == 0 ? (0.0, 0.0) : (max, total / count);
     }
 
-    /// <summary>Computes both means and the dispersion in one pass over the set. Returns
-    /// <see langword="false"/> for an empty set or one with no usable mean direction.</summary>
+    /// <summary>Computes both means and the dispersion for one set, materialising it once so a
+    /// lazy sequence is not enumerated repeatedly. Returns <see langword="false"/> for an empty set
+    /// or one with no usable mean direction.</summary>
     public static bool TryCompute(IEnumerable<GeoCoordinate> points, out CoordinateMeanResult result)
     {
         ArgumentNullException.ThrowIfNull(points);
