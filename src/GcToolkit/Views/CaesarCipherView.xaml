@@ -2,222 +2,185 @@
     x:Class="GcToolkit.Views.CaesarCipherView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools">
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="760"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
+    <controls:ToolPage Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
+            <!--  Alphabet (ROT13 / ROT5 / ROT47)  -->
+            <RadioButtons
+                Header="{markup:Localize Key=CaesarMode}"
+                MaxColumns="3"
+                SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=CaesarModeLetters}" />
+                <RadioButton Content="{markup:Localize Key=CaesarModeDigits}" />
+                <RadioButton Content="{markup:Localize Key=CaesarModeAscii}" />
+            </RadioButtons>
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
+            <!--  Direction  -->
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=CaesarEncode}" />
+                <RadioButton Content="{markup:Localize Key=CaesarDecode}" />
+            </RadioButtons>
 
-                <!--  Alphabet (ROT13 / ROT5 / ROT47)  -->
-                <RadioButtons
-                    Header="{markup:Localize Key=CaesarMode}"
-                    MaxColumns="3"
-                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
-                    <RadioButton Content="{markup:Localize Key=CaesarModeLetters}" />
-                    <RadioButton Content="{markup:Localize Key=CaesarModeDigits}" />
-                    <RadioButton Content="{markup:Localize Key=CaesarModeAscii}" />
-                </RadioButtons>
+            <!--  Shift amount  -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Slider
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="{markup:Localize Key=CaesarShiftLabel}"
+                    Header="{markup:Localize Key=CaesarShiftLabel}"
+                    Maximum="{x:Bind ViewModel.MaxShift, Mode=OneWay}"
+                    Minimum="0"
+                    StepFrequency="1"
+                    Value="{x:Bind ViewModel.Shift, Mode=TwoWay}" />
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="{x:Bind ViewModel.Shift, Mode=OneWay}" />
+            </Grid>
 
-                <!--  Direction  -->
-                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                    <RadioButton Content="{markup:Localize Key=CaesarEncode}" />
-                    <RadioButton Content="{markup:Localize Key=CaesarDecode}" />
-                </RadioButtons>
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                Header="{markup:Localize Key=CaesarInputLabel}"
+                PlaceholderText="{markup:Localize Key=CaesarInputPlaceholder}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
 
-                <!--  Shift amount  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Slider
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        AutomationProperties.Name="{markup:Localize Key=CaesarShiftLabel}"
-                        Header="{markup:Localize Key=CaesarShiftLabel}"
-                        Maximum="{x:Bind ViewModel.MaxShift, Mode=OneWay}"
-                        Minimum="0"
-                        StepFrequency="1"
-                        Value="{x:Bind ViewModel.Shift, Mode=TwoWay}" />
-                    <TextBlock
-                        Grid.Column="1"
-                        VerticalAlignment="Bottom"
-                        FontFamily="Consolas"
-                        Style="{ThemeResource TitleTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Shift, Mode=OneWay}" />
-                </Grid>
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=CaesarClear}" />
+                <ToggleSwitch
+                    VerticalAlignment="Center"
+                    Header="{markup:Localize Key=CaesarShowAllShifts}"
+                    IsOn="{x:Bind ViewModel.ShowAllShifts, Mode=TwoWay}" />
+            </StackPanel>
 
-                <!--  Input  -->
+            <!--  Single result (hidden while showing every shift)  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllShifts, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CaesarOutputLabel}" />
                 <TextBox
                     MinHeight="96"
                     AcceptsReturn="True"
-                    Header="{markup:Localize Key=CaesarInputLabel}"
-                    PlaceholderText="{markup:Localize Key=CaesarInputPlaceholder}"
-                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
                     TextWrapping="Wrap" />
-
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=CaesarClear}" />
-                    <ToggleSwitch
-                        VerticalAlignment="Center"
-                        Header="{markup:Localize Key=CaesarShowAllShifts}"
-                        IsOn="{x:Bind ViewModel.ShowAllShifts, Mode=TwoWay}" />
-                </StackPanel>
-
-                <!--  Single result (hidden while showing every shift)  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllShifts, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CaesarOutputLabel}" />
-                    <TextBox
-                        MinHeight="96"
-                        AcceptsReturn="True"
-                        FontFamily="Consolas"
-                        FontSize="18"
-                        IsReadOnly="True"
-                        IsSpellCheckEnabled="False"
-                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <InfoBar
-                        IsClosable="False"
-                        IsOpen="{x:Bind ViewModel.IsSelfInverse, Mode=OneWay}"
-                        Message="{markup:Localize Key=CaesarSelfInverseNote}"
-                        Severity="Informational" />
-                </StackPanel>
-
-                <!--  All shifts (brute-force list) — visible only in "show all shifts" mode  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllShifts, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CaesarAllShiftsLabel}" />
-                    <ItemsControl ItemsSource="{x:Bind ViewModel.ShiftResults}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="tools:CaesarShiftItem">
-                                <Grid
-                                    Margin="0,2"
-                                    Padding="8,6"
-                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                    ColumnSpacing="12"
-                                    CornerRadius="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        HorizontalTextAlignment="Right"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind Shift}" />
-                                    <TextBox
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        FontFamily="Consolas"
-                                        IsReadOnly="True"
-                                        IsSpellCheckEnabled="False"
-                                        Text="{x:Bind Text}"
-                                        TextWrapping="Wrap" />
-                                    <Button
-                                        Grid.Column="2"
-                                        Width="36"
-                                        Height="36"
-                                        Padding="0"
-                                        VerticalAlignment="Center"
-                                        AutomationProperties.Name="{markup:Localize Key=CaesarCopyShift}"
-                                        Command="{x:Bind CopyCommand}"
-                                        ToolTipService.ToolTip="{markup:Localize Key=CaesarCopyShift}">
-                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-
-                <!--  Output actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=CaesarCopy}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=CaesarShare}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <!--  Substitution key (geocachingtoolbox "Key" parity)  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="8">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CaesarKeyLabel}" />
-                        <TextBlock
-                            FontFamily="Consolas"
-                            FontSize="15"
-                            Text="{x:Bind ViewModel.KeyPlain, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            FontFamily="Consolas"
-                            FontSize="15"
-                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                            Text="{x:Bind ViewModel.KeyCipher, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=CaesarKeyNote}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-                </Border>
-
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="{x:Bind ViewModel.IsSelfInverse, Mode=OneWay}"
+                    Message="{markup:Localize Key=CaesarSelfInverseNote}"
+                    Severity="Informational" />
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+
+            <!--  All shifts (brute-force list) — visible only in "show all shifts" mode  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowAllShifts, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CaesarAllShiftsLabel}" />
+                <ItemsControl ItemsSource="{x:Bind ViewModel.ShiftResults}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="tools:CaesarShiftItem">
+                            <Grid
+                                Margin="0,2"
+                                Padding="8,6"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                ColumnSpacing="12"
+                                CornerRadius="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    HorizontalTextAlignment="Right"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind Shift}" />
+                                <TextBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                                    IsReadOnly="True"
+                                    IsSpellCheckEnabled="False"
+                                    Text="{x:Bind Text}"
+                                    TextWrapping="Wrap" />
+                                <Button
+                                    Grid.Column="2"
+                                    Width="36"
+                                    Height="36"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.Name="{markup:Localize Key=CaesarCopyShift}"
+                                    Command="{x:Bind CopyCommand}"
+                                    ToolTipService.ToolTip="{markup:Localize Key=CaesarCopyShift}">
+                                    <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=CaesarCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=CaesarShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  Substitution key (geocachingtoolbox "Key" parity)  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=CaesarKeyLabel}" />
+                    <TextBlock
+                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                        FontSize="15"
+                        Text="{x:Bind ViewModel.KeyPlain, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                        FontSize="15"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Text="{x:Bind ViewModel.KeyCipher, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=CaesarKeyNote}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:CaesarCipherViewBase>

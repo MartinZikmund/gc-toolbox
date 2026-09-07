@@ -12,6 +12,33 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d not_win">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <!--  Pane identity: the selected item is a brand-tinted pill with a brand selection indicator.  -->
+                <ResourceDictionary x:Key="Light">
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewSelectionIndicatorForeground" ResourceKey="BrandPrimaryBrush" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="BrandPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="BrandOnPrimarySoftBrush" />
+                    <StaticResource x:Key="NavigationViewSelectionIndicatorForeground" ResourceKey="BrandPrimaryBrush" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -49,6 +76,7 @@
             IsBackButtonVisible="Auto"
             IsBackEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
             IsPaneToggleButtonVisible="True"
+            IsSettingsVisible="False"
             Loaded="NavView_Loaded"
             OpenPaneLength="280"
             PaneDisplayMode="Auto"
@@ -63,6 +91,7 @@
                     Text="{x:Bind Search.Query, Mode=TwoWay}" />
             </not_win:NavigationView.AutoSuggestBox>
 
+            <!--  Task-first sections. Categories and the promoted Field section are appended by BuildToolNavigation.  -->
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     x:Name="HomeNavItem"
@@ -72,15 +101,29 @@
                         <FontIcon Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+
+                <!--  Invoking Tools opens the unscoped catalog; the chevron reveals the categories nested under it.  -->
                 <NavigationViewItem
-                    x:Name="CatalogNavItem"
-                    Content="{markup:Localize Key=Catalog}"
+                    x:Name="ToolsNavItem"
+                    Content="{markup:Localize Key=Tools}"
                     Tag="Catalog">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE71D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
+
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItemSeparator />
+                <NavigationViewItem
+                    x:Name="SettingsNavItem"
+                    Content="{markup:Localize Key=Settings}"
+                    Tag="Settings">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
 
             <Frame x:Name="InnerFrame" />
         </NavigationView>

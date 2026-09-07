@@ -2,10 +2,10 @@
     x:Class="GcToolkit.Views.PhoneKeypadView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools">
 
     <Page.Resources>
         <!--  A single phone-keypad key: square, centered, subtle fill.  -->
@@ -19,536 +19,499 @@
         </Style>
     </Page.Resources>
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="760"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
+    <controls:ToolPage Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
+            <!--  Interactive keypad — type like an old phone  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PhoneKeypadInteractiveHeader}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=PhoneKeypadInteractiveHint}"
+                        TextWrapping="Wrap" />
+
+                    <!--  "Screen": the composed text + its multitap code  -->
+                    <Grid ColumnSpacing="8" RowSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontSize="22"
+                            Header="{markup:Localize Key=PhoneKeypadComposedLabel}"
+                            IsReadOnly="True"
+                            IsSpellCheckEnabled="False"
+                            Text="{x:Bind ViewModel.ComposedText, Mode=OneWay}"
                             TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="40"
+                            Height="40"
+                            Padding="0"
+                            VerticalAlignment="Bottom"
+                            AutomationProperties.Name="{markup:Localize Key=PhoneKeypadCopyText}"
+                            Command="{x:Bind ViewModel.CopyComposedTextCommand}"
+                            ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadCopyText}">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        </Button>
+
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontFamily="{ThemeResource AppMonoFontFamily}"
+                            Header="{markup:Localize Key=PhoneKeypadCodeLabel}"
+                            IsReadOnly="True"
+                            IsSpellCheckEnabled="False"
+                            Text="{x:Bind ViewModel.PressCode, Mode=OneWay}"
                             TextWrapping="Wrap" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="40"
+                            Height="40"
+                            Padding="0"
+                            VerticalAlignment="Bottom"
+                            AutomationProperties.Name="{markup:Localize Key=PhoneKeypadCopyCode}"
+                            Command="{x:Bind ViewModel.CopyComposedCodeCommand}"
+                            ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadCopyCode}">
+                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        </Button>
+                    </Grid>
+
+                    <!--  The dial pad  -->
+                    <Grid
+                        MaxWidth="320"
+                        Margin="0,4,0,0"
+                        HorizontalAlignment="Center"
+                        ColumnSpacing="8"
+                        RowSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            AutomationProperties.Name="1 . , ? !"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="1">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="1" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text=".,?!" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            AutomationProperties.Name="2 A B C"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="2">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="2" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="ABC" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            AutomationProperties.Name="3 D E F"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="3">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="3" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="DEF" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            AutomationProperties.Name="4 G H I"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="4">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="4" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="GHI" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            AutomationProperties.Name="5 J K L"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="5">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="5" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="JKL" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            AutomationProperties.Name="6 M N O"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="6">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="6" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="MNO" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            AutomationProperties.Name="7 P Q R S"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="7">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="7" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="PQRS" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            AutomationProperties.Name="8 T U V"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="8">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="8" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="TUV" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            AutomationProperties.Name="9 W X Y Z"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="9">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="9" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="WXYZ" />
+                            </StackPanel>
+                        </Button>
+
+                        <!--  Bottom row: backspace · 0 (space) · clear  -->
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            AutomationProperties.Name="{markup:Localize Key=PhoneKeypadBackspace}"
+                            Click="OnBackspaceClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadBackspace}">
+                            <FontIcon FontSize="18" Glyph="&#xE750;" />
+                        </Button>
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            AutomationProperties.Name="0"
+                            Click="OnKeyClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            Tag="0">
+                            <StackPanel>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="0" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{markup:Localize Key=PhoneKeypadKeySpace}" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            AutomationProperties.Name="{markup:Localize Key=PhoneKeypadClear}"
+                            Click="OnClearClick"
+                            Style="{StaticResource KeypadKeyStyle}"
+                            ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadClear}">
+                            <FontIcon FontSize="18" Glyph="&#xE894;" />
+                        </Button>
+                    </Grid>
+
+                    <!--  Multitap speed (the auto-commit timeout)  -->
+                    <StackPanel Spacing="4">
+                        <Slider
+                            AutomationProperties.Name="{markup:Localize Key=PhoneKeypadSpeedLabel}"
+                            Header="{markup:Localize Key=PhoneKeypadSpeedLabel}"
+                            IsDirectionReversed="True"
+                            LargeChange="200"
+                            Maximum="2000"
+                            Minimum="400"
+                            SmallChange="100"
+                            StepFrequency="100"
+                            Value="{x:Bind ViewModel.MultitapTimeoutMs, Mode=TwoWay}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=PhoneKeypadSpeedSlow}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=PhoneKeypadSpeedFast}" />
+                        </Grid>
                     </StackPanel>
+                </StackPanel>
+            </Border>
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
+            <!--  Batch converter: text ⇄ keypad digits  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PhoneKeypadConverterHeader}" />
 
-                <!--  Interactive keypad — type like an old phone  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PhoneKeypadInteractiveHeader}" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=PhoneKeypadInteractiveHint}"
-                            TextWrapping="Wrap" />
+                    <RadioButtons
+                        Header="{markup:Localize Key=PhoneKeypadMode}"
+                        MaxColumns="2"
+                        SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                        <RadioButton Content="{markup:Localize Key=PhoneKeypadModeVanity}" />
+                        <RadioButton Content="{markup:Localize Key=PhoneKeypadModeMultitap}" />
+                    </RadioButtons>
 
-                        <!--  "Screen": the composed text + its multitap code  -->
-                        <Grid ColumnSpacing="8" RowSpacing="8">
+                    <RadioButtons
+                        Header="{markup:Localize Key=PhoneKeypadDirection}"
+                        MaxColumns="2"
+                        SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                        <RadioButton Content="{markup:Localize Key=PhoneKeypadEncode}" />
+                        <RadioButton Content="{markup:Localize Key=PhoneKeypadDecode}" />
+                    </RadioButtons>
+
+                    <RadioButtons
+                        Header="{markup:Localize Key=PhoneKeypadSpaceDigit}"
+                        MaxColumns="2"
+                        SelectedIndex="{x:Bind ViewModel.SpaceDigitIndex, Mode=TwoWay}">
+                        <RadioButton Content="0" />
+                        <RadioButton Content="1" />
+                    </RadioButtons>
+
+                    <TextBox
+                        MinHeight="80"
+                        AcceptsReturn="True"
+                        Header="{markup:Localize Key=PhoneKeypadInputLabel}"
+                        PlaceholderText="{markup:Localize Key=PhoneKeypadInputPlaceholder}"
+                        Text="{x:Bind ViewModel.ConverterInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap" />
+
+                    <Button Command="{x:Bind ViewModel.ClearConverterCommand}" Content="{markup:Localize Key=PhoneKeypadClear}" />
+
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PhoneKeypadOutputLabel}" />
+                    <TextBox
+                        MinHeight="80"
+                        AcceptsReturn="True"
+                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                        FontSize="16"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.ConverterOutput, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+
+                    <!--  Vanity decode is ambiguous: one digit run can spell several words, so list them.  -->
+                    <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsVanityDecode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <TextBox
-                                Grid.Row="0"
+                            <TextBlock
                                 Grid.Column="0"
-                                FontSize="22"
-                                Header="{markup:Localize Key=PhoneKeypadComposedLabel}"
-                                IsReadOnly="True"
-                                IsSpellCheckEnabled="False"
-                                Text="{x:Bind ViewModel.ComposedText, Mode=OneWay}"
-                                TextWrapping="Wrap" />
-                            <Button
-                                Grid.Row="0"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="{markup:Localize Key=PhoneKeypadCandidatesHeader}" />
+                            <ProgressRing
                                 Grid.Column="1"
-                                Width="40"
-                                Height="40"
-                                Padding="0"
-                                VerticalAlignment="Bottom"
-                                AutomationProperties.Name="{markup:Localize Key=PhoneKeypadCopyText}"
-                                Command="{x:Bind ViewModel.CopyComposedTextCommand}"
-                                ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadCopyText}">
-                                <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            </Button>
-
-                            <TextBox
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                FontFamily="Consolas"
-                                Header="{markup:Localize Key=PhoneKeypadCodeLabel}"
-                                IsReadOnly="True"
-                                IsSpellCheckEnabled="False"
-                                Text="{x:Bind ViewModel.PressCode, Mode=OneWay}"
-                                TextWrapping="Wrap" />
-                            <Button
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Width="40"
-                                Height="40"
-                                Padding="0"
-                                VerticalAlignment="Bottom"
-                                AutomationProperties.Name="{markup:Localize Key=PhoneKeypadCopyCode}"
-                                Command="{x:Bind ViewModel.CopyComposedCodeCommand}"
-                                ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadCopyCode}">
-                                <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            </Button>
+                                Width="18"
+                                Height="18"
+                                IsActive="{x:Bind ViewModel.IsSolving, Mode=OneWay}" />
                         </Grid>
 
-                        <!--  The dial pad  -->
-                        <Grid
-                            MaxWidth="320"
-                            Margin="0,4,0,0"
-                            HorizontalAlignment="Center"
-                            ColumnSpacing="8"
-                            RowSpacing="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <Button
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                AutomationProperties.Name="1 . , ? !"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="1">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="1" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text=".,?!" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                AutomationProperties.Name="2 A B C"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="2">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="2" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="ABC" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="0"
-                                Grid.Column="2"
-                                AutomationProperties.Name="3 D E F"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="3">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="3" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="DEF" />
-                                </StackPanel>
-                            </Button>
-
-                            <Button
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                AutomationProperties.Name="4 G H I"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="4">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="4" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="GHI" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                AutomationProperties.Name="5 J K L"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="5">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="5" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="JKL" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                AutomationProperties.Name="6 M N O"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="6">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="6" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="MNO" />
-                                </StackPanel>
-                            </Button>
-
-                            <Button
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                AutomationProperties.Name="7 P Q R S"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="7">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="7" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="PQRS" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                AutomationProperties.Name="8 T U V"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="8">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="8" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="TUV" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="2"
-                                Grid.Column="2"
-                                AutomationProperties.Name="9 W X Y Z"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="9">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="9" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="WXYZ" />
-                                </StackPanel>
-                            </Button>
-
-                            <!--  Bottom row: backspace · 0 (space) · clear  -->
-                            <Button
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                AutomationProperties.Name="{markup:Localize Key=PhoneKeypadBackspace}"
-                                Click="OnBackspaceClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadBackspace}">
-                                <FontIcon FontSize="18" Glyph="&#xE750;" />
-                            </Button>
-                            <Button
-                                Grid.Row="3"
-                                Grid.Column="1"
-                                AutomationProperties.Name="0"
-                                Click="OnKeyClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                Tag="0">
-                                <StackPanel>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                                        Text="0" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="{markup:Localize Key=PhoneKeypadKeySpace}" />
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Grid.Row="3"
-                                Grid.Column="2"
-                                AutomationProperties.Name="{markup:Localize Key=PhoneKeypadClear}"
-                                Click="OnClearClick"
-                                Style="{StaticResource KeypadKeyStyle}"
-                                ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadClear}">
-                                <FontIcon FontSize="18" Glyph="&#xE894;" />
-                            </Button>
-                        </Grid>
-
-                        <!--  Multitap speed (the auto-commit timeout)  -->
-                        <StackPanel Spacing="4">
-                            <Slider
-                                AutomationProperties.Name="{markup:Localize Key=PhoneKeypadSpeedLabel}"
-                                Header="{markup:Localize Key=PhoneKeypadSpeedLabel}"
-                                IsDirectionReversed="True"
-                                LargeChange="200"
-                                Maximum="2000"
-                                Minimum="400"
-                                SmallChange="100"
-                                StepFrequency="100"
-                                Value="{x:Bind ViewModel.MultitapTimeoutMs, Mode=TwoWay}" />
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{markup:Localize Key=PhoneKeypadSpeedSlow}" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{markup:Localize Key=PhoneKeypadSpeedFast}" />
-                            </Grid>
-                        </StackPanel>
+                        <!--  ListView virtualizes the candidate rows so only the visible ones are realized.  -->
+                        <ListView
+                            MaxHeight="420"
+                            ItemsSource="{x:Bind ViewModel.Candidates, Mode=OneWay}"
+                            SelectionMode="None">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="MinHeight" Value="0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="tools:VanityCandidateItem">
+                                    <Grid
+                                        Margin="0,2"
+                                        Padding="8,6"
+                                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                        ColumnSpacing="12"
+                                        CornerRadius="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{ThemeResource AppMonoFontFamily}"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{ThemeResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind Code}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind Options}"
+                                            TextWrapping="Wrap" />
+                                        <Button
+                                            Grid.Column="2"
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            AutomationProperties.Name="{markup:Localize Key=PhoneKeypadCopy}"
+                                            Command="{x:Bind CopyCommand}"
+                                            ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadCopy}">
+                                            <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
-                </Border>
 
-                <!--  Batch converter: text ⇄ keypad digits  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PhoneKeypadConverterHeader}" />
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="{x:Bind ViewModel.IsVanityDecode, Mode=OneWay}"
+                        Message="{markup:Localize Key=PhoneKeypadVanityNote}"
+                        Severity="Informational" />
 
-                        <RadioButtons
-                            Header="{markup:Localize Key=PhoneKeypadMode}"
-                            MaxColumns="2"
-                            SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
-                            <RadioButton Content="{markup:Localize Key=PhoneKeypadModeVanity}" />
-                            <RadioButton Content="{markup:Localize Key=PhoneKeypadModeMultitap}" />
-                        </RadioButtons>
-
-                        <RadioButtons
-                            Header="{markup:Localize Key=PhoneKeypadDirection}"
-                            MaxColumns="2"
-                            SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                            <RadioButton Content="{markup:Localize Key=PhoneKeypadEncode}" />
-                            <RadioButton Content="{markup:Localize Key=PhoneKeypadDecode}" />
-                        </RadioButtons>
-
-                        <RadioButtons
-                            Header="{markup:Localize Key=PhoneKeypadSpaceDigit}"
-                            MaxColumns="2"
-                            SelectedIndex="{x:Bind ViewModel.SpaceDigitIndex, Mode=TwoWay}">
-                            <RadioButton Content="0" />
-                            <RadioButton Content="1" />
-                        </RadioButtons>
-
-                        <TextBox
-                            MinHeight="80"
-                            AcceptsReturn="True"
-                            Header="{markup:Localize Key=PhoneKeypadInputLabel}"
-                            PlaceholderText="{markup:Localize Key=PhoneKeypadInputPlaceholder}"
-                            Text="{x:Bind ViewModel.ConverterInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            TextWrapping="Wrap" />
-
-                        <Button Command="{x:Bind ViewModel.ClearConverterCommand}" Content="{markup:Localize Key=PhoneKeypadClear}" />
-
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=PhoneKeypadOutputLabel}" />
-                        <TextBox
-                            MinHeight="80"
-                            AcceptsReturn="True"
-                            FontFamily="Consolas"
-                            FontSize="16"
-                            IsReadOnly="True"
-                            IsSpellCheckEnabled="False"
-                            Text="{x:Bind ViewModel.ConverterOutput, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-
-                        <!--  Vanity decode is ambiguous: one digit run can spell several words, so list them.  -->
-                        <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsVanityDecode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Grid ColumnSpacing="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                    Text="{markup:Localize Key=PhoneKeypadCandidatesHeader}" />
-                                <ProgressRing
-                                    Grid.Column="1"
-                                    Width="18"
-                                    Height="18"
-                                    IsActive="{x:Bind ViewModel.IsSolving, Mode=OneWay}" />
-                            </Grid>
-
-                            <!--  ListView virtualizes the candidate rows so only the visible ones are realized.  -->
-                            <ListView
-                                MaxHeight="420"
-                                ItemsSource="{x:Bind ViewModel.Candidates, Mode=OneWay}"
-                                SelectionMode="None">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Margin" Value="0" />
-                                        <Setter Property="Padding" Value="0" />
-                                        <Setter Property="MinHeight" Value="0" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="tools:VanityCandidateItem">
-                                        <Grid
-                                            Margin="0,2"
-                                            Padding="8,6"
-                                            Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                            ColumnSpacing="12"
-                                            CornerRadius="6">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                Grid.Column="0"
-                                                VerticalAlignment="Center"
-                                                FontFamily="Consolas"
-                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{x:Bind Code}" />
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind Options}"
-                                                TextWrapping="Wrap" />
-                                            <Button
-                                                Grid.Column="2"
-                                                Width="32"
-                                                Height="32"
-                                                Padding="0"
-                                                AutomationProperties.Name="{markup:Localize Key=PhoneKeypadCopy}"
-                                                Command="{x:Bind CopyCommand}"
-                                                ToolTipService.ToolTip="{markup:Localize Key=PhoneKeypadCopy}">
-                                                <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                            </Button>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-
-                        <InfoBar
-                            IsClosable="False"
-                            IsOpen="{x:Bind ViewModel.IsVanityDecode, Mode=OneWay}"
-                            Message="{markup:Localize Key=PhoneKeypadVanityNote}"
-                            Severity="Informational" />
-
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <Button Command="{x:Bind ViewModel.CopyConverterCommand}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                                    <TextBlock Text="{markup:Localize Key=PhoneKeypadCopy}" />
-                                </StackPanel>
-                            </Button>
-                            <Button Command="{x:Bind ViewModel.ShareConverterCommand}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                                    <TextBlock Text="{markup:Localize Key=PhoneKeypadShare}" />
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{x:Bind ViewModel.CopyConverterCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                                <TextBlock Text="{markup:Localize Key=PhoneKeypadCopy}" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.ShareConverterCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                                <TextBlock Text="{markup:Localize Key=PhoneKeypadShare}" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
-                </Border>
+                </StackPanel>
+            </Border>
 
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+        </StackPanel>
+    </controls:ToolPage>
 </local:PhoneKeypadViewBase>

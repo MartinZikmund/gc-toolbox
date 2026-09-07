@@ -1,3 +1,4 @@
+using GcToolkit.Core.Discovery;
 using GcToolkit.Core.Navigation;
 using GcToolkit.Core.Services;
 using GcToolkit.Core.Services.Settings;
@@ -15,6 +16,11 @@ namespace GcToolkit;
 
 public sealed partial class WindowShell : Page, IWindowShell
 {
+    // Field is a task, not a tool bucket: it is lifted out of the Tools subtree into its own
+    // top-level section, without touching the enum or the generated catalog.
+    private const string PromotedCategoryId = nameof(ToolCategory.Field);
+    private const string PromotedCategoryNameKey = "Field";
+
     private readonly IServiceScope _windowScope;
     private readonly Window _associatedWindow;
     private bool _isWindowClosed;
@@ -202,22 +208,18 @@ public sealed partial class WindowShell : Page, IWindowShell
                 return;
         }
 
-        var tag = item.Tag?.ToString();
-        if (tag is null && item == (NavigationViewItem)sender.SettingsItem)
-        {
-            tag = NavigationSection.Settings.ToString();
-        }
-
-        if (Enum.TryParse<NavigationSection>(tag, out var section))
+        // Home / Tools / Settings carry their section name as a plain string tag.
+        if (Enum.TryParse<NavigationSection>(item.Tag?.ToString(), out var section))
         {
             NavigateToSection(section);
         }
     }
 
     /// <summary>
-    /// Renders the generated <see cref="GeneratedToolCatalog.NavigationTree"/> into the pane: groups as
-    /// non-selectable headers, categories as expandable-and-clickable items holding their tools, and
-    /// tools as selectable leaves. Empty categories/groups are already omitted by the tree builder.
+    /// Renders the generated <see cref="GeneratedToolCatalog.NavigationTree"/> into the pane: categories
+    /// nest under the Tools section as expandable-and-clickable items holding their tools, and tools are
+    /// selectable leaves. The <see cref="PromotedCategoryId"/> category is lifted to a top-level task
+    /// section instead. Empty categories/groups are already omitted by the tree builder.
     /// </summary>
     private void BuildToolNavigation()
     {
@@ -225,25 +227,38 @@ public sealed partial class WindowShell : Page, IWindowShell
         {
             if (group.GroupId is not null && group.NameKey is not null)
             {
-                NavView.MenuItems.Add(new NavigationViewItemHeader { Content = Localizer.Instance.GetString(group.NameKey) });
+                ToolsNavItem.MenuItems.Add(new NavigationViewItemHeader { Content = Localizer.Instance.GetString(group.NameKey) });
             }
 
             foreach (var category in group.Categories)
             {
-                NavView.MenuItems.Add(BuildCategoryItem(category));
+                if (string.Equals(category.CategoryId, PromotedCategoryId, StringComparison.Ordinal))
+                {
+                    // Appended after the XAML-declared items, so it lands directly below Tools.
+                    NavView.MenuItems.Add(BuildCategoryItem(
+                        category,
+                        PromotedCategoryNameKey,
+                        new FontIcon { Glyph = "\uE707" }));
+                    continue;
+                }
+
+                ToolsNavItem.MenuItems.Add(BuildCategoryItem(category));
             }
         }
     }
 
-    private static NavigationViewItem BuildCategoryItem(NavCategoryNode category)
+    private static NavigationViewItem BuildCategoryItem(
+        NavCategoryNode category,
+        string? nameKeyOverride = null,
+        IconElement? iconOverride = null)
     {
         var item = new NavigationViewItem
         {
-            Content = Localizer.Instance.GetString(category.NameKey),
+            Content = Localizer.Instance.GetString(nameKeyOverride ?? category.NameKey),
             Tag = new CategoryNavTag(category.CategoryId),
             // Clicking the body navigates; the chevron expand/collapse is independent (research R11).
             SelectsOnInvoked = true,
-            Icon = new ImageIcon { Source = ToolIcons.For(category.IconKey, ToolIconKind.Category) },
+            Icon = iconOverride ?? ToolIcons.NavIcon(category.IconKey),
         };
 
         foreach (var tool in category.Tools)
@@ -252,7 +267,7 @@ public sealed partial class WindowShell : Page, IWindowShell
             {
                 Content = Localizer.Instance.GetString(tool.NameKey),
                 Tag = tool.ViewModelType,
-                Icon = new ImageIcon { Source = ToolIcons.For(tool.IconKey, ToolIconKind.Tool) },
+                Icon = ToolIcons.NavIcon(tool.IconKey),
             };
 
             ToolTipService.SetToolTip(toolItem, Localizer.Instance.GetString(tool.TooltipKey));
@@ -304,12 +319,13 @@ public sealed partial class WindowShell : Page, IWindowShell
             NavView.SelectedItem = section switch
             {
                 NavigationSection.Home => HomeNavItem,
-                // Keep a clicked category node highlighted for its scoped catalog; otherwise select the
-                // top-level Catalog item for the unscoped catalog.
+                // Keep a clicked category node highlighted for its scoped catalog — nested under Tools or
+                // promoted to top level, the container itself is the selection either way. Otherwise fall
+                // back to Tools, which owns the unscoped catalog.
                 NavigationSection.Catalog => NavView.SelectedItem is NavigationViewItem { Tag: CategoryNavTag }
                     ? NavView.SelectedItem
-                    : CatalogNavItem,
-                NavigationSection.Settings => NavView.SettingsItem,
+                    : ToolsNavItem,
+                NavigationSection.Settings => SettingsNavItem,
                 // Tool host has no menu item — keep the current selection.
                 _ => NavView.SelectedItem,
             };

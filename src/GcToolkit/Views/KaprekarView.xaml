@@ -2,11 +2,11 @@
     x:Class="GcToolkit.Views.KaprekarView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
     xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    x:Name="PageRoot"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    x:Name="PageRoot">
 
     <local:KaprekarViewBase.Resources>
         <Style x:Key="KaprekarSectionStyle" TargetType="Border">
@@ -20,257 +20,220 @@
             x:Key="KaprekarCellStyle"
             BasedOn="{StaticResource BodyTextBlockStyle}"
             TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontFamily" Value="{ThemeResource AppMonoFontFamily}" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
     </local:KaprekarViewBase.Resources>
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="1024"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
+    <controls:ToolPage ContentWidth="Wide" Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+            <!--  Routine section  -->
+            <Border Style="{StaticResource KaprekarSectionStyle}">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=KaprekarRoutineHeader}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=KaprekarRoutineDescription}"
+                        TextWrapping="Wrap" />
+
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox
+                            Grid.Column="0"
+                            Header="{markup:Localize Key=KaprekarNumberLabel}"
+                            InputScope="Number"
+                            PlaceholderText="{markup:Localize Key=KaprekarNumberPlaceholder}"
+                            Text="{x:Bind ViewModel.RoutineInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <ComboBox
+                            Grid.Column="1"
+                            MinWidth="180"
+                            Header="{markup:Localize Key=KaprekarDigitWidthLabel}"
+                            SelectedIndex="{x:Bind ViewModel.DigitWidthIndex, Mode=TwoWay}">
+                            <ComboBoxItem Content="{markup:Localize Key=KaprekarWidthFour}" />
+                            <ComboBoxItem Content="{markup:Localize Key=KaprekarWidthThree}" />
+                        </ComboBox>
+                    </Grid>
+
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <Button Command="{x:Bind ViewModel.ExampleCommand}" Content="{markup:Localize Key=KaprekarExample}" />
+                        <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=KaprekarClear}" />
                     </StackPanel>
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
+                    <!--  Validation / degenerate notice  -->
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="{x:Bind ViewModel.HasRoutineError, Mode=OneWay}"
+                        Message="{x:Bind ViewModel.RoutineError, Mode=OneWay}"
+                        Severity="Warning" />
 
-                <!--  Routine section  -->
-                <Border Style="{StaticResource KaprekarSectionStyle}">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=KaprekarRoutineHeader}" />
+                    <!--  Result summary: highlighted constant + step count  -->
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="16"
+                        Visibility="{x:Bind ViewModel.HasRoutine, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Border
+                            Padding="16,10"
+                            Background="{ThemeResource AccentFillColorDefaultBrush}"
+                            CornerRadius="8">
+                            <TextBlock
+                                FontFamily="{ThemeResource AppMonoFontFamily}"
+                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                Style="{ThemeResource TitleTextBlockStyle}"
+                                Text="{x:Bind ViewModel.ConstantText, Mode=OneWay}" />
+                        </Border>
                         <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=KaprekarRoutineDescription}"
-                            TextWrapping="Wrap" />
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="{x:Bind ViewModel.StepCountText, Mode=OneWay}" />
+                    </StackPanel>
 
-                        <Grid ColumnSpacing="12">
+                    <!--  Step table  -->
+                    <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.HasRoutine, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid Padding="8,4" ColumnSpacing="12">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
-                            <TextBox
+                            <TextBlock
                                 Grid.Column="0"
-                                Header="{markup:Localize Key=KaprekarNumberLabel}"
-                                InputScope="Number"
-                                PlaceholderText="{markup:Localize Key=KaprekarNumberPlaceholder}"
-                                Text="{x:Bind ViewModel.RoutineInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <ComboBox
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=KaprekarStepColumn}" />
+                            <TextBlock
                                 Grid.Column="1"
-                                MinWidth="180"
-                                Header="{markup:Localize Key=KaprekarDigitWidthLabel}"
-                                SelectedIndex="{x:Bind ViewModel.DigitWidthIndex, Mode=TwoWay}">
-                                <ComboBoxItem Content="{markup:Localize Key=KaprekarWidthFour}" />
-                                <ComboBoxItem Content="{markup:Localize Key=KaprekarWidthThree}" />
-                            </ComboBox>
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=KaprekarDescendingColumn}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=KaprekarAscendingColumn}" />
+                            <TextBlock
+                                Grid.Column="3"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{markup:Localize Key=KaprekarDifferenceColumn}" />
                         </Grid>
 
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal"
-                            Spacing="8">
-                            <Button Command="{x:Bind ViewModel.ExampleCommand}" Content="{markup:Localize Key=KaprekarExample}" />
-                            <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=KaprekarClear}" />
-                        </StackPanel>
-
-                        <!--  Validation / degenerate notice  -->
-                        <InfoBar
-                            IsClosable="False"
-                            IsOpen="{x:Bind ViewModel.HasRoutineError, Mode=OneWay}"
-                            Message="{x:Bind ViewModel.RoutineError, Mode=OneWay}"
-                            Severity="Warning" />
-
-                        <!--  Result summary: highlighted constant + step count  -->
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="16"
-                            Visibility="{x:Bind ViewModel.HasRoutine, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Border
-                                Padding="16,10"
-                                Background="{ThemeResource AccentFillColorDefaultBrush}"
-                                CornerRadius="8">
-                                <TextBlock
-                                    FontFamily="Consolas"
-                                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
-                                    Style="{ThemeResource TitleTextBlockStyle}"
-                                    Text="{x:Bind ViewModel.ConstantText, Mode=OneWay}" />
-                            </Border>
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                Text="{x:Bind ViewModel.StepCountText, Mode=OneWay}" />
-                        </StackPanel>
-
-                        <!--  Step table  -->
-                        <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.HasRoutine, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Grid Padding="8,4" ColumnSpacing="12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{markup:Localize Key=KaprekarStepColumn}" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{markup:Localize Key=KaprekarDescendingColumn}" />
-                                <TextBlock
-                                    Grid.Column="2"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{markup:Localize Key=KaprekarAscendingColumn}" />
-                                <TextBlock
-                                    Grid.Column="3"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{markup:Localize Key=KaprekarDifferenceColumn}" />
-                            </Grid>
-
-                            <ItemsControl ItemsSource="{x:Bind ViewModel.RoutineSteps, Mode=OneWay}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="tools:KaprekarStepRow">
-                                        <Border
-                                            Margin="0,1"
-                                            Padding="8,6"
-                                            Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                            CornerRadius="6">
-                                            <Grid ColumnSpacing="12">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="40" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock
-                                                    Grid.Column="0"
-                                                    Style="{StaticResource KaprekarCellStyle}"
-                                                    Text="{x:Bind Index}" />
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Style="{StaticResource KaprekarCellStyle}"
-                                                    Text="{x:Bind Descending}" />
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    Style="{StaticResource KaprekarCellStyle}"
-                                                    Text="{x:Bind Ascending}" />
-                                                <TextBlock
-                                                    Grid.Column="3"
-                                                    FontFamily="Consolas"
-                                                    FontSize="16"
-                                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                                    Text="{x:Bind Difference}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-
-                        <!--  Routine actions  -->
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="8"
-                            Visibility="{x:Bind ViewModel.HasRoutine, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{x:Bind ViewModel.CopyRoutineCommand}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                                    <TextBlock Text="{markup:Localize Key=KaprekarCopy}" />
-                                </StackPanel>
-                            </Button>
-                            <Button Command="{x:Bind ViewModel.ShareRoutineCommand}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                                    <TextBlock Text="{markup:Localize Key=KaprekarShare}" />
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.RoutineSteps, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="tools:KaprekarStepRow">
+                                    <Border
+                                        Margin="0,1"
+                                        Padding="8,6"
+                                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                        CornerRadius="6">
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                Style="{StaticResource KaprekarCellStyle}"
+                                                Text="{x:Bind Index}" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Style="{StaticResource KaprekarCellStyle}"
+                                                Text="{x:Bind Descending}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Style="{StaticResource KaprekarCellStyle}"
+                                                Text="{x:Bind Ascending}" />
+                                            <TextBlock
+                                                Grid.Column="3"
+                                                FontFamily="{ThemeResource AppMonoFontFamily}"
+                                                FontSize="16"
+                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                                Text="{x:Bind Difference}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
-                </Border>
 
-                <!--  Kaprekar number checker  -->
-                <Border Style="{StaticResource KaprekarSectionStyle}">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=KaprekarCheckerHeader}" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=KaprekarCheckerDescription}"
-                            TextWrapping="Wrap" />
-                        <TextBox
-                            Header="{markup:Localize Key=KaprekarCheckerLabel}"
-                            InputScope="Number"
-                            PlaceholderText="{markup:Localize Key=KaprekarCheckerPlaceholder}"
-                            Text="{x:Bind ViewModel.CheckerInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock
-                            Style="{ThemeResource BodyStrongTextBlockStyle}"
-                            Text="{x:Bind ViewModel.CheckerResult, Mode=OneWay}"
-                            TextWrapping="Wrap"
-                            Visibility="{x:Bind ViewModel.HasCheckerResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <!--  Routine actions  -->
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Visibility="{x:Bind ViewModel.HasRoutine, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button Command="{x:Bind ViewModel.CopyRoutineCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                                <TextBlock Text="{markup:Localize Key=KaprekarCopy}" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.ShareRoutineCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                                <TextBlock Text="{markup:Localize Key=KaprekarShare}" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
-                </Border>
+                </StackPanel>
+            </Border>
 
-                <!--  Kaprekar number lister  -->
-                <Border Style="{StaticResource KaprekarSectionStyle}">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=KaprekarListerHeader}" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="{markup:Localize Key=KaprekarListerDescription}"
-                            TextWrapping="Wrap" />
-                        <TextBox
-                            Header="{markup:Localize Key=KaprekarListerLabel}"
-                            InputScope="Number"
-                            PlaceholderText="{markup:Localize Key=KaprekarListerPlaceholder}"
-                            Text="{x:Bind ViewModel.ListerInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            FontFamily="Consolas"
-                            IsReadOnly="True"
-                            IsSpellCheckEnabled="False"
-                            Text="{x:Bind ViewModel.ListerResult, Mode=OneWay}"
-                            TextWrapping="Wrap"
-                            Visibility="{x:Bind ViewModel.HasListerResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    </StackPanel>
-                </Border>
+            <!--  Kaprekar number checker  -->
+            <Border Style="{StaticResource KaprekarSectionStyle}">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=KaprekarCheckerHeader}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=KaprekarCheckerDescription}"
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Header="{markup:Localize Key=KaprekarCheckerLabel}"
+                        InputScope="Number"
+                        PlaceholderText="{markup:Localize Key=KaprekarCheckerPlaceholder}"
+                        Text="{x:Bind ViewModel.CheckerInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{x:Bind ViewModel.CheckerResult, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.HasCheckerResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
+            </Border>
 
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+            <!--  Kaprekar number lister  -->
+            <Border Style="{StaticResource KaprekarSectionStyle}">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{markup:Localize Key=KaprekarListerHeader}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=KaprekarListerDescription}"
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Header="{markup:Localize Key=KaprekarListerLabel}"
+                        InputScope="Number"
+                        PlaceholderText="{markup:Localize Key=KaprekarListerPlaceholder}"
+                        Text="{x:Bind ViewModel.ListerInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                        IsReadOnly="True"
+                        IsSpellCheckEnabled="False"
+                        Text="{x:Bind ViewModel.ListerResult, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.HasListerResult, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:KaprekarViewBase>

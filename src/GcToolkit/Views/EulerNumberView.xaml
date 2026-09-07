@@ -2,252 +2,196 @@
     x:Class="GcToolkit.Views.EulerNumberView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools">
 
-    <ScrollViewer x:Name="RootScroller" Padding="24">
-        <Grid>
+    <controls:ToolPage Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
+
+
+            <!--  Lookup mode  -->
+            <RadioButtons
+                Header="{markup:Localize Key=EulerMode}"
+                MaxColumns="2"
+                SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=EulerModeFirst}" />
+                <RadioButton Content="{markup:Localize Key=EulerModePosition}" />
+                <RadioButton Content="{markup:Localize Key=EulerModeRange}" />
+                <RadioButton Content="{markup:Localize Key=EulerModeSearch}" />
+            </RadioButtons>
+
+            <!--  Positions are counted from the first decimal; the leading 2 is not  -->
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="{markup:Localize Key=EulerIntegerNote}"
+                TextWrapping="Wrap" />
+
+            <!--  Inputs (one set per mode)  -->
+            <TextBox
+                Header="{markup:Localize Key=EulerCountLabel}"
+                InputScope="Number"
+                Text="{x:Bind ViewModel.FirstCountText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsFirstMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <TextBox
+                Header="{markup:Localize Key=EulerPositionLabel}"
+                InputScope="Number"
+                Text="{x:Bind ViewModel.PositionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsPositionMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.IsRangeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    Header="{markup:Localize Key=EulerRangeFromLabel}"
+                    InputScope="Number"
+                    Text="{x:Bind ViewModel.RangeFromText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox
+                    Grid.Column="1"
+                    Header="{markup:Localize Key=EulerRangeToLabel}"
+                    InputScope="Number"
+                    Text="{x:Bind ViewModel.RangeToText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <TextBox
+                Header="{markup:Localize Key=EulerSearchLabel}"
+                InputScope="Number"
+                PlaceholderText="{markup:Localize Key=EulerSearchPlaceholder}"
+                Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <!--  Output formatting options (multi-digit modes only)  -->
             <StackPanel
-                MaxWidth="760"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
-
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
-
-                <!--  Lookup mode  -->
-                <RadioButtons
-                    Header="{markup:Localize Key=EulerMode}"
-                    MaxColumns="2"
-                    SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
-                    <RadioButton Content="{markup:Localize Key=EulerModeFirst}" />
-                    <RadioButton Content="{markup:Localize Key=EulerModePosition}" />
-                    <RadioButton Content="{markup:Localize Key=EulerModeRange}" />
-                    <RadioButton Content="{markup:Localize Key=EulerModeSearch}" />
-                </RadioButtons>
-
-                <!--  Positions are counted from the first decimal; the leading 2 is not  -->
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource CaptionTextBlockStyle}"
-                    Text="{markup:Localize Key=EulerIntegerNote}"
-                    TextWrapping="Wrap" />
-
-                <!--  Inputs (one set per mode)  -->
-                <TextBox
-                    Header="{markup:Localize Key=EulerCountLabel}"
-                    InputScope="Number"
-                    Text="{x:Bind ViewModel.FirstCountText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsFirstMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                <TextBox
-                    Header="{markup:Localize Key=EulerPositionLabel}"
-                    InputScope="Number"
-                    Text="{x:Bind ViewModel.PositionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsPositionMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.IsRangeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox
-                        Grid.Column="0"
-                        Header="{markup:Localize Key=EulerRangeFromLabel}"
-                        InputScope="Number"
-                        Text="{x:Bind ViewModel.RangeFromText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox
-                        Grid.Column="1"
-                        Header="{markup:Localize Key=EulerRangeToLabel}"
-                        InputScope="Number"
-                        Text="{x:Bind ViewModel.RangeToText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
-
-                <TextBox
-                    Header="{markup:Localize Key=EulerSearchLabel}"
-                    InputScope="Number"
-                    PlaceholderText="{markup:Localize Key=EulerSearchPlaceholder}"
-                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                <!--  Output formatting options (multi-digit modes only)  -->
-                <StackPanel
-                    Orientation="Horizontal"
-                    Spacing="24"
-                    Visibility="{x:Bind ViewModel.ShowFormattingOptions, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ToggleSwitch Header="{markup:Localize Key=EulerGroupDigits}" IsOn="{x:Bind ViewModel.GroupDigits, Mode=TwoWay}" />
-                    <ToggleSwitch Header="{markup:Localize Key=EulerShowPositions}" IsOn="{x:Bind ViewModel.ShowPositions, Mode=TwoWay}" />
-                </StackPanel>
-
-                <!--  Busy + error states  -->
-                <ProgressRing
-                    Width="32"
-                    Height="32"
-                    HorizontalAlignment="Left"
-                    IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
-                    Message="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
-                    Severity="Error" />
-
-                <!--  Result digits  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=EulerOutputLabel}" />
-                    <TextBox
-                        MinHeight="96"
-                        MaxHeight="420"
-                        AcceptsReturn="True"
-                        FontFamily="Consolas"
-                        FontSize="16"
-                        IsReadOnly="True"
-                        IsSpellCheckEnabled="False"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        FontFamily="Consolas"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Text="{x:Bind ViewModel.PositionContextText, Mode=OneWay}"
-                        TextWrapping="Wrap"
-                        Visibility="{x:Bind ViewModel.HasPositionContext, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                </StackPanel>
-
-                <!--  Search results: occurrence count + per-hit context  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasOccurrenceSummary, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=EulerOccurrencesLabel}" />
-                    <TextBlock Text="{x:Bind ViewModel.OccurrenceSummary, Mode=OneWay}" TextWrapping="Wrap" />
-                    <!--  ListView virtualizes the up-to-200 hit rows so only visible ones are realized.  -->
-                    <ListView
-                        MaxHeight="420"
-                        ItemsSource="{x:Bind ViewModel.Occurrences, Mode=OneWay}"
-                        SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Margin" Value="0" />
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="MinHeight" Value="0" />
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="tools:EulerNumberOccurrenceItem">
-                                <Grid
-                                    Margin="0,2"
-                                    Padding="8,6"
-                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                    ColumnSpacing="12"
-                                    CornerRadius="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="72" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        HorizontalTextAlignment="Right"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind Position}" />
-                                    <!--  Runs use Binding: x:Bind on Run.Text crashes the WinAppSDK XAML compiler  -->
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        FontFamily="Consolas"
-                                        IsTextSelectionEnabled="True"
-                                        TextWrapping="Wrap">
-                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding Before}" /><Run
-                                            FontWeight="SemiBold"
-                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                            Text="{Binding Match}" /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding After}" />
-                                    </TextBlock>
-                                    <Button
-                                        Grid.Column="2"
-                                        Width="36"
-                                        Height="36"
-                                        Padding="0"
-                                        VerticalAlignment="Center"
-                                        AutomationProperties.Name="{markup:Localize Key=EulerCopyPosition}"
-                                        Command="{x:Bind CopyCommand}"
-                                        ToolTipService.ToolTip="{markup:Localize Key=EulerCopyPosition}">
-                                        <FontIcon FontSize="14" Glyph="&#xE8C8;" />
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-
-                <!--  Output actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=EulerCopy}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=EulerShare}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
+                Orientation="Horizontal"
+                Spacing="24"
+                Visibility="{x:Bind ViewModel.ShowFormattingOptions, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ToggleSwitch Header="{markup:Localize Key=EulerGroupDigits}" IsOn="{x:Bind ViewModel.GroupDigits, Mode=TwoWay}" />
+                <ToggleSwitch Header="{markup:Localize Key=EulerShowPositions}" IsOn="{x:Bind ViewModel.ShowPositions, Mode=TwoWay}" />
             </StackPanel>
-        </Grid>
 
-        <!--  Responsive padding  -->
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="RootScroller.Padding" Value="16" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </ScrollViewer>
+            <!--  Busy + error states  -->
+            <ProgressRing
+                Width="32"
+                Height="32"
+                HorizontalAlignment="Left"
+                IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Result digits  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasOutput, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=EulerOutputLabel}" />
+                <TextBox
+                    MinHeight="96"
+                    MaxHeight="420"
+                    AcceptsReturn="True"
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    FontSize="16"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{x:Bind ViewModel.PositionContextText, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind ViewModel.HasPositionContext, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </StackPanel>
+
+            <!--  Search results: occurrence count + per-hit context  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasOccurrenceSummary, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=EulerOccurrencesLabel}" />
+                <TextBlock Text="{x:Bind ViewModel.OccurrenceSummary, Mode=OneWay}" TextWrapping="Wrap" />
+                <!--  ListView virtualizes the up-to-200 hit rows so only visible ones are realized.  -->
+                <ListView
+                    MaxHeight="420"
+                    ItemsSource="{x:Bind ViewModel.Occurrences, Mode=OneWay}"
+                    SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="tools:EulerNumberOccurrenceItem">
+                            <Grid
+                                Margin="0,2"
+                                Padding="8,6"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                ColumnSpacing="12"
+                                CornerRadius="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="72" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    HorizontalTextAlignment="Right"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind Position}" />
+                                <!--  Runs use Binding: x:Bind on Run.Text crashes the WinAppSDK XAML compiler  -->
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                                    IsTextSelectionEnabled="True"
+                                    TextWrapping="Wrap">
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding Before}" /><Run
+                                        FontWeight="SemiBold"
+                                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                        Text="{Binding Match}" /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding After}" />
+                                </TextBlock>
+                                <Button
+                                    Grid.Column="2"
+                                    Width="36"
+                                    Height="36"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.Name="{markup:Localize Key=EulerCopyPosition}"
+                                    Command="{x:Bind CopyCommand}"
+                                    ToolTipService.ToolTip="{markup:Localize Key=EulerCopyPosition}">
+                                    <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=EulerCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=EulerShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:EulerNumberViewBase>

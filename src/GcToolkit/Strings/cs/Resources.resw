@@ -174,6 +174,12 @@
   <data name="Catalog" xml:space="preserve">
     <value>Katalog</value>
   </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Nástroje</value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>V terénu</value>
+  </data>
   <data name="Category_Coordinates" xml:space="preserve">
     <value>Souřadnice</value>
   </data>
@@ -1476,6 +1482,15 @@
   <data name="NewAndUpdated" xml:space="preserve">
     <value>Nové a aktualizované</value>
   </data>
+  <data name="HomeGreeting" xml:space="preserve">
+    <value>Vítejte zpět</value>
+  </data>
+  <data name="HomeStatusReady" xml:space="preserve">
+    <value>Pokračujte tam, kde jste skončili.</value>
+  </data>
+  <data name="HomeStatusEmpty" xml:space="preserve">
+    <value>Zatím tu nic není — začněte hledáním nástroje.</value>
+  </data>
   <data name="Badge_New" xml:space="preserve">
     <value>Nové</value>
   </data>
@@ -1490,6 +1505,18 @@
   </data>
   <data name="CatalogEmpty" xml:space="preserve">
     <value>Zatím nejsou k dispozici žádné nástroje.</value>
+  </data>
+  <data name="CatalogScale" xml:space="preserve">
+    <value>Nástroje: {0} · Kategorie: {1}</value>
+  </data>
+  <data name="CatalogScaleToolsOnly" xml:space="preserve">
+    <value>Nástroje: {0}</value>
+  </data>
+  <data name="CatalogEmptyHint" xml:space="preserve">
+    <value>Nové nástroje se tu objeví, jakmile vyjdou.</value>
+  </data>
+  <data name="SearchNoResultsHint" xml:space="preserve">
+    <value>Zkuste kratší výraz nebo vymažte hledání a zobrazte všechny nástroje.</value>
   </data>
   <data name="PlaceholderToolNotice" xml:space="preserve">
     <value>Toto je zástupný nástroj. Jeho funkce přijde v budoucí aktualizaci.</value>
@@ -3638,5 +3665,65 @@
   </data>
   <data name="ResistorDigitsLabel" xml:space="preserve">
     <value>Číslice</value>
+  </data>
+  <data name="AttributionIcons" xml:space="preserve">
+    <value>Ikony</value>
+  </data>
+  <data name="AttributionIconsDescription" xml:space="preserve">
+    <value>Ikony nástrojů a kategorií od Icons8, použité v rámci bezplatné licence.</value>
+  </data>
+  <data name="Base64BinaryNote" xml:space="preserve">
+    <value>Dekódované bajty nejsou platný text v UTF-8, zobrazují se proto bajt po bajtu.</value>
+  </data>
+  <data name="Base64ByteCount" xml:space="preserve">
+    <value>Bajtů: {0}</value>
+  </data>
+  <data name="Base64Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="Base64DetectedNote" xml:space="preserve">
+    <value>Rozpoznaný směr:</value>
+  </data>
+  <data name="Base64Direction" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="Base64DirectionAuto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="Base64DirectionDecode" xml:space="preserve">
+    <value>Dekódovat</value>
+  </data>
+  <data name="Base64DirectionEncode" xml:space="preserve">
+    <value>Zakódovat</value>
+  </data>
+  <data name="Base64InputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="Base64InputPlaceholder" xml:space="preserve">
+    <value>Text nebo řetězec Base64</value>
+  </data>
+  <data name="Base64InvalidCharacter" xml:space="preserve">
+    <value>Znak „{0}“ do Base64 nepatří. Base64 používá A–Z, a–z, 0–9, + a /.</value>
+  </data>
+  <data name="Base64InvalidLength" xml:space="preserve">
+    <value>Tohle není úplný řetězec Base64 – na konci zbývá jeden znak navíc.</value>
+  </data>
+  <data name="Base64OutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="Base64PaddingLabel" xml:space="preserve">
+    <value>Doplnit výplň „=“</value>
+  </data>
+  <data name="Base64RepairedNote" xml:space="preserve">
+    <value>Zalomení řádků, mezery, chybějící nebo přebytečná výplň a URL-safe znaky (- a _) byly ošetřeny.</value>
+  </data>
+  <data name="Base64Swap" xml:space="preserve">
+    <value>Použít výsledek jako vstup</value>
+  </data>
+  <data name="Base64_Name" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="Base64_Tooltip" xml:space="preserve">
+    <value>Zakódujte text do Base64 a zase zpět – se zalomenými řádky i chybějící výplní si poradí.</value>
   </data>
 </root>

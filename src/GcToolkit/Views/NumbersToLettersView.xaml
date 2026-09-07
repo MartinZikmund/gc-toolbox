@@ -2,222 +2,185 @@
     x:Class="GcToolkit.Views.NumbersToLettersView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:text="using:GcToolkit.Core.Text"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:text="using:GcToolkit.Core.Text">
 
-    <ScrollViewer Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="760"
+    <controls:ToolPage Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
+
+
+            <!--  Direction  -->
+            <RadioButtons
+                AutomationProperties.Name="{markup:Localize Key=NumbersDirectionLabel}"
+                Header="{markup:Localize Key=NumbersDirectionLabel}"
+                MaxColumns="2"
+                SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=NumbersLettersToNumbers}" />
+                <RadioButton Content="{markup:Localize Key=NumbersNumbersToLetters}" />
+            </RadioButtons>
+
+            <!--  Method (numbering scheme)  -->
+            <ComboBox
                 HorizontalAlignment="Stretch"
-                Spacing="16">
+                AutomationProperties.Name="{markup:Localize Key=NumbersMethodLabel}"
+                Header="{markup:Localize Key=NumbersMethodLabel}"
+                ItemsSource="{x:Bind ViewModel.MethodLabels}"
+                SelectedIndex="{x:Bind ViewModel.MethodIndex, Mode=TwoWay}" />
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+            <!--  Input  -->
+            <TextBox
+                MinHeight="96"
+                AcceptsReturn="True"
+                AutomationProperties.Name="{markup:Localize Key=NumbersInputLabel}"
+                Header="{markup:Localize Key=NumbersInputLabel}"
+                IsSpellCheckEnabled="False"
+                PlaceholderText="{x:Bind ViewModel.InputPlaceholder, Mode=OneWay}"
+                Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
+            <!--  Options  -->
+            <Border
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersOptionsLabel}" />
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
+                    <TextBox
+                        MaxWidth="200"
+                        HorizontalAlignment="Left"
+                        AutomationProperties.Name="{markup:Localize Key=NumbersSeparatorLabel}"
+                        Header="{markup:Localize Key=NumbersSeparatorLabel}"
+                        IsSpellCheckEnabled="False"
+                        PlaceholderText="{markup:Localize Key=NumbersSeparatorPlaceholder}"
+                        Text="{x:Bind ViewModel.Separator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!--  Direction  -->
-                <RadioButtons
-                    AutomationProperties.Name="{markup:Localize Key=NumbersDirectionLabel}"
-                    Header="{markup:Localize Key=NumbersDirectionLabel}"
-                    MaxColumns="2"
-                    SelectedIndex="{x:Bind ViewModel.DirectionIndex, Mode=TwoWay}">
-                    <RadioButton Content="{markup:Localize Key=NumbersLettersToNumbers}" />
-                    <RadioButton Content="{markup:Localize Key=NumbersNumbersToLetters}" />
-                </RadioButtons>
+                    <!--  Encode-only option: keep non-letters  -->
+                    <ToggleSwitch
+                        AutomationProperties.Name="{markup:Localize Key=NumbersKeepNonLetters}"
+                        Header="{markup:Localize Key=NumbersKeepNonLetters}"
+                        IsOn="{x:Bind ViewModel.KeepNonLetters, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                <!--  Method (numbering scheme)  -->
-                <ComboBox
-                    HorizontalAlignment="Stretch"
-                    AutomationProperties.Name="{markup:Localize Key=NumbersMethodLabel}"
-                    Header="{markup:Localize Key=NumbersMethodLabel}"
-                    ItemsSource="{x:Bind ViewModel.MethodLabels}"
-                    SelectedIndex="{x:Bind ViewModel.MethodIndex, Mode=TwoWay}" />
+                    <!--  Decode-only options: case, wrap, replace-unknown  -->
+                    <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                        <ToggleSwitch
+                            AutomationProperties.Name="{markup:Localize Key=NumbersUpperCase}"
+                            Header="{markup:Localize Key=NumbersUpperCase}"
+                            IsOn="{x:Bind ViewModel.UpperCase, Mode=TwoWay}" />
+                        <ToggleSwitch
+                            AutomationProperties.Name="{markup:Localize Key=NumbersWrapModulo}"
+                            Header="{markup:Localize Key=NumbersWrapModulo}"
+                            IsOn="{x:Bind ViewModel.WrapModulo, Mode=TwoWay}" />
 
-                <!--  Input  -->
-                <TextBox
-                    MinHeight="96"
-                    AcceptsReturn="True"
-                    AutomationProperties.Name="{markup:Localize Key=NumbersInputLabel}"
-                    Header="{markup:Localize Key=NumbersInputLabel}"
-                    IsSpellCheckEnabled="False"
-                    PlaceholderText="{x:Bind ViewModel.InputPlaceholder, Mode=OneWay}"
-                    Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    TextWrapping="Wrap" />
-
-                <!--  Options  -->
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="12">
-                        <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersOptionsLabel}" />
-
+                        <!--  What to do with a number that maps to no letter  -->
+                        <ToggleSwitch
+                            AutomationProperties.Name="{markup:Localize Key=NumbersKeepOriginalUnknown}"
+                            Header="{markup:Localize Key=NumbersKeepOriginalUnknown}"
+                            IsOn="{x:Bind ViewModel.KeepOriginalUnknown, Mode=TwoWay}" />
                         <TextBox
                             MaxWidth="200"
                             HorizontalAlignment="Left"
-                            AutomationProperties.Name="{markup:Localize Key=NumbersSeparatorLabel}"
-                            Header="{markup:Localize Key=NumbersSeparatorLabel}"
+                            AutomationProperties.Name="{markup:Localize Key=NumbersReplaceUnknownLabel}"
+                            Header="{markup:Localize Key=NumbersReplaceUnknownLabel}"
+                            IsEnabled="{x:Bind ViewModel.CanEditReplacement, Mode=OneWay}"
                             IsSpellCheckEnabled="False"
-                            PlaceholderText="{markup:Localize Key=NumbersSeparatorPlaceholder}"
-                            Text="{x:Bind ViewModel.Separator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            PlaceholderText="{markup:Localize Key=NumbersReplaceUnknownPlaceholder}"
+                            Text="{x:Bind ViewModel.ReplaceUnknownText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <!--  Encode-only option: keep non-letters  -->
-                        <ToggleSwitch
-                            AutomationProperties.Name="{markup:Localize Key=NumbersKeepNonLetters}"
-                            Header="{markup:Localize Key=NumbersKeepNonLetters}"
-                            IsOn="{x:Bind ViewModel.KeepNonLetters, Mode=TwoWay}"
-                            Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                        <!--  Decode-only options: case, wrap, replace-unknown  -->
-                        <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.IsLettersToNumbers, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
-                            <ToggleSwitch
-                                AutomationProperties.Name="{markup:Localize Key=NumbersUpperCase}"
-                                Header="{markup:Localize Key=NumbersUpperCase}"
-                                IsOn="{x:Bind ViewModel.UpperCase, Mode=TwoWay}" />
-                            <ToggleSwitch
-                                AutomationProperties.Name="{markup:Localize Key=NumbersWrapModulo}"
-                                Header="{markup:Localize Key=NumbersWrapModulo}"
-                                IsOn="{x:Bind ViewModel.WrapModulo, Mode=TwoWay}" />
-
-                            <!--  What to do with a number that maps to no letter  -->
-                            <ToggleSwitch
-                                AutomationProperties.Name="{markup:Localize Key=NumbersKeepOriginalUnknown}"
-                                Header="{markup:Localize Key=NumbersKeepOriginalUnknown}"
-                                IsOn="{x:Bind ViewModel.KeepOriginalUnknown, Mode=TwoWay}" />
-                            <TextBox
-                                MaxWidth="200"
-                                HorizontalAlignment="Left"
-                                AutomationProperties.Name="{markup:Localize Key=NumbersReplaceUnknownLabel}"
-                                Header="{markup:Localize Key=NumbersReplaceUnknownLabel}"
-                                IsEnabled="{x:Bind ViewModel.CanEditReplacement, Mode=OneWay}"
-                                IsSpellCheckEnabled="False"
-                                PlaceholderText="{markup:Localize Key=NumbersReplaceUnknownPlaceholder}"
-                                Text="{x:Bind ViewModel.ReplaceUnknownText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <InfoBar
-                                IsClosable="False"
-                                IsOpen="True"
-                                Message="{markup:Localize Key=NumbersWrapNote}"
-                                Severity="Informational" />
-                        </StackPanel>
+                        <InfoBar
+                            IsClosable="False"
+                            IsOpen="True"
+                            Message="{markup:Localize Key=NumbersWrapNote}"
+                            Severity="Informational" />
                     </StackPanel>
-                </Border>
-
-                <!--  Actions row  -->
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <Button Command="{x:Bind ViewModel.SwapCommand}" ToolTipService.ToolTip="{markup:Localize Key=NumbersSwap}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8AB;" />
-                            <TextBlock Text="{markup:Localize Key=NumbersSwap}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=NumbersClear}" />
                 </StackPanel>
+            </Border>
 
-                <!--  Output  -->
-                <StackPanel Spacing="8">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersOutputLabel}" />
-                    <TextBox
-                        MinHeight="96"
-                        AcceptsReturn="True"
-                        AutomationProperties.Name="{markup:Localize Key=NumbersOutputLabel}"
-                        FontFamily="Consolas"
-                        FontSize="18"
-                        IsReadOnly="True"
-                        IsSpellCheckEnabled="False"
-                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-
-                <!--  Output actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=NumbersCopy}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=NumbersShare}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <!--  Conversion table (reflects the selected method)  -->
-                <Expander
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Header="{markup:Localize Key=NumbersConversionTableLabel}"
-                    IsExpanded="True">
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.ConversionTable, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                MinColumnSpacing="8"
-                                MinItemWidth="44"
-                                MinRowSpacing="8" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="text:AlphabetEntry">
-                                <Border
-                                    Padding="8,6"
-                                    AutomationProperties.Name="{x:Bind ToString()}"
-                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                                    CornerRadius="6">
-                                    <StackPanel HorizontalAlignment="Center">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontFamily="Consolas"
-                                            Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                            Text="{x:Bind Character}" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Style="{ThemeResource CaptionTextBlockStyle}"
-                                            Text="{x:Bind ValueText}" />
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </Expander>
-
+            <!--  Actions row  -->
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Command="{x:Bind ViewModel.SwapCommand}" ToolTipService.ToolTip="{markup:Localize Key=NumbersSwap}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8AB;" />
+                        <TextBlock Text="{markup:Localize Key=NumbersSwap}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ClearCommand}" Content="{markup:Localize Key=NumbersClear}" />
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+
+            <!--  Output  -->
+            <StackPanel Spacing="8">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=NumbersOutputLabel}" />
+                <TextBox
+                    MinHeight="96"
+                    AcceptsReturn="True"
+                    AutomationProperties.Name="{markup:Localize Key=NumbersOutputLabel}"
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    FontSize="18"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  Output actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=NumbersCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=NumbersShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  Conversion table (reflects the selected method)  -->
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Header="{markup:Localize Key=NumbersConversionTableLabel}"
+                IsExpanded="True">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.ConversionTable, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            MinColumnSpacing="8"
+                            MinItemWidth="44"
+                            MinRowSpacing="8" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="text:AlphabetEntry">
+                            <Border
+                                Padding="8,6"
+                                AutomationProperties.Name="{x:Bind ToString()}"
+                                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                CornerRadius="6">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontFamily="{ThemeResource AppMonoFontFamily}"
+                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind Character}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind ValueText}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Expander>
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:NumbersToLettersViewBase>

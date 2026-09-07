@@ -2,215 +2,157 @@
     x:Class="GcToolkit.Views.GoldenRatioView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
     xmlns:local="using:GcToolkit.Views"
     xmlns:markup="using:GcToolkit.Markup"
-    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:tools="using:GcToolkit.Core.ViewModels.Tools">
 
-    <ScrollViewer x:Name="RootScroll" Padding="24">
-        <Grid>
-            <StackPanel
-                MaxWidth="1024"
-                HorizontalAlignment="Stretch"
-                Spacing="16">
+    <controls:ToolPage ContentWidth="Wide" Tool="{x:Bind ViewModel}">
+        <StackPanel Spacing="16">
 
-                <!--  Header: tool name + favorite toggle  -->
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock
-                            Style="{ThemeResource TitleLargeTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ToolName, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Tooltip, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
+            <!--  Mode  -->
+            <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
+                <RadioButton Content="{markup:Localize Key=GoldenRatioModeFirst}" />
+                <RadioButton Content="{markup:Localize Key=GoldenRatioModeDigitAt}" />
+                <RadioButton Content="{markup:Localize Key=GoldenRatioModeRange}" />
+                <RadioButton Content="{markup:Localize Key=GoldenRatioModeSearch}" />
+            </RadioButtons>
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="44"
-                        Height="44"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="{markup:Localize Key=AddToFavorites}"
-                        Command="{x:Bind ViewModel.ToggleFavoriteCommand}"
-                        IsChecked="{x:Bind ViewModel.IsFavorite, Mode=OneWay}"
-                        ToolTipService.ToolTip="{markup:Localize Key=AddToFavorites}">
-                        <FontIcon FontSize="18" Glyph="&#xE734;" />
-                    </ToggleButton>
-                </Grid>
+            <!--  Inputs (one panel per mode)  -->
+            <TextBox
+                Header="{markup:Localize Key=GoldenRatioCountLabel}"
+                InputScope="Number"
+                Text="{x:Bind ViewModel.CountText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsModeFirst, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                <!--  Mode  -->
-                <RadioButtons MaxColumns="2" SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}">
-                    <RadioButton Content="{markup:Localize Key=GoldenRatioModeFirst}" />
-                    <RadioButton Content="{markup:Localize Key=GoldenRatioModeDigitAt}" />
-                    <RadioButton Content="{markup:Localize Key=GoldenRatioModeRange}" />
-                    <RadioButton Content="{markup:Localize Key=GoldenRatioModeSearch}" />
-                </RadioButtons>
+            <TextBox
+                Header="{markup:Localize Key=GoldenRatioPositionLabel}"
+                InputScope="Number"
+                Text="{x:Bind ViewModel.PositionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsModeDigitAt, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                <!--  Inputs (one panel per mode)  -->
+            <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.IsModeRange, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <TextBox
-                    Header="{markup:Localize Key=GoldenRatioCountLabel}"
+                    Grid.Column="0"
+                    Header="{markup:Localize Key=GoldenRatioFromLabel}"
                     InputScope="Number"
-                    Text="{x:Bind ViewModel.CountText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsModeFirst, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
+                    Text="{x:Bind ViewModel.RangeFromText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBox
-                    Header="{markup:Localize Key=GoldenRatioPositionLabel}"
+                    Grid.Column="1"
+                    Header="{markup:Localize Key=GoldenRatioToLabel}"
                     InputScope="Number"
-                    Text="{x:Bind ViewModel.PositionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsModeDigitAt, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    Text="{x:Bind ViewModel.RangeToText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
 
-                <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.IsModeRange, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox
-                        Grid.Column="0"
-                        Header="{markup:Localize Key=GoldenRatioFromLabel}"
-                        InputScope="Number"
-                        Text="{x:Bind ViewModel.RangeFromText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox
-                        Grid.Column="1"
-                        Header="{markup:Localize Key=GoldenRatioToLabel}"
-                        InputScope="Number"
-                        Text="{x:Bind ViewModel.RangeToText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
+            <TextBox
+                Header="{markup:Localize Key=GoldenRatioSearchLabel}"
+                InputScope="Number"
+                PlaceholderText="{markup:Localize Key=GoldenRatioSearchPlaceholder}"
+                Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{x:Bind ViewModel.IsModeSearch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                <TextBox
-                    Header="{markup:Localize Key=GoldenRatioSearchLabel}"
-                    InputScope="Number"
-                    PlaceholderText="{markup:Localize Key=GoldenRatioSearchPlaceholder}"
-                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsModeSearch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                <!--  Formatting options (digit-run modes only)  -->
-                <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.ShowFormattingOptions, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ToggleSwitch Header="{markup:Localize Key=GoldenRatioGroupDigits}" IsOn="{x:Bind ViewModel.GroupDigits, Mode=TwoWay}" />
-                    <ToggleSwitch Header="{markup:Localize Key=GoldenRatioLineNumbers}" IsOn="{x:Bind ViewModel.ShowLineNumbers, Mode=TwoWay}" />
-                </StackPanel>
-
-                <!--  Busy  -->
-                <ProgressRing
-                    Width="24"
-                    Height="24"
-                    HorizontalAlignment="Left"
-                    IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
-
-                <!--  Validation  -->
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
-                    Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
-                    Severity="Error" />
-
-                <!--  Summary  -->
-                <TextBlock
-                    Style="{ThemeResource BodyStrongTextBlockStyle}"
-                    Text="{x:Bind ViewModel.SummaryText, Mode=OneWay}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind ViewModel.HasSummary, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                <!--  Result  -->
-                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowOutputBox, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=GoldenRatioOutputLabel}" />
-                    <TextBox
-                        MaxHeight="420"
-                        AcceptsReturn="True"
-                        FontFamily="Consolas"
-                        FontSize="16"
-                        IsReadOnly="True"
-                        IsSpellCheckEnabled="False"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-
-                <!--  Occurrences (search mode) — ListView virtualizes up to 200 match rows  -->
-                <ListView
-                    MaxHeight="420"
-                    ItemsSource="{x:Bind ViewModel.Occurrences}"
-                    SelectionMode="None"
-                    Visibility="{x:Bind ViewModel.ShowOccurrences, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="MinHeight" Value="0" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="tools:GoldenRatioOccurrenceItem">
-                            <!--  {Binding} on Runs: x:Bind on Run.Text inside a DataTemplate crashes the XAML compiler  -->
-                            <TextBlock
-                                Margin="0,2"
-                                FontFamily="Consolas"
-                                FontSize="14"
-                                IsTextSelectionEnabled="True"
-                                TextWrapping="Wrap">
-                                <Run FontWeight="SemiBold" Text="{Binding Position}" /><Run Text=":  " /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding Before}" /><Run
-                                    FontWeight="Bold"
-                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                    Text="{Binding Match}" /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding After}" />
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
-                <!--  Actions  -->
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                            <TextBlock Text="{markup:Localize Key=GoldenRatioCopy}" />
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE72D;" />
-                            <TextBlock Text="{markup:Localize Key=GoldenRatioShare}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <!--  About  -->
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{ThemeResource CaptionTextBlockStyle}"
-                    Text="{markup:Localize Key=GoldenRatioAboutNote}"
-                    TextWrapping="Wrap" />
-
+            <!--  Formatting options (digit-run modes only)  -->
+            <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.ShowFormattingOptions, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ToggleSwitch Header="{markup:Localize Key=GoldenRatioGroupDigits}" IsOn="{x:Bind ViewModel.GroupDigits, Mode=TwoWay}" />
+                <ToggleSwitch Header="{markup:Localize Key=GoldenRatioLineNumbers}" IsOn="{x:Bind ViewModel.ShowLineNumbers, Mode=TwoWay}" />
             </StackPanel>
 
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                    <VisualState x:Name="WideState">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="641" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="RootScroll.Padding" Value="24" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="NarrowState">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="0" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="RootScroll.Padding" Value="12" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-        </Grid>
-    </ScrollViewer>
+            <!--  Busy  -->
+            <ProgressRing
+                Width="24"
+                Height="24"
+                HorizontalAlignment="Left"
+                IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
+
+            <!--  Validation  -->
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+                Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Severity="Error" />
+
+            <!--  Summary  -->
+            <TextBlock
+                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                Text="{x:Bind ViewModel.SummaryText, Mode=OneWay}"
+                TextWrapping="Wrap"
+                Visibility="{x:Bind ViewModel.HasSummary, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <!--  Result  -->
+            <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.ShowOutputBox, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=GoldenRatioOutputLabel}" />
+                <TextBox
+                    MaxHeight="420"
+                    AcceptsReturn="True"
+                    FontFamily="{ThemeResource AppMonoFontFamily}"
+                    FontSize="16"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  Occurrences (search mode) — ListView virtualizes up to 200 match rows  -->
+            <ListView
+                MaxHeight="420"
+                ItemsSource="{x:Bind ViewModel.Occurrences}"
+                SelectionMode="None"
+                Visibility="{x:Bind ViewModel.ShowOccurrences, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="tools:GoldenRatioOccurrenceItem">
+                        <!--  {Binding} on Runs: x:Bind on Run.Text inside a DataTemplate crashes the XAML compiler  -->
+                        <TextBlock
+                            Margin="0,2"
+                            FontFamily="{ThemeResource AppMonoFontFamily}"
+                            FontSize="14"
+                            IsTextSelectionEnabled="True"
+                            TextWrapping="Wrap">
+                            <Run FontWeight="SemiBold" Text="{Binding Position}" /><Run Text=":  " /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding Before}" /><Run
+                                FontWeight="Bold"
+                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                Text="{Binding Match}" /><Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding After}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--  Actions  -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{x:Bind ViewModel.CopyOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
+                        <TextBlock Text="{markup:Localize Key=GoldenRatioCopy}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind ViewModel.ShareOutputCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE72D;" />
+                        <TextBlock Text="{markup:Localize Key=GoldenRatioShare}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!--  About  -->
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="{markup:Localize Key=GoldenRatioAboutNote}"
+                TextWrapping="Wrap" />
+
+        </StackPanel>
+    </controls:ToolPage>
 </local:GoldenRatioViewBase>
