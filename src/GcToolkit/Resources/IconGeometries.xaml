@@ -1,12 +1,12 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
         Tool and category icons: one Icons8 material-outlined family, every path on a 24x24 box.
-
+        
         Geometry rather than an image asset because Uno rasterises SVG at build time, where
         currentColor has no value to resolve against — so an asset can never follow the theme.
         A PathIcon inherits Foreground, so these recolour for light, dark and High Contrast free.
-
+        
         DataTemplate, not a shared Geometry or PathIconSource. WinUI only converts path
         mini-language on Geometry-typed properties such as Data (never on PathGeometry.Figures,
         which is a WPF affordance) — and a Geometry taken from one resource and assigned to a
