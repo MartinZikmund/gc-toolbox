@@ -3813,6 +3813,120 @@
   <data name="ToolShare" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="ToolUnavailableNotice" xml:space="preserve">
+    <value>This tool needs hardware your device doesn't have, so it isn't available here.</value>
+  </data>
+  <data name="Compass_CalibrateHint" xml:space="preserve">
+    <value>Move the device in a figure eight to calibrate it.</value>
+  </data>
+  <data name="Compass_East" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="Compass_EastNorthEast" xml:space="preserve">
+    <value>ENE</value>
+  </data>
+  <data name="Compass_EastSouthEast" xml:space="preserve">
+    <value>ESE</value>
+  </data>
+  <data name="Compass_KeepScreenAwake" xml:space="preserve">
+    <value>Keep the screen on</value>
+  </data>
+  <data name="Compass_MagneticNorth" xml:space="preserve">
+    <value>Magnetic bearing</value>
+  </data>
+  <data name="Compass_North" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="Compass_NorthEast" xml:space="preserve">
+    <value>NE</value>
+  </data>
+  <data name="Compass_NorthNorthEast" xml:space="preserve">
+    <value>NNE</value>
+  </data>
+  <data name="Compass_NorthNorthWest" xml:space="preserve">
+    <value>NNW</value>
+  </data>
+  <data name="Compass_NorthWest" xml:space="preserve">
+    <value>NW</value>
+  </data>
+  <data name="Compass_PermissionDenied" xml:space="preserve">
+    <value>Access to the compass is blocked. Allow sensor access in the system settings.</value>
+  </data>
+  <data name="Compass_South" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="Compass_SouthEast" xml:space="preserve">
+    <value>SE</value>
+  </data>
+  <data name="Compass_SouthSouthEast" xml:space="preserve">
+    <value>SSE</value>
+  </data>
+  <data name="Compass_SouthSouthWest" xml:space="preserve">
+    <value>SSW</value>
+  </data>
+  <data name="Compass_SouthWest" xml:space="preserve">
+    <value>SW</value>
+  </data>
+  <data name="Compass_TrueNorth" xml:space="preserve">
+    <value>True bearing</value>
+  </data>
+  <data name="Compass_Unavailable" xml:space="preserve">
+    <value>This device has no compass sensor.</value>
+  </data>
+  <data name="Compass_WarmingUp" xml:space="preserve">
+    <value>Waiting for the compass…</value>
+  </data>
+  <data name="Compass_West" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="Compass_WestNorthWest" xml:space="preserve">
+    <value>WNW</value>
+  </data>
+  <data name="Compass_WestSouthWest" xml:space="preserve">
+    <value>WSW</value>
+  </data>
+  <data name="Flashlight_Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="Flashlight_Colour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Flashlight_Colour_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="Flashlight_Colour_Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="Flashlight_Colour_White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="Flashlight_RedNightVisionHint" xml:space="preserve">
+    <value>Red light preserves your night vision.</value>
+  </data>
+  <data name="Flashlight_ScreenLight" xml:space="preserve">
+    <value>Screen light</value>
+  </data>
+  <data name="Flashlight_Sos" xml:space="preserve">
+    <value>SOS</value>
+  </data>
+  <data name="Flashlight_SosHint" xml:space="preserve">
+    <value>Repeats · · · — — — · · · on the screen, and on the LED while it is on.</value>
+  </data>
+  <data name="Flashlight_TapToTurnOff" xml:space="preserve">
+    <value>Tap anywhere to turn the light off</value>
+  </data>
+  <data name="Flashlight_Torch" xml:space="preserve">
+    <value>Camera light</value>
+  </data>
+  <data name="Flashlight_TorchPermissionDenied" xml:space="preserve">
+    <value>Camera permission is needed to switch the LED on. You can grant it in the system settings.</value>
+  </data>
+  <data name="Flashlight_TorchStolen" xml:space="preserve">
+    <value>Another app is using the camera light. Close it and try again.</value>
+  </data>
+  <data name="Flashlight_TorchToggle" xml:space="preserve">
+    <value>Use the camera LED</value>
+  </data>
   <data name="Base64BinaryNote" xml:space="preserve">
     <value>The decoded bytes are not valid UTF-8 text, so they are shown byte by byte.</value>
   </data>
