@@ -1,4 +1,4 @@
-name: PR
+﻿name: PR
 
 on:
   pull_request:
@@ -6,6 +6,10 @@ on:
     branches:
       - main
       - release/**
+      # Stacked PRs target their parent feature branch, not main. Without these a stack
+      # merges having only ever run the XAML check — no build, no tests.
+      - feature/**
+      - dev/**
     paths-ignore:
       - '**.md'
       - 'docs/**'
