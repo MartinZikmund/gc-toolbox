@@ -3672,6 +3672,66 @@
   <data name="AttributionIconsDescription" xml:space="preserve">
     <value>Tool and category icons by Icons8, used under their free licence.</value>
   </data>
+  <data name="ChecksumClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ChecksumDigitsHeader" xml:space="preserve">
+    <value>Digits</value>
+  </data>
+  <data name="ChecksumEmptyHint" xml:space="preserve">
+    <value>Enter a number or a word to see its checksum.</value>
+  </data>
+  <data name="ChecksumExample" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="ChecksumFoldDiacritics" xml:space="preserve">
+    <value>Count accented letters as plain ones (Ž = Z)</value>
+  </data>
+  <data name="ChecksumInputLabel" xml:space="preserve">
+    <value>Text or number</value>
+  </data>
+  <data name="ChecksumInputPlaceholder" xml:space="preserve">
+    <value>e.g. N 49 12.345 or GC12345</value>
+  </data>
+  <data name="ChecksumLettersHeader" xml:space="preserve">
+    <value>Letters (A=1 … Z=26)</value>
+  </data>
+  <data name="ChecksumMethodNote" xml:space="preserve">
+    <value>Digits are added together and letters count A=1 … Z=26; spaces, punctuation and other symbols are skipped. The digital root keeps summing until a single digit is left.</value>
+  </data>
+  <data name="ChecksumPartColumn" xml:space="preserve">
+    <value>Part</value>
+  </data>
+  <data name="ChecksumPartsHeader" xml:space="preserve">
+    <value>Part by part</value>
+  </data>
+  <data name="ChecksumPartsTruncatedNote" xml:space="preserve">
+    <value>Only the first {0} parts are listed. The totals still count every part.</value>
+  </data>
+  <data name="ChecksumRootColumn" xml:space="preserve">
+    <value>Root</value>
+  </data>
+  <data name="ChecksumRootLabel" xml:space="preserve">
+    <value>Digital root</value>
+  </data>
+  <data name="ChecksumShowParts" xml:space="preserve">
+    <value>Score each part separately</value>
+  </data>
+  <data name="ChecksumShowWorking" xml:space="preserve">
+    <value>Show the working</value>
+  </data>
+  <data name="ChecksumSkippedNote" xml:space="preserve">
+    <value>Skipped characters: {0} (spaces, punctuation and symbols are not counted).</value>
+  </data>
+  <data name="ChecksumSumColumn" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="ChecksumTotalLabel" xml:space="preserve">
+    <value>Checksum</value>
+  </data>
+  <data name="ChecksumWorkingTruncatedNote" xml:space="preserve">
+    <value>The input is long, so the working is shown for the first {0} scored characters only. The sums still count every digit and letter.</value>
+  </data>
   <data name="ToolUnavailableNotice" xml:space="preserve">
     <value>This tool needs hardware your device doesn't have, so it isn't available here.</value>
   </data>

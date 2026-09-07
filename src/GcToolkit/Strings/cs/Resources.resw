@@ -3672,6 +3672,66 @@
   <data name="AttributionIconsDescription" xml:space="preserve">
     <value>Ikony nástrojů a kategorií od Icons8, použité v rámci bezplatné licence.</value>
   </data>
+  <data name="ChecksumClear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="ChecksumDigitsHeader" xml:space="preserve">
+    <value>Číslice</value>
+  </data>
+  <data name="ChecksumEmptyHint" xml:space="preserve">
+    <value>Zadejte číslo nebo slovo a zobrazí se jeho kontrolní součet.</value>
+  </data>
+  <data name="ChecksumExample" xml:space="preserve">
+    <value>Příklad</value>
+  </data>
+  <data name="ChecksumFoldDiacritics" xml:space="preserve">
+    <value>Počítat písmena s diakritikou jako základní (Ž = Z)</value>
+  </data>
+  <data name="ChecksumInputLabel" xml:space="preserve">
+    <value>Text nebo číslo</value>
+  </data>
+  <data name="ChecksumInputPlaceholder" xml:space="preserve">
+    <value>např. N 49 12.345 nebo GC12345</value>
+  </data>
+  <data name="ChecksumLettersHeader" xml:space="preserve">
+    <value>Písmena (A=1 … Z=26)</value>
+  </data>
+  <data name="ChecksumMethodNote" xml:space="preserve">
+    <value>Číslice se sečtou a písmena se počítají A=1 … Z=26; mezery, interpunkce a další symboly se přeskočí. Ciferný kořen se sčítá dál, dokud nezbyde jediná číslice.</value>
+  </data>
+  <data name="ChecksumPartColumn" xml:space="preserve">
+    <value>Část</value>
+  </data>
+  <data name="ChecksumPartsHeader" xml:space="preserve">
+    <value>Po částech</value>
+  </data>
+  <data name="ChecksumPartsTruncatedNote" xml:space="preserve">
+    <value>Vypsáno je jen prvních {0} částí. Celkové součty ale počítají se všemi.</value>
+  </data>
+  <data name="ChecksumRootColumn" xml:space="preserve">
+    <value>Kořen</value>
+  </data>
+  <data name="ChecksumRootLabel" xml:space="preserve">
+    <value>Ciferný kořen</value>
+  </data>
+  <data name="ChecksumShowParts" xml:space="preserve">
+    <value>Počítat každou část zvlášť</value>
+  </data>
+  <data name="ChecksumShowWorking" xml:space="preserve">
+    <value>Zobrazit postup výpočtu</value>
+  </data>
+  <data name="ChecksumSkippedNote" xml:space="preserve">
+    <value>Přeskočené znaky: {0} (mezery, interpunkce a symboly se nepočítají).</value>
+  </data>
+  <data name="ChecksumSumColumn" xml:space="preserve">
+    <value>Součet</value>
+  </data>
+  <data name="ChecksumTotalLabel" xml:space="preserve">
+    <value>Kontrolní součet</value>
+  </data>
+  <data name="ChecksumWorkingTruncatedNote" xml:space="preserve">
+    <value>Vstup je dlouhý, proto je postup zobrazen jen pro prvních {0} započítaných znaků. Součty ale zahrnují všechny číslice a písmena.</value>
+  </data>
   <data name="ToolUnavailableNotice" xml:space="preserve">
     <value>Tento nástroj vyžaduje hardware, který vaše zařízení nemá, takže zde není dostupný.</value>
   </data>
