@@ -3813,4 +3813,58 @@
   <data name="ToolShare" xml:space="preserve">
     <value>Sdílet</value>
   </data>
+  <data name="Base64BinaryNote" xml:space="preserve">
+    <value>Dekódované bajty nejsou platný text v UTF-8, zobrazují se proto bajt po bajtu.</value>
+  </data>
+  <data name="Base64ByteCount" xml:space="preserve">
+    <value>Bajtů: {0}</value>
+  </data>
+  <data name="Base64Clear" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="Base64DetectedNote" xml:space="preserve">
+    <value>Rozpoznaný směr:</value>
+  </data>
+  <data name="Base64Direction" xml:space="preserve">
+    <value>Směr</value>
+  </data>
+  <data name="Base64DirectionAuto" xml:space="preserve">
+    <value>Automaticky</value>
+  </data>
+  <data name="Base64DirectionDecode" xml:space="preserve">
+    <value>Dekódovat</value>
+  </data>
+  <data name="Base64DirectionEncode" xml:space="preserve">
+    <value>Zakódovat</value>
+  </data>
+  <data name="Base64InputLabel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="Base64InputPlaceholder" xml:space="preserve">
+    <value>Text nebo řetězec Base64</value>
+  </data>
+  <data name="Base64InvalidCharacter" xml:space="preserve">
+    <value>Znak „{0}“ do Base64 nepatří. Base64 používá A–Z, a–z, 0–9, + a /.</value>
+  </data>
+  <data name="Base64InvalidLength" xml:space="preserve">
+    <value>Tohle není úplný řetězec Base64 – na konci zbývá jeden znak navíc.</value>
+  </data>
+  <data name="Base64OutputLabel" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="Base64PaddingLabel" xml:space="preserve">
+    <value>Doplnit výplň „=“</value>
+  </data>
+  <data name="Base64RepairedNote" xml:space="preserve">
+    <value>Zalomení řádků, mezery, chybějící nebo přebytečná výplň a URL-safe znaky (- a _) byly ošetřeny.</value>
+  </data>
+  <data name="Base64Swap" xml:space="preserve">
+    <value>Použít výsledek jako vstup</value>
+  </data>
+  <data name="Base64_Name" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="Base64_Tooltip" xml:space="preserve">
+    <value>Zakódujte text do Base64 a zase zpět – se zalomenými řádky i chybějící výplní si poradí.</value>
+  </data>
 </root>
