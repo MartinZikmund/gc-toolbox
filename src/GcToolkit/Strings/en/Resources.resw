@@ -3744,4 +3744,100 @@
   <data name="Compass_WestSouthWest" xml:space="preserve">
     <value>WSW</value>
   </data>
+  <data name="Flashlight_Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="Flashlight_Colour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Flashlight_Colour_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="Flashlight_Colour_Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="Flashlight_Colour_White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="Flashlight_RedNightVisionHint" xml:space="preserve">
+    <value>Red light preserves your night vision.</value>
+  </data>
+  <data name="Flashlight_ScreenLight" xml:space="preserve">
+    <value>Screen light</value>
+  </data>
+  <data name="Flashlight_Sos" xml:space="preserve">
+    <value>SOS</value>
+  </data>
+  <data name="Flashlight_SosHint" xml:space="preserve">
+    <value>Repeats · · · — — — · · · on the screen, and on the LED while it is on.</value>
+  </data>
+  <data name="Flashlight_TapToTurnOff" xml:space="preserve">
+    <value>Tap anywhere to turn the light off</value>
+  </data>
+  <data name="Flashlight_Torch" xml:space="preserve">
+    <value>Camera light</value>
+  </data>
+  <data name="Flashlight_TorchPermissionDenied" xml:space="preserve">
+    <value>Camera permission is needed to switch the LED on. You can grant it in the system settings.</value>
+  </data>
+  <data name="Flashlight_TorchStolen" xml:space="preserve">
+    <value>Another app is using the camera light. Close it and try again.</value>
+  </data>
+  <data name="Flashlight_TorchToggle" xml:space="preserve">
+    <value>Use the camera LED</value>
+  </data>
+  <data name="Base64BinaryNote" xml:space="preserve">
+    <value>The decoded bytes are not valid UTF-8 text, so they are shown byte by byte.</value>
+  </data>
+  <data name="Base64ByteCount" xml:space="preserve">
+    <value>Bytes: {0}</value>
+  </data>
+  <data name="Base64Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Base64DetectedNote" xml:space="preserve">
+    <value>Detected direction:</value>
+  </data>
+  <data name="Base64Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Base64DirectionAuto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Base64DirectionDecode" xml:space="preserve">
+    <value>Decode</value>
+  </data>
+  <data name="Base64DirectionEncode" xml:space="preserve">
+    <value>Encode</value>
+  </data>
+  <data name="Base64InputLabel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="Base64InputPlaceholder" xml:space="preserve">
+    <value>Text, or a Base64 string</value>
+  </data>
+  <data name="Base64InvalidCharacter" xml:space="preserve">
+    <value>“{0}” is not a Base64 character. Base64 uses A–Z, a–z, 0–9, + and /.</value>
+  </data>
+  <data name="Base64InvalidLength" xml:space="preserve">
+    <value>This is not a complete Base64 string — one character is left over at the end.</value>
+  </data>
+  <data name="Base64OutputLabel" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Base64PaddingLabel" xml:space="preserve">
+    <value>Add “=” padding</value>
+  </data>
+  <data name="Base64RepairedNote" xml:space="preserve">
+    <value>Line breaks, spaces, missing or surplus padding and URL-safe characters (- and _) were handled.</value>
+  </data>
+  <data name="Base64Swap" xml:space="preserve">
+    <value>Use result as input</value>
+  </data>
+  <data name="Base64_Name" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="Base64_Tooltip" xml:space="preserve">
+    <value>Encode text to Base64 and decode it back — line breaks and missing padding are no problem.</value>
+  </data>
 </root>
