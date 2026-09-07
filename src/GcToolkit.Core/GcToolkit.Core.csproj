@@ -41,4 +41,10 @@
         <PackageReference Include="SourceGear.sqlite3" />
     </ItemGroup>
 
+    <!-- Same NU1605 pin as the head: Uno.Extensions.Hosting.WinUI resolves a newer BuildTools than the
+         WindowsAppSDK graph picks here, and a transitive reference cannot be raised by CPM alone. -->
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" PrivateAssets="all" />
+    </ItemGroup>
+
 </Project>
