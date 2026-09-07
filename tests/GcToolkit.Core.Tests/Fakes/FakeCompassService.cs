@@ -1,4 +1,4 @@
-using GcToolkit.Core.Services.Devices;
+﻿using GcToolkit.Core.Services.Devices;
 
 namespace GcToolkit.Core.Tests.Fakes;
 
@@ -28,7 +28,7 @@ public sealed class FakeCompassService : ICompassService
             }
 
             _status = value;
-            StatusChanged?.Invoke(this, EventArgs.Empty);
+            _statusChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -40,9 +40,26 @@ public sealed class FakeCompassService : ICompassService
 
     public bool IsStarted { get; private set; }
 
-    public event EventHandler<CompassHeading>? HeadingChanged;
+    /// <summary>How many handlers are attached right now, so a test can assert that teardown detached
+    /// them — a leaked subscription is otherwise invisible, since re-raising just sets the same values.</summary>
+    public int HeadingSubscriberCount { get; private set; }
 
-    public event EventHandler? StatusChanged;
+    public int StatusSubscriberCount { get; private set; }
+
+    private EventHandler<CompassHeading>? _headingChanged;
+    private EventHandler? _statusChanged;
+
+    public event EventHandler<CompassHeading>? HeadingChanged
+    {
+        add { _headingChanged += value; HeadingSubscriberCount++; }
+        remove { _headingChanged -= value; HeadingSubscriberCount--; }
+    }
+
+    public event EventHandler? StatusChanged
+    {
+        add { _statusChanged += value; StatusSubscriberCount++; }
+        remove { _statusChanged -= value; StatusSubscriberCount--; }
+    }
 
     public bool Start(TimeSpan reportInterval)
     {
@@ -77,7 +94,7 @@ public sealed class FakeCompassService : ICompassService
         }
 
         Status = SensorStatus.Ready;
-        HeadingChanged?.Invoke(
+        _headingChanged?.Invoke(
             this,
             new CompassHeading(magneticNorthDegrees, trueNorthDegrees, DateTimeOffset.UnixEpoch));
     }

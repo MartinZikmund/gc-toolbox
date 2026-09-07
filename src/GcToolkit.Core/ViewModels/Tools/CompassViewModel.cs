@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.FavoriteTools;
@@ -9,7 +9,7 @@ using GcToolkit.Core.Services.Devices;
 namespace GcToolkit.Core.ViewModels.Tools;
 
 /// <summary>
-/// A magnetic bearing readout (issue #370). Shows the smoothed heading in degrees, its 16-point
+/// A magnetic bearing readout (issue #369). Shows the smoothed heading in degrees, its 16-point
 /// cardinal name and a needle on a north-up rose; true north appears as a second line only where the
 /// platform actually resolves it.
 /// </summary>
@@ -156,12 +156,12 @@ public sealed partial class CompassViewModel : ToolViewModelBase
     {
         base.ViewUnloaded();
 
-        if (_isRunning)
-        {
-            _compass.HeadingChanged -= OnHeadingChanged;
-            _compass.StatusChanged -= OnStatusChanged;
-            _isRunning = false;
-        }
+        // Unconditional: ViewLoaded subscribes before Start, so a refused start leaves the handlers
+        // attached with _isRunning false. Detaching only when running leaked them and let the next
+        // ViewLoaded subscribe a second time. -= is safe when nothing is attached.
+        _compass.HeadingChanged -= OnHeadingChanged;
+        _compass.StatusChanged -= OnStatusChanged;
+        _isRunning = false;
 
         _compass.Stop();
 

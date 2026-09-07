@@ -1,4 +1,4 @@
-using GcToolkit.Core.Services;
+﻿using GcToolkit.Core.Services;
 using GcToolkit.Core.Services.Devices;
 using GcToolkit.Core.Tests.Fakes;
 using GcToolkit.Core.ViewModels.Tools;
@@ -24,6 +24,35 @@ public class CompassViewModelTests
         _clipboard);
 
     // ---- Sensor states ---------------------------------------------------------
+
+    [TestMethod]
+    public void ViewUnloaded_AfterARefusedStart_StillDetachesTheSensorHandlers()
+    {
+        _compass.IsSupported = false;
+        var vm = CreateViewModel();
+
+        vm.ViewLoaded();
+        vm.ViewUnloaded();
+
+        // ViewLoaded subscribes before Start, so a refused start still leaves handlers attached.
+        Assert.AreEqual(0, _compass.HeadingSubscriberCount);
+        Assert.AreEqual(0, _compass.StatusSubscriberCount);
+    }
+
+    [TestMethod]
+    public void ViewLoaded_AfterARefusedStartAndUnload_DoesNotSubscribeTwice()
+    {
+        _compass.IsSupported = false;
+        var vm = CreateViewModel();
+        vm.ViewLoaded();
+        vm.ViewUnloaded();
+
+        _compass.IsSupported = true;
+        vm.ViewLoaded();
+
+        Assert.AreEqual(1, _compass.HeadingSubscriberCount);
+        Assert.AreEqual(1, _compass.StatusSubscriberCount);
+    }
 
     [TestMethod]
     public void ViewLoaded_SensorPresent_StartsAtTenHertzAndWarmsUp()
