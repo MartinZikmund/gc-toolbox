@@ -1,4 +1,4 @@
-using GcToolkit.Core.Numbers;
+﻿using GcToolkit.Core.Numbers;
 
 namespace GcToolkit.Core.Tests.Numbers;
 
@@ -64,6 +64,20 @@ public class ChecksumCalculatorTests
     [TestMethod]
     public void Reduce_NegativeValue_Throws()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => ChecksumCalculator.Reduce(-1));
+
+    // ---- ReduceMagnitude: the sign-agnostic chain the word-value tool shares ----
+
+    [TestMethod]
+    public void ReduceMagnitude_NegativeValue_ReducesTheMagnitude()
+        => CollectionAssert.AreEqual(new long[] { 12345, 15, 6 }, ChecksumCalculator.ReduceMagnitude(-12345).ToArray());
+
+    [TestMethod]
+    public void ReduceMagnitude_PositiveValue_MatchesReduce()
+        => CollectionAssert.AreEqual(ChecksumCalculator.Reduce(12345).ToArray(), ChecksumCalculator.ReduceMagnitude(12345).ToArray());
+
+    [TestMethod]
+    public void ReduceMagnitude_LongMinValue_DoesNotOverflow()
+        => CollectionAssert.AreEqual(new long[] { 89, 17, 8 }, ChecksumCalculator.ReduceMagnitude(long.MinValue).ToArray());
 
     // ---- LetterValue: A=1 … Z=26 ----
 

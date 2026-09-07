@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using GcToolkit.Core.Text;
 
 namespace GcToolkit.Core.Numbers;
@@ -119,6 +119,14 @@ public static class ChecksumCalculator
 
         return steps;
     }
+
+    /// <summary>
+    /// <see cref="Reduce"/> with the sign ignored, so callers holding a signed total need not strip it
+    /// themselves (<c>Math.Abs</c> throws on <see cref="long.MinValue"/>). That one value has no positive
+    /// counterpart to open the chain with, so its chain starts at the digit sum instead.
+    /// </summary>
+    public static IReadOnlyList<long> ReduceMagnitude(long value)
+        => value == long.MinValue ? Reduce(DigitSum(value)) : Reduce(Math.Abs(value));
 
     /// <summary>The A=1 … Z=26 value of <paramref name="character"/>, or 0 when it is not a Latin letter.</summary>
     public static int LetterValue(char character)

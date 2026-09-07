@@ -3730,6 +3730,6 @@
     <value>Checksum</value>
   </data>
   <data name="ChecksumWorkingTruncatedNote" xml:space="preserve">
-    <value>The input is long, so the working is shown for the first {0} characters only. The sums count every character.</value>
+    <value>The input is long, so the working is shown for the first {0} scored characters only. The sums still count every digit and letter.</value>
   </data>
 </root>

@@ -3730,6 +3730,6 @@
     <value>Kontrolní součet</value>
   </data>
   <data name="ChecksumWorkingTruncatedNote" xml:space="preserve">
-    <value>Vstup je dlouhý, proto je postup zobrazen jen pro prvních {0} znaků. Součty ale počítají se všemi znaky.</value>
+    <value>Vstup je dlouhý, proto je postup zobrazen jen pro prvních {0} započítaných znaků. Součty ale zahrnují všechny číslice a písmena.</value>
   </data>
 </root>

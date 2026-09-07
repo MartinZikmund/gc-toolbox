@@ -1,4 +1,5 @@
-using System.Text;
+﻿using System.Text;
+using GcToolkit.Core.Numbers;
 
 namespace GcToolkit.Core.Text;
 
@@ -51,46 +52,20 @@ public sealed class WordValueAnalysis
 /// </summary>
 public sealed class WordValueCalculator
 {
-    /// <summary>The cross-sum of <paramref name="value"/>: a single pass summing its decimal digits.</summary>
-    public int CrossSum(long value)
-    {
-        var n = Math.Abs(value);
-        var sum = 0;
-        while (n > 0)
-        {
-            sum += (int)(n % 10);
-            n /= 10;
-        }
+    // The digit arithmetic lives in ChecksumCalculator so the two tools cannot drift apart; these
+    // stay as instance methods because the calculator is injected and callers bind to them.
 
-        return sum;
-    }
+    /// <summary>The cross-sum of <paramref name="value"/>: a single pass summing its decimal digits.
+    /// The sign is ignored.</summary>
+    public int CrossSum(long value) => ChecksumCalculator.DigitSum(value);
 
-    /// <summary>The digital root of <paramref name="value"/>: the cross-sum applied until one digit remains.</summary>
-    public int DigitalRoot(long value)
-    {
-        var n = Math.Abs(value);
-        while (n >= 10)
-        {
-            n = CrossSum(n);
-        }
+    /// <summary>The digital root of <paramref name="value"/>: the cross-sum applied until one digit
+    /// remains. The sign is ignored.</summary>
+    public int DigitalRoot(long value) => ChecksumCalculator.DigitalRoot(value);
 
-        return (int)n;
-    }
-
-    /// <summary>The reduction chain from <paramref name="value"/> to its digital root (the value itself,
-    /// then each successive cross-sum). A single-digit value yields a one-element list.</summary>
-    public IReadOnlyList<long> ReductionSteps(long value)
-    {
-        var n = Math.Abs(value);
-        var steps = new List<long> { n };
-        while (n >= 10)
-        {
-            n = CrossSum(n);
-            steps.Add(n);
-        }
-
-        return steps;
-    }
+    /// <summary>The reduction chain from <paramref name="value"/> to its digital root (the magnitude
+    /// itself, then each successive cross-sum). A single-digit value yields a one-element list.</summary>
+    public IReadOnlyList<long> ReductionSteps(long value) => ChecksumCalculator.ReduceMagnitude(value);
 
     /// <summary>
     /// Analyzes <paramref name="text"/> with the given <paramref name="scheme"/>, <paramref name="numbers"/>

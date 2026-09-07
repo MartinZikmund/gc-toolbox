@@ -1,4 +1,4 @@
-using GcToolkit.Core.Text;
+﻿using GcToolkit.Core.Text;
 
 namespace GcToolkit.Core.Tests.Text;
 
@@ -52,6 +52,22 @@ public class WordValueTests
     [TestMethod]
     public void ReductionSteps_SingleDigit_IsJustItself()
         => CollectionAssert.AreEqual(new[] { 7L }, _calculator.ReductionSteps(7).ToArray());
+
+    [TestMethod]
+    public void ReductionSteps_NegativeValue_ReducesTheMagnitude()
+        => CollectionAssert.AreEqual(new[] { 12345L, 15L, 6L }, _calculator.ReductionSteps(-12345).ToArray());
+
+    [TestMethod]
+    public void ReductionSteps_LongMinValue_DoesNotOverflow()
+        => CollectionAssert.AreEqual(new[] { 89L, 17L, 8L }, _calculator.ReductionSteps(long.MinValue).ToArray());
+
+    [TestMethod]
+    public void CrossSum_LongMinValue_DoesNotOverflow()
+        => Assert.AreEqual(89, _calculator.CrossSum(long.MinValue));
+
+    [TestMethod]
+    public void DigitalRoot_LongMinValue_DoesNotOverflow()
+        => Assert.AreEqual(8, _calculator.DigitalRoot(long.MinValue));
 
     // ---- Scheme values: standard A=1..Z=26 and the simple variants ----
 
