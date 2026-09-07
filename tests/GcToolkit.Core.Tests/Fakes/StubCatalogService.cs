@@ -1,4 +1,5 @@
 using GcToolkit.Core.Catalog;
+using GcToolkit.Core.Navigation;
 
 namespace GcToolkit.Core.Tests.Fakes;
 
@@ -19,4 +20,12 @@ public sealed class StubCatalogService(params string[] toolIds) : ICatalogServic
         => [.. _tools.Where(t => t.CategoryId == categoryId)];
 
     public IReadOnlyList<ToolDescriptor> Search(string query) => _tools;
+
+    // Nothing is gated in this stub, so the unfiltered views mirror the filtered ones.
+    public IReadOnlyList<ToolDescriptor> GetAllTools() => _tools;
+
+    public ToolDescriptor? FindTool(string toolId)
+        => _tools.FirstOrDefault(t => string.Equals(t.Id, toolId, StringComparison.Ordinal));
+
+    public NavigationTree GetNavigationTree() => new([]);
 }

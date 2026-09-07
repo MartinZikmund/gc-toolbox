@@ -45,6 +45,10 @@ public abstract partial class ToolViewModelBase : ViewModelBase
     [ObservableProperty]
     public partial bool IsPlaceholder { get; set; }
 
+    /// <summary>The tool exists, but this device lacks the hardware it needs.</summary>
+    [ObservableProperty]
+    public partial bool IsUnavailable { get; set; }
+
     [ObservableProperty]
     public partial bool IsFavorite { get; set; }
 
@@ -72,13 +76,16 @@ public abstract partial class ToolViewModelBase : ViewModelBase
             return;
         }
 
-        var tool = _catalog.GetTools().FirstOrDefault(t => string.Equals(t.Id, ToolId, StringComparison.Ordinal));
+        // FindTool searches the UNFILTERED catalog on purpose: a tool hidden for want of hardware can
+        // still be reached by a restored selection, and must resolve its name rather than render blank.
+        var tool = _catalog.FindTool(ToolId);
         if (tool is null)
         {
             return;
         }
 
         _activated = true;
+        IsUnavailable = !_catalog.GetTools().Any(t => string.Equals(t.Id, ToolId, StringComparison.Ordinal));
         ToolName = _localizer[tool.NameKey].Value;
         Tooltip = string.IsNullOrEmpty(tool.TooltipKey) ? string.Empty : _localizer[tool.TooltipKey].Value;
         PageTitle = ToolName;

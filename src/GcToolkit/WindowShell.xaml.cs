@@ -1,3 +1,4 @@
+using GcToolkit.Core.Catalog;
 using GcToolkit.Core.Discovery;
 using GcToolkit.Core.Navigation;
 using GcToolkit.Core.Services;
@@ -216,14 +217,18 @@ public sealed partial class WindowShell : Page, IWindowShell
     }
 
     /// <summary>
-    /// Renders the generated <see cref="GeneratedToolCatalog.NavigationTree"/> into the pane: categories
+    /// Renders <see cref="ICatalogService.GetNavigationTree"/> into the pane: categories
     /// nest under the Tools section as expandable-and-clickable items holding their tools, and tools are
     /// selectable leaves. The <see cref="PromotedCategoryId"/> category is lifted to a top-level task
     /// section instead. Empty categories/groups are already omitted by the tree builder.
     /// </summary>
     private void BuildToolNavigation()
     {
-        foreach (var group in GeneratedToolCatalog.NavigationTree.Roots)
+        // The catalog's tree, not the generated one: the generated tree lists every tool that
+        // compiled, including those this device has no hardware for.
+        var catalog = ServiceProvider.GetRequiredService<ICatalogService>();
+
+        foreach (var group in catalog.GetNavigationTree().Roots)
         {
             if (group.GroupId is not null && group.NameKey is not null)
             {

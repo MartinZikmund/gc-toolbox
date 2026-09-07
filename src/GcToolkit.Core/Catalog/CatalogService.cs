@@ -1,3 +1,4 @@
+using GcToolkit.Core.Navigation;
 using GcToolkit.Core.Search;
 using Microsoft.Extensions.Localization;
 
@@ -11,14 +12,33 @@ namespace GcToolkit.Core.Catalog;
 public sealed class CatalogService : ICatalogService
 {
     private readonly IReadOnlyList<Category> _categories;
+    private readonly IReadOnlyList<ToolDescriptor> _allTools;
     private readonly IReadOnlyList<ToolDescriptor> _tools;
+    private readonly NavigationTree _navigationTree;
     private readonly ILookup<string, ToolDescriptor> _toolsByCategory;
     private readonly IToolMatcher _matcher;
     private readonly IStringLocalizer _localizer;
 
+    /// <summary>
+    /// Ungated overload for hosts and tests that register no availability policies. Kept so the
+    /// device-gating parameter could be added without touching every existing call site.
+    /// </summary>
     public CatalogService(
         IEnumerable<ICategoryContributor> categoryContributors,
         IEnumerable<IToolContributor> toolContributors,
+        IToolMatcher matcher,
+        IStringLocalizer localizer)
+        : this(categoryContributors, toolContributors, [], matcher, localizer)
+    {
+    }
+
+    /// <param name="policies">
+    /// ANDed device-availability gates. Registering none leaves every discovered tool visible.
+    /// </param>
+    public CatalogService(
+        IEnumerable<ICategoryContributor> categoryContributors,
+        IEnumerable<IToolContributor> toolContributors,
+        IEnumerable<IToolAvailabilityPolicy> policies,
         IToolMatcher matcher,
         IStringLocalizer localizer)
     {
@@ -46,6 +66,8 @@ public sealed class CatalogService : ICatalogService
 
         var tools = toolContributors.SelectMany(c => c.GetTools()).ToList();
 
+        // Validation deliberately runs over the FULL discovered set, before device filtering: a
+        // duplicate id or bad category inside a compass-only tool must still fail on desktop CI.
         var duplicateTool = tools
             .GroupBy(t => t.Id, StringComparer.Ordinal)
             .FirstOrDefault(g => g.Count() > 1);
@@ -62,17 +84,28 @@ public sealed class CatalogService : ICatalogService
                 $"Tool '{unknownCategory.Id}' references unknown category '{unknownCategory.CategoryId}'.");
         }
 
-        _tools = tools
+        var policyList = policies.ToList();
+
+        _allTools = tools
             .OrderBy(t => categoryOrder[t.CategoryId])
             .ThenBy(t => t.Id, StringComparer.Ordinal)
             .ToList();
 
+        _tools = _allTools.Where(t => policyList.All(p => p.IsAvailable(t))).ToList();
         _toolsByCategory = _tools.ToLookup(t => t.CategoryId, StringComparer.Ordinal);
+        _navigationTree = NavigationTreeBuilder.Build(_categories, _tools);
     }
 
     public IReadOnlyList<Category> GetCategories() => _categories;
 
     public IReadOnlyList<ToolDescriptor> GetTools() => _tools;
+
+    public IReadOnlyList<ToolDescriptor> GetAllTools() => _allTools;
+
+    public ToolDescriptor? FindTool(string toolId)
+        => _allTools.FirstOrDefault(t => string.Equals(t.Id, toolId, StringComparison.Ordinal));
+
+    public NavigationTree GetNavigationTree() => _navigationTree;
 
     public IReadOnlyList<ToolDescriptor> GetToolsByCategory(string categoryId)
         => _toolsByCategory[categoryId].ToList();

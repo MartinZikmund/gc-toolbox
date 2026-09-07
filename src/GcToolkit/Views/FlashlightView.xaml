@@ -1,0 +1,199 @@
+﻿<local:FlashlightViewBase
+    x:Class="GcToolkit.Views.FlashlightView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:GcToolkit.Controls"
+    xmlns:local="using:GcToolkit.Views"
+    xmlns:markup="using:GcToolkit.Markup">
+
+    <!--  The lit surface is a sibling of the ToolPage, not its content, so it can cover the whole page.  -->
+    <Grid>
+
+        <controls:ToolPage Tool="{x:Bind ViewModel}">
+            <StackPanel Spacing="16">
+
+                <!--  Primary control: one big target, reachable one-handed in the dark.  -->
+                <StackPanel
+                    Margin="0,8"
+                    HorizontalAlignment="Center"
+                    Spacing="8">
+                    <ToggleButton
+                        Width="96"
+                        Height="96"
+                        Padding="0"
+                        HorizontalAlignment="Center"
+                        AutomationProperties.AutomationId="FlashlightScreenLightToggle"
+                        AutomationProperties.Name="{markup:Localize Key=Flashlight_ScreenLight}"
+                        IsChecked="{x:Bind ViewModel.IsLit, Mode=TwoWay}">
+                        <!--  The icon geometry is authored on a 24 DIP box; scale it with a centred transform, as ToolIcons.NavIcon does.  -->
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind ViewModel.ToolId, Converter={StaticResource IconKeyToIconConverter}}"
+                            RenderTransformOrigin="0.5,0.5">
+                            <ContentPresenter.RenderTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2" />
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+                    </ToggleButton>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="{markup:Localize Key=Flashlight_ScreenLight}" />
+                </StackPanel>
+
+                <!--  Colour  -->
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Flashlight_Colour}" />
+                    <RadioButtons MaxColumns="3" SelectedIndex="{x:Bind ViewModel.ColourIndex, Mode=TwoWay}">
+                        <RadioButton AutomationProperties.Name="{markup:Localize Key=Flashlight_Colour_White}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border
+                                    Width="24"
+                                    Height="24"
+                                    VerticalAlignment="Center"
+                                    Background="#FFFFFFFF"
+                                    BorderBrush="{ThemeResource AppStrokeBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="12" />
+                                <TextBlock VerticalAlignment="Center" Text="{markup:Localize Key=Flashlight_Colour_White}" />
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton AutomationProperties.Name="{markup:Localize Key=Flashlight_Colour_Red}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border
+                                    Width="24"
+                                    Height="24"
+                                    VerticalAlignment="Center"
+                                    Background="#FFFF2020"
+                                    BorderBrush="{ThemeResource AppStrokeBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="12" />
+                                <TextBlock VerticalAlignment="Center" Text="{markup:Localize Key=Flashlight_Colour_Red}" />
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton AutomationProperties.Name="{markup:Localize Key=Flashlight_Colour_Green}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border
+                                    Width="24"
+                                    Height="24"
+                                    VerticalAlignment="Center"
+                                    Background="#FF19D14B"
+                                    BorderBrush="{ThemeResource AppStrokeBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="12" />
+                                <TextBlock VerticalAlignment="Center" Text="{markup:Localize Key=Flashlight_Colour_Green}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </RadioButtons>
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=Flashlight_RedNightVisionHint}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!--  Brightness. The percentage ticks as the thumb moves, so it takes the mono face.  -->
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Slider
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Header="{markup:Localize Key=Flashlight_Brightness}"
+                        Maximum="{x:Bind ViewModel.MaximumBrightness}"
+                        Minimum="{x:Bind ViewModel.MinimumBrightness}"
+                        StepFrequency="0.05"
+                        Value="{x:Bind ViewModel.Brightness, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        MinWidth="56"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource MonoTextBlockStyle}"
+                        Text="{x:Bind ViewModel.BrightnessText, Mode=OneWay}"
+                        TextAlignment="Right" />
+                </Grid>
+
+                <!--  SOS  -->
+                <StackPanel Spacing="8">
+                    <ToggleButton
+                        MinWidth="96"
+                        HorizontalAlignment="Left"
+                        AutomationProperties.AutomationId="FlashlightSosToggle"
+                        Command="{x:Bind ViewModel.ToggleSosCommand}"
+                        Content="{markup:Localize Key=Flashlight_Sos}"
+                        IsChecked="{x:Bind ViewModel.IsSosBlinking, Mode=OneWay}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{markup:Localize Key=Flashlight_SosHint}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!--  Camera LED. Collapsed, never disabled, where there is no lamp.  -->
+                <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.IsTorchSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{markup:Localize Key=Flashlight_Torch}" />
+                    <ToggleSwitch
+                        AutomationProperties.AutomationId="FlashlightTorchToggle"
+                        Header="{markup:Localize Key=Flashlight_TorchToggle}"
+                        IsOn="{x:Bind ViewModel.IsTorchOn, Mode=TwoWay}" />
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="{x:Bind ViewModel.IsTorchBusy, Mode=OneWay}"
+                        Message="{markup:Localize Key=Flashlight_TorchStolen}"
+                        Severity="Warning" />
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="{x:Bind ViewModel.IsTorchPermissionDenied, Mode=OneWay}"
+                        Message="{markup:Localize Key=Flashlight_TorchPermissionDenied}"
+                        Severity="Warning" />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:ToolPage>
+
+        <!--
+            A ContentControl rather than a Grid so the surface can take keyboard focus; tapping it
+            anywhere turns the light off, because in the dark the user should not have to aim.
+        -->
+        <ContentControl
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            AutomationProperties.AutomationId="FlashlightLitSurface"
+            AutomationProperties.Name="{markup:Localize Key=Flashlight_TapToTurnOff}"
+            IsTabStop="True"
+            KeyDown="OnLitSurfaceKeyDown"
+            Tapped="OnLitSurfaceTapped"
+            Visibility="{x:Bind ViewModel.IsLit, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+
+            <!--  Every colour here is hard-coded on purpose: a torch is white in dark mode too.  -->
+            <Grid Background="#FF000000">
+
+                <Grid Opacity="{x:Bind ViewModel.Brightness, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsSurfaceLit, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Rectangle Fill="#FFFFFFFF" Visibility="{x:Bind ViewModel.IsColourWhite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <Rectangle Fill="#FFFF2020" Visibility="{x:Bind ViewModel.IsColourRed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <Rectangle Fill="#FF19D14B" Visibility="{x:Bind ViewModel.IsColourGreen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
+                <!--  Legible on both the lit surface and the black gap between SOS flashes.  -->
+                <Border
+                    Margin="24"
+                    Padding="16,8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#99000000"
+                    CornerRadius="8">
+                    <TextBlock
+                        Foreground="#FFFFFFFF"
+                        Text="{markup:Localize Key=Flashlight_TapToTurnOff}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </Border>
+            </Grid>
+        </ContentControl>
+    </Grid>
+</local:FlashlightViewBase>
