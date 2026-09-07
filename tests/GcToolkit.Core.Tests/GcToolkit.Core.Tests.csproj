@@ -5,26 +5,19 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!--
+      Uno's _UnoAddAssetsFilesToCopyLocal rewrites content Links to sit under a folder named after the
+      project, which catches MSTest 4.4.0's localized adapter resources: they land in
+      bin/<cfg>/<tfm>/GcToolkit.Core.Tests/<culture>/ instead of <culture>/. On Linux that directory
+      collides with the extensionless apphost of the same name and the build dies with MSB3024
+      (Windows is unaffected — the apphost is .exe there). The adapter's translated messages are of no
+      use to this suite, so skip the copy entirely.
+    -->
+    <EnableMSTestV2CopyResources>false</EnableMSTestV2CopyResources>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\GcToolkit.Core\GcToolkit.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="MSTest.TestAdapter" Version="4.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="MSTest.TestFramework" Version="4.2.3" />
   </ItemGroup>
 
 </Project>
