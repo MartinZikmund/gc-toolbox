@@ -3675,4 +3675,46 @@
   <data name="ToolUnavailableNotice" xml:space="preserve">
     <value>This tool needs hardware your device doesn't have, so it isn't available here.</value>
   </data>
+  <data name="Flashlight_Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="Flashlight_Colour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Flashlight_Colour_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="Flashlight_Colour_Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="Flashlight_Colour_White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="Flashlight_RedNightVisionHint" xml:space="preserve">
+    <value>Red light preserves your night vision.</value>
+  </data>
+  <data name="Flashlight_ScreenLight" xml:space="preserve">
+    <value>Screen light</value>
+  </data>
+  <data name="Flashlight_Sos" xml:space="preserve">
+    <value>SOS</value>
+  </data>
+  <data name="Flashlight_SosHint" xml:space="preserve">
+    <value>Repeats · · · — — — · · · on the screen, and on the LED while it is on.</value>
+  </data>
+  <data name="Flashlight_TapToTurnOff" xml:space="preserve">
+    <value>Tap anywhere to turn the light off</value>
+  </data>
+  <data name="Flashlight_Torch" xml:space="preserve">
+    <value>Camera light</value>
+  </data>
+  <data name="Flashlight_TorchPermissionDenied" xml:space="preserve">
+    <value>Camera permission is needed to switch the LED on. You can grant it in the system settings.</value>
+  </data>
+  <data name="Flashlight_TorchStolen" xml:space="preserve">
+    <value>Another app is using the camera light. Close it and try again.</value>
+  </data>
+  <data name="Flashlight_TorchToggle" xml:space="preserve">
+    <value>Use the camera LED</value>
+  </data>
 </root>
