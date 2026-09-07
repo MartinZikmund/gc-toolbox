@@ -1,4 +1,4 @@
-// Uno implements Lamp on Android/iOS only. Lamp.unsupported.cs (Skia desktop, WASM) declares
+﻿// Uno implements Lamp on Android/iOS only. Lamp.unsupported.cs (Skia desktop, WASM) declares
 // GetDefaultAsync() => null and nothing else — no IsEnabled, no BrightnessLevel, not even IDisposable —
 // so every instance member has to compile out there. GetDefaultAsync() itself exists on every head.
 #if !HAS_UNO || __ANDROID__ || __IOS__
@@ -33,6 +33,9 @@ internal sealed class TorchService : ITorchService, IDisposable
     private Lamp? _lamp;
     private Task<bool>? _probe;
     private SensorStatus _status = SensorStatus.Unavailable;
+
+    /// <summary>Bumped by <see cref="Release"/> so a probe still in flight knows its result is stale.</summary>
+    private int _generation;
 
     public SensorStatus Status
     {
@@ -114,6 +117,11 @@ internal sealed class TorchService : ITorchService, IDisposable
 
     public void Release()
     {
+        // A probe may still be running: retire this generation so its lamp is handed straight back
+        // instead of publishing Ready (and an AvailabilityChanged subscription) after the tool closed.
+        _generation++;
+        _probe = null;
+
         if (_lamp is null)
         {
             return;
@@ -142,36 +150,54 @@ internal sealed class TorchService : ITorchService, IDisposable
 
     private async Task<bool> AcquireLampAsync()
     {
+        // Published to _lamp only once the probe is known to still be current; a Release mid-probe
+        // must not leave a lit, subscribed lamp behind with nobody left to return it.
+        var generation = _generation;
+        Lamp? lamp;
+
         try
         {
-            _lamp = await Lamp.GetDefaultAsync();
+            lamp = await Lamp.GetDefaultAsync();
         }
         catch (Exception ex) when (IsPermissionRefusal(ex))
         {
             // Below API 23 Uno's probe falls through to Android.Hardware.Camera.Open(), which throws
             // without the CAMERA runtime permission. Only that shape is a refusal.
-            _lamp = null;
-            Status = SensorStatus.PermissionDenied;
+            SetStatusIfCurrent(generation, SensorStatus.PermissionDenied);
             return false;
         }
         catch (Exception)
         {
             // Anything else means we could not get a lamp, which the user cannot act on — telling
             // them to grant a permission they were never asked for is worse than saying it is absent.
-            _lamp = null;
-            Status = SensorStatus.Unavailable;
+            SetStatusIfCurrent(generation, SensorStatus.Unavailable);
             return false;
         }
 
-        if (_lamp is null)
+        if (lamp is null)
         {
-            Status = SensorStatus.Unavailable;
+            SetStatusIfCurrent(generation, SensorStatus.Unavailable);
             return false;
         }
 
-        SubscribeAvailability(_lamp);
+        if (generation != _generation)
+        {
+            DisposeLamp(lamp);
+            return false;
+        }
+
+        _lamp = lamp;
+        SubscribeAvailability(lamp);
         Status = SensorStatus.Ready;
         return true;
+    }
+
+    private void SetStatusIfCurrent(int generation, SensorStatus status)
+    {
+        if (generation == _generation)
+        {
+            Status = status;
+        }
     }
 
     /// <summary>Runs <paramref name="action"/> on the window's dispatcher; synchronously when there is none.</summary>

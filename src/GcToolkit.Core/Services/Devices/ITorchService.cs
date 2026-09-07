@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,8 +16,9 @@ public interface ITorchService
 
     bool IsOn { get; }
 
-    /// <summary>Whether hardware brightness is adjustable. False on Android (any non-zero level is full)
-    /// and on flash-only iOS devices; true on iOS devices whose camera reports a torch.</summary>
+    /// <summary>Whether a brightness level is worth offering at all. True on iOS, false everywhere
+    /// else: Android treats any non-zero level as full, and no other head has a lamp to dim. It is a
+    /// per-platform capability, not a per-device probe — iOS reports true without asking the camera.</summary>
     bool SupportsBrightness { get; }
 
     /// <summary>Raised when the lamp is taken or returned by another app, or permission changes.</summary>
