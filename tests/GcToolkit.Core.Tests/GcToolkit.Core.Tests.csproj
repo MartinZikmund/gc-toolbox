@@ -11,20 +11,4 @@
     <ProjectReference Include="..\..\src\GcToolkit.Core\GcToolkit.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="MSTest.TestAdapter" Version="4.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="MSTest.TestFramework" Version="4.2.3" />
-  </ItemGroup>
-
 </Project>
