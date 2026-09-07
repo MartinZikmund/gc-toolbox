@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using GcToolkit.Core.Catalog;
@@ -66,7 +66,7 @@ public sealed partial class Base64ViewModel : ToolViewModelBase
     [ObservableProperty]
     public partial bool HasOutput { get; set; }
 
-    /// <summary>The direction actually used — drives the padding option and the swap button's label.</summary>
+    /// <summary>The direction actually used — shows the padding option, which only applies when encoding.</summary>
     [ObservableProperty]
     public partial bool IsEncoding { get; set; } = true;
 

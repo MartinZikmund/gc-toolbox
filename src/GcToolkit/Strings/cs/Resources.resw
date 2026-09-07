@@ -3715,7 +3715,7 @@
     <value>Doplnit výplň „=“</value>
   </data>
   <data name="Base64RepairedNote" xml:space="preserve">
-    <value>Zalomení řádků, mezery a chybějící výplň byly ignorovány.</value>
+    <value>Zalomení řádků, mezery, chybějící nebo přebytečná výplň a URL-safe znaky (- a _) byly ošetřeny.</value>
   </data>
   <data name="Base64Swap" xml:space="preserve">
     <value>Použít výsledek jako vstup</value>

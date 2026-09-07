@@ -3715,7 +3715,7 @@
     <value>Add “=” padding</value>
   </data>
   <data name="Base64RepairedNote" xml:space="preserve">
-    <value>Line breaks, spaces and missing padding were ignored.</value>
+    <value>Line breaks, spaces, missing or surplus padding and URL-safe characters (- and _) were handled.</value>
   </data>
   <data name="Base64Swap" xml:space="preserve">
     <value>Use result as input</value>
