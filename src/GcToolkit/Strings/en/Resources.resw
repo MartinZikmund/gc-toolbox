@@ -3675,6 +3675,75 @@
   <data name="ToolUnavailableNotice" xml:space="preserve">
     <value>This tool needs hardware your device doesn't have, so it isn't available here.</value>
   </data>
+  <data name="Compass_CalibrateHint" xml:space="preserve">
+    <value>Move the device in a figure eight to calibrate it.</value>
+  </data>
+  <data name="Compass_East" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="Compass_EastNorthEast" xml:space="preserve">
+    <value>ENE</value>
+  </data>
+  <data name="Compass_EastSouthEast" xml:space="preserve">
+    <value>ESE</value>
+  </data>
+  <data name="Compass_KeepScreenAwake" xml:space="preserve">
+    <value>Keep the screen on</value>
+  </data>
+  <data name="Compass_MagneticNorth" xml:space="preserve">
+    <value>Magnetic bearing</value>
+  </data>
+  <data name="Compass_North" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="Compass_NorthEast" xml:space="preserve">
+    <value>NE</value>
+  </data>
+  <data name="Compass_NorthNorthEast" xml:space="preserve">
+    <value>NNE</value>
+  </data>
+  <data name="Compass_NorthNorthWest" xml:space="preserve">
+    <value>NNW</value>
+  </data>
+  <data name="Compass_NorthWest" xml:space="preserve">
+    <value>NW</value>
+  </data>
+  <data name="Compass_PermissionDenied" xml:space="preserve">
+    <value>Access to the compass is blocked. Allow sensor access in the system settings.</value>
+  </data>
+  <data name="Compass_South" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="Compass_SouthEast" xml:space="preserve">
+    <value>SE</value>
+  </data>
+  <data name="Compass_SouthSouthEast" xml:space="preserve">
+    <value>SSE</value>
+  </data>
+  <data name="Compass_SouthSouthWest" xml:space="preserve">
+    <value>SSW</value>
+  </data>
+  <data name="Compass_SouthWest" xml:space="preserve">
+    <value>SW</value>
+  </data>
+  <data name="Compass_TrueNorth" xml:space="preserve">
+    <value>True bearing</value>
+  </data>
+  <data name="Compass_Unavailable" xml:space="preserve">
+    <value>This device has no compass sensor.</value>
+  </data>
+  <data name="Compass_WarmingUp" xml:space="preserve">
+    <value>Waiting for the compass…</value>
+  </data>
+  <data name="Compass_West" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="Compass_WestNorthWest" xml:space="preserve">
+    <value>WNW</value>
+  </data>
+  <data name="Compass_WestSouthWest" xml:space="preserve">
+    <value>WSW</value>
+  </data>
   <data name="Flashlight_Brightness" xml:space="preserve">
     <value>Brightness</value>
   </data>
