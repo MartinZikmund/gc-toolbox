@@ -150,16 +150,22 @@ jobs:
         if: steps.preview.outcome == 'success'
         shell: bash
         env:
-          # `deployment-url` is populated for `deploy`; for `versions upload` fall back
-          # to scraping the aliased URL wrangler prints.
-          DEPLOYMENT_URL: ${{ steps.preview.outputs.deployment-url }}
+          # wrangler prints two URLs: a per-version one and the stable `pr-<n>` alias.
+          # The action's `deployment-url` output carries the *version* one, which changes
+          # on every push — so scrape the alias instead and keep the comment URL put.
+          # grep -m1 rather than `| head -1`: head closing the pipe trips `-o pipefail`.
           COMMAND_OUTPUT: ${{ steps.preview.outputs.command-output }}
+          DEPLOYMENT_URL: ${{ steps.preview.outputs.deployment-url }}
           ALIAS: pr-${{ github.event.pull_request.number }}
         run: |
-          url="$DEPLOYMENT_URL"
+          # Host is <alias>-<worker>.<account subdomain>.workers.dev — the character
+          # class must allow the dots between those segments, not just the hyphens.
+          url=$(grep -oE -m1 "https://${ALIAS}-[A-Za-z0-9.-]+\.workers\.dev" <<<"$COMMAND_OUTPUT" || true)
           if [[ -z "$url" ]]; then
-            url=$(grep -oE "https://${ALIAS}-[A-Za-z0-9-]+\.workers\.dev" <<<"$COMMAND_OUTPUT" | head -n1)
+            echo "::warning::Could not find the ${ALIAS} alias URL in wrangler output; falling back to the per-version URL, which changes on every push."
+            url="$DEPLOYMENT_URL"
           fi
+          echo "resolved preview URL: $url"
           echo "value=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment preview URL
@@ -170,4 +176,4 @@ jobs:
           message: |
             ### 🌐 WASM preview
 
-            **${{ steps.url.outputs.value }}** — Dev channel, rebuilt on every push to this PR.
+            **${{ steps.url.outputs.value }}** — Dev channel. This URL is stable; every push to this PR refreshes it in place.

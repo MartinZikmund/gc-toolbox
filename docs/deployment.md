@@ -5,10 +5,14 @@ Worker named `gc-toolkit`. `.github/workflows/wasm-deploy.yml` builds and ships 
 
 | | Trigger | URL |
 |---|---|---|
-| **Production** (Prod channel) | push to `release/v**` | `https://gc-toolkit.<subdomain>.workers.dev` |
-| **PR preview** (Dev channel) | PR to `main`, public repo only | `https://pr-<number>-gc-toolkit.<subdomain>.workers.dev` |
+| **Production** (Prod channel) | push to `release/v**` | `https://gc-toolkit.martin-75d.workers.dev` |
+| **PR preview** (Dev channel) | PR to `main`, public repo only | `https://pr-<number>-gc-toolkit.martin-75d.workers.dev` |
 
-`<subdomain>` is the account-wide `workers.dev` subdomain, chosen when the account is created.
+`martin-75d` is the account-wide `workers.dev` subdomain, chosen when the account was created.
+
+wrangler prints *two* URLs per preview: a per-version one that changes on every push, and the
+stable `pr-<number>` alias. The workflow deliberately scrapes the alias — the wrangler-action
+`deployment-url` output carries the per-version URL, which would make the comment link move.
 
 Previews are uploaded with `wrangler versions upload --preview-alias pr-<number>`, which
 publishes a version **without** making it live. The alias is stable, so every push to a PR
