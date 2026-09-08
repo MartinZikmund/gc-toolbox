@@ -1,0 +1,14 @@
+# Cache policy for Cloudflare Workers static assets.
+#
+# Rules here must not overlap: when several match a request, Cloudflare *joins*
+# duplicate headers with a comma instead of letting the more specific one win.
+# `package_<hash>` is content-addressed, so it is the only thing safe to freeze —
+# and the bundled fonts live inside it (see WasmCSS/Fonts.css), so they are already
+# covered and must not get a second `/*.ttf` rule.
+#
+# Everything else is intentionally left to the Workers default,
+# `Cache-Control: public, max-age=0, must-revalidate`, so a new deploy is picked up
+# on the next visit rather than being pinned by a stale index.html.
+
+/package_*
+  Cache-Control: public, immutable, max-age=31536000

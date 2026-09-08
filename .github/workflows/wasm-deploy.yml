@@ -1,0 +1,163 @@
+name: WASM Deploy
+
+# Push to release/v*: Prod-channel WASM deployed live to the Cloudflare Worker.
+# PR to main: Dev-channel WASM uploaded as a non-live version aliased `pr-<number>`
+# (public repos only). Cloudflare retains the 1000 most recent aliases, so previews
+# need no teardown job. See docs/versioning.md for the full model.
+on:
+  push:
+    branches:
+      - "release/v**"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+env:
+  # App Configuration
+  APP_NAME: GcToolkit
+  DOTNET_VERSION: 10.0.x
+  PROJECT_PATH: src/GcToolkit
+  WASM_TARGET_FRAMEWORK: net10.0-browserwasm
+
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy_job:
+    permissions:
+      contents: read
+      pull-requests: write
+    # Release pushes always deploy (Prod). PR previews (Dev) only on public repos, so
+    # private forks don't burn paid Actions minutes on a throwaway preview every push.
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.repository.private == false)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    name: Build and Deploy Job
+    env:
+      # Surfaced as an env var so the deploy steps can skip themselves when no
+      # Cloudflare credentials are configured (forks, the template repo) and still
+      # leave the workflow green — the `secrets` context isn't usable in `if:`.
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Compute app channel
+        id: channel
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/heads/release/v* ]]; then
+            echo "value=Prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=Dev" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # PRs only restore the NuGet cache (a PR-saved cache is scoped to its own
+      # merge ref); release pushes maintain the shared cache.
+      - name: NuGet cache (restore)
+        id: nuget
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Build.props', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      # Only wasm-tools — `workload restore` would also pull the android/ios
+      # workloads this WASM-only build never uses. SingleTargetFramework collapses
+      # restore to wasm so it doesn't evaluate (and demand workloads for) the others.
+      - name: Publish WASM
+        run: |
+          cd ${{ env.PROJECT_PATH }}
+          dotnet workload install wasm-tools
+          dotnet publish -c Release -f ${{ env.WASM_TARGET_FRAMEWORK }} -p:SingleTargetFramework=${{ env.WASM_TARGET_FRAMEWORK }} -p:AppChannel=${{ steps.channel.outputs.value }}
+
+      - name: NuGet cache (save)
+        if: github.event_name == 'push' && steps.nuget.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget.outputs.cache-primary-key }}
+
+      # Two things the Uno WASM output can't be trusted to get right for Cloudflare:
+      # `_headers` has to reach the output root (an underscore-prefixed file is easy for
+      # a content glob to skip), and the template's pre-compressed folders are dead weight
+      # because Workers compresses at the edge — uploading them just burns asset count.
+      - name: Prepare assets for upload
+        shell: bash
+        env:
+          PUBLISH_DIR: ${{ env.PROJECT_PATH }}/bin/Release/${{ env.WASM_TARGET_FRAMEWORK }}/publish/wwwroot
+          SOURCE_HEADERS: ${{ env.PROJECT_PATH }}/Platforms/WebAssembly/wwwroot/_headers
+        run: |
+          if [[ -f "$PUBLISH_DIR/_headers" ]]; then
+            echo "_headers reached the publish output"
+          else
+            echo "::warning::_headers was dropped by the publish glob — copying it in"
+            cp "$SOURCE_HEADERS" "$PUBLISH_DIR/_headers"
+          fi
+          for dir in _compressed_br _compressed_gz; do
+            if [[ -d "$PUBLISH_DIR/$dir" ]]; then
+              echo "removing $dir/ ($(du -sh "$PUBLISH_DIR/$dir" | cut -f1)) — Workers compresses at the edge"
+              rm -rf "${PUBLISH_DIR:?}/$dir"
+            fi
+          done
+          echo "uploading $(find "$PUBLISH_DIR" -type f | wc -l) files, $(du -sh "$PUBLISH_DIR" | cut -f1) total"
+
+      - name: Deploy to production
+        if: github.event_name == 'push' && env.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+
+      # Uploads the version without making it live, and pins it to a stable alias so
+      # the preview URL stays the same across every push to the PR.
+      - name: Upload PR preview
+        id: preview
+        if: github.event_name == 'pull_request' && env.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
+
+      - name: Resolve preview URL
+        id: url
+        if: steps.preview.outcome == 'success'
+        shell: bash
+        env:
+          # `deployment-url` is populated for `deploy`; for `versions upload` fall back
+          # to scraping the aliased URL wrangler prints.
+          DEPLOYMENT_URL: ${{ steps.preview.outputs.deployment-url }}
+          COMMAND_OUTPUT: ${{ steps.preview.outputs.command-output }}
+          ALIAS: pr-${{ github.event.pull_request.number }}
+        run: |
+          url="$DEPLOYMENT_URL"
+          if [[ -z "$url" ]]; then
+            url=$(grep -oE "https://${ALIAS}-[A-Za-z0-9-]+\.workers\.dev" <<<"$COMMAND_OUTPUT" | head -n1)
+          fi
+          echo "value=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL
+        if: steps.url.outputs.value != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: wasm-preview
+          message: |
+            ### 🌐 WASM preview
+
+            **${{ steps.url.outputs.value }}** — Dev channel, rebuilt on every push to this PR.

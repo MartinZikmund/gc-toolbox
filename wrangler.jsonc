@@ -1,0 +1,17 @@
+// Cloudflare Workers static-assets config for the WebAssembly head.
+//
+// Assets-only Worker: there is no `main` script, so Workers serves the published
+// wwwroot directly. `single-page-application` handling serves real files when they
+// exist and falls back to index.html otherwise, which is what Uno's client-side
+// navigation needs on a deep link or refresh.
+//
+// Production (release/v*) is deployed with `wrangler deploy`; every PR uploads a
+// non-live version aliased `pr-<number>` instead. See .github/workflows/wasm-deploy.yml.
+{
+  "name": "gc-toolkit",
+  "compatibility_date": "2026-09-08",
+  "assets": {
+    "directory": "./src/GcToolkit/bin/Release/net10.0-browserwasm/publish/wwwroot",
+    "not_found_handling": "single-page-application"
+  }
+}
