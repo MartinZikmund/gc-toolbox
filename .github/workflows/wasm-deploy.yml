@@ -92,10 +92,11 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ steps.nuget.outputs.cache-primary-key }}
 
-      # Two things the Uno WASM output can't be trusted to get right for Cloudflare:
-      # `_headers` has to reach the output root (an underscore-prefixed file is easy for
-      # a content glob to skip), and the template's pre-compressed folders are dead weight
-      # because Workers compresses at the edge — uploading them just burns asset count.
+      # The SDK emits a .br and .gz sibling next to most assets, for servers that
+      # content-negotiate by rewriting to them (as the old IIS web.config did). Workers
+      # compresses at the edge and never serves those siblings, so they are inert weight —
+      # locally they measured 332 files and 36 MB against a 578-file, 89 MB output.
+      # Nothing references them: neither service-worker.js nor index.html mentions .br/.gz.
       - name: Prepare assets for upload
         shell: bash
         env:
@@ -108,13 +109,20 @@ jobs:
             echo "::warning::_headers was dropped by the publish glob — copying it in"
             cp "$SOURCE_HEADERS" "$PUBLISH_DIR/_headers"
           fi
-          for dir in _compressed_br _compressed_gz; do
-            if [[ -d "$PUBLISH_DIR/$dir" ]]; then
-              echo "removing $dir/ ($(du -sh "$PUBLISH_DIR/$dir" | cut -f1)) — Workers compresses at the edge"
-              rm -rf "${PUBLISH_DIR:?}/$dir"
-            fi
-          done
-          echo "uploading $(find "$PUBLISH_DIR" -type f | wc -l) files, $(du -sh "$PUBLISH_DIR" | cut -f1) total"
+
+          before_files=$(find "$PUBLISH_DIR" -type f | wc -l)
+          before_size=$(du -sh "$PUBLISH_DIR" | cut -f1)
+          find "$PUBLISH_DIR" -type f \( -name '*.br' -o -name '*.gz' \) -delete
+          echo "stripped pre-compressed siblings: ${before_files} files (${before_size}) -> $(find "$PUBLISH_DIR" -type f | wc -l) files ($(du -sh "$PUBLISH_DIR" | cut -f1))"
+
+          # Free plan allows 20,000 files and 25 MiB per file; fail loudly rather than
+          # letting wrangler reject the upload halfway through.
+          largest=$(find "$PUBLISH_DIR" -type f -printf '%s %p\n' | sort -rn | head -1)
+          echo "largest asset: $largest"
+          if (( ${largest%% *} > 26214400 )); then
+            echo "::error::Asset exceeds Cloudflare's 25 MiB per-file limit: $largest"
+            exit 1
+          fi
 
       - name: Deploy to production
         if: github.event_name == 'push' && env.CLOUDFLARE_API_TOKEN != ''

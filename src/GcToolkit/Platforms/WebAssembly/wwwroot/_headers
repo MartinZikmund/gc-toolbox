@@ -1,14 +1,21 @@
 # Cache policy for Cloudflare Workers static assets.
 #
-# Rules here must not overlap: when several match a request, Cloudflare *joins*
-# duplicate headers with a comma instead of letting the more specific one win.
-# `package_<hash>` is content-addressed, so it is the only thing safe to freeze —
-# and the bundled fonts live inside it (see WasmCSS/Fonts.css), so they are already
-# covered and must not get a second `/*.ttf` rule.
+# Rules here must not overlap: when several match a request, Cloudflare *joins* the
+# duplicate headers with a comma instead of letting the more specific one win. The
+# two prefixes below are disjoint, and both are content-addressed, so freezing them
+# is safe:
+#   _framework/  — every file carries a fingerprint (dotnet.native.<hash>.wasm, and
+#                  one hashed .wasm per assembly); verified: no unhashed file exists.
+#   package_*    — the Uno shell bundle, hashed as a whole. The bundled fonts live
+#                  inside it (WasmCSS/Fonts.css loads them by relative path), so they
+#                  are already covered and must not get a second `/*.ttf` rule.
 #
-# Everything else is intentionally left to the Workers default,
-# `Cache-Control: public, max-age=0, must-revalidate`, so a new deploy is picked up
-# on the next visit rather than being pinned by a stale index.html.
+# Everything at the root — index.html, service-worker.js, manifest.webmanifest — is
+# deliberately left to the Workers default, `public, max-age=0, must-revalidate`, so a
+# new deploy is picked up on the next visit instead of being pinned by a stale shell.
+
+/_framework/*
+  Cache-Control: public, immutable, max-age=31536000
 
 /package_*
   Cache-Control: public, immutable, max-age=31536000
