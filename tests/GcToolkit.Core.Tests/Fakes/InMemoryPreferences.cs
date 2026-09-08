@@ -1,24 +1,35 @@
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
+using GcToolkit.Core.Serialization;
 using MZikmund.Toolkit.WinUI.Services;
 
 namespace GcToolkit.Core.Tests.Fakes;
 
 /// <summary>
-/// In-memory <see cref="IPreferences"/> test double. Complex values are round-tripped
-/// through System.Text.Json so service serialization behavior is exercised, mirroring the
-/// real (ApplicationData-backed) implementation.
+/// In-memory <see cref="IPreferences"/> test double. Mirrors the real (ApplicationData-backed)
+/// implementation: plain and complex values share one store, complex ones as their JSON string,
+/// resolved through the contracts of a <see cref="JsonSerializerOptions"/> instance. Use
+/// <see cref="TrimmedHead"/> for a double that behaves like a trimmed head, where only the
+/// source-generated contracts resolve.
 /// </summary>
-public sealed class InMemoryPreferences : IPreferences
+public sealed class InMemoryPreferences(JsonSerializerOptions? jsonOptions = null) : IPreferences
 {
-    private readonly Dictionary<string, object?> _scalars = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, string> _complex = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, object?> _values = new(StringComparer.Ordinal);
+    private readonly JsonSerializerOptions _jsonOptions = jsonOptions ?? JsonSerializerOptions.Default;
+
+    /// <summary>
+    /// A double wired the way the app is on a trimmed head (the WASM release publish): reflection-based
+    /// contracts are gone, so a type missing from <see cref="PreferencesJsonContext"/> fails to serialize.
+    /// </summary>
+    public static InMemoryPreferences TrimmedHead()
+        => new(new JsonSerializerOptions { TypeInfoResolver = PreferencesJsonContext.Default });
 
     public T Get<T>(string key, T defaultValue)
-        => _scalars.TryGetValue(key, out var value) && value is T typed ? typed : defaultValue;
+        => TryGet<T>(key, out var value) ? value : defaultValue;
 
     public bool TryGet<T>(string key, out T value)
     {
-        if (_scalars.TryGetValue(key, out var stored) && stored is T typed)
+        if (_values.TryGetValue(key, out var stored) && stored is T typed)
         {
             value = typed;
             return true;
@@ -28,32 +39,18 @@ public sealed class InMemoryPreferences : IPreferences
         return false;
     }
 
-    public void Set<T>(string key, T value) => _scalars[key] = value;
+    public void Set<T>(string key, T value) => _values[key] = value;
 
     public T GetComplex<T>(string key, T defaultValue)
-    {
-        if (_complex.TryGetValue(key, out var json))
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<T>(json) ?? defaultValue;
-            }
-            catch (JsonException)
-            {
-                return defaultValue;
-            }
-        }
-
-        return defaultValue;
-    }
+        => TryGetComplex<T>(key, out var value) ? value : defaultValue;
 
     public bool TryGetComplex<T>(string key, out T value)
     {
-        if (_complex.TryGetValue(key, out var json))
+        if (TryGet<string>(key, out var json))
         {
             try
             {
-                var result = JsonSerializer.Deserialize<T>(json);
+                var result = JsonSerializer.Deserialize(json, TypeInfo<T>());
                 if (result is not null)
                 {
                     value = result;
@@ -70,22 +67,16 @@ public sealed class InMemoryPreferences : IPreferences
         return false;
     }
 
-    public void SetComplex<T>(string key, T value) => _complex[key] = JsonSerializer.Serialize(value);
+    public void SetComplex<T>(string key, T value) => _values[key] = JsonSerializer.Serialize(value, TypeInfo<T>());
 
-    public bool ContainsKey(string key) => _scalars.ContainsKey(key) || _complex.ContainsKey(key);
+    public bool ContainsKey(string key) => _values.ContainsKey(key);
 
-    public void Remove(string key)
-    {
-        _scalars.Remove(key);
-        _complex.Remove(key);
-    }
+    public void Remove(string key) => _values.Remove(key);
 
-    public void Clear()
-    {
-        _scalars.Clear();
-        _complex.Clear();
-    }
+    public void Clear() => _values.Clear();
 
-    /// <summary>Test helper: writes raw JSON for a complex key to simulate corrupt stored data.</summary>
-    public void SetRawComplex(string key, string json) => _complex[key] = json;
+    /// <summary>Test helper: writes a raw stored value for a key, to simulate corrupt stored data.</summary>
+    public void SetRawComplex(string key, string json) => _values[key] = json;
+
+    private JsonTypeInfo<T> TypeInfo<T>() => (JsonTypeInfo<T>)_jsonOptions.GetTypeInfo(typeof(T));
 }
