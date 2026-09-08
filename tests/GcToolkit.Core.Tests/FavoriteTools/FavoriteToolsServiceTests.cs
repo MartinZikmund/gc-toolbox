@@ -90,4 +90,33 @@ public class FavoriteToolsServiceTests
 
         Assert.AreEqual(0, service.GetFavoriteToolIds().Count);
     }
+
+    [TestMethod]
+    public async Task ToggleAsync_OnATrimmedHead_StillPersists()
+    {
+        // Trimmed heads (the WASM release publish) resolve only the source-generated contracts.
+        var preferences = InMemoryPreferences.TrimmedHead();
+        var service = Create(preferences, "a");
+
+        await service.ToggleAsync("a");
+
+        var reloaded = Create(preferences, "a");
+        CollectionAssert.AreEqual(new[] { "a" }, reloaded.GetFavoriteToolIds().ToArray());
+    }
+
+    [TestMethod]
+    public void Constructor_DataWrittenByTheComplexApi_IsStillRead()
+    {
+        // Earlier builds persisted through IPreferences.SetComplex; the stored shape must keep working.
+        var preferences = new InMemoryPreferences();
+        preferences.SetComplex("favoriteTools", new List<FavoriteToolEntry>
+        {
+            new("a", DateTimeOffset.UtcNow.AddMinutes(-1)),
+            new("b", DateTimeOffset.UtcNow),
+        });
+
+        var service = Create(preferences, "a", "b");
+
+        CollectionAssert.AreEqual(new[] { "a", "b" }, service.GetFavoriteToolIds().ToArray());
+    }
 }

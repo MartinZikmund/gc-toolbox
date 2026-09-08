@@ -1,10 +1,12 @@
 ﻿using System.Globalization;
+using System.Text.Json;
 using GcToolkit.Core.Catalog;
 using GcToolkit.Core.FavoriteTools;
 using GcToolkit.Core.Infrastructure;
 using GcToolkit.Core.Localization;
 using GcToolkit.Core.Recents;
 using GcToolkit.Core.Search;
+using GcToolkit.Core.Serialization;
 using GcToolkit.Core.Services;
 using GcToolkit.Core.Services.Devices;
 using GcToolkit.Core.Services.Dialogs;
@@ -109,7 +111,11 @@ public partial class App : Application, IApplication
     {
         // Singleton services
         services.AddSingleton<IApplication>(sp => Current);
-        services.AddSingleton<IPreferences, Preferences>();
+        // Complex preferences resolve through the source-generated contracts: trimming (the WASM
+        // release publish) turns reflection-based System.Text.Json off, and Preferences would then
+        // throw on every stored value. Any new persisted type must be added to the context.
+        services.AddSingleton<IPreferences>(_ => new Preferences(
+            new JsonSerializerOptions { TypeInfoResolver = PreferencesJsonContext.Default }));
         services.AddSingleton<IAppPreferences, AppPreferences>();
         services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
         services.AddSingleton<IAppUpdater, Infrastructure.AppUpdater>();

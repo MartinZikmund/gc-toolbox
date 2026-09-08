@@ -110,4 +110,34 @@ public class RecentsServiceTests
 
         Assert.AreEqual(0, service.GetRecentToolIds().Count);
     }
+
+    [TestMethod]
+    public async Task RecordOpenedAsync_OnATrimmedHead_StillPersists()
+    {
+        // Trimmed heads (the WASM release publish) resolve only the source-generated contracts.
+        var preferences = InMemoryPreferences.TrimmedHead();
+        var service = Create(preferences, "a", "b");
+
+        await service.RecordOpenedAsync("a");
+        await service.RecordOpenedAsync("b");
+
+        var reloaded = Create(preferences, "a", "b");
+        CollectionAssert.AreEqual(new[] { "b", "a" }, reloaded.GetRecentToolIds().ToArray());
+    }
+
+    [TestMethod]
+    public void Constructor_DataWrittenByTheComplexApi_IsStillRead()
+    {
+        // Earlier builds persisted through IPreferences.SetComplex; the stored shape must keep working.
+        var preferences = new InMemoryPreferences();
+        preferences.SetComplex("recents", new List<RecentEntry>
+        {
+            new("b", DateTimeOffset.UtcNow),
+            new("a", DateTimeOffset.UtcNow.AddMinutes(-1)),
+        });
+
+        var service = Create(preferences, "a", "b");
+
+        CollectionAssert.AreEqual(new[] { "b", "a" }, service.GetRecentToolIds().ToArray());
+    }
 }
