@@ -5,10 +5,13 @@ Worker named `gc-toolkit`. `.github/workflows/wasm-deploy.yml` builds and ships 
 
 | | Trigger | URL |
 |---|---|---|
-| **Production** (Prod channel) | push to `release/v**` | `https://gc-toolkit.martin-75d.workers.dev` |
-| **PR preview** (Dev channel) | PR to `main`, public repo only | `https://pr-<number>-gc-toolkit.martin-75d.workers.dev` |
+| **Production** (Prod channel) | push to `release/v**` | `https://gc-toolkit.mzikmund.workers.dev` |
+| **PR preview** (Dev channel) | PR to `main`, public repo only | `https://pr-<number>-gc-toolkit.mzikmund.workers.dev` |
 
-`martin-75d` is the account-wide `workers.dev` subdomain, chosen when the account was created.
+`mzikmund` is the account-wide `workers.dev` subdomain. It can be renamed in the dashboard, which
+changes every URL above — Cloudflare reissues certificates for the new name, so expect TLS
+handshakes to fail for a few minutes afterwards. Nothing in the workflow hardcodes it: the preview
+URL is scraped from wrangler's output rather than constructed.
 
 wrangler prints *two* URLs per preview: a per-version one that changes on every push, and the
 stable `pr-<number>` alias. The workflow deliberately scrapes the alias — the wrangler-action
