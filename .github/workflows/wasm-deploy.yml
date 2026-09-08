@@ -117,7 +117,9 @@ jobs:
 
           # Free plan allows 20,000 files and 25 MiB per file; fail loudly rather than
           # letting wrangler reject the upload halfway through.
-          largest=$(find "$PUBLISH_DIR" -type f -printf '%s %p\n' | sort -rn | head -1)
+          # awk picks the max in one pass: `sort | head -1` makes head close the pipe
+          # early, and the resulting SIGPIPE on sort trips this step's `-o pipefail`.
+          largest=$(find "$PUBLISH_DIR" -type f -printf '%s %p\n' | awk 'NR==1 || $1>m {m=$1; l=$0} END {print l}')
           echo "largest asset: $largest"
           if (( ${largest%% *} > 26214400 )); then
             echo "::error::Asset exceeds Cloudflare's 25 MiB per-file limit: $largest"
