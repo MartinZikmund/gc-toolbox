@@ -1,0 +1,179 @@
+name: WASM Deploy
+
+# Push to release/v*: Prod-channel WASM deployed live to the Cloudflare Worker.
+# PR to main: Dev-channel WASM uploaded as a non-live version aliased `pr-<number>`
+# (public repos only). Cloudflare retains the 1000 most recent aliases, so previews
+# need no teardown job. See docs/versioning.md for the full model.
+on:
+  push:
+    branches:
+      - "release/v**"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+env:
+  # App Configuration
+  APP_NAME: GcToolkit
+  DOTNET_VERSION: 10.0.x
+  PROJECT_PATH: src/GcToolkit
+  WASM_TARGET_FRAMEWORK: net10.0-browserwasm
+
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy_job:
+    permissions:
+      contents: read
+      pull-requests: write
+    # Release pushes always deploy (Prod). PR previews (Dev) only on public repos, so
+    # private forks don't burn paid Actions minutes on a throwaway preview every push.
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.repository.private == false)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    name: Build and Deploy Job
+    env:
+      # Surfaced as an env var so the deploy steps can skip themselves when no
+      # Cloudflare credentials are configured (forks, the template repo) and still
+      # leave the workflow green — the `secrets` context isn't usable in `if:`.
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Compute app channel
+        id: channel
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/heads/release/v* ]]; then
+            echo "value=Prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=Dev" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # PRs only restore the NuGet cache (a PR-saved cache is scoped to its own
+      # merge ref); release pushes maintain the shared cache.
+      - name: NuGet cache (restore)
+        id: nuget
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Build.props', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      # Only wasm-tools — `workload restore` would also pull the android/ios
+      # workloads this WASM-only build never uses. SingleTargetFramework collapses
+      # restore to wasm so it doesn't evaluate (and demand workloads for) the others.
+      - name: Publish WASM
+        run: |
+          cd ${{ env.PROJECT_PATH }}
+          dotnet workload install wasm-tools
+          dotnet publish -c Release -f ${{ env.WASM_TARGET_FRAMEWORK }} -p:SingleTargetFramework=${{ env.WASM_TARGET_FRAMEWORK }} -p:AppChannel=${{ steps.channel.outputs.value }}
+
+      - name: NuGet cache (save)
+        if: github.event_name == 'push' && steps.nuget.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget.outputs.cache-primary-key }}
+
+      # The SDK emits a .br and .gz sibling next to most assets, for servers that
+      # content-negotiate by rewriting to them (as the old IIS web.config did). Workers
+      # compresses at the edge and never serves those siblings, so they are inert weight —
+      # locally they measured 332 files and 36 MB against a 578-file, 89 MB output.
+      # Nothing references them: neither service-worker.js nor index.html mentions .br/.gz.
+      - name: Prepare assets for upload
+        shell: bash
+        env:
+          PUBLISH_DIR: ${{ env.PROJECT_PATH }}/bin/Release/${{ env.WASM_TARGET_FRAMEWORK }}/publish/wwwroot
+          SOURCE_HEADERS: ${{ env.PROJECT_PATH }}/Platforms/WebAssembly/wwwroot/_headers
+        run: |
+          if [[ -f "$PUBLISH_DIR/_headers" ]]; then
+            echo "_headers reached the publish output"
+          else
+            echo "::warning::_headers was dropped by the publish glob — copying it in"
+            cp "$SOURCE_HEADERS" "$PUBLISH_DIR/_headers"
+          fi
+
+          before_files=$(find "$PUBLISH_DIR" -type f | wc -l)
+          before_size=$(du -sh "$PUBLISH_DIR" | cut -f1)
+          find "$PUBLISH_DIR" -type f \( -name '*.br' -o -name '*.gz' \) -delete
+          echo "stripped pre-compressed siblings: ${before_files} files (${before_size}) -> $(find "$PUBLISH_DIR" -type f | wc -l) files ($(du -sh "$PUBLISH_DIR" | cut -f1))"
+
+          # Free plan allows 20,000 files and 25 MiB per file; fail loudly rather than
+          # letting wrangler reject the upload halfway through.
+          # awk picks the max in one pass: `sort | head -1` makes head close the pipe
+          # early, and the resulting SIGPIPE on sort trips this step's `-o pipefail`.
+          largest=$(find "$PUBLISH_DIR" -type f -printf '%s %p\n' | awk 'NR==1 || $1>m {m=$1; l=$0} END {print l}')
+          echo "largest asset: $largest"
+          if (( ${largest%% *} > 26214400 )); then
+            echo "::error::Asset exceeds Cloudflare's 25 MiB per-file limit: $largest"
+            exit 1
+          fi
+
+      - name: Deploy to production
+        if: github.event_name == 'push' && env.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+
+      # Uploads the version without making it live, and pins it to a stable alias so
+      # the preview URL stays the same across every push to the PR.
+      - name: Upload PR preview
+        id: preview
+        if: github.event_name == 'pull_request' && env.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
+
+      - name: Resolve preview URL
+        id: url
+        if: steps.preview.outcome == 'success'
+        shell: bash
+        env:
+          # wrangler prints two URLs: a per-version one and the stable `pr-<n>` alias.
+          # The action's `deployment-url` output carries the *version* one, which changes
+          # on every push — so scrape the alias instead and keep the comment URL put.
+          # grep -m1 rather than `| head -1`: head closing the pipe trips `-o pipefail`.
+          COMMAND_OUTPUT: ${{ steps.preview.outputs.command-output }}
+          DEPLOYMENT_URL: ${{ steps.preview.outputs.deployment-url }}
+          ALIAS: pr-${{ github.event.pull_request.number }}
+        run: |
+          # Host is <alias>-<worker>.<account subdomain>.workers.dev — the character
+          # class must allow the dots between those segments, not just the hyphens.
+          url=$(grep -oE -m1 "https://${ALIAS}-[A-Za-z0-9.-]+\.workers\.dev" <<<"$COMMAND_OUTPUT" || true)
+          if [[ -z "$url" ]]; then
+            echo "::warning::Could not find the ${ALIAS} alias URL in wrangler output; falling back to the per-version URL, which changes on every push."
+            url="$DEPLOYMENT_URL"
+          fi
+          echo "resolved preview URL: $url"
+          echo "value=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL
+        if: steps.url.outputs.value != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: wasm-preview
+          message: |
+            ### 🌐 WASM preview
+
+            **${{ steps.url.outputs.value }}** — Dev channel. This URL is stable; every push to this PR refreshes it in place.

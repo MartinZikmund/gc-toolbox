@@ -38,8 +38,8 @@ jobs:
 
             for (const run of runs) {
               if (run.status === 'completed') continue;
-              // Runs created after the PR closed are close-triggered cleanup
-              // (e.g. the SWA preview teardown) — leave those alone.
+              // Runs created after the PR closed are close-triggered cleanup —
+              // leave those alone.
               if (new Date(run.created_at) >= closedAt) continue;
               core.info(`Cancelling run ${run.id} (${run.name}, ${run.status})`);
               try {
